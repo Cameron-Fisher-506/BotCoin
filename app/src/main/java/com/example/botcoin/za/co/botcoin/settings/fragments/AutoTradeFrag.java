@@ -7,17 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.example.botcoin.R;
 import com.example.botcoin.za.co.botcoin.utils.ConstantUtils;
 import com.example.botcoin.za.co.botcoin.utils.GeneralUtils;
 import com.example.botcoin.za.co.botcoin.utils.SharedPreferencesUtils;
-import com.example.botcoin.za.co.botcoin.utils.StringUtils;
-
 import org.json.JSONObject;
 
 public class AutoTradeFrag extends Fragment {
@@ -42,6 +38,7 @@ public class AutoTradeFrag extends Fragment {
                     SharedPreferencesUtils.save(getContext(), SharedPreferencesUtils.AUTO_TRADE_PREF, jsonObjectAutoTade);
                 }catch(Exception e)
                 {
+
                     Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
                             + "\nMethod: AutoTradeFrag - onCreateView"
                             + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());

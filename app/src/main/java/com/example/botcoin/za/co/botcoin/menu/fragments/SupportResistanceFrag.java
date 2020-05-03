@@ -49,7 +49,6 @@ public class SupportResistanceFrag extends Fragment
                 String supportPrice = txtSupport.getText().toString();
                 String resistancePrice = txtResistance.getText().toString();
 
-
                 if(!supportPrice.equals("") && !resistancePrice.equals(""))
                 {
                     try
