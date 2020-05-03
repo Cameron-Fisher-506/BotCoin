@@ -64,7 +64,6 @@ public class SupportResistanceFrag extends Fragment
                                 + "\nMethod: SupportResistanceFrag - addApplyListener"
                                 + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
                     }
-
                     GeneralUtils.makeToast(getContext(), "Support and Resistance applied!");
                 }else
                 {
