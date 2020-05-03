@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/lightGrey"
+    android:layout_height="match_parent">
+
+
+    <ImageButton
+        android:id="@+id/btnHome"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/home"
+        android:contentDescription="@string/DummyText"
+        app:layout_constraintEnd_toStartOf="@+id/btnBot"
+        app:layout_constraintHorizontal_bias="0.274"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageButton
+        android:id="@+id/btnBot"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="45dp"
+        android:contentDescription="@string/DummyText"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bot"
+        app:layout_constraintEnd_toStartOf="@+id/btnWallet"
+        app:layout_constraintTop_toTopOf="parent"
+         />
+
+    <ImageButton
+        android:id="@+id/btnWallet"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/wallet"
+        android:contentDescription="@string/DummyText"
+        app:layout_constraintEnd_toStartOf="@+id/btnMenu"
+        app:layout_constraintTop_toTopOf="parent"
+         />
+
+    <ImageButton
+        android:id="@+id/btnMenu"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/menu"
+        android:contentDescription="@string/DummyText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+         />
+</androidx.constraintlayout.widget.ConstraintLayout>
