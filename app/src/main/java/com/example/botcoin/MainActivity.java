@@ -1,12 +1,13 @@
 package com.example.botcoin;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,8 +15,13 @@ import com.example.botcoin.za.co.botcoin.navigation.fragments.BotFrag;
 import com.example.botcoin.za.co.botcoin.navigation.fragments.HomeFrag;
 import com.example.botcoin.za.co.botcoin.navigation.fragments.MenuFrag;
 import com.example.botcoin.za.co.botcoin.navigation.fragments.WalletFrag;
+import com.example.botcoin.za.co.botcoin.services.BotService;
 import com.example.botcoin.za.co.botcoin.settings.fragments.AutoTradeFrag;
+import com.example.botcoin.za.co.botcoin.utils.ConstantUtils;
 import com.example.botcoin.za.co.botcoin.utils.FragmentUtils;
+import com.example.botcoin.za.co.botcoin.utils.GeneralUtils;
+import com.example.botcoin.za.co.botcoin.utils.SharedPreferencesUtils;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,6 +50,34 @@ public class MainActivity extends AppCompatActivity {
         //set to home initially
         setNavIcons(true,false,false,false);
 
+        //run auto trade
+        runAutoTrade();
+    }
+
+    private void runAutoTrade()
+    {
+        JSONObject jsonObjectAutoTrade =  SharedPreferencesUtils.get(this, SharedPreferencesUtils.AUTO_TRADE_PREF);
+        if(jsonObjectAutoTrade != null && jsonObjectAutoTrade.has("isAutoTrade"))
+        {
+            try
+            {
+                boolean isAutoTrade = jsonObjectAutoTrade.getBoolean("isAutoTrade");
+
+                if(isAutoTrade)
+                {
+                    startService(new Intent(this, BotService.class));
+                }else
+                {
+                    stopService(new Intent(this, BotService.class));
+                }
+
+            }catch(Exception e)
+            {
+                Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
+                        + "\nMethod: MainActivity - runAutoTrade"
+                        + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+            }
+        }
     }
 
     @Override
@@ -173,4 +207,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
 }

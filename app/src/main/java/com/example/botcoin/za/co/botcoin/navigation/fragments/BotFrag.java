@@ -42,18 +42,9 @@ public class BotFrag extends Fragment {
 
         this.trades = new ArrayList<>();
 
-        if(ConstantUtils.SUPPORT_PRICE != null && ConstantUtils.RESISTANCE_PRICE != null)
-        {
-            this.trades.add(new Trade(Trade.BUY_TYPE, "0", ConstantUtils.SUPPORT_PRICE));
-            this.trades.add(new Trade(Trade.SELL_TYPE, "0", ConstantUtils.RESISTANCE_PRICE));
-        }else
-        {
-            SupportResistanceFrag supportResistanceFrag = new SupportResistanceFrag();
-            FragmentUtils.startFragment(((MainActivity)getActivity()).getSupportFragmentManager(), supportResistanceFrag, R.id.fragContainer, ((MainActivity)getActivity()).getSupportActionBar(), "Support/Resistance",true, false, true, null);
+        this.trades.add(new Trade(Trade.BUY_TYPE, "0", ConstantUtils.SUPPORT_PRICE));
+        this.trades.add(new Trade(Trade.SELL_TYPE, "0", ConstantUtils.RESISTANCE_PRICE));
 
-            ((MainActivity)getActivity()).setNavIcons(false,false,false,true);
-            GeneralUtils.createAlertDialog(getContext(), "Support/Resistance", "Please set a Support and Resistance price before running your Trading Bot!", false).show();
-        }
 
         this.botAdapter = new BotAdapter(getContext(), this.trades);
         this.viewPager2.setAdapter(this.botAdapter);

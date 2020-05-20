@@ -3,8 +3,8 @@ package com.example.botcoin.za.co.botcoin.utils;
 public class ConstantUtils {
 
     //KEYS
-    public static String KEY_ID = "nran6jrjthkss";
-    public static String SECRET_KEY = "ey9S7eb_Y0_2Sl_mLjd8BseXLtetyXLjOIdRTwB_exk";
+    public static String KEY_ID = "";
+    public static String SECRET_KEY = "";
 
     //TAG
     public static final String BOTCOIN_TAG = "BOTCOIN";
@@ -22,10 +22,13 @@ public class ConstantUtils {
     //TICKER PAIRS
     public static final String PAIR_XRPZAR = "XRPZAR";
 
+    //POST ORDER
+    public static final String TRADE_TYPE_BID = "BID";
+    public static final String TRADE_TYPE_ASK = "ASK";
+
     //SUPPORT/RESISTANCE
     public static String SUPPORT_PRICE = null;
     public static String RESISTANCE_PRICE = null;
 
-    //AUTO TRADE
-
+    public static final long TIME_TO_SET_SUPPORT_RESISTANCE = 30;
 }

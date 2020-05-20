@@ -6,12 +6,10 @@ import android.content.DialogInterface;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
 
 public class GeneralUtils {
     public static String getCurrentDateTime()
@@ -30,9 +28,36 @@ public class GeneralUtils {
 
     }
 
+
+
+
     public static void makeToast(Context context, String message)
     {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+    }
+
+    public static String buildPostOrder(String pair, String type, String volume, String price)
+    {
+        String toReturn = null;
+
+        toReturn = "?"
+                + "pair=" + pair
+                + "&" + "type=" + type
+                + "&" + "volume=" + volume
+                + "&" + "price=" + price;
+
+        return toReturn;
+    }
+
+    public static String buildListTrades(String pair, boolean sortDesc)
+    {
+        String toReturn = null;
+
+        toReturn = "?"
+                + "pair=" + pair
+                + "&" + "sort_desc=" + sortDesc;
+
+        return toReturn;
     }
 
     public static String getAuth()
@@ -111,4 +136,6 @@ public class GeneralUtils {
         return toReturn;
 
     }
+
+
 }

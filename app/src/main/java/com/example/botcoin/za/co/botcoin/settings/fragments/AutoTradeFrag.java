@@ -1,5 +1,6 @@
 package com.example.botcoin.za.co.botcoin.settings.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.example.botcoin.R;
+import com.example.botcoin.za.co.botcoin.services.BotService;
 import com.example.botcoin.za.co.botcoin.utils.ConstantUtils;
 import com.example.botcoin.za.co.botcoin.utils.GeneralUtils;
 import com.example.botcoin.za.co.botcoin.utils.SharedPreferencesUtils;
@@ -36,6 +38,16 @@ public class AutoTradeFrag extends Fragment {
                     JSONObject jsonObjectAutoTade = new JSONObject();
                     jsonObjectAutoTade.put("isAutoTrade", isChecked);
                     SharedPreferencesUtils.save(getContext(), SharedPreferencesUtils.AUTO_TRADE_PREF, jsonObjectAutoTade);
+
+                    if(isChecked)
+                    {
+                        //start service
+                        startBotService();
+                    }else
+                    {
+                        //stop service
+                        stopBotService();
+                    }
                 }catch(Exception e)
                 {
 
@@ -47,6 +59,16 @@ public class AutoTradeFrag extends Fragment {
         });
 
         return view;
+    }
+
+    private void startBotService()
+    {
+        getActivity().startService(new Intent(getActivity(), BotService.class));
+    }
+
+    private void stopBotService()
+    {
+        getActivity().stopService(new Intent(getActivity(), BotService.class));
     }
 
     private void setSwitchAutoTrade()
@@ -70,4 +92,6 @@ public class AutoTradeFrag extends Fragment {
             this.switchAutoTrade.setChecked(false);
         }
     }
+
+
 }
