@@ -13,6 +13,9 @@ public class ConstantUtils {
     public static final String UTF_8 = "UTF-8";
 
     //CURRENCY
+    public static final String BTC = "XBT";
+    public static final String ETH = "ETH";
+    public static final String LTC = "LTC";
     public static final String XRP = "XRP";
     public static final String ZAR = "ZAR";
 
@@ -31,4 +34,8 @@ public class ConstantUtils {
     public static String RESISTANCE_PRICE = null;
 
     public static final long TIME_TO_SET_SUPPORT_RESISTANCE = 30;
+
+    //REQUEST METHODS
+    public static final String REQUEST_METHOD_POST = "POST";
+    public static final String REQUEST_METHOD_GET = "GET";
 }

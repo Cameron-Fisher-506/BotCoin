@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.botcoin.MainActivity;
 import com.example.botcoin.R;
+import com.example.botcoin.za.co.botcoin.menu.fragments.DonateMenuFrag;
 import com.example.botcoin.za.co.botcoin.menu.fragments.LunoApiFrag;
 import com.example.botcoin.za.co.botcoin.menu.fragments.SupportResistanceFrag;
 import com.example.botcoin.za.co.botcoin.utils.FragmentUtils;
@@ -24,6 +25,7 @@ public class MenuFrag extends Fragment {
 
     private LinearLayoutCompat lunoApiOption;
     private LinearLayoutCompat supportResistanceOption;
+    private LinearLayoutCompat donateOption;
 
     @Nullable
     @Override
@@ -33,6 +35,7 @@ public class MenuFrag extends Fragment {
 
         addLunoApiOptionListener(view.findViewById(R.id.linearLayoutLunoApiOption));
         addSupportResistanceListener(view.findViewById(R.id.linearLayoutSupportResistanceOption));
+        addDonateListener(view.findViewById(R.id.linearLayoutDonate));
 
         return view;
     }
@@ -62,4 +65,17 @@ public class MenuFrag extends Fragment {
             }
         });
     }
+
+    private void addDonateListener(View view)
+    {
+        this.donateOption = (LinearLayoutCompat) view;
+        this.donateOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DonateMenuFrag donateFrag = new DonateMenuFrag();
+                FragmentUtils.startFragment(((MainActivity)getActivity()).getSupportFragmentManager(), donateFrag, R.id.fragContainer, ((MainActivity)getActivity()).getSupportActionBar(), "Donate Menu", true, false,true, null);
+            }
+        });
+    }
+
 }

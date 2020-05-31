@@ -9,4 +9,5 @@ public class StringUtils {
     public static final String GLOBAL_ENDPOINT_MARKETORDER = "/api/1/marketorder";
     public static final String GLOBAL_ENDPOINT_POSTORDER = "/api/1/postorder";
     public static final String GLOBAL_ENDPOINT_LIST_TRADES = "/api/1/listtrades";
+    public static final String GLOBAL_ENDPOINT_FUNDING_ADDRESS = "/api/1/funding_address";
 }

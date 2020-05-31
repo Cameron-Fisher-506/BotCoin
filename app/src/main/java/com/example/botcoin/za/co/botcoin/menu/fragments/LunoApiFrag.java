@@ -34,7 +34,6 @@ public class LunoApiFrag extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_luno_api, container, false);
 
-
         this.edTxtKeyID = (EditText) view.findViewById(R.id.edTxtKeyID);
         this.edTxtSecretKey = (EditText) view.findViewById(R.id.edTxtSecretKey);
 

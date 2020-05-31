@@ -8,33 +8,30 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
-import com.example.botcoin.MainActivity;
+
 import com.example.botcoin.R;
-import com.example.botcoin.za.co.botcoin.menu.fragments.SupportResistanceFrag;
 import com.example.botcoin.za.co.botcoin.objs.Trade;
 import com.example.botcoin.za.co.botcoin.utils.ConstantUtils;
-import com.example.botcoin.za.co.botcoin.utils.FragmentUtils;
-import com.example.botcoin.za.co.botcoin.utils.GeneralUtils;
-import com.example.botcoin.za.co.botcoin.viewpageradapters.BotAdapter;
+import com.example.botcoin.za.co.botcoin.viewpageradapters.TradeAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BotFrag extends Fragment {
+public class TradeFrag extends Fragment {
 
     public static final String TITLE = "Trading Bot";
 
     private TabLayout tabBotMenu;
     private ViewPager2 viewPager2;
     private List<Trade> trades;
-    private BotAdapter botAdapter;
+    private TradeAdapter tradeAdapter;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_bot, container, false);
+        View view = inflater.inflate(R.layout.frag_trade_option, container, false);
 
 
         this.tabBotMenu = view.findViewById(R.id.tabBotMenu);
@@ -46,8 +43,8 @@ public class BotFrag extends Fragment {
         this.trades.add(new Trade(Trade.SELL_TYPE, "0", ConstantUtils.RESISTANCE_PRICE));
 
 
-        this.botAdapter = new BotAdapter(getContext(), this.trades);
-        this.viewPager2.setAdapter(this.botAdapter);
+        this.tradeAdapter = new TradeAdapter(getContext(), this.trades);
+        this.viewPager2.setAdapter(this.tradeAdapter);
 
         addTabBotMenuListener();
 

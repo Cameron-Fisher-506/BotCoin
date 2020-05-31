@@ -8,14 +8,24 @@
     //MENU
     <string name="support_resistance">Support/Resistance</string>
     <string name="luno_api">Luno API</string>
+    <string name="donate">Donate</string>
 
     //LUNO API
     <string name="luno_api_key_id">Key ID</string>
     <string name="luno_api_secret_key">Secret Key</string>
+    <string name="luno_api_description">Please set your API credentials to start trading.\nCreate an API Key on Luno.\n-> Profile \n-> Security \n-> API Keys</string>
+
+    //DONATE
+    <string name="address">Address</string>
+    <string name="copy">Copy</string>
+    <string name="donate_description">Please use the QR Code or copy the address to donate. Thank You!</string>
+
 
     //SUPPORT/RESISTANCE
     <string name="Support">Support</string>
     <string name="Resistance">Resistance</string>
+    <string name="support_resistance_description">Support and Resistance is a trading strategy which BotCoin uses to Auto Trade. The Auto Trade feature will use the set support and resistance price to trade, else it will automatically find
+    a stable support and resistance level to buy and sell coins.</string>
 
     //DICTIONARY
     <string name="Amount">Amount</string>
@@ -41,5 +51,11 @@
     <string name="auto_trade_instructions">By activating auto trade, BotCoin will automatically trade for you by using the set Support/Resistant.</string>
     <string name="off">Off</string>
     <string name="on">On</string>
+
+    //DONATE MENU
+    <string name="btc">BTC</string>
+    <string name="xrp">XRP</string>
+    <string name="eth">ETH</string>
+    <string name="ltc">LTC</string>
 
 </resources>

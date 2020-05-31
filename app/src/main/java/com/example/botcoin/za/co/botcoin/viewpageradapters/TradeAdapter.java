@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,12 +15,12 @@ import com.example.botcoin.za.co.botcoin.objs.Trade;
 
 import java.util.List;
 
-public class BotAdapter extends RecyclerView.Adapter<BotAdapter.BotViewHolder>
+public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.BotViewHolder>
 {
     private Context context;
     List<Trade> trades;
 
-    public BotAdapter(Context context, List<Trade> trades)
+    public TradeAdapter(Context context, List<Trade> trades)
     {
         this.context = context;
         this.trades = trades;
@@ -31,7 +30,7 @@ public class BotAdapter extends RecyclerView.Adapter<BotAdapter.BotViewHolder>
     @Override
     public BotViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(this.context).inflate(R.layout.frag_bot_trade, parent, false);
+        View view = LayoutInflater.from(this.context).inflate(R.layout.frag_trade, parent, false);
         return new BotViewHolder(view);
     }
 

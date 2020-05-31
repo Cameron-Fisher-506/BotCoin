@@ -3,9 +3,16 @@ package com.example.botcoin.za.co.botcoin.utils;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -27,9 +34,6 @@ public class GeneralUtils {
         return toReturn;
 
     }
-
-
-
 
     public static void makeToast(Context context, String message)
     {
@@ -137,5 +141,30 @@ public class GeneralUtils {
 
     }
 
+    public static Bitmap createQRCode(String codeContent, int width, int height)
+    {
+        Bitmap toReturn = null;
 
+        try
+        {
+            QRCodeWriter qrCodeWriter = new QRCodeWriter();
+            BitMatrix bitMatrix = qrCodeWriter.encode(codeContent, BarcodeFormat.QR_CODE, width, height);
+            toReturn = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+
+            for(int x = 0; x < width; x++)
+            {
+                for(int y = 0; y < height; y++)
+                {
+                    toReturn.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
+                }
+            }
+        }catch(Exception e)
+        {
+            Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
+                    + "\nMethod: GeneralUtils - createBitmap"
+                    + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+        }
+
+        return toReturn;
+    }
 }

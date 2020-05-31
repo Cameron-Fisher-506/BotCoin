@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.botcoin.za.co.botcoin.navigation.fragments.BotFrag;
+import com.example.botcoin.za.co.botcoin.navigation.fragments.TradeFrag;
 import com.example.botcoin.za.co.botcoin.navigation.fragments.HomeFrag;
 import com.example.botcoin.za.co.botcoin.navigation.fragments.MenuFrag;
 import com.example.botcoin.za.co.botcoin.navigation.fragments.WalletFrag;
@@ -136,8 +136,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 setNavIcons(false,true,false,false);
 
-                BotFrag botFrag = new BotFrag();
-                FragmentUtils.startFragment(getSupportFragmentManager(), botFrag, R.id.fragContainer,  getSupportActionBar(), "Trading Bot",true, false, true, null);
+                TradeFrag tradeFrag = new TradeFrag();
+                FragmentUtils.startFragment(getSupportFragmentManager(), tradeFrag, R.id.fragContainer,  getSupportActionBar(), "Trade",true, false, true, null);
             }
         });
     }

@@ -8,9 +8,11 @@
 
     <EditText
         android:id="@+id/txtAmount"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:ems="10"
         android:hint="@string/Amount"
         android:inputType="textPersonName"
@@ -20,9 +22,11 @@
 
     <EditText
         android:id="@+id/txtPrice"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="@string/Price"
@@ -32,10 +36,12 @@
 
     <Button
         android:id="@+id/btnTrade"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/Buy"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:background="@color/lunoBlue"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
