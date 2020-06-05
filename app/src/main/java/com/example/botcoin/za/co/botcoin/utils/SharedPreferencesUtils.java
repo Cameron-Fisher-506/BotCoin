@@ -28,12 +28,17 @@ public class SharedPreferencesUtils {
         try
         {
             SharedPreferences sharedPreferences = context.getSharedPreferences(sharedPrefName, 0);
-            String value = sharedPreferences.getString(sharedPrefName, "DEFAULT");
 
-            if(value != null && !value.equals(""))
+            if(sharedPreferences != null && sharedPreferences.contains(sharedPrefName))
             {
-                toReturn = new JSONObject(value);
+                String value = sharedPreferences.getString(sharedPrefName, "DEFAULT");
+
+                if(value != null && !value.equals(""))
+                {
+                    toReturn = new JSONObject(value);
+                }
             }
+
         }catch(Exception e)
         {
             Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()

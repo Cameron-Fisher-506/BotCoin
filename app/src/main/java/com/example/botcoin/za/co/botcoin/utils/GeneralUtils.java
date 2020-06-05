@@ -64,6 +64,18 @@ public class GeneralUtils {
         return toReturn;
     }
 
+    public static String buildSend(String amount, String currency, String address)
+    {
+        String toReturn = null;
+
+        toReturn = "?"
+                + "amount=" + amount
+                + "currency=" + currency
+                + "address=" + address;
+
+        return toReturn;
+    }
+
     public static String getAuth()
     {
         String toReturn = null;

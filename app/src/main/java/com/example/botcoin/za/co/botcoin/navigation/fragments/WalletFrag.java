@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.botcoin.MainActivity;
 import com.example.botcoin.R;
 import com.example.botcoin.za.co.botcoin.utils.ConstantUtils;
 import com.example.botcoin.za.co.botcoin.utils.GeneralUtils;
@@ -49,70 +50,76 @@ public class WalletFrag extends Fragment implements WSCallUtilsCallBack {
     @Override
     public void taskCompleted(String response, int reqCode)
     {
-
-        if(reqCode == BALANCE_REQ_CODE)
+        if(response != null)
         {
-            try
+            if(reqCode == BALANCE_REQ_CODE)
             {
-                if(GeneralUtils.isApiCredentialsSaved())
+                try
                 {
-                    JSONObject jsonObject = new JSONObject(response);
-                    if(jsonObject != null && jsonObject.has("balance"))
+                    if(GeneralUtils.isApiCredentialsSaved())
                     {
-                        try
+                        JSONObject jsonObject = new JSONObject(response);
+                        if(jsonObject != null && jsonObject.has("balance"))
                         {
-                            JSONArray jsonArrayBalance = jsonObject.getJSONArray("balance");
-                            if(jsonArrayBalance != null && jsonArrayBalance.length() > 0)
+                            try
                             {
-                                for(int i = 0; i < jsonArrayBalance.length(); i++)
+                                JSONArray jsonArrayBalance = jsonObject.getJSONArray("balance");
+                                if(jsonArrayBalance != null && jsonArrayBalance.length() > 0)
                                 {
-                                    JSONObject jsonObjectBalance = jsonArrayBalance.getJSONObject(i);
-
-                                    String currency = jsonObjectBalance.getString("asset");
-                                    String balance = jsonObjectBalance.getString("balance");
-                                    String reserved = jsonObjectBalance.getString("reserved");
-
-                                    if(currency.equals(ConstantUtils.XRP))
+                                    for(int i = 0; i < jsonArrayBalance.length(); i++)
                                     {
-                                        this.txtXrp.append(balance);
+                                        JSONObject jsonObjectBalance = jsonArrayBalance.getJSONObject(i);
 
-                                    }else if(currency.equals(ConstantUtils.ZAR))
-                                    {
-                                        this.txtZar.append(balance);
+                                        String currency = jsonObjectBalance.getString("asset");
+                                        String balance = jsonObjectBalance.getString("balance");
+                                        String reserved = jsonObjectBalance.getString("reserved");
+
+                                        if(currency.equals(ConstantUtils.XRP))
+                                        {
+                                            this.txtXrp.append(balance);
+
+                                        }else if(currency.equals(ConstantUtils.ZAR))
+                                        {
+                                            this.txtZar.append(balance);
+                                        }
+
                                     }
-
                                 }
+                            }catch(Exception e)
+                            {
+                                Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
+                                        + "\nMethod: MainActivity - onCreate"
+                                        + "\nURL: " + StringUtils.GLOBAL_LUNO_URL + "/api/1/balance"
+                                        + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
                             }
-                        }catch(Exception e)
+
+
+                        }else
                         {
-                            Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
+                            Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: No Response"
                                     + "\nMethod: MainActivity - onCreate"
                                     + "\nURL: " + StringUtils.GLOBAL_LUNO_URL + "/api/1/balance"
                                     + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+
+                            GeneralUtils.createAlertDialog(getActivity(),"Luno API Credentials (Wallet)","Please ensure that the API ID and Secret Key that you have saved are correct!", false).show();
                         }
-
-
                     }else
                     {
-                        Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: No Response"
-                                + "\nMethod: MainActivity - onCreate"
-                                + "\nURL: " + StringUtils.GLOBAL_LUNO_URL + "/api/1/balance"
-                                + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
-
-                        GeneralUtils.createAlertDialog(getActivity(),"Luno API Credentials (Wallet)","Please ensure that the API ID and Secret Key that you have saved are correct!", false).show();
+                        GeneralUtils.createAlertDialog(getActivity(),"Luno API Credentials (Wallet)","Please set your Luno API credentials in order to use BotCoin!", false).show();
                     }
-                }else
-                {
-                    GeneralUtils.createAlertDialog(getActivity(),"Luno API Credentials (Wallet)","Please set your Luno API credentials in order to use BotCoin!", false).show();
-                }
 
-            }catch(Exception e)
-            {
-                Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
-                        + "\nMethod: MainActivity - onCreate"
-                        + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+                }catch(Exception e)
+                {
+                    Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
+                            + "\nMethod: MainActivity - onCreate"
+                            + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+                }
             }
+        }else
+        {
+            GeneralUtils.createAlertDialog(((MainActivity)getActivity()), "No Signal", "Please check your network connection!", false);
         }
+
 
     }
 }

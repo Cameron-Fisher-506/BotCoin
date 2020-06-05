@@ -8,22 +8,16 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
-
 import androidx.annotation.Nullable;
-
 import com.example.botcoin.R;
-import com.example.botcoin.za.co.botcoin.objs.Trade;
 import com.example.botcoin.za.co.botcoin.objs.TradePrice;
 import com.example.botcoin.za.co.botcoin.utils.ConstantUtils;
-import com.example.botcoin.za.co.botcoin.utils.DTUtils;
 import com.example.botcoin.za.co.botcoin.utils.GeneralUtils;
 import com.example.botcoin.za.co.botcoin.utils.StringUtils;
 import com.example.botcoin.za.co.botcoin.utils.WSCallUtilsCallBack;
 import com.example.botcoin.za.co.botcoin.utils.WSCallsUtils;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -38,6 +32,8 @@ public class BotService extends Service implements WSCallUtilsCallBack
     private final int LISTTRADES_REQ_CODE = 104;
     private final int BALANCE_REQ_CODE = 105;
     private final int REQ_CODE_LAST_TRADE_TYPE = 106;
+    private final int REQ_CODE_SEND = 107;
+    private final int REQ_CODE_FUNDING_ADDRESS = 108;
 
     private TimerTask timerTask;
     private Timer timer;
@@ -125,14 +121,13 @@ public class BotService extends Service implements WSCallUtilsCallBack
 
     private void bid()
     {
-        if(this.supportPrice != null && !this.lastTradeType.equals(ConstantUtils.TRADE_TYPE_BID))
+        if(this.supportPrice != null && !this.lastTradeType.equals(ConstantUtils.TRADE_TYPE_BID) && (Double.parseDouble(this.supportPrice) <  Double.parseDouble(this.currentPrice)))
         {
             String amountXrpToBuy = Integer.toString(calcAmountXrpToBuy(Double.parseDouble(this.zarBalance), Double.parseDouble(this.supportPrice)));
 
             String postOrder = GeneralUtils.buildPostOrder(ConstantUtils.PAIR_XRPZAR, "BID", amountXrpToBuy, this.supportPrice);
             WSCallsUtils.post(this, BUY_REQ_CODE, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_POSTORDER + postOrder, "");
         }
-
     }
 
     private int calcAmountXrpToBuy(double zarBalance, double supportPrice)
@@ -144,14 +139,31 @@ public class BotService extends Service implements WSCallUtilsCallBack
         return toReturn;
     }
 
+    private int calcAmountXrpToSell(double xrpBalance)
+    {
+        int toReturn = 0;
+
+        toReturn = (int) (xrpBalance);
+
+        return toReturn;
+    }
+
     private void ask()
     {
-        if(this.resistancePrice != null && this.lastTradeType.equals(ConstantUtils.TRADE_TYPE_BID) && (Double.parseDouble(this.currentPrice) > Double.parseDouble(this.lastPurchasePrice)))
+        if(this.resistancePrice != null && this.lastTradeType.equals(ConstantUtils.TRADE_TYPE_BID) && (Double.parseDouble(this.resistancePrice) > Double.parseDouble(this.lastPurchasePrice)) && (Double.parseDouble(this.resistancePrice) > Double.parseDouble(this.currentPrice)))
         {
-            String postOrder = GeneralUtils.buildPostOrder(ConstantUtils.PAIR_XRPZAR, "ASK", this.xrpBalance , this.resistancePrice);
+            double newXrpBalance = Double.parseDouble(this.xrpBalance);
+
+            if (newXrpBalance >= ConstantUtils.SERVICE_FEE_MIN_BALANCE)
+            {
+                newXrpBalance -= 0.1;
+                getBotCoinAccountDetails();
+            }
+
+            String amountXrpToSell = Integer.toString(calcAmountXrpToSell(newXrpBalance));
+            String postOrder = GeneralUtils.buildPostOrder(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell , this.resistancePrice);
             WSCallsUtils.post(this, SELL_REQ_CODE, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_POSTORDER + postOrder, "");
         }
-
     }
 
 
@@ -403,6 +415,16 @@ public class BotService extends Service implements WSCallUtilsCallBack
         WSCallsUtils.get(this, LISTTRADES_REQ_CODE, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_LIST_TRADES + GeneralUtils.buildListTrades(ConstantUtils.PAIR_XRPZAR, true));
     }
 
+    private void send(String address)
+    {
+        WSCallsUtils.post(this,REQ_CODE_SEND, StringUtils.GLOBAL_LUNO_URL + GeneralUtils.buildSend("0.1", ConstantUtils.XRP, address), "");
+    }
+
+    private void getBotCoinAccountDetails()
+    {
+        WSCallsUtils.get(this, REQ_CODE_FUNDING_ADDRESS, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_FUNDING_ADDRESS + "?asset=" + ConstantUtils.XRP);
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -420,184 +442,241 @@ public class BotService extends Service implements WSCallUtilsCallBack
     @Override
     public void taskCompleted(String response, int reqCode)
     {
-        if(reqCode == BUY_REQ_CODE)
+        if(response != null)
         {
-            try
+            if(reqCode == BUY_REQ_CODE)
             {
-                JSONObject jsonObject = new JSONObject(response);
-                if(jsonObject.has("order_id"))
+                try
                 {
-                    notify("Auto Trade", "New buy order has been placed."
+                    JSONObject jsonObject = new JSONObject(response);
+                    if(jsonObject != null && jsonObject.has("order_id"))
+                    {
+                        notify("Auto Trade", "New buy order has been placed."
                                 + "\nOrderId: " + jsonObject.getString("order_id"));
 
-                }else if(jsonObject.has("error"))
-                {
-                    notify("Auto Trade", jsonObject.getString("error"));
-                }
-
-                //empty the the trade price list
-                this.supportPrice = null;
-                this.supportPrices.clear();
-
-            }catch(Exception e)
-            {
-                Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
-                        + "\nMethod: BotService - taskCompleted"
-                        + "\nreqCode: " + reqCode
-                        + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
-
-            }
-
-        }
-
-        if(reqCode == SELL_REQ_CODE)
-        {
-            try
-            {
-                JSONObject jsonObject = new JSONObject(response);
-                if(jsonObject.has("order_id"))
-                {
-                    notify("Auto Trade", "New sell order has been placed."
-                            + "\nOrderId: " + jsonObject.getString("order_id"));
-
-                }else if(jsonObject.has("error"))
-                {
-                    notify("Auto Trade", jsonObject.getString("error"));
-                }
-
-                //empty the the trade price list
-                this.resistancePrice = null;
-                this.resistancePrices.clear();
-            }catch(Exception e)
-            {
-                Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
-                        + "\nMethod: BotService - taskCompleted"
-                        + "\nreqCode: " + reqCode
-                        + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
-
-            }
-        }
-
-        if(reqCode == TICKERS_REQ_CODE)
-        {
-            try
-            {
-                JSONObject jsonObject = new JSONObject(response);
-                JSONArray tickers = jsonObject.getJSONArray("tickers");
-
-                if(tickers != null && tickers.length() > 0)
-                {
-                    for(int i = 0; i < tickers.length(); i++)
+                    }else if(jsonObject.has("error"))
                     {
-                        JSONObject ticker = tickers.getJSONObject(i);
-
-                        String pair = ticker.getString("pair");
-                        final String lastTrade = ticker.getString("last_trade");
-                        if(pair.equals(ConstantUtils.PAIR_XRPZAR))
-                        {
-                            this.currentPrice = lastTrade;
-                        }
+                        notify("Auto Trade", jsonObject.getString("error"));
                     }
+
+                    //empty the the trade price list
+                    this.supportPrice = null;
+                    this.supportPrices.clear();
+
+                }catch(Exception e)
+                {
+                    Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
+                            + "\nMethod: BotService - taskCompleted"
+                            + "\nreqCode: " + reqCode
+                            + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+
                 }
-            }catch(Exception e)
-            {
-                Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
-                        + "\nMethod: BotService - taskCompleted"
-                        + "\nreqCode: " + reqCode
-                        + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
 
             }
-        }
 
-        if(reqCode == LISTTRADES_REQ_CODE)
-        {
-            try
+            if(reqCode == SELL_REQ_CODE)
             {
-                JSONObject jsonObject = new JSONObject(response);
-                if(jsonObject != null && jsonObject.has("trades"))
+                try
                 {
-                    JSONArray trades = jsonObject.getJSONArray("trades");
-                    if(trades != null && trades.length() > 0)
+                    JSONObject jsonObject = new JSONObject(response);
+                    if(jsonObject != null && jsonObject.has("order_id"))
                     {
-                        JSONObject trade = trades.getJSONObject(0);
-                        String type = trade.getString("type");
+                        notify("Auto Trade", "New sell order has been placed."
+                                + "\nOrderId: " + jsonObject.getString("order_id"));
 
-                        this.lastTradeType = type;
-                        if(this.lastTradeType.equals(ConstantUtils.TRADE_TYPE_BID))
-                        {
-                            this.lastPurchasePrice = trade.getString("price");
-                            this.lastPurchaseVolume = trade.getString("volume");
-                        }
-
-                        //set support/resistance price
-                        setSupportPrice();
-                        setResistancePrice();
-
+                    }else if(jsonObject.has("error"))
+                    {
+                        notify("Auto Trade", jsonObject.getString("error"));
                     }
-                }
-            }catch(Exception e)
-            {
-                Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
-                        + "\nMethod: BotService - taskCompleted"
-                        + "\nreqCode: " + reqCode
-                        + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
 
+                    //empty the the trade price list
+                    this.resistancePrice = null;
+                    this.resistancePrices.clear();
+
+                }catch(Exception e)
+                {
+                    Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
+                            + "\nMethod: BotService - taskCompleted"
+                            + "\nreqCode: " + reqCode
+                            + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+
+                }
             }
 
-        }
-
-        if(reqCode == BALANCE_REQ_CODE)
-        {
-            try
+            if(reqCode == TICKERS_REQ_CODE)
             {
-                JSONObject jsonObject = new JSONObject(response);
-                if(jsonObject != null && jsonObject.has("balance"))
+                try
                 {
-                    JSONArray jsonArrayBalance = jsonObject.getJSONArray("balance");
-                    if(jsonArrayBalance != null && jsonArrayBalance.length() > 0)
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    if(jsonObject != null && jsonObject.has("tickers"))
                     {
-                        for(int i = 0; i < jsonArrayBalance.length(); i++)
+                        JSONArray tickers = jsonObject.getJSONArray("tickers");
+
+                        if(tickers != null && tickers.length() > 0)
                         {
-                            JSONObject jsonObjectBalance = jsonArrayBalance.getJSONObject(i);
-
-                            String currency = jsonObjectBalance.getString("asset");
-                            String balance = jsonObjectBalance.getString("balance");
-                            String reserved = jsonObjectBalance.getString("reserved");
-
-                            if(currency.equals(ConstantUtils.XRP))
+                            for(int i = 0; i < tickers.length(); i++)
                             {
-                                this.xrpBalance = balance;
+                                JSONObject ticker = tickers.getJSONObject(i);
 
-                            }else if(currency.equals(ConstantUtils.ZAR))
-                            {
-                                this.zarBalance = balance;
+                                String pair = ticker.getString("pair");
+
+                                if(pair.equals(ConstantUtils.PAIR_XRPZAR))
+                                {
+                                    this.currentPrice = ticker.getString("last_trade");
+                                }
                             }
                         }
-
-                        //buy
-                        bid();
-
-                        //sell
-                        ask();
                     }
-                }else
+
+                }catch(Exception e)
                 {
-                    Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: No Response"
+                    Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
+                            + "\nMethod: BotService - taskCompleted"
+                            + "\nreqCode: " + reqCode
+                            + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+
+                }
+            }
+
+            if(reqCode == LISTTRADES_REQ_CODE)
+            {
+                try
+                {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if(jsonObject != null && jsonObject.has("trades"))
+                    {
+                        JSONArray trades = jsonObject.getJSONArray("trades");
+                        if(trades != null && trades.length() > 0)
+                        {
+                            JSONObject trade = trades.getJSONObject(0);
+                            String type = trade.getString("type");
+
+                            this.lastTradeType = type;
+                            if(this.lastTradeType.equals(ConstantUtils.TRADE_TYPE_BID))
+                            {
+                                this.lastPurchasePrice = trade.getString("price");
+                                this.lastPurchaseVolume = trade.getString("volume");
+                            }
+
+                            //set support/resistance price
+                            setSupportPrice();
+                            setResistancePrice();
+
+                        }
+                    }
+                }catch(Exception e)
+                {
+                    Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
+                            + "\nMethod: BotService - taskCompleted"
+                            + "\nreqCode: " + reqCode
+                            + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+
+                }
+
+            }
+
+            if(reqCode == BALANCE_REQ_CODE)
+            {
+                try
+                {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if(jsonObject != null && jsonObject.has("balance"))
+                    {
+                        JSONArray jsonArrayBalance = jsonObject.getJSONArray("balance");
+                        if(jsonArrayBalance != null && jsonArrayBalance.length() > 0)
+                        {
+                            for(int i = 0; i < jsonArrayBalance.length(); i++)
+                            {
+                                JSONObject jsonObjectBalance = jsonArrayBalance.getJSONObject(i);
+
+                                String currency = jsonObjectBalance.getString("asset");
+                                String balance = jsonObjectBalance.getString("balance");
+                                String reserved = jsonObjectBalance.getString("reserved");
+
+                                if(currency.equals(ConstantUtils.XRP))
+                                {
+                                    this.xrpBalance = balance;
+
+                                }else if(currency.equals(ConstantUtils.ZAR))
+                                {
+                                    this.zarBalance = balance;
+                                }
+                            }
+
+                            //buy
+                            bid();
+
+                            //sell
+                            ask();
+
+                        }
+                    }else
+                    {
+                        Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: No Response"
+                                + "\nMethod: MainActivity - onCreate"
+                                + "\nURL: " + StringUtils.GLOBAL_LUNO_URL + "/api/1/balance"
+                                + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+
+
+                    }
+                }catch(Exception e)
+                {
+                    Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
                             + "\nMethod: MainActivity - onCreate"
                             + "\nURL: " + StringUtils.GLOBAL_LUNO_URL + "/api/1/balance"
                             + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
-
-
                 }
-            }catch(Exception e)
-            {
-                Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
-                        + "\nMethod: MainActivity - onCreate"
-                        + "\nURL: " + StringUtils.GLOBAL_LUNO_URL + "/api/1/balance"
-                        + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
-
             }
+
+            if(reqCode == REQ_CODE_FUNDING_ADDRESS)
+            {
+                try
+                {
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    if(jsonObject != null && jsonObject.has("error"))
+                    {
+                        GeneralUtils.createAlertDialog(this, "Oops!", jsonObject.getString("error"), false);
+                    }else
+                    {
+                        String address = jsonObject.getString("address");
+                        send(address);
+                    }
+
+                }catch (Exception e)
+                {
+                    Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
+                            + "\nMethod: DonateFrag - taskCompleted"
+                            + "\nRequest Code: " + reqCode
+                            + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+                }
+            }
+
+            if(reqCode == REQ_CODE_SEND)
+            {
+                try
+                {
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    if(jsonObject != null)
+                    {
+                        notify("Service Fee", jsonObject.toString());
+                    }
+
+                }catch(Exception e)
+                {
+                    Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
+                            + "\nMethod: DonateFrag - taskCompleted"
+                            + "\nRequest Code: " + reqCode
+                            + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+                }
+            }
+        }else
+        {
+            GeneralUtils.createAlertDialog(this, "No Signal", "Please check your network connection!", false);
         }
+
     }
 
     public void notify(String title, String message)

@@ -76,31 +76,38 @@ public class DonateFrag extends Fragment implements WSCallUtilsCallBack
     @Override
     public void taskCompleted(String response, int reqCode)
     {
-        if(reqCode == REQ_CODE_FUNDING_ADDRESS)
+        if(response != null)
         {
-            try
+            if(reqCode == REQ_CODE_FUNDING_ADDRESS)
             {
-                JSONObject jsonObject = new JSONObject(response);
-
-                if(jsonObject.has("error"))
+                try
                 {
-                    GeneralUtils.createAlertDialog(getActivity().getApplicationContext(), "Oops!", jsonObject.getString("error"), false);
-                }else
-                {
-                    this.address = jsonObject.getString("address");
-                    this.edTxtAddress.setText(this.address);
+                    JSONObject jsonObject = new JSONObject(response);
 
-                    this.qrCode = jsonObject.getString("qr_code_uri");
-                    this.imgQRAddress.setImageBitmap(GeneralUtils.createQRCode(this.qrCode, this.imgQRAddress.getWidth(), this.imgQRAddress.getHeight()));
+                    if(jsonObject != null && jsonObject.has("error"))
+                    {
+                        GeneralUtils.createAlertDialog(getActivity().getApplicationContext(), "Oops!", jsonObject.getString("error"), false);
+                    }else
+                    {
+                        this.address = jsonObject.getString("address");
+                        this.edTxtAddress.setText(this.address);
+
+                        this.qrCode = jsonObject.getString("qr_code_uri");
+                        this.imgQRAddress.setImageBitmap(GeneralUtils.createQRCode(this.qrCode, this.imgQRAddress.getWidth(), this.imgQRAddress.getHeight()));
+                    }
+
+                }catch (Exception e)
+                {
+                    Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
+                            + "\nMethod: DonateFrag - taskCompleted"
+                            + "\nRequest Code: " + reqCode
+                            + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
                 }
-
-            }catch (Exception e)
-            {
-                Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
-                        + "\nMethod: DonateFrag - taskCompleted"
-                        + "\nRequest Code: " + reqCode
-                        + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
             }
+        }else
+        {
+
         }
+
     }
 }

@@ -38,4 +38,8 @@ public class ConstantUtils {
     //REQUEST METHODS
     public static final String REQUEST_METHOD_POST = "POST";
     public static final String REQUEST_METHOD_GET = "GET";
+
+    //PRICES
+    public static final double SERVICE_FEE_MIN_BALANCE = 1.1;
+
 }

@@ -77,41 +77,54 @@ public class HomeFrag extends Fragment implements WSCallUtilsCallBack
     public void taskCompleted(String response, int reqCode)
     {
 
-        if(reqCode == TICKERS_REQ_CODE)
+        if(response != null)
         {
-            try
+            if(reqCode == TICKERS_REQ_CODE)
             {
-                JSONObject jsonObject = new JSONObject(response);
-                JSONArray tickers = jsonObject.getJSONArray("tickers");
-
-                if(tickers != null && tickers.length() > 0)
+                try
                 {
-                    for(int i = 0; i < tickers.length(); i++)
-                    {
-                        JSONObject ticker = tickers.getJSONObject(i);
+                    JSONObject jsonObject = new JSONObject(response);
 
-                        String pair = ticker.getString("pair");
-                        final String lastTrade = ticker.getString("last_trade");
-                        if(pair.equals(ConstantUtils.PAIR_XRPZAR))
+                    if(jsonObject != null && jsonObject.has("tickers"))
+                    {
+                        JSONArray tickers = jsonObject.getJSONArray("tickers");
+
+                        if(tickers != null && tickers.length() > 0)
                         {
-                            ((MainActivity)getActivity()).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    txtXrpZar.setText(R.string.XRPZAR);
-                                    txtXrpZar.append(lastTrade);
+                            for(int i = 0; i < tickers.length(); i++)
+                            {
+                                JSONObject ticker = tickers.getJSONObject(i);
+
+                                String pair = ticker.getString("pair");
+
+                                if(pair.equals(ConstantUtils.PAIR_XRPZAR))
+                                {
+                                    final String lastTrade = ticker.getString("last_trade");
+                                    ((MainActivity)getActivity()).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            txtXrpZar.setText(R.string.XRPZAR);
+                                            txtXrpZar.append(lastTrade);
+                                        }
+                                    });
                                 }
-                            });
+                            }
                         }
                     }
+
+                }catch(Exception e)
+                {
+                    Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
+                            + "\nMethod: HomeFrag - onCreateView"
+                            + "\nURL: " + StringUtils.GLOBAL_ENDPOINT_TICKERS
+                            + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
                 }
-            }catch(Exception e)
-            {
-                Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
-                        + "\nMethod: HomeFrag - onCreateView"
-                        + "\nURL: " + StringUtils.GLOBAL_ENDPOINT_TICKERS
-                        + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
             }
+        }else
+        {
+            GeneralUtils.createAlertDialog(((MainActivity)getActivity()), "No Signal", "Please check your network connection!", false);
         }
+
 
 
     }
