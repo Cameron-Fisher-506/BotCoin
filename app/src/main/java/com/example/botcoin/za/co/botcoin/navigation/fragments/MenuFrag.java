@@ -35,7 +35,7 @@ public class MenuFrag extends Fragment {
 
         addLunoApiOptionListener(view.findViewById(R.id.linearLayoutLunoApiOption));
         addSupportResistanceListener(view.findViewById(R.id.linearLayoutSupportResistanceOption));
-        addDonateListener(view.findViewById(R.id.linearLayoutDonate));
+        addDonateListener(view.findViewById(R.id.linearLayoutDonateOption));
 
         return view;
     }

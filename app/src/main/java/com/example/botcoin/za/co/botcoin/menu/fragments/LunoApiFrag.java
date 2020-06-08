@@ -53,8 +53,8 @@ public class LunoApiFrag extends Fragment
 
                 if(!keyID.equals("") && !secretKey.equals(""))
                 {
-                    ConstantUtils.KEY_ID = keyID;
-                    ConstantUtils.SECRET_KEY = secretKey;
+                    ConstantUtils.USER_KEY_ID = keyID;
+                    ConstantUtils.USER_SECRET_KEY = secretKey;
 
                     try
                     {

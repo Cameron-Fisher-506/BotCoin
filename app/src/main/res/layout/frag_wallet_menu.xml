@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutZar"
+        android:id="@+id/linearLayoutSendOption"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -17,14 +16,14 @@
 
 
         <ImageView
-            android:id="@+id/imgZar"
+            android:id="@+id/imgSend"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:contentDescription="@string/DummyText"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_gravity="center"
-            android:background="@drawable/sa" />
+            android:src="@drawable/ic_send_black_24dp" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="0dp"
@@ -33,14 +32,13 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtZar"
+                android:id="@+id/txtSend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/ZAR"
-                android:textSize="20sp"
                 android:textStyle="bold"
+                android:text="@string/send"
                 android:textColor="@color/black"
-                 />
+                android:textSize="15sp" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -56,31 +54,32 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <View
-        android:id="@+id/horizontalLineZar"
+        android:id="@+id/horizontalSend"
         style="@style/CommonHorizontalDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutZar" />
+        app:layout_constraintEnd_toEndOf="@+id/linearLayoutSendOption"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/linearLayoutSendOption"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSendOption" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutXrp"
+        android:id="@+id/linearLayoutReceiveOption"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linearLayoutZar">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSendOption">
 
 
         <ImageView
-            android:id="@+id/imgXrp"
+            android:id="@+id/imgReceive"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:contentDescription="@string/DummyText"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_gravity="center"
-            android:background="@drawable/xrp" />
+            android:src="@drawable/ic_call_received_black_24dp" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="0dp"
@@ -89,15 +88,14 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtXrp"
+                android:id="@+id/txtReceive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/XRP"
-                android:textSize="20sp"
                 android:textStyle="bold"
+                android:text="@string/receive"
                 android:textColor="@color/black"
+                android:textSize="15sp" />
 
-                />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
         <ImageView
@@ -112,10 +110,12 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <View
-        android:id="@+id/horizontalLineXrp"
+        android:id="@+id/horizontalReceive"
         style="@style/CommonHorizontalDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutXrp" />
+        app:layout_constraintEnd_toEndOf="@+id/linearLayoutReceiveOption"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/linearLayoutReceiveOption"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutReceiveOption" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

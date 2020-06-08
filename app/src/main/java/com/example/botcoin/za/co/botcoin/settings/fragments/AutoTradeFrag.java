@@ -11,9 +11,13 @@ import android.widget.Switch;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.botcoin.MainActivity;
 import com.example.botcoin.R;
+import com.example.botcoin.za.co.botcoin.menu.fragments.LunoApiFrag;
 import com.example.botcoin.za.co.botcoin.services.BotService;
 import com.example.botcoin.za.co.botcoin.utils.ConstantUtils;
+import com.example.botcoin.za.co.botcoin.utils.FragmentUtils;
 import com.example.botcoin.za.co.botcoin.utils.GeneralUtils;
 import com.example.botcoin.za.co.botcoin.utils.SharedPreferencesUtils;
 import org.json.JSONObject;
@@ -27,8 +31,21 @@ public class AutoTradeFrag extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_auto_trade, container, false);
 
-        this.switchAutoTrade = (Switch) view.findViewById(R.id.switchAutoTrade);
-        setSwitchAutoTrade();
+        wireUI(view);
+
+        if(GeneralUtils.isApiKeySet(getContext()))
+        {
+            setSwitchAutoTrade();
+        }else
+        {
+            stopBotService();
+            this.switchAutoTrade.setChecked(false);
+
+            GeneralUtils.createAlertDialog(getActivity(),"Luno API Credentials","Please set your Luno API credentials in order to use BotCoin!", false).show();
+
+            LunoApiFrag lunoApiFrag = new LunoApiFrag();
+            FragmentUtils.startFragment(((MainActivity)getActivity()).getSupportFragmentManager(), lunoApiFrag, R.id.fragContainer, ((MainActivity)getActivity()).getSupportActionBar(), "Luno API",true, false, true, null);
+        }
 
         this.switchAutoTrade.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -61,6 +78,11 @@ public class AutoTradeFrag extends Fragment {
         return view;
     }
 
+    private void wireUI(View view)
+    {
+        this.switchAutoTrade = view.findViewById(R.id.switchAutoTrade);
+    }
+
     private void startBotService()
     {
         getActivity().startService(new Intent(getActivity(), BotService.class));
@@ -70,6 +92,7 @@ public class AutoTradeFrag extends Fragment {
     {
         getActivity().stopService(new Intent(getActivity(), BotService.class));
     }
+
 
     private void setSwitchAutoTrade()
     {

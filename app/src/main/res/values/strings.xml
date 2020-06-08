@@ -4,11 +4,27 @@
     //WALLET
     <string name="ZAR">ZAR\u0020</string>
     <string name="XRP">XRP\u0020</string>
+    <string name="withdraw">Withdraw</string>
+    <string name="withdraw_description">
+        Please enter the amount You would like to withdraw from your ZAR account.\nPlease provide the Beneficiary ID of the bank account the withdrawal will be paid out to.\nThe Beneficiary ID must be provided if You have multiple beneficiaries setup.
+    </string>
+    <string name="beneficiary_id">Beneficiary ID</string>
+
+    //WALLET MENU
+    <string name="send">Send</string>
+    <string name="receive">Receive</string>
+
+    //SEND
+    <string name="recipient_account_address">Recipient account address</string>
+    <string name="recipient_account_tag">Recipient account tag</string>
+    <string name="send_description">Please enter the amount You would like to send. Please enter the recipient\'s account address and ensure that the address is entered correctly.</string>
+
 
     //MENU
     <string name="support_resistance">Support/Resistance</string>
     <string name="luno_api">Luno API</string>
     <string name="donate">Donate</string>
+    <string name="notifications">Notifications</string>
 
     //LUNO API
     <string name="luno_api_key_id">Key ID</string>
@@ -17,8 +33,12 @@
 
     //DONATE
     <string name="address">Address</string>
+    <string name="tag">Tag</string>
     <string name="copy">Copy</string>
     <string name="donate_description">Please use the QR Code or copy the address to donate. Thank You!</string>
+
+    //RECEIVE
+    <string name="receive_description">Please use the QR Code or copy the address to receive. Thank You!</string>
 
 
     //SUPPORT/RESISTANCE

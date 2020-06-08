@@ -8,15 +8,13 @@ import android.graphics.Color;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
-
+import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
 
 public class GeneralUtils {
     public static String getCurrentDateTime()
@@ -64,26 +62,50 @@ public class GeneralUtils {
         return toReturn;
     }
 
-    public static String buildSend(String amount, String currency, String address)
+    public static String buildSend(String amount, String currency, String address, String tag)
     {
         String toReturn = null;
 
-        toReturn = "?"
-                + "amount=" + amount
-                + "currency=" + currency
-                + "address=" + address;
+        if(tag != null)
+        {
+            toReturn = "?"
+                    + "amount=" + amount
+                    + "&" + "currency=" + currency
+                    + "&" + "address=" + address
+                    + "&" + "has_destination_tag=true"
+                    + "&" + "destination_tag=" + tag;
+        }else
+        {
+            toReturn = "?"
+                    + "amount=" + amount
+                    + "&" + "currency=" + currency
+                    + "&" + "address=" + address;
+        }
+
 
         return toReturn;
     }
 
-    public static String getAuth()
+    public static String buildWithdrawal(String amount, String beneficiaryId)
+    {
+        String toReturn = null;
+
+        toReturn = "?"
+                + "type=ZAR_EFT"
+                + "&" + "amount=" + amount
+                + "&" + "beneficiary_id=" + beneficiaryId;
+
+        return toReturn;
+    }
+
+    public static String getAuth(String keyId, String secretKey)
     {
         String toReturn = null;
 
         try
         {
-            String username = ConstantUtils.KEY_ID;
-            String password = ConstantUtils.SECRET_KEY;
+            String username = keyId;
+            String password = secretKey;
 
             String auth = username + ":" + password;
             byte[] authEncBytes = Base64.encode(auth.getBytes(), 0);
@@ -97,12 +119,28 @@ public class GeneralUtils {
         return toReturn;
     }
 
-    public static boolean isApiCredentialsSaved(){
-        boolean toReturn = false;
+    public static boolean isApiKeySet(Context context)
+    {
+        boolean toReturn = true;
 
-        if(ConstantUtils.KEY_ID != null && ConstantUtils.SECRET_KEY != null)
+        JSONObject jsonObjectLunoApiKey =  SharedPreferencesUtils.get(context, SharedPreferencesUtils.LUNO_API_PREF);
+        if(jsonObjectLunoApiKey != null && jsonObjectLunoApiKey.has("keyID") && jsonObjectLunoApiKey.has("secretKey"))
         {
-            toReturn = true;
+            try
+            {
+                ConstantUtils.USER_KEY_ID = jsonObjectLunoApiKey.getString("keyID");
+                ConstantUtils.USER_SECRET_KEY = jsonObjectLunoApiKey.getString("secretKey");
+
+                if(ConstantUtils.USER_SECRET_KEY != null && ConstantUtils.USER_KEY_ID != null)
+                {
+                    toReturn = true;
+                }
+            }catch(Exception e)
+            {
+                Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
+                        + "\nMethod: MainActivity - checkIfApiKeySet"
+                        + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+            }
         }
 
         return toReturn;
@@ -179,4 +217,5 @@ public class GeneralUtils {
 
         return toReturn;
     }
+
 }

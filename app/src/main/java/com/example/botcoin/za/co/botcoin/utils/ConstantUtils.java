@@ -6,6 +6,10 @@ public class ConstantUtils {
     public static String KEY_ID = "";
     public static String SECRET_KEY = "";
 
+    //USER API KEYS
+    public static String USER_KEY_ID = "";
+    public static String USER_SECRET_KEY = "";
+
     //TAG
     public static final String BOTCOIN_TAG = "BOTCOIN";
 
@@ -39,7 +43,8 @@ public class ConstantUtils {
     public static final String REQUEST_METHOD_POST = "POST";
     public static final String REQUEST_METHOD_GET = "GET";
 
-    //PRICES
+    //SERVICE PRICES
+    public static final String SERVICE_FEE = "0.1";
     public static final double SERVICE_FEE_MIN_BALANCE = 1.1;
 
 }

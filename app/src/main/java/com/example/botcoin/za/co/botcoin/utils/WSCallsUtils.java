@@ -11,19 +11,17 @@ import java.net.URL;
 
 public class WSCallsUtils extends AsyncTask<String, Void, String>
 {
-
-    private static int requestMethod = 0;
     private WSCallUtilsCallBack wsCallUtilsCallBack;
     private int reqCode;
 
-    public static String get(WSCallUtilsCallBack wsCallUtilsCallBack, int reqCode, String url)
+    public static String get(WSCallUtilsCallBack wsCallUtilsCallBack, int reqCode, String url, String auth)
     {
         String toReturn = null;
 
         try
         {
             WSCallsUtils wsCallsUtils = new WSCallsUtils(wsCallUtilsCallBack, reqCode);
-            toReturn = wsCallsUtils.execute(ConstantUtils.REQUEST_METHOD_GET, url).get();
+            toReturn = wsCallsUtils.execute(ConstantUtils.REQUEST_METHOD_GET, url, auth).get();
         }catch(Exception e)
         {
             Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
@@ -41,15 +39,14 @@ public class WSCallsUtils extends AsyncTask<String, Void, String>
         this.reqCode = reqCode;
     }
 
-    public static String post(WSCallUtilsCallBack wsCallUtilsCallBack, int reqCode, String url, String body)
+    public static String post(WSCallUtilsCallBack wsCallUtilsCallBack, int reqCode, String url, String body, String auth)
     {
-
         String toReturn = null;
 
         try
         {
             WSCallsUtils wsCallsUtils = new WSCallsUtils(wsCallUtilsCallBack, reqCode);
-            toReturn = wsCallsUtils.execute(ConstantUtils.REQUEST_METHOD_POST, url, body).get();
+            toReturn = wsCallsUtils.execute(ConstantUtils.REQUEST_METHOD_POST, url, body, auth).get();
         }catch(Exception e)
         {
             Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
@@ -78,13 +75,16 @@ public class WSCallsUtils extends AsyncTask<String, Void, String>
         if(requestMethod.equals(ConstantUtils.REQUEST_METHOD_GET))
         {
             //GET
-            toReturn = genericGET(url);
+            String auth = strings[2];
+
+            toReturn = genericGET(url, auth);
         }else if(requestMethod.equals(ConstantUtils.REQUEST_METHOD_POST))
         {
             //POST
             String body = strings[2];
+            String auth = strings[3];
 
-            toReturn = genericPOST(url, body);
+            toReturn = genericPOST(url, body, auth);
         }
 
 
@@ -97,7 +97,7 @@ public class WSCallsUtils extends AsyncTask<String, Void, String>
         this.wsCallUtilsCallBack.taskCompleted(response, this.reqCode);
     }
 
-    public String genericGET(String url)
+    public String genericGET(String url, String auth)
     {
         String toReturn = null;
 
@@ -110,7 +110,7 @@ public class WSCallsUtils extends AsyncTask<String, Void, String>
             connection.setRequestMethod("GET");
             connection.setConnectTimeout(5000);
             connection.setRequestProperty("Accept", "application/json");
-            connection.setRequestProperty("Authorization", "Basic " + GeneralUtils.getAuth());
+            connection.setRequestProperty("Authorization", "Basic " + auth);
             connection.setDoInput(true);
 
             connection.connect();
@@ -156,7 +156,7 @@ public class WSCallsUtils extends AsyncTask<String, Void, String>
         return toReturn;
     }
 
-    public String genericPOST(String url, String body)
+    public String genericPOST(String url, String body, String auth)
     {
         String toReturn = null;
 
@@ -169,7 +169,7 @@ public class WSCallsUtils extends AsyncTask<String, Void, String>
             connection.setRequestMethod("POST");
             connection.setConnectTimeout(5000);
             connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestProperty("Authorization", "Basic " + GeneralUtils.getAuth());
+            connection.setRequestProperty("Authorization", "Basic " + auth);
             connection.setDoInput(true);
             connection.setDoOutput(true);
 

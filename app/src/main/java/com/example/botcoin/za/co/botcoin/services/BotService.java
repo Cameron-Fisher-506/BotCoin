@@ -111,22 +111,23 @@ public class BotService extends Service implements WSCallUtilsCallBack
 
     private void getWalletBalance()
     {
-        WSCallsUtils.get(this, BALANCE_REQ_CODE,StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_BALANCE);
+        WSCallsUtils.get(this, BALANCE_REQ_CODE,StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_BALANCE, GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY));
     }
 
     private void getCurrentPrice()
     {
-        WSCallsUtils.get(this, TICKERS_REQ_CODE, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_TICKERS);
+        WSCallsUtils.get(this, TICKERS_REQ_CODE, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_TICKERS, GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY));
     }
 
     private void bid()
     {
-        if(this.supportPrice != null && !this.lastTradeType.equals(ConstantUtils.TRADE_TYPE_BID) && (Double.parseDouble(this.supportPrice) <  Double.parseDouble(this.currentPrice)))
+        if(this.supportPrice != null && !this.lastTradeType.equals(ConstantUtils.TRADE_TYPE_BID) && (Double.parseDouble(this.supportPrice) <  Double.parseDouble(this.currentPrice))) //
         {
+
             String amountXrpToBuy = Integer.toString(calcAmountXrpToBuy(Double.parseDouble(this.zarBalance), Double.parseDouble(this.supportPrice)));
 
             String postOrder = GeneralUtils.buildPostOrder(ConstantUtils.PAIR_XRPZAR, "BID", amountXrpToBuy, this.supportPrice);
-            WSCallsUtils.post(this, BUY_REQ_CODE, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_POSTORDER + postOrder, "");
+            WSCallsUtils.post(this, BUY_REQ_CODE, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_POSTORDER + postOrder, "", GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY));
         }
     }
 
@@ -150,7 +151,7 @@ public class BotService extends Service implements WSCallUtilsCallBack
 
     private void ask()
     {
-        if(this.resistancePrice != null && this.lastTradeType.equals(ConstantUtils.TRADE_TYPE_BID) && (Double.parseDouble(this.resistancePrice) > Double.parseDouble(this.lastPurchasePrice)) && (Double.parseDouble(this.resistancePrice) > Double.parseDouble(this.currentPrice)))
+        if(this.resistancePrice != null && this.lastTradeType.equals(ConstantUtils.TRADE_TYPE_BID) && (Double.parseDouble(this.resistancePrice) > Double.parseDouble(this.lastPurchasePrice)) && (Double.parseDouble(this.resistancePrice) > Double.parseDouble(this.currentPrice))) //
         {
             double newXrpBalance = Double.parseDouble(this.xrpBalance);
 
@@ -162,7 +163,7 @@ public class BotService extends Service implements WSCallUtilsCallBack
 
             String amountXrpToSell = Integer.toString(calcAmountXrpToSell(newXrpBalance));
             String postOrder = GeneralUtils.buildPostOrder(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell , this.resistancePrice);
-            WSCallsUtils.post(this, SELL_REQ_CODE, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_POSTORDER + postOrder, "");
+            WSCallsUtils.post(this, SELL_REQ_CODE, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_POSTORDER + postOrder, "", GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY));
         }
     }
 
@@ -412,17 +413,17 @@ public class BotService extends Service implements WSCallUtilsCallBack
 
     private void getLastPurchase()
     {
-        WSCallsUtils.get(this, LISTTRADES_REQ_CODE, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_LIST_TRADES + GeneralUtils.buildListTrades(ConstantUtils.PAIR_XRPZAR, true));
+        WSCallsUtils.get(this, LISTTRADES_REQ_CODE, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_LIST_TRADES + GeneralUtils.buildListTrades(ConstantUtils.PAIR_XRPZAR, true), GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY));
     }
 
-    private void send(String address)
+    private void send(String address, String tag)
     {
-        WSCallsUtils.post(this,REQ_CODE_SEND, StringUtils.GLOBAL_LUNO_URL + GeneralUtils.buildSend("0.1", ConstantUtils.XRP, address), "");
+        WSCallsUtils.post(this,REQ_CODE_SEND, StringUtils.GLOBAL_LUNO_URL + GeneralUtils.buildSend(ConstantUtils.SERVICE_FEE, ConstantUtils.XRP, address, tag), "", GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY));
     }
 
     private void getBotCoinAccountDetails()
     {
-        WSCallsUtils.get(this, REQ_CODE_FUNDING_ADDRESS, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_FUNDING_ADDRESS + "?asset=" + ConstantUtils.XRP);
+        WSCallsUtils.get(this, REQ_CODE_FUNDING_ADDRESS, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_FUNDING_ADDRESS + "?asset=" + ConstantUtils.XRP, GeneralUtils.getAuth(ConstantUtils.KEY_ID, ConstantUtils.SECRET_KEY));
     }
 
     @Override
@@ -544,8 +545,9 @@ public class BotService extends Service implements WSCallUtilsCallBack
                 try
                 {
                     JSONObject jsonObject = new JSONObject(response);
-                    if(jsonObject != null && jsonObject.has("trades"))
+                    if(jsonObject != null && jsonObject.has("trades") && !jsonObject.isNull("trades"))
                     {
+
                         JSONArray trades = jsonObject.getJSONArray("trades");
                         if(trades != null && trades.length() > 0)
                         {
@@ -564,6 +566,12 @@ public class BotService extends Service implements WSCallUtilsCallBack
                             setResistancePrice();
 
                         }
+                    }else
+                    {
+                        this.lastTradeType = "";
+                        //set support/resistance price
+                        setSupportPrice();
+                        setResistancePrice();
                     }
                 }catch(Exception e)
                 {
@@ -640,8 +648,35 @@ public class BotService extends Service implements WSCallUtilsCallBack
                         GeneralUtils.createAlertDialog(this, "Oops!", jsonObject.getString("error"), false);
                     }else
                     {
-                        String address = jsonObject.getString("address");
-                        send(address);
+                        JSONArray address_meta = jsonObject.getJSONArray("address_meta");
+                        String address = null;
+                        String tag = null;
+
+                        if(address_meta != null && address_meta.length() > 0)
+                        {
+                            for(int i = 0; i < address_meta.length(); i++)
+                            {
+                                JSONObject jsonObjectAddressMeta = address_meta.getJSONObject(i);
+
+
+                                if(jsonObjectAddressMeta.getString("label").equals("Address"))
+                                {
+                                    address = jsonObjectAddressMeta.getString("value");
+                                }
+
+                                if(jsonObjectAddressMeta.getString("label").equals("XRP Tag"))
+                                {
+                                    tag = jsonObjectAddressMeta.getString("value");
+                                }
+                            }
+
+                        }
+
+                        if(address != null && tag != null)
+                        {
+                            send(address, tag);
+                        }
+
                     }
 
                 }catch (Exception e)
@@ -676,7 +711,6 @@ public class BotService extends Service implements WSCallUtilsCallBack
         {
             GeneralUtils.createAlertDialog(this, "No Signal", "Please check your network connection!", false);
         }
-
     }
 
     public void notify(String title, String message)

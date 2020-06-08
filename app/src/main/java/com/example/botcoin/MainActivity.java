@@ -1,5 +1,6 @@
 package com.example.botcoin;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,8 +51,19 @@ public class MainActivity extends AppCompatActivity {
         //set to home initially
         setNavIcons(true,false,false,false);
 
-        //run auto trade
-        runAutoTrade();
+        if(GeneralUtils.isApiKeySet(this))
+        {
+            runAutoTrade();
+        }else
+        {
+            GeneralUtils.createAlertDialog(this,"Luno API Credentials","Please set your Luno API credentials in order to use BotCoin!", false).show();
+            stopAutoTrade();
+        }
+    }
+
+    private void stopAutoTrade()
+    {
+        stopService(new Intent(this, BotService.class));
     }
 
     private void runAutoTrade()
