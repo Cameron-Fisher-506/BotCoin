@@ -117,5 +117,61 @@
         app:layout_constraintStart_toStartOf="@+id/linearLayoutReceiveOption"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutReceiveOption" />
 
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutOrdersOption"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutReceiveOption">
+
+
+        <ImageView
+            android:id="@+id/imgOrders"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/DummyText"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_history_black_24dp" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/txtOrders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="@string/orders"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/DummyText"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_keyboard_arrow_right_black_24dp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:id="@+id/horizontalOrders"
+        style="@style/CommonHorizontalDivider"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayoutReceiveOption"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/linearLayoutReceiveOption"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutReceiveOption" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

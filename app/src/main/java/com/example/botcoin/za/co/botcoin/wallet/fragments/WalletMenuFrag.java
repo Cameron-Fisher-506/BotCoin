@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import com.example.botcoin.MainActivity;
 import com.example.botcoin.R;
 import com.example.botcoin.za.co.botcoin.utils.FragmentUtils;
+import com.example.botcoin.za.co.botcoin.wallet.fragments.wallet.menu.fragment.OrdersFrag;
 import com.example.botcoin.za.co.botcoin.wallet.fragments.wallet.menu.fragment.ReceiveFrag;
 import com.example.botcoin.za.co.botcoin.wallet.fragments.wallet.menu.fragment.SendFrag;
 
@@ -18,6 +19,7 @@ public class WalletMenuFrag extends Fragment
 {
     private LinearLayoutCompat receiveOption;
     private LinearLayoutCompat sendOption;
+    private LinearLayoutCompat ordersOption;
 
     @Nullable
     @Override
@@ -26,6 +28,7 @@ public class WalletMenuFrag extends Fragment
 
         addReceiveListener(view);
         addSendListener(view);
+        addOrdersListener(view);
 
         return view;
     }
@@ -41,7 +44,7 @@ public class WalletMenuFrag extends Fragment
 
                 SendFrag sendFrag = new SendFrag();
                 sendFrag.setArguments(bundle);
-                FragmentUtils.startFragment(((MainActivity)getActivity()).getSupportFragmentManager(), sendFrag, R.id.fragContainer, ((MainActivity)getActivity()).getSupportActionBar(), "Wallet Menu",true, false, true, null);
+                FragmentUtils.startFragment(((MainActivity)getActivity()).getSupportFragmentManager(), sendFrag, R.id.fragContainer, ((MainActivity)getActivity()).getSupportActionBar(), "Send",true, false, true, null);
             }
         });
     }
@@ -57,7 +60,24 @@ public class WalletMenuFrag extends Fragment
 
                 ReceiveFrag receiveFrag = new ReceiveFrag();
                 receiveFrag.setArguments(bundle);
-                FragmentUtils.startFragment(((MainActivity)getActivity()).getSupportFragmentManager(), receiveFrag, R.id.fragContainer, ((MainActivity)getActivity()).getSupportActionBar(), "Wallet Menu",true, false, true, null);
+                FragmentUtils.startFragment(((MainActivity)getActivity()).getSupportFragmentManager(), receiveFrag, R.id.fragContainer, ((MainActivity)getActivity()).getSupportActionBar(), "Receive",true, false, true, null);
+            }
+        });
+    }
+
+    private void addOrdersListener(View view)
+    {
+        this.ordersOption = view.findViewById(R.id.linearLayoutOrdersOption);
+        this.ordersOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Bundle bundle = new Bundle();
+                bundle.putString("asset", getArguments().getString("asset"));
+
+                OrdersFrag ordersFrag = new OrdersFrag();
+                ordersFrag.setArguments(bundle);
+                FragmentUtils.startFragment(((MainActivity)getActivity()).getSupportFragmentManager(), ordersFrag, R.id.fragContainer, ((MainActivity)getActivity()).getSupportActionBar(), "Orders",true, false, true, null);
             }
         });
     }

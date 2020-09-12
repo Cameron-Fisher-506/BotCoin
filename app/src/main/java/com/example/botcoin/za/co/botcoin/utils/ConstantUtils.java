@@ -3,12 +3,12 @@ package com.example.botcoin.za.co.botcoin.utils;
 public class ConstantUtils {
 
     //KEYS
-    public static String KEY_ID = "";
-    public static String SECRET_KEY = "";
+    public static String KEY_ID = "eagwrgxnn8vm";
+    public static String SECRET_KEY = "J5TyKa7OYuO_OpRuMxovvk-WhQASAhlxtpN0VfyssNw";
 
     //USER API KEYS
-    public static String USER_KEY_ID = "";
-    public static String USER_SECRET_KEY = "";
+    public static String USER_KEY_ID = "eagwrgxnn8vm";
+    public static String USER_SECRET_KEY = "J5TyKa7OYuO_OpRuMxovvk-WhQASAhlxtpN0VfyssNw";
 
     //TAG
     public static final String BOTCOIN_TAG = "BOTCOIN";
@@ -45,6 +45,9 @@ public class ConstantUtils {
 
     //SERVICE PRICES
     public static final String SERVICE_FEE = "0.1";
-    public static final double SERVICE_FEE_MIN_BALANCE = 1.1;
+    public static final Double SERVICE_FEE_MIN_BALANCE = 1.1;
+    public static final Double PULL_OUT_PRICE_DROP = 0.10;
+    public static final Double PULL_OUT_PRICE = 0.01;
+    public static final Double BUY_SELL_MARGIN_PRICE = 0.01;
 
 }

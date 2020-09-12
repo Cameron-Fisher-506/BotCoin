@@ -10,6 +10,7 @@ import android.os.IBinder;
 import android.util.Log;
 import androidx.annotation.Nullable;
 import com.example.botcoin.R;
+import com.example.botcoin.za.co.botcoin.objs.Order;
 import com.example.botcoin.za.co.botcoin.objs.TradePrice;
 import com.example.botcoin.za.co.botcoin.utils.ConstantUtils;
 import com.example.botcoin.za.co.botcoin.utils.GeneralUtils;
@@ -34,6 +35,8 @@ public class BotService extends Service implements WSCallUtilsCallBack
     private final int REQ_CODE_LAST_TRADE_TYPE = 106;
     private final int REQ_CODE_SEND = 107;
     private final int REQ_CODE_FUNDING_ADDRESS = 108;
+    private final int REQ_CODE_ORDERS = 109;
+    private final int REQ_CODE_STOP_ORDER = 110;
 
     private TimerTask timerTask;
     private Timer timer;
@@ -57,6 +60,14 @@ public class BotService extends Service implements WSCallUtilsCallBack
     //wallet
     private String xrpBalance;
     private String zarBalance;
+
+    //Orders
+    private Order lastAskOrder;
+    private Order lastBidOrder;
+
+    //flags
+    private boolean flagIsPullOut = false;
+
 
 
     public BotService() {
@@ -107,6 +118,9 @@ public class BotService extends Service implements WSCallUtilsCallBack
         this.supportPrices = new ArrayList<>();
         this.resistancePrices = new ArrayList<>();
 
+        this.lastAskOrder = null;
+        this.lastBidOrder = null;
+
     }
 
     private void getWalletBalance()
@@ -121,13 +135,26 @@ public class BotService extends Service implements WSCallUtilsCallBack
 
     private void bid()
     {
-        if(this.supportPrice != null && !this.lastTradeType.equals(ConstantUtils.TRADE_TYPE_BID) && (Double.parseDouble(this.supportPrice) <  Double.parseDouble(this.currentPrice))) //
+        if(this.supportPrice != null && !this.lastTradeType.equals(ConstantUtils.TRADE_TYPE_BID) && (Double.parseDouble(this.supportPrice) <  Double.parseDouble(this.currentPrice)))
         {
+
+            Log.d(ConstantUtils.BOTCOIN_TAG, "\n\nMethod: BotService - bid"
+                    + "\nsupportPrice: " + this.supportPrice
+                    + "\nlastTradeType: " + this.lastTradeType
+                    + "\ncurrentPrice: " + this.currentPrice
+                    + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
 
             String amountXrpToBuy = Integer.toString(calcAmountXrpToBuy(Double.parseDouble(this.zarBalance), Double.parseDouble(this.supportPrice)));
 
             String postOrder = GeneralUtils.buildPostOrder(ConstantUtils.PAIR_XRPZAR, "BID", amountXrpToBuy, this.supportPrice);
             WSCallsUtils.post(this, BUY_REQ_CODE, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_POSTORDER + postOrder, "", GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY));
+        }else
+        {
+            Log.d(ConstantUtils.BOTCOIN_TAG, "\n\nMethod: BotService - bid"
+                    + "\nsupportPrice: " + this.supportPrice
+                    + "\nlastTradeType: " + this.lastTradeType
+                    + "\ncurrentPrice: " + this.currentPrice
+                    + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
         }
     }
 
@@ -149,22 +176,52 @@ public class BotService extends Service implements WSCallUtilsCallBack
         return toReturn;
     }
 
-    private void ask()
+    private void ask(Boolean isRestrict)
     {
-        if(this.resistancePrice != null && this.lastTradeType.equals(ConstantUtils.TRADE_TYPE_BID) && (Double.parseDouble(this.resistancePrice) > Double.parseDouble(this.lastPurchasePrice)) && (Double.parseDouble(this.resistancePrice) > Double.parseDouble(this.currentPrice))) //
+        boolean placeSellOrder = false;
+
+        if(isRestrict)
+        {
+            if(this.resistancePrice != null && this.lastTradeType.equals(ConstantUtils.TRADE_TYPE_BID) && (Double.parseDouble(this.resistancePrice) > Double.parseDouble(this.lastPurchasePrice)) && (Double.parseDouble(this.resistancePrice) > Double.parseDouble(this.currentPrice))) //
+            {
+                placeSellOrder = true;
+
+                Log.d(ConstantUtils.BOTCOIN_TAG, "\n\nMethod: BotService - ask"
+                        + "\nresistancePrice: " + this.resistancePrice
+                        + "\nlastTradeType: " + this.lastTradeType
+                        + "\nlastPurchasePrice: " + this.lastPurchasePrice
+                        + "\ncurrentPrice: " + this.currentPrice
+                        + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+            }
+        }else
+        {
+            placeSellOrder = true;
+            this.resistancePrice = Double.toString(Double.parseDouble(this.currentPrice) + ConstantUtils.PULL_OUT_PRICE);
+        }
+
+        if (placeSellOrder)
         {
             double newXrpBalance = Double.parseDouble(this.xrpBalance);
 
-            if (newXrpBalance >= ConstantUtils.SERVICE_FEE_MIN_BALANCE)
+            /*if (newXrpBalance >= ConstantUtils.SERVICE_FEE_MIN_BALANCE)
             {
                 newXrpBalance -= 0.1;
                 getBotCoinAccountDetails();
-            }
+            }*/
 
             String amountXrpToSell = Integer.toString(calcAmountXrpToSell(newXrpBalance));
             String postOrder = GeneralUtils.buildPostOrder(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell , this.resistancePrice);
             WSCallsUtils.post(this, SELL_REQ_CODE, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_POSTORDER + postOrder, "", GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY));
         }
+
+
+        Log.d(ConstantUtils.BOTCOIN_TAG, "\n\nMethod: BotService - ask"
+                + "\nresistancePrice: " + this.resistancePrice
+                + "\nlastTradeType: " + this.lastTradeType
+                + "\nlastPurchasePrice: " + this.lastPurchasePrice
+                + "\ncurrentPrice: " + this.currentPrice
+                + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+
     }
 
 
@@ -324,13 +381,18 @@ public class BotService extends Service implements WSCallUtilsCallBack
         if(tradePrices != null && tradePrices.size() > 0)
         {
             toReturn = tradePrices.get(0).getPrice();
+            StringBuilder prices = new StringBuilder();
             for(int i = 0; i < tradePrices.size(); i++)
             {
+                prices.append("["+tradePrices.get(0).getPrice()+", "+tradePrices.get(i).getCounter()+"]\n");
                 if(maxCounter == tradePrices.get(i).getCounter() && toReturn > tradePrices.get(i).getPrice())
                 {
                     toReturn = tradePrices.get(i).getPrice();
                 }
             }
+            Log.d(ConstantUtils.BOTCOIN_TAG, "\n\nMethod: BotService - getLowestPriceWithCounter"
+                    + "\nPrices: " + prices.toString()
+                    + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
         }
 
         return toReturn;
@@ -344,13 +406,18 @@ public class BotService extends Service implements WSCallUtilsCallBack
         if(tradePrices != null && tradePrices.size() > 0)
         {
             toReturn = tradePrices.get(0).getPrice();
+            StringBuilder prices = new StringBuilder();
             for(int i = 0; i < tradePrices.size(); i++)
             {
+                prices.append("["+tradePrices.get(0).getPrice()+", "+tradePrices.get(i).getCounter()+"]\n");
                 if(maxCounter == tradePrices.get(0).getCounter() && toReturn < tradePrices.get(0).getPrice())
                 {
                     toReturn = tradePrices.get(0).getPrice();
                 }
             }
+            Log.d(ConstantUtils.BOTCOIN_TAG, "\n\nMethod: BotService - getHighestPriceWithCounter"
+                    + "\nPrices: " + prices.toString()
+                    + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
         }
 
         return toReturn;
@@ -424,6 +491,81 @@ public class BotService extends Service implements WSCallUtilsCallBack
     private void getBotCoinAccountDetails()
     {
         WSCallsUtils.get(this, REQ_CODE_FUNDING_ADDRESS, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_FUNDING_ADDRESS + "?asset=" + ConstantUtils.XRP, GeneralUtils.getAuth(ConstantUtils.KEY_ID, ConstantUtils.SECRET_KEY));
+    }
+
+    private Double getDifferenceBetweenPrices(Double priceA, Double priceB)
+    {
+        Double toReturn = null;
+
+        toReturn = priceA - priceB;
+
+        return toReturn;
+    }
+
+    private void getListOrders()
+    {
+        WSCallsUtils.get(this, REQ_CODE_ORDERS, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_LISTORDERS, GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY));
+    }
+
+    private void cancelOrder(String idOrder)
+    {
+        String url = StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_STOP_ORDER + "?order_id=" + idOrder;
+        WSCallsUtils.post(this, REQ_CODE_STOP_ORDER, url, "", GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY));
+    }
+
+    private void pullOutOfAsk(Double lastPurchasePrice, Double currentPrice)
+    {
+        if(lastPurchasePrice != null && !lastPurchasePrice.equals("0") && this.lastAskOrder == null)
+        {
+            if(getDifferenceBetweenPrices(lastPurchasePrice, currentPrice) >= ConstantUtils.PULL_OUT_PRICE_DROP)
+            {
+                ask(false);
+            }
+        }else if(lastPurchasePrice != null && !lastPurchasePrice.equals("0") && this.lastAskOrder != null)
+        {
+            //stop the sell order and create a new order that is 0.01 above the current price
+            if(getDifferenceBetweenPrices(Double.parseDouble(this.lastAskOrder.getLimitPrice()), currentPrice) >= ConstantUtils.PULL_OUT_PRICE_DROP)
+            {
+                cancelOrder(this.lastAskOrder.getId());
+            }
+        }
+    }
+
+    private void pullOutOfAsk(Double currentPrice)
+    {
+        if(this.lastAskOrder != null)
+        {
+            if(getDifferenceBetweenPrices(Double.parseDouble(this.lastAskOrder.getLimitPrice()), currentPrice) >= ConstantUtils.PULL_OUT_PRICE_DROP)
+            {
+                ask(false);
+            }
+        }
+
+    }
+
+    private void pullOutOfBidCancel(Double currentPrice)
+    {
+        if(this.lastBidOrder != null)
+        {
+            if(getDifferenceBetweenPrices(currentPrice, Double.parseDouble(this.lastBidOrder.getLimitPrice())) >= ConstantUtils.PULL_OUT_PRICE_DROP)
+            {
+                cancelOrder(this.lastBidOrder.getId());
+            }
+        }
+
+    }
+
+    private void pullOutOfBidPlace(Double currentPrice)
+    {
+
+        if(this.lastBidOrder != null)
+        {
+            if(getDifferenceBetweenPrices(currentPrice, Double.parseDouble(this.lastBidOrder.getLimitPrice())) >= ConstantUtils.PULL_OUT_PRICE_DROP)
+            {
+                bid();
+            }
+        }
+
     }
 
     @Override
@@ -569,6 +711,7 @@ public class BotService extends Service implements WSCallUtilsCallBack
                     }else
                     {
                         this.lastTradeType = "";
+                        this.lastPurchasePrice = "0";
                         //set support/resistance price
                         setSupportPrice();
                         setResistancePrice();
@@ -616,13 +759,16 @@ public class BotService extends Service implements WSCallUtilsCallBack
                             bid();
 
                             //sell
-                            ask();
+                            ask(true);
+
+                            //get all the orders
+                            getListOrders();
 
                         }
                     }else
                     {
                         Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: No Response"
-                                + "\nMethod: MainActivity - onCreate"
+                                + "\nMethod: BotService - onCreate"
                                 + "\nURL: " + StringUtils.GLOBAL_LUNO_URL + "/api/1/balance"
                                 + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
 
@@ -631,7 +777,7 @@ public class BotService extends Service implements WSCallUtilsCallBack
                 }catch(Exception e)
                 {
                     Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
-                            + "\nMethod: MainActivity - onCreate"
+                            + "\nMethod: BotService - onCreate"
                             + "\nURL: " + StringUtils.GLOBAL_LUNO_URL + "/api/1/balance"
                             + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
                 }
@@ -682,7 +828,7 @@ public class BotService extends Service implements WSCallUtilsCallBack
                 }catch (Exception e)
                 {
                     Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
-                            + "\nMethod: DonateFrag - taskCompleted"
+                            + "\nMethod: BotService - taskCompleted"
                             + "\nRequest Code: " + reqCode
                             + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
                 }
@@ -702,7 +848,82 @@ public class BotService extends Service implements WSCallUtilsCallBack
                 }catch(Exception e)
                 {
                     Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
-                            + "\nMethod: DonateFrag - taskCompleted"
+                            + "\nMethod: BotService - taskCompleted"
+                            + "\nRequest Code: " + reqCode
+                            + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+                }
+            }
+
+            if(reqCode == REQ_CODE_ORDERS)
+            {
+                try
+                {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if(jsonObject != null && jsonObject.has("orders"))
+                    {
+                        JSONArray jsonObjectOrders = jsonObject.getJSONArray("orders");
+                        if(jsonObjectOrders != null && jsonObjectOrders.length() > 0)
+                        {
+                            for(int i = 0; i < jsonObjectOrders.length(); i++)
+                            {
+                                JSONObject jsonObjectOrder = jsonObjectOrders.getJSONObject(i);
+                                String type = jsonObjectOrder.getString("type");
+                                String state = jsonObjectOrder.getString("state");
+                                String id = jsonObjectOrder.getString("order_id");
+                                String pair = jsonObjectOrder.getString("pair");
+                                String limitPrice = jsonObjectOrder.getString("limit_price");
+                                String limitVolume = jsonObjectOrder.getString("limit_volume");
+                                String createdTime = jsonObjectOrder.getString("creation_timestamp");
+                                String completedTime = jsonObjectOrder.getString("completed_timestamp");
+
+                                if(type.equals("ASK") && state.equals("PENDING"))
+                                {
+                                    this.lastAskOrder = new Order(id, type, state, limitPrice, limitVolume, pair,createdTime, completedTime);
+                                }else if(type.equals("BID") && state.equals("PENDING"))
+                                {
+                                    this.lastBidOrder = new Order(id, type, state, limitPrice, limitVolume, pair,createdTime, completedTime);
+                                }
+                            }
+                        }
+                    }
+
+                    //check if pull out is  necessary
+                    pullOutOfAsk(Double.parseDouble(this.lastPurchasePrice), Double.parseDouble(this.currentPrice));
+                    pullOutOfBidCancel(Double.parseDouble(currentPrice));
+
+                }catch(Exception e)
+                {
+                    Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
+                            + "\nMethod: BotService - taskCompleted"
+                            + "\nRequest Code: " + reqCode
+                            + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+                }
+            }
+
+            if(reqCode == REQ_CODE_STOP_ORDER)
+            {
+                try
+                {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if(jsonObject != null && jsonObject.has("success"))
+                    {
+                        notify("Order Cancelled", jsonObject.toString());
+
+                        pullOutOfAsk(Double.parseDouble(this.currentPrice));
+                        pullOutOfBidPlace(Double.parseDouble(this.currentPrice));
+
+                        this.lastAskOrder = null;
+                        this.lastBidOrder = null;
+                    }else
+                    {
+                        pullOutOfAsk(Double.parseDouble(this.currentPrice));
+                        pullOutOfBidPlace(Double.parseDouble(this.currentPrice));
+                    }
+
+                }catch(Exception e)
+                {
+                    Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
+                            + "\nMethod: BotService - taskCompleted"
                             + "\nRequest Code: " + reqCode
                             + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
                 }

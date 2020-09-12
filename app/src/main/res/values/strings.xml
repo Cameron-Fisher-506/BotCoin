@@ -13,6 +13,7 @@
     //WALLET MENU
     <string name="send">Send</string>
     <string name="receive">Receive</string>
+    <string name="orders">Orders</string>
 
     //SEND
     <string name="recipient_account_address">Recipient account address</string>
@@ -52,6 +53,7 @@
     <string name="Price">Price</string>
     <string name="Apply">Apply</string>
     <string name="Save">Save</string>
+    <string name="cancel">Cancel</string>
     <string name="DummyText">Dummy Text</string>
 
     //BOT
@@ -77,5 +79,16 @@
     <string name="xrp">XRP</string>
     <string name="eth">ETH</string>
     <string name="ltc">LTC</string>
+
+    //ORDER LIST
+    <string name="type">Type</string>
+    <string name="state">State</string>
+    <string name="limit_price">Limit Price</string>
+    <string name="limit_volume">Limit Volume</string>
+    <string name="pair">Pair</string>
+    <string name="created_time">Created Time</string>
+    <string name="completed_time">Completed Time</string>
+
+
 
 </resources>

@@ -11,4 +11,6 @@ public class StringUtils {
     public static final String GLOBAL_ENDPOINT_LIST_TRADES = "/api/1/listtrades";
     public static final String GLOBAL_ENDPOINT_FUNDING_ADDRESS = "/api/1/funding_address";
     public static final String GLOBAL_ENDPOINT_WITHDRAWALS = "/api/1/withdrawals";
+    public static final String GLOBAL_ENDPOINT_LISTORDERS = "/api/1/listorders";
+    public static final String GLOBAL_ENDPOINT_STOP_ORDER = "/api/1/stoporder";
 }

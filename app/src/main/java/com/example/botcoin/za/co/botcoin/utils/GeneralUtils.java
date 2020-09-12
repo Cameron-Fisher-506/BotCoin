@@ -154,7 +154,6 @@ public class GeneralUtils {
         builder.setTitle(title);
         builder.setMessage(message);
 
-
         if(isPrompt)
         {
             builder.setCancelable(true);
