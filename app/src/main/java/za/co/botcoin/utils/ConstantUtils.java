@@ -46,7 +46,7 @@ public class ConstantUtils {
     //SERVICE PRICES
     public static final String SERVICE_FEE = "0.1";
     public static final Double SERVICE_FEE_MIN_BALANCE = 1.1;
-    public static final Double PULL_OUT_PRICE_DROP = 0.10;
+    public static Double PULL_OUT_PRICE_DROP = 0.50;
     public static final Double PULL_OUT_PRICE = 0.01;
     public static final Double BUY_SELL_MARGIN_PRICE = 0.01;
 

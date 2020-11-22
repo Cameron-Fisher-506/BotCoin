@@ -12,6 +12,7 @@ import za.co.botcoin.MainActivity;
 import za.co.botcoin.R;
 import za.co.botcoin.menu.fragments.DonateMenuFrag;
 import za.co.botcoin.menu.fragments.LunoApiFrag;
+import za.co.botcoin.menu.fragments.SetPullOutPriceFrag;
 import za.co.botcoin.menu.fragments.SupportResistanceFrag;
 import za.co.botcoin.utils.FragmentUtils;
 
@@ -22,6 +23,7 @@ public class MenuFrag extends Fragment {
     private LinearLayoutCompat lunoApiOption;
     private LinearLayoutCompat supportResistanceOption;
     private LinearLayoutCompat donateOption;
+    private LinearLayoutCompat setPullOutPriceOption;
 
     @Nullable
     @Override
@@ -32,8 +34,22 @@ public class MenuFrag extends Fragment {
         addLunoApiOptionListener(view.findViewById(R.id.linearLayoutLunoApiOption));
         addSupportResistanceListener(view.findViewById(R.id.linearLayoutSupportResistanceOption));
         addDonateListener(view.findViewById(R.id.linearLayoutDonateOption));
+        addPullOutPriceOptionListener(view.findViewById(R.id.linearLayoutSetPullOutPrice));
 
         return view;
+    }
+
+    private void addPullOutPriceOptionListener(View view)
+    {
+        this.setPullOutPriceOption = (LinearLayoutCompat) view;
+        this.setPullOutPriceOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                SetPullOutPriceFrag setPullOutPriceFrag = new SetPullOutPriceFrag();
+                FragmentUtils.startFragment(((MainActivity)getActivity()).getSupportFragmentManager(), setPullOutPriceFrag, R.id.fragContainer, ((MainActivity)getActivity()).getSupportActionBar(), "Set Pull-out Price",true, false, true, null);
+            }
+        });
     }
 
     private void addLunoApiOptionListener(View view)

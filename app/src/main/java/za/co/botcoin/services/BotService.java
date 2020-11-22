@@ -516,13 +516,13 @@ public class BotService extends Service implements WSCallUtilsCallBack
 
     private void pullOutOfAsk(Double lastPurchasePrice, Double currentPrice)
     {
-        if(lastPurchasePrice != null && !lastPurchasePrice.equals("0") && this.lastAskOrder == null)
+        if(lastPurchasePrice != null && !lastPurchasePrice.equals("0"))
         {
             if(getDifferenceBetweenPrices(lastPurchasePrice, currentPrice) >= ConstantUtils.PULL_OUT_PRICE_DROP)
             {
                 ask(false);
             }
-        }else if(lastPurchasePrice != null && !lastPurchasePrice.equals("0") && this.lastAskOrder != null)
+        }else if(this.lastAskOrder != null)
         {
             //stop the sell order and create a new order that is 0.01 above the current price
             if(getDifferenceBetweenPrices(Double.parseDouble(this.lastAskOrder.getLimitPrice()), currentPrice) >= ConstantUtils.PULL_OUT_PRICE_DROP)
@@ -573,8 +573,11 @@ public class BotService extends Service implements WSCallUtilsCallBack
     public void onDestroy() {
         super.onDestroy();
 
-        this.timer.cancel();
-        this.timer.purge();
+        if(this.timer != null)
+        {
+            this.timer.cancel();
+            this.timer.purge();
+        }
     }
 
     @Nullable
@@ -889,7 +892,7 @@ public class BotService extends Service implements WSCallUtilsCallBack
                     }
 
                     //check if pull out is  necessary
-                    pullOutOfAsk(Double.parseDouble(this.lastPurchasePrice), Double.parseDouble(this.currentPrice));
+                    //pullOutOfAsk(Double.parseDouble(this.lastPurchasePrice), Double.parseDouble(this.currentPrice));
                     pullOutOfBidCancel(Double.parseDouble(currentPrice));
 
                 }catch(Exception e)
@@ -910,14 +913,14 @@ public class BotService extends Service implements WSCallUtilsCallBack
                     {
                         notify("Order Cancelled", jsonObject.toString());
 
-                        pullOutOfAsk(Double.parseDouble(this.currentPrice));
+                        //pullOutOfAsk(Double.parseDouble(this.currentPrice));
                         pullOutOfBidPlace(Double.parseDouble(this.currentPrice));
 
                         this.lastAskOrder = null;
                         this.lastBidOrder = null;
                     }else
                     {
-                        pullOutOfAsk(Double.parseDouble(this.currentPrice));
+                        //pullOutOfAsk(Double.parseDouble(this.currentPrice));
                         pullOutOfBidPlace(Double.parseDouble(this.currentPrice));
                     }
 

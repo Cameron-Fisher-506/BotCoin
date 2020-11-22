@@ -228,6 +228,61 @@
         app:layout_constraintStart_toStartOf="@+id/linearLayoutSupportResistanceOption"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutNotifications" />
 
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutSetPullOutPrice"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayoutLunoApiOption"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/linearLayoutLunoApiOption"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutNotifications">
+
+
+        <ImageView
+            android:id="@+id/imgSetPullOutPrice"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/DummyText"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_money_off_black_24dp" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/txtSetPullOutPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="@string/pull_out_price"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/DummyText"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_keyboard_arrow_right_black_24dp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:id="@+id/horizontalSetPullOutPrice"
+        style="@style/CommonHorizontalDivider"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayoutSupportResistanceOption"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/linearLayoutSupportResistanceOption"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutNotifications" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

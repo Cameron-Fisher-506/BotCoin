@@ -40,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
 
+        //Pull-out bid price
+        saveDefaultPullOutBidPrice();
+        setUserPulloutBidPrice();
+
         HomeFrag homeFrag = new HomeFrag();
         FragmentUtils.startFragment(getSupportFragmentManager(), homeFrag, R.id.fragContainer,  getSupportActionBar(), "Home",true, false, true, null);
 
@@ -58,6 +62,44 @@ public class MainActivity extends AppCompatActivity {
         {
             GeneralUtils.createAlertDialog(this,"Luno API Credentials","Please set your Luno API credentials in order to use BotCoin!", false).show();
             stopAutoTrade();
+        }
+    }
+
+    private void saveDefaultPullOutBidPrice()
+    {
+        try
+        {
+            if(SharedPreferencesUtils.get(getApplicationContext(), SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT) == null)
+            {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put(SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT, ConstantUtils.PULL_OUT_PRICE_DROP);
+                SharedPreferencesUtils.save(getApplicationContext(), SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT,jsonObject);
+            }
+        }catch (Exception e)
+        {
+            Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
+                    + "\nMethod: MainActivity - saveDefaultPullOutBidPrice"
+                    + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+        }
+    }
+
+    private void setUserPulloutBidPrice()
+    {
+        try
+        {
+            if(SharedPreferencesUtils.get(getApplicationContext(), SharedPreferencesUtils.PULLOUT_BID_PRICE_USER) != null)
+            {
+                JSONObject jsonObject = SharedPreferencesUtils.get(getApplicationContext(), SharedPreferencesUtils.PULLOUT_BID_PRICE_USER);
+                if(jsonObject != null && jsonObject.has(SharedPreferencesUtils.PULLOUT_BID_PRICE_USER))
+                {
+                    ConstantUtils.PULL_OUT_PRICE_DROP = jsonObject.getDouble(SharedPreferencesUtils.PULLOUT_BID_PRICE_USER);
+                }
+            }
+        }catch (Exception e)
+        {
+            Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
+                    + "\nMethod: MainActivity - setUserPulloutBidPrice"
+                    + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
         }
     }
 

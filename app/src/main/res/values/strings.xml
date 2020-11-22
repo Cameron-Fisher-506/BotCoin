@@ -26,6 +26,7 @@
     <string name="luno_api">Luno API</string>
     <string name="donate">Donate</string>
     <string name="notifications">Notifications</string>
+    <string name="pull_out_price">Set Pull Out Price</string>
 
     //LUNO API
     <string name="luno_api_key_id">Key ID</string>

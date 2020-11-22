@@ -11,6 +11,8 @@ public class SharedPreferencesUtils {
     public static final String LUNO_API_PREF = "LUNO_API";
     public static final String AUTO_TRADE_PREF = "AUTO_TRADE";
     public static final String SUPPORT_RESISTANCE_PREF = "SUPPORT_RESISTANCE";
+    public static final String PULLOUT_BID_PRICE_USER = "PULLOUT_BID_PRICE_USER";
+    public static final String PULLOUT_BID_PRICE_DEFAULT = "PULLOUT_BID_PRICE_DEFAULT";
 
     public static void save(Context context, String sharedPrefName, JSONObject jsonObject){
 
