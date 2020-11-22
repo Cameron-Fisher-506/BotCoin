@@ -55,19 +55,34 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="15dp"
-        android:background="@color/green"
+        android:background="@color/lunoBlue"
+        android:textColor="@color/white"
         android:text="@string/Save"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edTxtPulloutBidPrice"
          />
 
-
+    <Button
+        android:id="@+id/btnUseDefault"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:background="@color/lunoBlue"
+        android:text="Use Default"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSave"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
+
 import za.co.botcoin.R;
 import za.co.botcoin.utils.ConstantUtils;
 import za.co.botcoin.utils.GeneralUtils;
@@ -24,6 +27,7 @@ public class SetPullOutPriceFrag extends Fragment
     private EditText edTxtPulloutBidPrice;
 
     private Button btnSave;
+    private Button btnUseDefault;
 
     @Nullable
     @Override
@@ -33,6 +37,7 @@ public class SetPullOutPriceFrag extends Fragment
         wireUI(view);
         setBtnSaveListener();
         setImgBtnPulloutBidPriceListener();
+        setBtnUseDefaultListener();
 
         return view;
     }
@@ -46,6 +51,7 @@ public class SetPullOutPriceFrag extends Fragment
         this.edTxtPulloutBidPrice.setText(Double.toString(ConstantUtils.PULL_OUT_PRICE_DROP));
 
         this.btnSave = (Button) view.findViewById(R.id.btnSave);
+        this.btnUseDefault = (Button) view.findViewById(R.id.btnUseDefault);
     }
 
     private void setBtnSaveListener()
@@ -57,6 +63,38 @@ public class SetPullOutPriceFrag extends Fragment
                 ConstantUtils.PULL_OUT_PRICE_DROP = Double.parseDouble(edTxtPulloutBidPrice.getText().toString());
                 saveUserPullOutBidPrice();
                 GeneralUtils.makeToast(getContext(), "Saved!");
+            }
+        });
+    }
+
+    private void setBtnUseDefaultListener()
+    {
+        this.btnUseDefault.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                try {
+                    if(SharedPreferencesUtils.get(getContext(), SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT) != null)
+                    {
+                        JSONObject jsonObject = SharedPreferencesUtils.get(getContext(), SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT);
+                        if(jsonObject != null && jsonObject.has(SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT))
+                        {
+                            ConstantUtils.PULL_OUT_PRICE_DROP = jsonObject.getDouble(SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT);
+                            GeneralUtils.makeToast(getContext(), "Default value set!");
+                        }else
+                        {
+                            GeneralUtils.makeToast(getContext(), "Default value not found!");
+                        }
+                    }else
+                    {
+                        GeneralUtils.makeToast(getContext(), "Default value not found!");
+                    }
+                }catch (Exception e)
+                {
+                    Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
+                            + "\nMethod: MainActivity - saveDefaultPullOutBidPrice"
+                            + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+                }
             }
         });
     }
