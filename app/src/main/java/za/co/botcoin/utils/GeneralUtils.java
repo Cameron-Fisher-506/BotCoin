@@ -3,6 +3,7 @@ package za.co.botcoin.utils;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.Base64;
@@ -15,6 +16,8 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import za.co.botcoin.services.BotService;
 
 public class GeneralUtils {
     public static String getCurrentDateTime()
@@ -215,6 +218,39 @@ public class GeneralUtils {
         }
 
         return toReturn;
+    }
+
+    public static void runAutoTrade(Context context)
+    {
+        if(GeneralUtils.isApiKeySet(context))
+        {
+            JSONObject jsonObjectAutoTrade =  SharedPreferencesUtils.get(context, SharedPreferencesUtils.AUTO_TRADE_PREF);
+            if(jsonObjectAutoTrade != null && jsonObjectAutoTrade.has("isAutoTrade"))
+            {
+                try
+                {
+                    boolean isAutoTrade = jsonObjectAutoTrade.getBoolean("isAutoTrade");
+
+                    if(isAutoTrade)
+                    {
+                        context.startService(new Intent(context, BotService.class));
+                    }else
+                    {
+                        context.stopService(new Intent(context, BotService.class));
+                    }
+
+                }catch(Exception e)
+                {
+                    Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
+                            + "\nMethod: MainActivity - runAutoTrade"
+                            + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+                }
+            }
+        }else
+        {
+            GeneralUtils.createAlertDialog(context,"Luno API Credentials","Please set your Luno API credentials in order to use BotCoin!", false).show();
+            context.stopService(new Intent(context, BotService.class));
+        }
     }
 
 }

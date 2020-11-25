@@ -9,7 +9,9 @@ import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 
+import za.co.botcoin.MainActivity;
 import za.co.botcoin.R;
 import za.co.botcoin.objs.Order;
 import za.co.botcoin.objs.TradePrice;
@@ -100,7 +102,11 @@ public class BotService extends Service implements WSCallUtilsCallBack
         this.timer.scheduleAtFixedRate(this.timerTask, 0, ConstantUtils.TICKER_RUN_TIME);
     }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
 
+        return START_STICKY;
+    }
 
     private void init()
     {
@@ -226,13 +232,13 @@ public class BotService extends Service implements WSCallUtilsCallBack
     }
 
 
-    private int getNumberOfPricesCounterMoreThanEqualThree(List<TradePrice> tradePrices)
+    private int getNumberOfPricesCounterMoreThanTwo(List<TradePrice> tradePrices)
     {
         int toReturn = 0;
 
         for(int i = 0; i < tradePrices.size(); i++)
         {
-            if(tradePrices.get(i).getCounter() >= 3)
+            if(tradePrices.get(i).getCounter() > 2)
             {
                 toReturn++;
             }
@@ -385,7 +391,7 @@ public class BotService extends Service implements WSCallUtilsCallBack
             StringBuilder prices = new StringBuilder();
             for(int i = 0; i < tradePrices.size(); i++)
             {
-                prices.append("["+tradePrices.get(0).getPrice()+", "+tradePrices.get(i).getCounter()+"]\n");
+                prices.append("["+tradePrices.get(i).getPrice()+", "+tradePrices.get(i).getCounter()+"]\n");
                 if(maxCounter == tradePrices.get(i).getCounter() && toReturn > tradePrices.get(i).getPrice())
                 {
                     toReturn = tradePrices.get(i).getPrice();
@@ -410,10 +416,10 @@ public class BotService extends Service implements WSCallUtilsCallBack
             StringBuilder prices = new StringBuilder();
             for(int i = 0; i < tradePrices.size(); i++)
             {
-                prices.append("["+tradePrices.get(0).getPrice()+", "+tradePrices.get(i).getCounter()+"]\n");
-                if(maxCounter == tradePrices.get(0).getCounter() && toReturn < tradePrices.get(0).getPrice())
+                prices.append("["+tradePrices.get(i).getPrice()+", "+tradePrices.get(i).getCounter()+"]\n");
+                if(maxCounter == tradePrices.get(i).getCounter() && toReturn < tradePrices.get(i).getPrice())
                 {
-                    toReturn = tradePrices.get(0).getPrice();
+                    toReturn = tradePrices.get(i).getPrice();
                 }
             }
             Log.d(ConstantUtils.BOTCOIN_TAG, "\n\nMethod: BotService - getHighestPriceWithCounter"
@@ -426,13 +432,13 @@ public class BotService extends Service implements WSCallUtilsCallBack
 
     private void setSupportPrice()
     {
-        //Get the number of prices counter more than equal to 3
-        if(getNumberOfPricesCounterMoreThanEqualThree(this.supportPrices) == 1)
+        //Get the number of prices counter more than 2
+        if(getNumberOfPricesCounterMoreThanTwo(this.supportPrices) == 1)
         {
             //Only 1 price with counter > 3
             this.supportPrice = Double.toString(getPriceEqualCounter(this.supportPrices, getMaxCounter(this.supportPrices)));
 
-        }else if(getNumberOfPricesCounterMoreThanEqualThree(this.supportPrices) > 1)
+        }else if(getNumberOfPricesCounterMoreThanTwo(this.supportPrices) > 1)
         {
             //get the max counter
             if(getNumberOfPricesThatHaveCounter(this.supportPrices, getMaxCounter(this.supportPrices)) == 1)
@@ -454,13 +460,13 @@ public class BotService extends Service implements WSCallUtilsCallBack
     private void setResistancePrice()
     {
 
-        //Get the number of prices counter more than equal to 3
-        if(getNumberOfPricesCounterMoreThanEqualThree(this.resistancePrices) == 1)
+        //Get the number of prices counter more 2
+        if(getNumberOfPricesCounterMoreThanTwo(this.resistancePrices) == 1)
         {
-            //Only 1 price with counter > 3
+            //Only 1 price with counter > 2
             this.resistancePrice = Double.toString(getPriceEqualCounter(this.resistancePrices, getMaxCounter(this.resistancePrices)));
 
-        }else if(getNumberOfPricesCounterMoreThanEqualThree(this.resistancePrices) > 1)
+        }else if(getNumberOfPricesCounterMoreThanTwo(this.resistancePrices) > 1)
         {
             //get the max counter
             if(getNumberOfPricesThatHaveCounter(this.resistancePrices, getMaxCounter(this.resistancePrices)) == 1)
@@ -470,7 +476,7 @@ public class BotService extends Service implements WSCallUtilsCallBack
 
             }else if(getNumberOfPricesThatHaveCounter(this.resistancePrices, getMaxCounter(this.resistancePrices)) > 1)
             {
-                //get lowest price with counter value
+                //get highest price with counter value
                 this.resistancePrice = Double.toString(getHighestPriceWithCounter(this.resistancePrices, getMaxCounter(this.resistancePrices)));
             }
         }
@@ -705,20 +711,24 @@ public class BotService extends Service implements WSCallUtilsCallBack
                             {
                                 this.lastPurchasePrice = trade.getString("price");
                                 this.lastPurchaseVolume = trade.getString("volume");
+
+                                if(this.currentPrice != null && this.lastPurchasePrice != null && Double.parseDouble(this.currentPrice) > Double.parseDouble(this.lastPurchasePrice))
+                                {
+                                    setResistancePrice();
+                                }
+
+                            }else
+                            {
+                                setSupportPrice();
                             }
-
-                            //set support/resistance price
-                            setSupportPrice();
-                            setResistancePrice();
-
                         }
                     }else
                     {
-                        this.lastTradeType = "";
+                        this.lastTradeType = ConstantUtils.TRADE_TYPE_ASK;
                         this.lastPurchasePrice = "0";
                         //set support/resistance price
                         setSupportPrice();
-                        setResistancePrice();
+                        //setResistancePrice();
                     }
                 }catch(Exception e)
                 {

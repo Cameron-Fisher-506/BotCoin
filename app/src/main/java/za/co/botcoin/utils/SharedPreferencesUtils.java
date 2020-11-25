@@ -13,6 +13,8 @@ public class SharedPreferencesUtils {
     public static final String SUPPORT_RESISTANCE_PREF = "SUPPORT_RESISTANCE";
     public static final String PULLOUT_BID_PRICE_USER = "PULLOUT_BID_PRICE_USER";
     public static final String PULLOUT_BID_PRICE_DEFAULT = "PULLOUT_BID_PRICE_DEFAULT";
+    public static final String PRIVACY_POLICY_ACCEPTANCE = "PRIVACY_POLICY_ACCEPTANCE";
+    public static final String DISCLAIMER_ACCEPTANCE = "DISCLAIMER_ACCEPTANCE";
 
     public static void save(Context context, String sharedPrefName, JSONObject jsonObject){
 

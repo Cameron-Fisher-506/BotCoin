@@ -11,6 +11,9 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import za.co.botcoin.policies.DisclaimerPolicyFrag;
+import za.co.botcoin.policies.PrivacyPolicyFrag;
 import za.co.botcoin.utils.ConstantUtils;
 import za.co.botcoin.utils.FragmentUtils;
 import za.co.botcoin.utils.GeneralUtils;
@@ -40,29 +43,75 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
 
-        //Pull-out bid price
-        saveDefaultPullOutBidPrice();
-        setUserPulloutBidPrice();
+        wireUI();
 
-        HomeFrag homeFrag = new HomeFrag();
-        FragmentUtils.startFragment(getSupportFragmentManager(), homeFrag, R.id.fragContainer,  getSupportActionBar(), "Home",true, false, true, null);
+        displayPrivacyPolicy();
+    }
 
+    private void displayPrivacyPolicy()
+    {
+        try
+        {
+            JSONObject jsonObject = SharedPreferencesUtils.get(this, SharedPreferencesUtils.PRIVACY_POLICY_ACCEPTANCE);
+            if(jsonObject == null)
+            {
+                setNavIcons(true,false,false,false);
+                this.btnHome.setClickable(false);
+                this.btnBot.setClickable(false);
+                this.btnWallet.setClickable(false);
+                this.btnMenu.setClickable(false);
+
+                PrivacyPolicyFrag privacyPolicyFrag = new PrivacyPolicyFrag();
+                FragmentUtils.startFragment(getSupportFragmentManager(), privacyPolicyFrag, R.id.fragContainer, getSupportActionBar(), "Privacy Policy", true, false, true, null);
+                return;
+            }
+
+            jsonObject = SharedPreferencesUtils.get(this, SharedPreferencesUtils.DISCLAIMER_ACCEPTANCE);
+            if(jsonObject == null)
+            {
+                setNavIcons(true,false,false,false);
+                this.btnHome.setClickable(false);
+                this.btnBot.setClickable(false);
+                this.btnWallet.setClickable(false);
+                this.btnMenu.setClickable(false);
+
+                DisclaimerPolicyFrag disclaimerPolicyFrag = new DisclaimerPolicyFrag();
+                FragmentUtils.startFragment(getSupportFragmentManager(), disclaimerPolicyFrag, R.id.fragContainer, getSupportActionBar(), "Disclaimer Policy", true, false, true, null);
+                return;
+            }
+
+            //Pull-out bid price
+            saveDefaultPullOutBidPrice();
+            setUserPulloutBidPrice();
+
+            HomeFrag homeFrag = new HomeFrag();
+            FragmentUtils.startFragment(getSupportFragmentManager(), homeFrag, R.id.fragContainer,  getSupportActionBar(), "Home",true, false, true, null);
+
+
+
+            //set to home initially
+            setNavIcons(true,false,false,false);
+
+            GeneralUtils.runAutoTrade(getApplicationContext());
+
+
+
+        }catch(Exception e)
+        {
+            Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
+                    + "\nMethod: MainActivity - displayPrivacyPolicy"
+                    + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+        }
+
+
+    }
+
+    private void wireUI()
+    {
         setBtnHomeOnClickListener();
         setBtnBotOnClickListener();
         setBtnWalletOnClickListener();
         setBtnMenuOnClickListener();
-
-        //set to home initially
-        setNavIcons(true,false,false,false);
-
-        if(GeneralUtils.isApiKeySet(this))
-        {
-            runAutoTrade();
-        }else
-        {
-            GeneralUtils.createAlertDialog(this,"Luno API Credentials","Please set your Luno API credentials in order to use BotCoin!", false).show();
-            stopAutoTrade();
-        }
     }
 
     private void saveDefaultPullOutBidPrice()
@@ -100,37 +149,6 @@ public class MainActivity extends AppCompatActivity {
             Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
                     + "\nMethod: MainActivity - setUserPulloutBidPrice"
                     + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
-        }
-    }
-
-    private void stopAutoTrade()
-    {
-        stopService(new Intent(this, BotService.class));
-    }
-
-    private void runAutoTrade()
-    {
-        JSONObject jsonObjectAutoTrade =  SharedPreferencesUtils.get(this, SharedPreferencesUtils.AUTO_TRADE_PREF);
-        if(jsonObjectAutoTrade != null && jsonObjectAutoTrade.has("isAutoTrade"))
-        {
-            try
-            {
-                boolean isAutoTrade = jsonObjectAutoTrade.getBoolean("isAutoTrade");
-
-                if(isAutoTrade)
-                {
-                    startService(new Intent(this, BotService.class));
-                }else
-                {
-                    stopService(new Intent(this, BotService.class));
-                }
-
-            }catch(Exception e)
-            {
-                Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
-                        + "\nMethod: MainActivity - runAutoTrade"
-                        + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
-            }
         }
     }
 

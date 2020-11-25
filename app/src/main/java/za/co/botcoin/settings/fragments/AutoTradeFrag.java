@@ -15,6 +15,7 @@ import za.co.botcoin.MainActivity;
 import za.co.botcoin.R;
 import za.co.botcoin.menu.fragments.LunoApiFrag;
 import za.co.botcoin.utils.ConstantUtils;
+import za.co.botcoin.utils.DialogUtils;
 import za.co.botcoin.utils.FragmentUtils;
 import za.co.botcoin.utils.GeneralUtils;
 import za.co.botcoin.utils.SharedPreferencesUtils;
@@ -32,6 +33,24 @@ public class AutoTradeFrag extends Fragment {
         View view = inflater.inflate(R.layout.frag_auto_trade, container, false);
 
         wireUI(view);
+
+        DialogUtils.createAlertDialog(getContext(), "Disclaimer",
+                "Any client deciding to use BotCoin understands that:\n\n" +
+                "1. Trading cryptocurrency involves substantial risk, and there is always the potential for loss.\n" +
+                "2. Trading results on BotCoin may vary. BotCoin does not guarantee that you will always make a profit as cryptocurrency prices are volatile.\n" +
+                "3. Past performance is not indicative of future results. A trader who has been successful for a substantial amount of time may not always be successful.\n" +
+                "4. The decision of whether to use the service offered is that of the client alone.\n" +
+                "5. BotCoin nor any of the developers, will be responsible for any loss.\n" +
+                "6. N.B. BotCoin will not make the decision to automatically pull out of a trades if the price drops as this is a very risky decision to make. \n" +
+                "The user is responsible for pulling out of a trade if the price, of the cryptocurrency he/she is trading, drops.\n" +
+                "7. N.B. BotCoin consumes Luno's API. Therefore, Luno charges still apply when withdrawing money and sending money.\n" +
+                "8. BotCoin provides it's services for FREE. Users have the option to donate cryptocurrency to BotCoin. Donations are non-refundable.\n\n" +
+
+                "Your continued use of our app will be regarded as acceptance of the risk involved.\n\n" +
+                "Disclosure\n\n" +
+                "To make use of the BotCoin app please note that we require and store the following information:\n" +
+                "1. Your Luno API credentials.\n\n" +
+                "This policy is effective as of 25 November 2020.\n\n", false).show();
 
         if(GeneralUtils.isApiKeySet(getContext()))
         {
