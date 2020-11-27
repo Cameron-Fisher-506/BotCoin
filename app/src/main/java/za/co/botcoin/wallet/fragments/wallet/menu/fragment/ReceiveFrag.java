@@ -68,6 +68,7 @@ public class ReceiveFrag extends Fragment implements WSCallUtilsCallBack
         this.edTxtAddress =  view.findViewById(R.id.edTxtAddress);
         this.btnCopy =  view.findViewById(R.id.btnCopy);
         this.imgQRAddress = view.findViewById(R.id.imgQRAddress);
+        this.imgQRAddress.setVisibility(View.GONE);
 
         addBtnCopyListener(view);
     }

@@ -26,15 +26,15 @@ public class DonateMenuFrag extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_donate_menu, container, false);
 
-        adddDonateBtcOptionListener(view.findViewById(R.id.linearLayoutDonateBtcOption));
-        adddDonateXrpOptionListener(view.findViewById(R.id.linearLayoutDonateXrpOption));
-        adddDonateEthOptionListener(view.findViewById(R.id.linearLayoutDonateEthOption));
-        adddDonateLtcOptionListener(view.findViewById(R.id.linearLayoutDonateLtcOption));
+        addDonateBtcOptionListener(view.findViewById(R.id.linearLayoutDonateBtcOption));
+        addDonateXrpOptionListener(view.findViewById(R.id.linearLayoutDonateXrpOption));
+        addDonateEthOptionListener(view.findViewById(R.id.linearLayoutDonateEthOption));
+        addDonateLtcOptionListener(view.findViewById(R.id.linearLayoutDonateLtcOption));
 
         return view;
     }
 
-    private void adddDonateBtcOptionListener(View view)
+    private void addDonateBtcOptionListener(View view)
     {
         this.donateBtcOption = (LinearLayoutCompat) view;
         this.donateBtcOption.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +53,7 @@ public class DonateMenuFrag extends Fragment
         });
     }
 
-    private void adddDonateXrpOptionListener(View view)
+    private void addDonateXrpOptionListener(View view)
     {
         this.donateXrpOption = (LinearLayoutCompat) view;
         this.donateXrpOption.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +71,7 @@ public class DonateMenuFrag extends Fragment
         });
     }
 
-    private void adddDonateEthOptionListener(View view)
+    private void addDonateEthOptionListener(View view)
     {
         this.donateEthOption = (LinearLayoutCompat) view;
         this.donateEthOption.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +89,7 @@ public class DonateMenuFrag extends Fragment
         });
     }
 
-    private void adddDonateLtcOptionListener(View view)
+    private void addDonateLtcOptionListener(View view)
     {
         this.donateLtcOption = (LinearLayoutCompat) view;
         this.donateLtcOption.setOnClickListener(new View.OnClickListener() {

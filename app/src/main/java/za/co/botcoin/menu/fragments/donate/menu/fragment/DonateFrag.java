@@ -86,8 +86,11 @@ public class DonateFrag extends Fragment implements WSCallUtilsCallBack
         this.btnCopy =  view.findViewById(R.id.btnCopy);
         this.btnCopyTag = view.findViewById(R.id.btnCopyTag);
         this.imgQRAddress = view.findViewById(R.id.imgQRAddress);
+        this.imgQRAddress.setVisibility(View.GONE);
         this.edTxtAmount = view.findViewById(R.id.edTxtAmount);
+        this.edTxtAmount.setVisibility(View.GONE);
         this.btnDonate = view.findViewById(R.id.btnDonate);
+        this.btnDonate.setVisibility(View.GONE);
 
         this.address = null;
         this.tag = null;
