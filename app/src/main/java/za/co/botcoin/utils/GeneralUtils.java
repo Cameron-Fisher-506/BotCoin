@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Build;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
@@ -45,11 +46,15 @@ public class GeneralUtils {
     {
         String toReturn = null;
 
-        toReturn = "?"
-                + "pair=" + pair
-                + "&" + "type=" + type
-                + "&" + "volume=" + volume
-                + "&" + "price=" + price;
+        if(price != null)
+        {
+            toReturn = "?"
+                    + "pair=" + pair
+                    + "&" + "type=" + type
+                    + "&" + "volume=" + volume
+                    + "&" + "price=" + price;
+        }
+
 
         return toReturn;
     }
@@ -233,9 +238,16 @@ public class GeneralUtils {
 
                     if(isAutoTrade)
                     {
-                        context.startService(new Intent(context, BotService.class));
+                        if (Build.VERSION.SDK_INT >= 26) {
+                            context.startForegroundService(new Intent(context, BotService.class));
+                        }else
+                        {
+                            context.startService(new Intent(context, BotService.class));
+                        }
+
                     }else
                     {
+
                         context.stopService(new Intent(context, BotService.class));
                     }
 

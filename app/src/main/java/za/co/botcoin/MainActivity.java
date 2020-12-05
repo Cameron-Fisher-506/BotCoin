@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
             if(SharedPreferencesUtils.get(getApplicationContext(), SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT) == null)
             {
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put(SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT, ConstantUtils.PULL_OUT_PRICE_DROP);
+                jsonObject.put(SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT, ConstantUtils.trailingStop);
                 SharedPreferencesUtils.save(getApplicationContext(), SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT,jsonObject);
             }
         }catch (Exception e)
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject jsonObject = SharedPreferencesUtils.get(getApplicationContext(), SharedPreferencesUtils.PULLOUT_BID_PRICE_USER);
                 if(jsonObject != null && jsonObject.has(SharedPreferencesUtils.PULLOUT_BID_PRICE_USER))
                 {
-                    ConstantUtils.PULL_OUT_PRICE_DROP = jsonObject.getDouble(SharedPreferencesUtils.PULLOUT_BID_PRICE_USER);
+                    ConstantUtils.trailingStop = jsonObject.getInt(SharedPreferencesUtils.PULLOUT_BID_PRICE_USER);
                 }
             }
         }catch (Exception e)

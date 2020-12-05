@@ -1,6 +1,7 @@
 package za.co.botcoin.settings.fragments;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -104,7 +105,13 @@ public class AutoTradeFrag extends Fragment {
 
     private void startBotService()
     {
-        getActivity().startService(new Intent(getActivity(), BotService.class));
+        if (Build.VERSION.SDK_INT >= 26) {
+            getActivity().startForegroundService(new Intent(getActivity(), BotService.class));
+        }else
+        {
+            getActivity().startService(new Intent(getActivity(), BotService.class));
+        }
+
     }
 
     private void stopBotService()

@@ -3,17 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
 
     <TextView
-        android:id="@+id/txtPulloutBidPrice"
+        android:id="@+id/txtTrailingStop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="20dp"
-        android:text="Pull-out Bid Price"
+        android:text="Trailing Stop"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -21,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imgBtnPulloutBidPrice"
+        android:id="@+id/imgBtnTrailingStop"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="3dp"
@@ -30,23 +31,21 @@
         android:src="@drawable/ic_info_black_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.021"
-        app:layout_constraintStart_toEndOf="@+id/txtPulloutBidPrice"
+        app:layout_constraintStart_toEndOf="@+id/txtTrailingStop"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/edTxtPulloutBidPrice"
+
+    <Spinner
+        android:id="@+id/spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_marginTop="3dp"
         android:layout_marginStart="15dp"
-        android:layout_marginEnd="50dp"
-        android:inputType="textPersonName"
-        android:hint="Pull-out Bid Price"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPulloutBidPrice" />
-
+        app:layout_constraintTop_toBottomOf="@+id/imgBtnTrailingStop" />
 
 
     <Button
@@ -64,7 +63,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edTxtPulloutBidPrice"
+        app:layout_constraintTop_toBottomOf="@+id/spinner"
          />
 
     <Button
@@ -83,6 +82,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSave"
         />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

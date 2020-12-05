@@ -5,29 +5,26 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import org.json.JSONObject;
-
-import java.util.concurrent.ExecutionException;
-
 import za.co.botcoin.R;
 import za.co.botcoin.utils.ConstantUtils;
 import za.co.botcoin.utils.GeneralUtils;
 import za.co.botcoin.utils.SharedPreferencesUtils;
 
-public class SetPullOutPriceFrag extends Fragment
+public class TrailingStopFrag extends Fragment
 {
 
-    private ImageButton imgBtnPulloutBidPrice;
-    private EditText edTxtPulloutBidPrice;
-
+    private ImageButton imgBtnTrailingStop;
     private Button btnSave;
     private Button btnUseDefault;
+    private Spinner spinner;
 
     @Nullable
     @Override
@@ -36,7 +33,7 @@ public class SetPullOutPriceFrag extends Fragment
 
         wireUI(view);
         setBtnSaveListener();
-        setImgBtnPulloutBidPriceListener();
+        setImgBtnTrailingStopListener();
         setBtnUseDefaultListener();
 
         return view;
@@ -45,13 +42,32 @@ public class SetPullOutPriceFrag extends Fragment
 
     private void wireUI(View view)
     {
-        this.imgBtnPulloutBidPrice = (ImageButton) view.findViewById(R.id.imgBtnPulloutBidPrice);
+        try
+        {
+            JSONObject jsonObject = SharedPreferencesUtils.get(getContext(), SharedPreferencesUtils.PULLOUT_BID_PRICE_USER);
 
-        this.edTxtPulloutBidPrice = (EditText) view.findViewById(R.id.edTxtPulloutBidPrice);
-        this.edTxtPulloutBidPrice.setText(Double.toString(ConstantUtils.PULL_OUT_PRICE_DROP));
+            Integer itemPosition = null;
+            if(jsonObject != null && jsonObject.has("itemPosition"))
+            {
+                itemPosition = jsonObject.getInt("itemPosition");
+            }
 
-        this.btnSave = (Button) view.findViewById(R.id.btnSave);
-        this.btnUseDefault = (Button) view.findViewById(R.id.btnUseDefault);
+            this.spinner = (Spinner) view.findViewById(R.id.spinner);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.trailing_stop_items, android.R.layout.simple_spinner_item);
+            this.spinner.setAdapter(adapter);
+
+            if(itemPosition != null)
+            {
+                this.spinner.setSelection(itemPosition);
+            }
+
+            this.imgBtnTrailingStop = (ImageButton) view.findViewById(R.id.imgBtnTrailingStop);
+            this.btnSave = (Button) view.findViewById(R.id.btnSave);
+            this.btnUseDefault = (Button) view.findViewById(R.id.btnUseDefault);
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     private void setBtnSaveListener()
@@ -60,8 +76,8 @@ public class SetPullOutPriceFrag extends Fragment
             @Override
             public void onClick(View v)
             {
-                ConstantUtils.PULL_OUT_PRICE_DROP = Double.parseDouble(edTxtPulloutBidPrice.getText().toString());
-                saveUserPullOutBidPrice();
+                ConstantUtils.trailingStop = Integer.parseInt(spinner.getSelectedItem().toString().replace("%",""));
+                saveUserPullOutBidPrice(spinner.getSelectedItemPosition());
                 GeneralUtils.makeToast(getContext(), "Saved!");
             }
         });
@@ -79,7 +95,7 @@ public class SetPullOutPriceFrag extends Fragment
                         JSONObject jsonObject = SharedPreferencesUtils.get(getContext(), SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT);
                         if(jsonObject != null && jsonObject.has(SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT))
                         {
-                            ConstantUtils.PULL_OUT_PRICE_DROP = jsonObject.getDouble(SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT);
+                            ConstantUtils.trailingStop = jsonObject.getInt(SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT);
                             GeneralUtils.makeToast(getContext(), "Default value set!");
                         }else
                         {
@@ -99,33 +115,32 @@ public class SetPullOutPriceFrag extends Fragment
         });
     }
 
-    private void setImgBtnPulloutBidPriceListener()
+    private void setImgBtnTrailingStopListener()
     {
-        this.imgBtnPulloutBidPrice.setOnClickListener(new View.OnClickListener() {
+        this.imgBtnTrailingStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GeneralUtils.createAlertDialog(getContext(), "Pull-out Bid Price", "BotCoin uses the pull-out bid price, as a margin, to stop a buy order if" +
-                        " the current price is higher than the last buy order price.\n\n" +
+                GeneralUtils.createAlertDialog(getContext(), "Trailing Stop", "BotCoin uses the trailing stop percentage, to pullout of a trade if" +
+                        " the market is in a downtrend.\n\n" +
                         "E.g.\n" +
-                        "Pull-out Bid Price: 0.5\n" +
-                        "Current price: 4\n" +
-                        "Last Bid Order Price: 3.5\n\n" +
-                        "In the above scenario BotCoin will cancel the last bid order and place a new bid order at a new support price."
+                        "Trailing stop: 10%\n" +
+                        "Current price: 100\n" +
+                        "Sell order: 90\n\n" +
+                        "In the above scenario BotCoin will create a sell order if the price drops 10% below than last highest resistance price."
                         , false).show();
             }
         });
     }
 
-    private void saveUserPullOutBidPrice()
+    private void saveUserPullOutBidPrice(int itemPosition)
     {
         try
         {
-            if(SharedPreferencesUtils.get(getContext(), SharedPreferencesUtils.PULLOUT_BID_PRICE_USER) == null)
-            {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put(SharedPreferencesUtils.PULLOUT_BID_PRICE_USER, ConstantUtils.PULL_OUT_PRICE_DROP);
-                SharedPreferencesUtils.save(getContext(), SharedPreferencesUtils.PULLOUT_BID_PRICE_USER,jsonObject);
-            }
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(SharedPreferencesUtils.PULLOUT_BID_PRICE_USER, ConstantUtils.trailingStop);
+            jsonObject.put("itemPosition", itemPosition);
+            SharedPreferencesUtils.save(getContext(), SharedPreferencesUtils.PULLOUT_BID_PRICE_USER,jsonObject);
+
         }catch (Exception e)
         {
             Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()

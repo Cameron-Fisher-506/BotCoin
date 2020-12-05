@@ -12,7 +12,7 @@ import za.co.botcoin.MainActivity;
 import za.co.botcoin.R;
 import za.co.botcoin.menu.fragments.DonateMenuFrag;
 import za.co.botcoin.menu.fragments.LunoApiFrag;
-import za.co.botcoin.menu.fragments.SetPullOutPriceFrag;
+import za.co.botcoin.menu.fragments.TrailingStopFrag;
 import za.co.botcoin.menu.fragments.SupportResistanceFrag;
 import za.co.botcoin.utils.FragmentUtils;
 
@@ -46,7 +46,7 @@ public class MenuFrag extends Fragment {
             @Override
             public void onClick(View v)
             {
-                SetPullOutPriceFrag setPullOutPriceFrag = new SetPullOutPriceFrag();
+                TrailingStopFrag setPullOutPriceFrag = new TrailingStopFrag();
                 FragmentUtils.startFragment(((MainActivity)getActivity()).getSupportFragmentManager(), setPullOutPriceFrag, R.id.fragContainer, ((MainActivity)getActivity()).getSupportActionBar(), "Set Pull-out Price",true, false, true, null);
             }
         });
