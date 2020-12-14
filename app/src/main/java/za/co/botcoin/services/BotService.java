@@ -191,7 +191,7 @@ public class BotService extends Service implements WSCallUtilsCallBack
                     Double precision = MathUtils.precision(percentage);
                     if(precision != null)
                     {
-                        Double result = Double.parseDouble(this.supportPrice) + precision;
+                        Double result = MathUtils.precision(Double.parseDouble(this.supportPrice) + precision);
                         if(this.currentPrice != null && Double.parseDouble(this.currentPrice) >= result)
                         {
                             notify("bid isRestrict: false - (bid reset support: "+this.supportPrice+")", this.currentPrice +">="+ result);
@@ -252,7 +252,7 @@ public class BotService extends Service implements WSCallUtilsCallBack
                     Double precision = MathUtils.precision(percentage);
                     if(precision != null)
                     {
-                        Double result = Double.parseDouble(this.resistancePrice) - precision;
+                        Double result = MathUtils.precision(Double.parseDouble(this.resistancePrice) - precision);
                         if(this.currentPrice != null && Double.parseDouble(this.currentPrice) < result)
                         {
                             this.resistancePrice = Double.toString(result);
@@ -272,7 +272,7 @@ public class BotService extends Service implements WSCallUtilsCallBack
                     Double precision = MathUtils.precision(percentage);
                     if(precision != null)
                     {
-                        Double result = Double.parseDouble(this.lastPurchasePrice) - precision;
+                        Double result = MathUtils.precision(Double.parseDouble(this.lastPurchasePrice) - precision);
                         if(this.currentPrice != null && Double.parseDouble(this.currentPrice) < result)
                         {
                             newSellPrice = Double.toString(result);
@@ -652,7 +652,7 @@ public class BotService extends Service implements WSCallUtilsCallBack
                 Double precision = MathUtils.precision(percentage);
                 if(precision != null)
                 {
-                    Double result = Double.parseDouble(this.lastAskOrder.getLimitPrice()) - precision;
+                    Double result = MathUtils.precision(Double.parseDouble(this.lastAskOrder.getLimitPrice()) - precision);
                     if(this.currentPrice != null && Double.parseDouble(this.currentPrice) < result)
                     {
                         cancelOrder(this.lastAskOrder.getId());
@@ -678,7 +678,7 @@ public class BotService extends Service implements WSCallUtilsCallBack
                 Double precision = MathUtils.precision(percentage);
                 if(precision != null)
                 {
-                    Double result = Double.parseDouble(this.lastBidOrder.getLimitPrice()) + precision;
+                    Double result = MathUtils.precision(Double.parseDouble(this.lastBidOrder.getLimitPrice()) + precision);
                     if(this.currentPrice != null && Double.parseDouble(this.currentPrice) >= result)
                     {
                         cancelOrder(this.lastBidOrder.getId());

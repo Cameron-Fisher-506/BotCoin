@@ -120,6 +120,7 @@
         android:id="@+id/linearLayoutDonateOption"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/linearLayoutLunoApiOption"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/linearLayoutLunoApiOption"
