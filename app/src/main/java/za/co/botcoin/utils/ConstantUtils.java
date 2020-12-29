@@ -1,5 +1,11 @@
 package za.co.botcoin.utils;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
+import za.co.botcoin.objs.TradePrice;
+
 public class ConstantUtils {
 
     //KEYS
@@ -50,4 +56,10 @@ public class ConstantUtils {
     public static final Double PULL_OUT_PRICE = 0.01;
     public static final Double BUY_SELL_MARGIN_PRICE = 0.01;
 
+    //Support and Resistance Prices
+    public static List<TradePrice> supportPrices = new ArrayList<>();
+    public static List<TradePrice> resistancePrices = new ArrayList<>();
+
+    public static int supportPriceCounter = 4;
+    public static int resistancePriceCounter = 4;
 }

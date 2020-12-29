@@ -11,7 +11,10 @@ import androidx.fragment.app.Fragment;
 import za.co.botcoin.MainActivity;
 import za.co.botcoin.R;
 import za.co.botcoin.menu.fragments.DonateMenuFrag;
+import za.co.botcoin.menu.fragments.LogcatFrag;
 import za.co.botcoin.menu.fragments.LunoApiFrag;
+import za.co.botcoin.menu.fragments.ResistancePriceCounterFrag;
+import za.co.botcoin.menu.fragments.SupportPriceCounterFrag;
 import za.co.botcoin.menu.fragments.TrailingStopFrag;
 import za.co.botcoin.menu.fragments.SupportResistanceFrag;
 import za.co.botcoin.utils.FragmentUtils;
@@ -24,19 +27,63 @@ public class MenuFrag extends Fragment {
     private LinearLayoutCompat supportResistanceOption;
     private LinearLayoutCompat donateOption;
     private LinearLayoutCompat setPullOutPriceOption;
+    private LinearLayoutCompat logcatOption;
+    private LinearLayoutCompat setSupportPriceCounter;
+    private LinearLayoutCompat setResistancePriceCounter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_menu, container, false);
 
-
         addLunoApiOptionListener(view.findViewById(R.id.linearLayoutLunoApiOption));
         addSupportResistanceListener(view.findViewById(R.id.linearLayoutSupportResistanceOption));
         addDonateListener(view.findViewById(R.id.linearLayoutDonateOption));
         addPullOutPriceOptionListener(view.findViewById(R.id.linearLayoutSetPullOutPrice));
+        addLogcatOptionListener(view.findViewById(R.id.linearLayoutLogcat));
+        addSetSupportPriceCounterOptionListener(view.findViewById(R.id.linearLayoutSetSupportPriceCounter));
+        addSetResistancePriceCounterOptionListener(view.findViewById(R.id.linearLayoutSetResistancePriceCounter));
 
         return view;
+    }
+
+    private void addSetResistancePriceCounterOptionListener(View view)
+    {
+        this.setResistancePriceCounter = (LinearLayoutCompat) view;
+        this.setResistancePriceCounter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                ResistancePriceCounterFrag resistancePriceCounterFrag = new ResistancePriceCounterFrag();
+                FragmentUtils.startFragment(((MainActivity)getActivity()).getSupportFragmentManager(), resistancePriceCounterFrag, R.id.fragContainer, ((MainActivity)getActivity()).getSupportActionBar(), "Set Resistance Price Counter",true, false, true, null);
+            }
+        });
+    }
+
+    private void addSetSupportPriceCounterOptionListener(View view)
+    {
+        this.setSupportPriceCounter = (LinearLayoutCompat) view;
+        this.setSupportPriceCounter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                SupportPriceCounterFrag supportPriceCounterFrag = new SupportPriceCounterFrag();
+                FragmentUtils.startFragment(((MainActivity)getActivity()).getSupportFragmentManager(), supportPriceCounterFrag, R.id.fragContainer, ((MainActivity)getActivity()).getSupportActionBar(), "Set Support Price Counter",true, false, true, null);
+            }
+        });
+    }
+
+    private void addLogcatOptionListener(View view)
+    {
+        this.logcatOption = (LinearLayoutCompat) view;
+        this.logcatOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                LogcatFrag logcatFrag = new LogcatFrag();
+                FragmentUtils.startFragment(((MainActivity)getActivity()).getSupportFragmentManager(), logcatFrag, R.id.fragContainer, ((MainActivity)getActivity()).getSupportActionBar(), "Logcat",true, false, true, null);
+            }
+        });
     }
 
     private void addPullOutPriceOptionListener(View view)

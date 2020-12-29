@@ -17,15 +17,18 @@ import za.co.botcoin.objs.TradePrice;
 import za.co.botcoin.utils.ConstantUtils;
 import za.co.botcoin.utils.GeneralUtils;
 import za.co.botcoin.utils.MathUtils;
+import za.co.botcoin.utils.SharedPreferencesUtils;
 import za.co.botcoin.utils.StringUtils;
 import za.co.botcoin.utils.WSCallUtilsCallBack;
 import za.co.botcoin.utils.WSCallsUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.SocketHandler;
 
 public class BotService extends Service implements WSCallUtilsCallBack
 {
@@ -55,10 +58,6 @@ public class BotService extends Service implements WSCallUtilsCallBack
     private String supportPrice;
     private String resistancePrice;
 
-    //Support and Resistance Prices
-    List<TradePrice> supportPrices;
-    List<TradePrice> resistancePrices;
-
     //wallet
     private String xrpBalance;
     private String zarBalance;
@@ -68,8 +67,7 @@ public class BotService extends Service implements WSCallUtilsCallBack
     private Order lastBidOrder;
 
     //flags
-    private int flagSupportPriceCounter = 2;
-
+    private Double pullOutOfAskPrice = null;
 
 
     public BotService() {
@@ -137,9 +135,6 @@ public class BotService extends Service implements WSCallUtilsCallBack
 
         this.xrpBalance = "0";
         this.zarBalance = "0";
-
-        this.supportPrices = new ArrayList<>();
-        this.resistancePrices = new ArrayList<>();
 
         this.lastAskOrder = null;
         this.lastBidOrder = null;
@@ -253,18 +248,18 @@ public class BotService extends Service implements WSCallUtilsCallBack
                     if(precision != null)
                     {
                         Double result = MathUtils.precision(Double.parseDouble(this.resistancePrice) - precision);
-                        if(this.currentPrice != null && Double.parseDouble(this.currentPrice) < result)
+                        if(this.currentPrice != null && Double.parseDouble(this.currentPrice) <= result)
                         {
                             this.resistancePrice = Double.toString(result);
                             placeSellOrder = true;
 
-                            notify("ask - (ResistancePrice: "+this.resistancePrice+")", this.currentPrice +"<"+ result);
-                            this.flagSupportPriceCounter = 9;
+                            notify("ask - (ResistancePrice: "+this.resistancePrice+")", this.currentPrice +"<="+ result);
+                            ConstantUtils.supportPriceCounter = 9;
                         }
                     }
 
                 }
-            }else if(this.lastPurchasePrice != null)
+            }else if(this.lastPurchasePrice != null && !this.lastPurchasePrice.equals("0"))
             {
                 Double percentage = MathUtils.percentage(Double.parseDouble(this.lastPurchasePrice), ConstantUtils.trailingStop);
                 if(percentage != null)
@@ -273,13 +268,13 @@ public class BotService extends Service implements WSCallUtilsCallBack
                     if(precision != null)
                     {
                         Double result = MathUtils.precision(Double.parseDouble(this.lastPurchasePrice) - precision);
-                        if(this.currentPrice != null && Double.parseDouble(this.currentPrice) < result)
+                        if(this.currentPrice != null && Double.parseDouble(this.currentPrice) <= result)
                         {
                             newSellPrice = Double.toString(result);
                             placeSellOrder = true;
 
-                            notify("ask - (LastPurchasePrice: "+this.lastPurchasePrice+")", this.currentPrice +"<"+ result);
-                            this.flagSupportPriceCounter = 9;
+                            notify("ask - (LastPurchasePrice: "+this.lastPurchasePrice+")", this.currentPrice +"<="+ result);
+                            ConstantUtils.supportPriceCounter  = 9;
                         }
                     }
 
@@ -337,10 +332,20 @@ public class BotService extends Service implements WSCallUtilsCallBack
 
         for(int i = 0; i < tradePrices.size(); i++)
         {
-            if(tradePrices.get(i).getCounter() > this.flagSupportPriceCounter)
+            if(this.lastTradeType != null && this.lastTradeType.equals("BID"))
             {
-                toReturn++;
+                if(tradePrices.get(i).getCounter() > ConstantUtils.resistancePriceCounter)
+                {
+                    toReturn++;
+                }
+            }else if(this.lastTradeType != null && this.lastTradeType.equals("ASK"))
+            {
+                if(tradePrices.get(i).getCounter() > ConstantUtils.supportPriceCounter)
+                {
+                    toReturn++;
+                }
             }
+
         }
 
         return toReturn;
@@ -529,12 +534,12 @@ public class BotService extends Service implements WSCallUtilsCallBack
 
     private void setSupportPrice()
     {
-        if(this.supportPrices != null && this.supportPrices.size() > 0)
+        if(ConstantUtils.supportPrices != null && ConstantUtils.supportPrices.size() > 0)
         {
             StringBuilder prices = new StringBuilder();
-            for(int i = 0; i < this.supportPrices.size(); i++)
+            for(int i = 0; i < ConstantUtils.supportPrices.size(); i++)
             {
-                prices.append("["+supportPrices.get(i).getPrice()+", "+supportPrices.get(i).getCounter()+"]\n");
+                prices.append("["+ConstantUtils.supportPrices.get(i).getPrice()+", "+ConstantUtils.supportPrices.get(i).getCounter()+"]\n");
             }
 
             Log.d(ConstantUtils.BOTCOIN_TAG, "\n\nMethod: BotService - setSupportPrice"
@@ -544,37 +549,37 @@ public class BotService extends Service implements WSCallUtilsCallBack
 
 
         //Get the number of prices counter more than 2
-        if(getNumberOfPricesCounterMoreThanTwo(this.supportPrices) == 1)
+        if(getNumberOfPricesCounterMoreThanTwo(ConstantUtils.supportPrices) == 1)
         {
             //Only 1 price with counter > 3
-            this.supportPrice = Double.toString(getPriceEqualCounter(this.supportPrices, getMaxCounter(this.supportPrices)));
-        }else if(getNumberOfPricesCounterMoreThanTwo(this.supportPrices) > 1)
+            this.supportPrice = Double.toString(getPriceEqualCounter(ConstantUtils.supportPrices, getMaxCounter(ConstantUtils.supportPrices)));
+        }else if(getNumberOfPricesCounterMoreThanTwo(ConstantUtils.supportPrices) > 1)
         {
             //get the max counter
-            if(getNumberOfPricesThatHaveCounter(this.supportPrices, getMaxCounter(this.supportPrices)) == 1)
+            if(getNumberOfPricesThatHaveCounter(ConstantUtils.supportPrices, getMaxCounter(ConstantUtils.supportPrices)) == 1)
             {
                 //choose the price with that maxCounter
-                this.supportPrice = Double.toString(getPriceEqualCounter(this.supportPrices, getMaxCounter(this.supportPrices)));
-            }else if(getNumberOfPricesThatHaveCounter(this.supportPrices, getMaxCounter(this.supportPrices)) > 1)
+                this.supportPrice = Double.toString(getPriceEqualCounter(ConstantUtils.supportPrices, getMaxCounter(ConstantUtils.supportPrices)));
+            }else if(getNumberOfPricesThatHaveCounter(ConstantUtils.supportPrices, getMaxCounter(ConstantUtils.supportPrices)) > 1)
             {
                 //get lowest price with counter value
-                this.supportPrice = Double.toString(getLowestPriceWithCounter(this.supportPrices, getMaxCounter(this.supportPrices)));
+                this.supportPrice = Double.toString(getLowestPriceWithCounter(ConstantUtils.supportPrices, getMaxCounter(ConstantUtils.supportPrices)));
             }
         }
 
-        modifySupportPrices(this.supportPrices, Double.parseDouble(this.currentPrice));
+        modifySupportPrices(ConstantUtils.supportPrices, Double.parseDouble(this.currentPrice));
 
     }
 
     private void setResistancePrice()
     {
 
-        if(this.resistancePrices != null && this.resistancePrices.size() > 0)
+        if(ConstantUtils.resistancePrices != null && ConstantUtils.resistancePrices.size() > 0)
         {
             StringBuilder prices = new StringBuilder();
-            for(int i = 0; i < this.resistancePrices.size(); i++)
+            for(int i = 0; i < ConstantUtils.resistancePrices.size(); i++)
             {
-                prices.append("["+resistancePrices.get(i).getPrice()+", "+resistancePrices.get(i).getCounter()+"]\n");
+                prices.append("["+ConstantUtils.resistancePrices.get(i).getPrice()+", "+ConstantUtils.resistancePrices.get(i).getCounter()+"]\n");
             }
 
             Log.d(ConstantUtils.BOTCOIN_TAG, "\n\nMethod: BotService - setResistancePrice"
@@ -583,27 +588,27 @@ public class BotService extends Service implements WSCallUtilsCallBack
         }
 
         //Get the number of prices counter more 2
-        if(getNumberOfPricesCounterMoreThanTwo(this.resistancePrices) == 1)
+        if(getNumberOfPricesCounterMoreThanTwo(ConstantUtils.resistancePrices) == 1)
         {
             //Only 1 price with counter > 2
-            this.resistancePrice = Double.toString(getPriceEqualCounter(this.resistancePrices, getMaxCounter(this.resistancePrices)));
+            this.resistancePrice = Double.toString(getPriceEqualCounter(ConstantUtils.resistancePrices, getMaxCounter(ConstantUtils.resistancePrices)));
 
-        }else if(getNumberOfPricesCounterMoreThanTwo(this.resistancePrices) > 1)
+        }else if(getNumberOfPricesCounterMoreThanTwo(ConstantUtils.resistancePrices) > 1)
         {
             //get the max counter
-            if(getNumberOfPricesThatHaveCounter(this.resistancePrices, getMaxCounter(this.resistancePrices)) == 1)
+            if(getNumberOfPricesThatHaveCounter(ConstantUtils.resistancePrices, getMaxCounter(ConstantUtils.resistancePrices)) == 1)
             {
                 //choose the price with that maxCounter
-                this.resistancePrice = Double.toString(getPriceEqualCounter(this.resistancePrices, getMaxCounter(this.resistancePrices)));
+                this.resistancePrice = Double.toString(getPriceEqualCounter(ConstantUtils.resistancePrices, getMaxCounter(ConstantUtils.resistancePrices)));
 
-            }else if(getNumberOfPricesThatHaveCounter(this.resistancePrices, getMaxCounter(this.resistancePrices)) > 1)
+            }else if(getNumberOfPricesThatHaveCounter(ConstantUtils.resistancePrices, getMaxCounter(ConstantUtils.resistancePrices)) > 1)
             {
                 //get highest price with counter value
-                this.resistancePrice = Double.toString(getHighestPriceWithCounter(this.resistancePrices, getMaxCounter(this.resistancePrices)));
+                this.resistancePrice = Double.toString(getHighestPriceWithCounter(ConstantUtils.resistancePrices, getMaxCounter(ConstantUtils.resistancePrices)));
             }
         }
 
-        modifyResistancePrices(this.resistancePrices, Double.parseDouble(this.currentPrice));
+        modifyResistancePrices(ConstantUtils.resistancePrices, Double.parseDouble(this.currentPrice));
 
     }
 
@@ -642,7 +647,7 @@ public class BotService extends Service implements WSCallUtilsCallBack
         WSCallsUtils.post(this, REQ_CODE_STOP_ORDER, url, "", GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY));
     }
 
-    private void pullOutOfAsk(String lastPurchasePrice)
+    private void pullOutOfAsk()
     {
         if(this.lastAskOrder != null)
         {
@@ -653,16 +658,16 @@ public class BotService extends Service implements WSCallUtilsCallBack
                 if(precision != null)
                 {
                     Double result = MathUtils.precision(Double.parseDouble(this.lastAskOrder.getLimitPrice()) - precision);
-                    if(this.currentPrice != null && Double.parseDouble(this.currentPrice) < result)
+                    if(this.currentPrice != null && Double.parseDouble(this.currentPrice) <= result)
                     {
                         cancelOrder(this.lastAskOrder.getId());
-
-                        notify("pullOutOfAsk - (LastAskOrder: "+this.lastAskOrder.getLimitPrice()+")", this.currentPrice +"<"+ result);
+                        this.pullOutOfAskPrice = result;
+                        notify("pullOutOfAsk - (LastAskOrder: "+this.lastAskOrder.getLimitPrice()+")", this.currentPrice +"<="+ result);
                     }
                 }
 
             }
-        }else if(lastPurchasePrice != null && !lastPurchasePrice.equals("0"))
+        }else
         {
             ask(false);
         }
@@ -734,8 +739,26 @@ public class BotService extends Service implements WSCallUtilsCallBack
 
                     //empty the the trade price list
                     this.supportPrice = null;
-                    this.supportPrices.clear();
-                    this.flagSupportPriceCounter = 2;
+                    ConstantUtils.supportPrices.clear();
+
+                    if(SharedPreferencesUtils.get(getApplicationContext(), SharedPreferencesUtils.SUPPORT_PRICE_COUNTER) != null)
+                    {
+                        try
+                        {
+                            JSONObject jsonObjectSupportPriceCounter = SharedPreferencesUtils.get(getApplicationContext(), SharedPreferencesUtils.SUPPORT_PRICE_COUNTER);
+                            if(jsonObjectSupportPriceCounter != null && jsonObjectSupportPriceCounter.has(SharedPreferencesUtils.SUPPORT_PRICE_COUNTER)) {
+                                ConstantUtils.supportPriceCounter = jsonObjectSupportPriceCounter.getInt(SharedPreferencesUtils.SUPPORT_PRICE_COUNTER);
+                            }
+                        }catch(JSONException e)
+                        {
+                            ConstantUtils.supportPriceCounter = 4;
+                        }
+
+                    }else
+                    {
+                        ConstantUtils.supportPriceCounter = 4;
+                    }
+
 
                 }catch(Exception e)
                 {
@@ -765,7 +788,7 @@ public class BotService extends Service implements WSCallUtilsCallBack
 
                     //empty the the trade price list
                     this.resistancePrice = null;
-                    this.resistancePrices.clear();
+                    ConstantUtils.resistancePrices.clear();
 
                 }catch(Exception e)
                 {
@@ -1026,7 +1049,7 @@ public class BotService extends Service implements WSCallUtilsCallBack
                     }
 
                     //check if pull out is  necessary
-                    pullOutOfAsk(this.lastPurchasePrice);
+                    pullOutOfAsk();
                     pullOutOfBid();
 
                 }catch(Exception e)
@@ -1048,8 +1071,16 @@ public class BotService extends Service implements WSCallUtilsCallBack
                     {
                         notify("Order Cancelled", jsonObject.toString());
 
+                        if(this.pullOutOfAskPrice != null)
+                        {
+                            //place new sell order at trailing price
+                            this.resistancePrice = Double.toString(this.pullOutOfAskPrice);
+                            ask(false);
+                        }
+
                         this.lastAskOrder = null;
                         this.lastBidOrder = null;
+                        this.pullOutOfAskPrice = null;
 
                     }
 
@@ -1069,6 +1100,25 @@ public class BotService extends Service implements WSCallUtilsCallBack
 
     public void notify(String title, String message)
     {
+        if (Build.VERSION.SDK_INT >= 26) {
+            String CHANNEL_ID = "BotCoin";
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                    "BotCoin",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+
+            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
+
+            Notification notification = new Notification.Builder(getApplicationContext())
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setSmallIcon(R.mipmap.botcoin)
+                    .setChannelId(CHANNEL_ID)
+                    .build();
+
+            NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.notify(0, notification);
+        }
+
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
             Intent intent = new Intent();

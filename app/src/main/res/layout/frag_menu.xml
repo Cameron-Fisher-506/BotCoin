@@ -64,6 +64,7 @@
         android:id="@+id/linearLayoutSupportResistanceOption"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/linearLayoutLunoApiOption"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/linearLayoutLunoApiOption"
@@ -283,7 +284,175 @@
         app:layout_constraintEnd_toEndOf="@+id/linearLayoutSupportResistanceOption"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/linearLayoutSupportResistanceOption"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutNotifications" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSetPullOutPrice" />
 
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutLogcat"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayoutLunoApiOption"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/linearLayoutLunoApiOption"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSetPullOutPrice">
+
+
+        <ImageView
+            android:id="@+id/imgLogcat"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/DummyText"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_bug_report_black_24dp" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/txtLogcat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="@string/logcat"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/DummyText"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_keyboard_arrow_right_black_24dp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:id="@+id/horizontalLogcat"
+        style="@style/CommonHorizontalDivider"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayoutSupportResistanceOption"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/linearLayoutSupportResistanceOption"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutLogcat" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutSetSupportPriceCounter"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayoutLunoApiOption"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/linearLayoutLunoApiOption"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutLogcat">
+
+
+        <ImageView
+            android:id="@+id/imgSetSupportPriceCounter"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/DummyText"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_show_chart_black_24dp" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/txtSetSupportPriceCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="@string/support_price_counter"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/DummyText"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_keyboard_arrow_right_black_24dp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:id="@+id/horizontalSetSupportPriceCounter"
+        style="@style/CommonHorizontalDivider"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayoutSupportResistanceOption"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/linearLayoutSupportResistanceOption"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSetSupportPriceCounter" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutSetResistancePriceCounter"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayoutLunoApiOption"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/linearLayoutLunoApiOption"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSetSupportPriceCounter">
+
+
+        <ImageView
+            android:id="@+id/imgSetResistancePriceCounter"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/DummyText"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_show_chart_black_24dp" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/txtSetResistancePriceCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="@string/resistance_price_counter"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/DummyText"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_keyboard_arrow_right_black_24dp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:id="@+id/horizontalSetResistancePriceCounter"
+        style="@style/CommonHorizontalDivider"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayoutSetResistancePriceCounter"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/linearLayoutSupportResistanceOption"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSetSupportPriceCounter" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
