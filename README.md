@@ -1,3 +1,3 @@
 # BotCoin
 
-BotCoin is used to make automatic trade on Luno.
+BotCoin is used to automatically trade on Luno.
