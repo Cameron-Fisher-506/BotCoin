@@ -1,36 +1,33 @@
-package za.co.botcoin.policies;
+package za.co.botcoin.policies
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.Html;
-import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
+import android.content.Intent
+import android.os.Bundle
+import android.text.Html
+import android.text.method.ScrollingMovementMethod
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import org.json.JSONObject
+import za.co.botcoin.MainActivity
+import za.co.botcoin.R
+import za.co.botcoin.databinding.DisclaimerPolicyFragmentBinding
+import za.co.botcoin.utils.ConstantUtils
+import za.co.botcoin.utils.GeneralUtils
+import za.co.botcoin.utils.SharedPreferencesUtils
+import kotlin.system.exitProcess
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+class DisclaimerPolicyFrag : Fragment(R.layout.disclaimer_policy_fragment) {
+    private lateinit var binding: DisclaimerPolicyFragmentBinding
 
-import org.json.JSONObject;
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        this.binding = DisclaimerPolicyFragmentBinding.bind(view)
 
-import za.co.botcoin.MainActivity;
-import za.co.botcoin.R;
-import za.co.botcoin.utils.ConstantUtils;
-import za.co.botcoin.utils.GeneralUtils;
-import za.co.botcoin.utils.SharedPreferencesUtils;
-
-public class DisclaimerPolicyFrag extends Fragment
-{
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_disclaimer_policy, container, false);
-
-        String privacyPolicy = "<p style=\"text-align:left; margin-left:4%; margin-right:4%\">" +
+        val privacyPolicy = "<p style=\"text-align:left; margin-left:4%; margin-right:4%\">" +
                 "        " +
                 "        <h3 style=\"text-align:left; margin-left:4%; margin-right:4%\">Any client deciding to use BotCoin understands that:</h3>" +
                 "            1. Trading cryptocurrency involves substantial risk, and there is always the potential for loss.<br>" +
@@ -50,43 +47,28 @@ public class DisclaimerPolicyFrag extends Fragment
                 "        1. Your Luno API credentials.<br><br>" +
                 "" +
                 "        This policy is effective as of 25 November 2020.<br><br>" +
-                "    </p>";
-        TextView txtPrivacyPolicy = (TextView) view.findViewById(R.id.txtDisclaimerPolicy);
-        txtPrivacyPolicy.setMovementMethod(new ScrollingMovementMethod());
-        txtPrivacyPolicy.setText(Html.fromHtml(privacyPolicy));
+                "    </p>"
 
-        Button btnExit = (Button)view.findViewById(R.id.btnExit);
-        btnExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().finishAffinity();
-                System.exit(0);
+        this.binding.txtDisclaimerPolicy.movementMethod = ScrollingMovementMethod()
+        this.binding.txtDisclaimerPolicy.text = Html.fromHtml(privacyPolicy)
+
+        this.binding.btnExit.setOnClickListener {
+            activity!!.finishAffinity()
+            exitProcess(0)
+        }
+
+        this.binding.btnAccept.setOnClickListener {
+            try {
+                val jsonObject = JSONObject()
+                jsonObject.put("isAccepted", true)
+                SharedPreferencesUtils.save(context, SharedPreferencesUtils.DISCLAIMER_ACCEPTANCE, jsonObject)
+                context!!.startActivity(Intent(activity, MainActivity::class.java))
+            } catch (e: Exception) {
+                Log.d(ConstantUtils.BOTCOIN_TAG, "Class: DisclaimerPolicyFrag " +
+                        "Method: onCreateView " +
+                        "Error: ${e.message} " +
+                        "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
             }
-        });
-
-        Button btnAccept = (Button) view.findViewById(R.id.btnAccept);
-        btnAccept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try
-                {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("isAccepted", true);
-
-                    SharedPreferencesUtils.save(getContext(), SharedPreferencesUtils.DISCLAIMER_ACCEPTANCE, jsonObject);
-
-                    getContext().startActivity(new Intent(getActivity(), MainActivity.class));
-
-                }catch(Exception e)
-                {
-                    Log.d(ConstantUtils.BOTCOIN_TAG, "\n\nClass: DisclaimerPolicyFrag" +
-                            "\nMethod: onCreateView" +
-                            "\nError: " + e.getMessage() +
-                            "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
-                }
-            }
-        });
-
-        return view;
+        }
     }
 }
