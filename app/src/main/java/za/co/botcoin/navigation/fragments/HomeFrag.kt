@@ -52,7 +52,7 @@ class HomeFrag : Fragment(R.layout.home_fragment), WSCallUtilsCallBack {
         }
     }
 
-    override fun taskCompleted(response: String, reqCode: Int) {
+    override fun taskCompleted(response: String?, reqCode: Int) {
         if (response != null) {
             if (reqCode == TICKERS_REQ_CODE) {
                 try {
@@ -77,7 +77,7 @@ class HomeFrag : Fragment(R.layout.home_fragment), WSCallUtilsCallBack {
                     Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                             "Method: HomeFrag - onCreateView " +
                             "URL: ${StringUtils.GLOBAL_ENDPOINT_TICKERS} " +
-                            "CreatedTime: ${GeneralUtils.currentDateTime}")
+                            "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
                 }
             }
         } else {
