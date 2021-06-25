@@ -1,22 +1,16 @@
-package za.co.botcoin.menu.fragments;
+package za.co.botcoin.menu.fragments
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import za.co.botcoin.R;
+import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.Fragment
+import za.co.botcoin.R
+import za.co.botcoin.databinding.NotificationsFragmentBinding
 
-public class NotificationsFrag extends Fragment
-{
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_notifications, container, false);
+class NotificationsFrag : Fragment(R.layout.notifications_fragment) {
+    private lateinit var binding: NotificationsFragmentBinding
 
-
-        return view;
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        this.binding = NotificationsFragmentBinding.bind(view)
     }
 }

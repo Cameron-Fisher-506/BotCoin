@@ -1,114 +1,75 @@
-package za.co.botcoin.menu.fragments;
+package za.co.botcoin.menu.fragments
 
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.Spinner;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import org.json.JSONObject;
-import za.co.botcoin.R;
-import za.co.botcoin.utils.ConstantUtils;
-import za.co.botcoin.utils.GeneralUtils;
-import za.co.botcoin.utils.SharedPreferencesUtils;
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.ArrayAdapter
+import androidx.fragment.app.Fragment
+import org.json.JSONObject
+import za.co.botcoin.R
+import za.co.botcoin.databinding.SupportPriceCounterFragmentBinding
+import za.co.botcoin.utils.ConstantUtils
+import za.co.botcoin.utils.GeneralUtils
+import za.co.botcoin.utils.SharedPreferencesUtils
 
-public class SupportPriceCounterFrag extends Fragment
-{
+class SupportPriceCounterFrag : Fragment(R.layout.support_price_counter_fragment) {
+    private lateinit var binding: SupportPriceCounterFragmentBinding
 
-    private ImageButton imgBtnSupportPriceCounter;
-    private Button btnSave;
-    private Spinner spinner;
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_support_price_counter, container, false);
-
-        wireUI(view);
-        setBtnSaveListener();
-        setImgBtnSupportPriceCounterListener();
-
-        return view;
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        this.binding = SupportPriceCounterFragmentBinding.bind(view)
+        wireUI()
+        setBtnSaveListener()
+        setImgBtnSupportPriceCounterListener()
     }
 
-
-    private void wireUI(View view)
-    {
-        try
-        {
-            JSONObject jsonObject = SharedPreferencesUtils.get(getContext(), SharedPreferencesUtils.SUPPORT_PRICE_COUNTER);
-
-            Integer itemPosition = null;
-            if(jsonObject != null && jsonObject.has("itemPosition"))
-            {
-                itemPosition = jsonObject.getInt("itemPosition");
+    private fun wireUI() {
+        try {
+            val jsonObject = SharedPreferencesUtils.get(context, SharedPreferencesUtils.SUPPORT_PRICE_COUNTER)
+            var itemPosition: Int? = null
+            if (jsonObject != null && jsonObject.has("itemPosition")) {
+                itemPosition = jsonObject.getInt("itemPosition")
             }
-
-            this.spinner = (Spinner) view.findViewById(R.id.spinner);
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.support_price_counter_items, android.R.layout.simple_spinner_item);
-            this.spinner.setAdapter(adapter);
-
-            if(itemPosition != null)
-            {
-                this.spinner.setSelection(itemPosition);
+            val adapter = ArrayAdapter.createFromResource(context!!, R.array.support_price_counter_items, android.R.layout.simple_spinner_item)
+            this.binding.spinner.adapter = adapter
+            if (itemPosition != null) {
+                this.binding.spinner.setSelection(itemPosition)
             }
-
-            this.imgBtnSupportPriceCounter = (ImageButton) view.findViewById(R.id.imgBtnSupportPriceCounter);
-            this.btnSave = (Button) view.findViewById(R.id.btnSave);
-        }catch(Exception e)
-        {
-            e.printStackTrace();
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
-    private void setBtnSaveListener()
-    {
-        this.btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                ConstantUtils.supportPriceCounter = Integer.parseInt(spinner.getSelectedItem().toString());
-                saveUserSupportPriceCounter(spinner.getSelectedItemPosition());
-                GeneralUtils.makeToast(getContext(), "Saved!");
-            }
-        });
-    }
-
-    private void setImgBtnSupportPriceCounterListener()
-    {
-        this.imgBtnSupportPriceCounter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GeneralUtils.createAlertDialog(getContext(), "Support Price Counter", "BotCoin uses the Support Price Counter, to buy at solid support price\n\n" +
-                                "E.g.\n" +
-                                "Support Price Counter: 5\n" +
-                                "BotCoin keeps track of the number of hits each price gets. The lowest price with the highest number of hits > 5 will be set as the support price."
-                        , false).show();
-            }
-        });
-    }
-
-    private void saveUserSupportPriceCounter(int itemPosition)
-    {
-        try
-        {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put(SharedPreferencesUtils.SUPPORT_PRICE_COUNTER, ConstantUtils.supportPriceCounter);
-            jsonObject.put("itemPosition", itemPosition);
-            SharedPreferencesUtils.save(getContext(), SharedPreferencesUtils.SUPPORT_PRICE_COUNTER,jsonObject);
-
-        }catch (Exception e)
-        {
-            Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
-                    + "\nMethod: MainActivity - saveUserSupportPriceCounter"
-                    + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
+    private fun setBtnSaveListener() {
+        this.binding.btnSave.setOnClickListener {
+            ConstantUtils.supportPriceCounter = this.binding.spinner.selectedItem.toString().toInt()
+            saveUserSupportPriceCounter(this.binding.spinner.selectedItemPosition)
+            GeneralUtils.makeToast(context, "Saved!")
         }
+    }
 
+    private fun setImgBtnSupportPriceCounterListener() {
+        this.binding.imgBtnSupportPriceCounter.setOnClickListener {
+            GeneralUtils.createAlertDialog(context, "Support Price Counter", """
+     BotCoin uses the Support Price Counter, to buy at solid support price
+     
+     E.g.
+     Support Price Counter: 5
+     BotCoin keeps track of the number of hits each price gets. The lowest price with the highest number of hits > 5 will be set as the support price.
+     """.trimIndent(), false).show()
+        }
+    }
+
+    private fun saveUserSupportPriceCounter(itemPosition: Int) {
+        try {
+            val jsonObject = JSONObject()
+            jsonObject.put(SharedPreferencesUtils.SUPPORT_PRICE_COUNTER, ConstantUtils.supportPriceCounter)
+            jsonObject.put("itemPosition", itemPosition)
+            SharedPreferencesUtils.save(context, SharedPreferencesUtils.SUPPORT_PRICE_COUNTER, jsonObject)
+        } catch (e: Exception) {
+            Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
+                    "Method: MainActivity - saveUserSupportPriceCounter " +
+                    "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+        }
     }
 }

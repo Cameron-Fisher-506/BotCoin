@@ -1,89 +1,59 @@
-package za.co.botcoin.menu.fragments;
+package za.co.botcoin.menu.fragments
 
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import za.co.botcoin.R;
-import za.co.botcoin.utils.ConstantUtils;
-import za.co.botcoin.utils.GeneralUtils;
-import za.co.botcoin.utils.SharedPreferencesUtils;
-import org.json.JSONObject;
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import androidx.fragment.app.Fragment
+import org.json.JSONObject
+import za.co.botcoin.R
+import za.co.botcoin.databinding.LunoApiFragmentBinding
+import za.co.botcoin.utils.ConstantUtils
+import za.co.botcoin.utils.GeneralUtils
+import za.co.botcoin.utils.SharedPreferencesUtils
 
-public class LunoApiFrag extends Fragment
-{
+class LunoApiFrag : Fragment(R.layout.luno_api_fragment) {
+    private lateinit var binding: LunoApiFragmentBinding
 
-    public static final int FRAG_NUM = 4;
-    public static final String TITLE = "Luno API";
-
-    private EditText edTxtKeyID;
-    private EditText edTxtSecretKey;
-    private Button btnSave;
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_luno_api, container, false);
-
-        this.edTxtKeyID = (EditText) view.findViewById(R.id.edTxtKeyID);
-        if(ConstantUtils.USER_KEY_ID != null)
-        {
-            this.edTxtKeyID.setText(ConstantUtils.USER_KEY_ID);
-        }
-
-        this.edTxtSecretKey = (EditText) view.findViewById(R.id.edTxtSecretKey);
-        if(ConstantUtils.USER_SECRET_KEY != null)
-        {
-            this.edTxtSecretKey.setText(ConstantUtils.USER_SECRET_KEY);
-        }
-
-        setBtnSaveListener(view.findViewById(R.id.btnSave));
-        return view;
+    companion object {
+        const val FRAG_NUM = 4
+        const val TITLE = "Luno API"
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        this.binding = LunoApiFragmentBinding.bind(view)
 
-    private void setBtnSaveListener(View view)
-    {
-        this.btnSave = (Button) view;
-        this.btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String keyID = edTxtKeyID.getText().toString();
-                String secretKey = edTxtSecretKey.getText().toString();
+        if (ConstantUtils.USER_KEY_ID != null) {
+            this.binding.edTxtKeyID.setText(ConstantUtils.USER_KEY_ID)
+        }
 
-                if(!keyID.equals("") && !secretKey.equals(""))
-                {
-                    ConstantUtils.USER_KEY_ID = keyID;
-                    ConstantUtils.USER_SECRET_KEY = secretKey;
+        if (ConstantUtils.USER_SECRET_KEY != null) {
+            this.binding.edTxtSecretKey.setText(ConstantUtils.USER_SECRET_KEY)
+        }
+        setBtnSaveListener()
+    }
 
-                    try
-                    {
-                        JSONObject jsonObjectApiKey = new JSONObject();
-                        jsonObjectApiKey.put("keyID", keyID);
-                        jsonObjectApiKey.put("secretKey", secretKey);
-
-                        SharedPreferencesUtils.save(getActivity(), SharedPreferencesUtils.LUNO_API_PREF, jsonObjectApiKey);
-                        GeneralUtils.makeToast(getActivity(), "API Key Saved!");
-                    }catch(Exception e)
-                    {
-                        Log.e(ConstantUtils.BOTCOIN_TAG, "\nError: " + e.getMessage()
-                                + "\nMethod: LunoApiFrag - onCreateView"
-                                + "\nCreatedTime: " + GeneralUtils.getCurrentDateTime());
-                    }
-                }else
-                {
-                    GeneralUtils.createAlertDialog(getActivity(), "Luno API Credentials (Luno API)", "Please set your Luno API credentials in order to use BotCoin!", false).show();
-
+    private fun setBtnSaveListener() {
+        this.binding.btnSave.setOnClickListener {
+            val keyID = this.binding.edTxtKeyID.text.toString()
+            val secretKey = this.binding.edTxtSecretKey.text.toString()
+            if (keyID != "" && secretKey != "") {
+                ConstantUtils.USER_KEY_ID = keyID
+                ConstantUtils.USER_SECRET_KEY = secretKey
+                try {
+                    val jsonObjectApiKey = JSONObject()
+                    jsonObjectApiKey.put("keyID", keyID)
+                    jsonObjectApiKey.put("secretKey", secretKey)
+                    SharedPreferencesUtils.save(activity, SharedPreferencesUtils.LUNO_API_PREF, jsonObjectApiKey)
+                    GeneralUtils.makeToast(activity, "API Key Saved!")
+                } catch (e: Exception) {
+                    Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
+                            "Method: LunoApiFrag - onCreateView " +
+                            "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
                 }
-
-
+            } else {
+                GeneralUtils.createAlertDialog(activity, "Luno API Credentials (Luno API)", "Please set your Luno API credentials in order to use BotCoin!", false).show()
             }
-        });
+        }
     }
 }

@@ -1,110 +1,65 @@
-package za.co.botcoin.menu.fragments;
+package za.co.botcoin.menu.fragments
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.LinearLayoutCompat;
-import androidx.fragment.app.Fragment;
-import za.co.botcoin.R;
-import za.co.botcoin.menu.fragments.donate.menu.fragment.DonateFrag;
-import za.co.botcoin.utils.ConstantUtils;
-import za.co.botcoin.utils.FragmentUtils;
-import za.co.botcoin.MainActivity;
-public class DonateMenuFrag extends Fragment
-{
+import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.Fragment
+import za.co.botcoin.MainActivity
+import za.co.botcoin.R
+import za.co.botcoin.databinding.DonateMenuFragmentBinding
+import za.co.botcoin.menu.fragments.donate.menu.fragment.DonateFrag
+import za.co.botcoin.utils.ConstantUtils
+import za.co.botcoin.utils.FragmentUtils
 
-    private LinearLayoutCompat donateBtcOption;
-    private LinearLayoutCompat donateXrpOption;
-    private LinearLayoutCompat donateEthOption;
-    private LinearLayoutCompat donateLtcOption;
+class DonateMenuFrag : Fragment(R.layout.donate_menu_fragment) {
+    private lateinit var binding: DonateMenuFragmentBinding
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_donate_menu, container, false);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        this.binding = DonateMenuFragmentBinding.bind(view)
 
-        addDonateBtcOptionListener(view.findViewById(R.id.linearLayoutDonateBtcOption));
-        addDonateXrpOptionListener(view.findViewById(R.id.linearLayoutDonateXrpOption));
-        addDonateEthOptionListener(view.findViewById(R.id.linearLayoutDonateEthOption));
-        addDonateLtcOptionListener(view.findViewById(R.id.linearLayoutDonateLtcOption));
-
-        return view;
+        addDonateBtcOptionListener()
+        addDonateEthOptionListener()
+        addDonateLtcOptionListener()
+        addDonateXrpOptionListener()
     }
 
-    private void addDonateBtcOptionListener(View view)
-    {
-        this.donateBtcOption = (LinearLayoutCompat) view;
-        this.donateBtcOption.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-
-                Bundle bundle = new Bundle();
-                bundle.putString("asset", ConstantUtils.BTC);
-
-                DonateFrag donateFrag = new DonateFrag();
-                donateFrag.setArguments(bundle);
-
-                FragmentUtils.startFragment(((MainActivity)getActivity()).getSupportFragmentManager(), donateFrag, R.id.fragContainer, ((MainActivity)getActivity()).getSupportActionBar(), "Donate BTC",true, false, true, null);
-            }
-        });
+    private fun addDonateBtcOptionListener() {
+        this.binding.linearLayoutDonateBtcOption.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("asset", ConstantUtils.BTC)
+            val donateFrag = DonateFrag()
+            donateFrag.arguments = bundle
+            FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, donateFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Donate BTC", true, false, true, null)
+        }
     }
 
-    private void addDonateXrpOptionListener(View view)
-    {
-        this.donateXrpOption = (LinearLayoutCompat) view;
-        this.donateXrpOption.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                Bundle bundle = new Bundle();
-                bundle.putString("asset", ConstantUtils.XRP);
-
-                DonateFrag donateFrag = new DonateFrag();
-                donateFrag.setArguments(bundle);
-
-                FragmentUtils.startFragment(((MainActivity)getActivity()).getSupportFragmentManager(), donateFrag, R.id.fragContainer, ((MainActivity)getActivity()).getSupportActionBar(), "Donate XRP",true, false, true, null);
-            }
-        });
+    private fun addDonateXrpOptionListener() {
+        this.binding.linearLayoutDonateXrpOption.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("asset", ConstantUtils.XRP)
+            val donateFrag = DonateFrag()
+            donateFrag.arguments = bundle
+            FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, donateFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Donate XRP", true, false, true, null)
+        }
     }
 
-    private void addDonateEthOptionListener(View view)
-    {
-        this.donateEthOption = (LinearLayoutCompat) view;
-        this.donateEthOption.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                Bundle bundle = new Bundle();
-                bundle.putString("asset", ConstantUtils.ETH);
-
-                DonateFrag donateFrag = new DonateFrag();
-                donateFrag.setArguments(bundle);
-
-                FragmentUtils.startFragment(((MainActivity)getActivity()).getSupportFragmentManager(), donateFrag, R.id.fragContainer, ((MainActivity)getActivity()).getSupportActionBar(), "Donate ETH",true, false, true, null);
-            }
-        });
+    private fun addDonateEthOptionListener() {
+        this.binding.linearLayoutDonateEthOption.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("asset", ConstantUtils.ETH)
+            val donateFrag = DonateFrag()
+            donateFrag.arguments = bundle
+            FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, donateFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Donate ETH", true, false, true, null)
+        }
     }
 
-    private void addDonateLtcOptionListener(View view)
-    {
-        this.donateLtcOption = (LinearLayoutCompat) view;
-        this.donateLtcOption.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                Bundle bundle = new Bundle();
-                bundle.putString("asset", ConstantUtils.LTC);
-
-                DonateFrag donateFrag = new DonateFrag();
-                donateFrag.setArguments(bundle);
-
-                FragmentUtils.startFragment(((MainActivity)getActivity()).getSupportFragmentManager(), donateFrag, R.id.fragContainer, ((MainActivity)getActivity()).getSupportActionBar(), "Donate LTC",true, false, true, null);
-            }
-        });
+    private fun addDonateLtcOptionListener() {
+        this.binding.linearLayoutDonateLtcOption.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("asset", ConstantUtils.LTC)
+            val donateFrag = DonateFrag()
+            donateFrag.arguments = bundle
+            FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, donateFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Donate LTC", true, false, true, null)
+        }
     }
-
 }
