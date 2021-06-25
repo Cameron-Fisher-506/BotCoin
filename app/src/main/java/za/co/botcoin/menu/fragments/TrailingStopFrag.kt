@@ -26,7 +26,7 @@ class TrailingStopFrag : Fragment(R.layout.set_pullout_price_fragment) {
 
     private fun wireUI() {
         try {
-            val jsonObject = SharedPreferencesUtils.get(context, SharedPreferencesUtils.PULLOUT_BID_PRICE_USER)
+            val jsonObject = context?.let { SharedPreferencesUtils.get(it, SharedPreferencesUtils.PULLOUT_BID_PRICE_USER) }
             var itemPosition: Int? = null
             if (jsonObject != null && jsonObject.has("itemPosition")) {
                 itemPosition = jsonObject.getInt("itemPosition")
@@ -52,21 +52,23 @@ class TrailingStopFrag : Fragment(R.layout.set_pullout_price_fragment) {
     private fun setBtnUseDefaultListener() {
         this.binding.btnUseDefault.setOnClickListener {
             try {
-                if (SharedPreferencesUtils.get(context, SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT) != null) {
-                    val jsonObject = SharedPreferencesUtils.get(context, SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT)
-                    if (jsonObject != null && jsonObject.has(SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT)) {
-                        ConstantUtils.trailingStop = jsonObject.getInt(SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT)
-                        GeneralUtils.makeToast(context, "Default value set!")
+                context?.let {
+                    if (SharedPreferencesUtils.get(it, SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT) != null) {
+                        val jsonObject = SharedPreferencesUtils.get(it, SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT)
+                        if (jsonObject != null && jsonObject.has(SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT)) {
+                            ConstantUtils.trailingStop = jsonObject.getInt(SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT)
+                            GeneralUtils.makeToast(it, "Default value set!")
+                        } else {
+                            GeneralUtils.makeToast(it, "Default value not found!")
+                        }
                     } else {
-                        GeneralUtils.makeToast(context, "Default value not found!")
+                        GeneralUtils.makeToast(it, "Default value not found!")
                     }
-                } else {
-                    GeneralUtils.makeToast(context, "Default value not found!")
                 }
             } catch (e: Exception) {
                 Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                         "Method: MainActivity - saveDefaultPullOutBidPrice " +
-                        "CreatedTime: ${GeneralUtils.currentDateTime}")
+                        "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
             }
         }
     }
@@ -82,7 +84,7 @@ class TrailingStopFrag : Fragment(R.layout.set_pullout_price_fragment) {
      Sell order: 90
      
      In the above scenario BotCoin will create a sell order if the price drops 10% below than last highest resistance price.
-     """.trimIndent(), false).show()
+     """.trimIndent(), false)?.show()
         }
     }
 
@@ -91,11 +93,11 @@ class TrailingStopFrag : Fragment(R.layout.set_pullout_price_fragment) {
             val jsonObject = JSONObject()
             jsonObject.put(SharedPreferencesUtils.PULLOUT_BID_PRICE_USER, ConstantUtils.trailingStop)
             jsonObject.put("itemPosition", itemPosition)
-            SharedPreferencesUtils.save(context, SharedPreferencesUtils.PULLOUT_BID_PRICE_USER, jsonObject)
+            context?.let { SharedPreferencesUtils.save(it, SharedPreferencesUtils.PULLOUT_BID_PRICE_USER, jsonObject) }
         } catch (e: Exception) {
             Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                     "Method: MainActivity - saveDefaultPullOutBidPrice " +
-                    "CreatedTime: ${GeneralUtils.currentDateTime}")
+                    "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
         }
     }
 }

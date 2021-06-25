@@ -28,8 +28,8 @@ class TradeFrag : Fragment(R.layout.trade_option_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        trades.add(Trade(Trade.BUY_TYPE, "0", ConstantUtils.SUPPORT_PRICE))
-        trades.add(Trade(Trade.SELL_TYPE, "0", ConstantUtils.RESISTANCE_PRICE))
+        trades.add(Trade(Trade.BUY_TYPE, "0", ConstantUtils.SUPPORT_PRICE ?: ""))
+        trades.add(Trade(Trade.SELL_TYPE, "0", ConstantUtils.RESISTANCE_PRICE ?: ""))
         tradeAdapter = TradeAdapter(context, trades)
         this.binding.botPager.adapter = tradeAdapter
         addTabBotMenuListener()

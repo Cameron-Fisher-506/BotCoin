@@ -45,14 +45,14 @@ class AutoTradeFrag : Fragment(R.layout.auto_trade_fragment) {
                     This policy is effective as of 25 November 2020.
                     
                     
-                    """.trimIndent(), false).show()
+                    """.trimIndent(), false)?.show()
 
         if (GeneralUtils.isApiKeySet(context)) {
             setSwitchAutoTrade()
         } else {
             stopBotService()
             this.binding.switchAutoTrade.isChecked = false
-            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
+            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
 
             val lunoApiFrag = LunoApiFrag()
             FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, lunoApiFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Luno API", true, false, true, null)
@@ -62,7 +62,7 @@ class AutoTradeFrag : Fragment(R.layout.auto_trade_fragment) {
             try {
                 val jsonObjectAutoTade = JSONObject()
                 jsonObjectAutoTade.put("isAutoTrade", isChecked)
-                SharedPreferencesUtils.save(context, SharedPreferencesUtils.AUTO_TRADE_PREF, jsonObjectAutoTade)
+                context?.let { SharedPreferencesUtils.save(it, SharedPreferencesUtils.AUTO_TRADE_PREF, jsonObjectAutoTade) }
                 if (isChecked) {
                     //start service
                     startBotService()
@@ -73,7 +73,7 @@ class AutoTradeFrag : Fragment(R.layout.auto_trade_fragment) {
             } catch (e: Exception) {
                 Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                         "Method: AutoTradeFrag - onCreateView " +
-                        "CreatedTime: ${GeneralUtils.currentDateTime}")
+                        "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
             }
         }
     }
@@ -91,7 +91,7 @@ class AutoTradeFrag : Fragment(R.layout.auto_trade_fragment) {
     }
 
     private fun setSwitchAutoTrade() {
-        val jsonObjectAutoTrade = SharedPreferencesUtils.get(context, SharedPreferencesUtils.AUTO_TRADE_PREF)
+        val jsonObjectAutoTrade = context?.let { SharedPreferencesUtils.get(it, SharedPreferencesUtils.AUTO_TRADE_PREF) }
         if (jsonObjectAutoTrade != null && jsonObjectAutoTrade.has("isAutoTrade")) {
             try {
                 val isAutoTrade = jsonObjectAutoTrade.getBoolean("isAutoTrade")
@@ -99,7 +99,7 @@ class AutoTradeFrag : Fragment(R.layout.auto_trade_fragment) {
             } catch (e: Exception) {
                 Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                         "Method: AutoTradeFrag - setSwitchAutoTrade " +
-                        "CreatedTime: ${GeneralUtils.currentDateTime}")
+                        "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
             }
         } else {
             this.binding.switchAutoTrade.isChecked = false

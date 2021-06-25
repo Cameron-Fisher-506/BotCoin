@@ -21,7 +21,7 @@ class SupportResistanceFrag : Fragment(R.layout.support_resistance_fragment) {
     }
 
     private fun addApplyListener() {
-        this.binding.btnApply.setOnClickListener {
+        this.binding.btnApply.setOnClickListener { view ->
             val supportPrice = this.binding.txtSupport.text.toString()
             val resistancePrice = this.binding.txtResistance.text.toString()
             if (supportPrice != "" && resistancePrice != "") {
@@ -29,15 +29,15 @@ class SupportResistanceFrag : Fragment(R.layout.support_resistance_fragment) {
                     val jsonObjectSupportResistance = JSONObject()
                     jsonObjectSupportResistance.put("supportPrice", supportPrice)
                     jsonObjectSupportResistance.put("resistancePrice", resistancePrice)
-                    SharedPreferencesUtils.save(context, SharedPreferencesUtils.SUPPORT_RESISTANCE_PREF, jsonObjectSupportResistance)
+                    context?.let { SharedPreferencesUtils.save(it, SharedPreferencesUtils.SUPPORT_RESISTANCE_PREF, jsonObjectSupportResistance) }
                 } catch (e: Exception) {
                     Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message}" +
                             "Method: SupportResistanceFrag - addApplyListener " +
-                            "CreatedTime: ${GeneralUtils.currentDateTime}")
+                            "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
                 }
                 GeneralUtils.makeToast(context, "Support and Resistance applied!")
             } else {
-                GeneralUtils.createAlertDialog(context, "Support/Resistance", "Please enter a Support and Resistance price before applying the change!", false).show()
+                GeneralUtils.createAlertDialog(context, "Support/Resistance", "Please enter a Support and Resistance price before applying the change!", false)?.show()
             }
         }
     }

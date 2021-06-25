@@ -41,7 +41,7 @@ class DonateFrag : Fragment(R.layout.donate_fragment), WSCallUtilsCallBack {
         if (GeneralUtils.isApiKeySet(context)) {
             botCoinAccountDetails
         } else {
-            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
+            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
             val lunoApiFrag = LunoApiFrag()
             FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, lunoApiFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Luno API", true, false, true, null)
         }
@@ -67,32 +67,32 @@ class DonateFrag : Fragment(R.layout.donate_fragment), WSCallUtilsCallBack {
         }
 
     private fun addBtnCopyListener(view: View) {
-        this.binding.btnCopy.setOnClickListener { ClipBoardUtils.copyToClipBoard(activity, address) }
+        this.binding.btnCopy.setOnClickListener { activity?.let { context -> ClipBoardUtils.copyToClipBoard(context, address) } }
     }
 
     private fun addBtnCopyTagListener(view: View) {
-        this.binding.btnCopyTag.setOnClickListener { ClipBoardUtils.copyToClipBoard(activity, tagValue) }
+        this.binding.btnCopyTag.setOnClickListener { activity?.let { context -> ClipBoardUtils.copyToClipBoard(context, tagValue) } }
     }
 
     private fun addBtnDonateListener(view: View) {
         this.binding.btnDonate.setOnClickListener {
             if (this.binding.edTxtAmount.text != null && this.binding.edTxtAmount.text.toString() != "") {
                 if (this.binding.edTxtAmount.text.toString() != "0") {
-                    send(this.binding.edTxtAmount.text.toString(), address, tagValue)
+                    send(this.binding.edTxtAmount.text.toString(), address ?: "", tagValue ?: "")
                 } else {
-                    GeneralUtils.createAlertDialog(context, "Invalid amount entered!", "Please note that you cannot donate 0 $asset.", false).show()
+                    GeneralUtils.createAlertDialog(context, "Invalid amount entered!", "Please note that you cannot donate 0 $asset.", false)?.show()
                 }
             } else {
-                GeneralUtils.createAlertDialog(context, "No amount entered!", "Please enter the amount of $asset You would like to donate.", false).show()
+                GeneralUtils.createAlertDialog(context, "No amount entered!", "Please enter the amount of $asset You would like to donate.", false)?.show()
             }
         }
     }
 
-    private fun send(amount: String, address: String?, tagValue: String?) {
-        WSCallsUtils.post(this, REQ_CODE_SEND, StringUtils.GLOBAL_LUNO_URL + GeneralUtils.buildSend(amount, asset, address, tagValue), "", GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY))
+    private fun send(amount: String, address: String, tagValue: String) {
+        WSCallsUtils.post(this, REQ_CODE_SEND, StringUtils.GLOBAL_LUNO_URL + GeneralUtils.buildSend(amount, asset ?: "", address, tagValue), "", GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID ?: "", ConstantUtils.USER_SECRET_KEY ?: ""))
     }
 
-    override fun taskCompleted(response: String, reqCode: Int) {
+    override fun taskCompleted(response: String?, reqCode: Int) {
         if (response != null) {
             if (reqCode == REQ_CODE_FUNDING_ADDRESS) {
                 try {
@@ -126,7 +126,7 @@ class DonateFrag : Fragment(R.layout.donate_fragment), WSCallUtilsCallBack {
                     Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                             "Method: DonateFrag - taskCompleted " +
                             "Request Code: $reqCode " +
-                            "CreatedTime: ${GeneralUtils.currentDateTime}")
+                            "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
                 }
             }
             if (reqCode == REQ_CODE_SEND) {
@@ -139,7 +139,7 @@ class DonateFrag : Fragment(R.layout.donate_fragment), WSCallUtilsCallBack {
                     Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                             "Method: DonateFrag - taskCompleted " +
                             "Request Code: $reqCode " +
-                            "CreatedTime: ${GeneralUtils.currentDateTime}")
+                            "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
                 }
             }
         } else {

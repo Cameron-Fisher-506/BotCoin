@@ -19,23 +19,23 @@ class LogcatFrag : Fragment(R.layout.logcat_fragment) {
     }
 
     private fun displayLogcat() {
-        if (ConstantUtils.resistancePrices != null && ConstantUtils.resistancePrices.size > 0) {
+        if (ConstantUtils.resistancePrices != null && ConstantUtils.resistancePrices.isNotEmpty()) {
             val prices = StringBuilder()
             for (i in ConstantUtils.resistancePrices.indices) {
                 prices.append("${ConstantUtils.resistancePrices[i].price}, ${ConstantUtils.resistancePrices[i].counter}")
             }
             this.binding.txtLogcat.append("BotService - setResistancePrice " +
                     "ResistancePrices: $prices " +
-                    "CreatedTime: ${GeneralUtils.currentDateTime}")
+                    "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
         }
-        if (ConstantUtils.supportPrices != null && ConstantUtils.supportPrices.size > 0) {
+        if (ConstantUtils.supportPrices != null && ConstantUtils.supportPrices.isNotEmpty()) {
             val prices = StringBuilder()
             for (i in ConstantUtils.supportPrices.indices) {
                 prices.append("${ConstantUtils.supportPrices[i].price}, ${ConstantUtils.supportPrices[i].counter}")
             }
             this.binding.txtLogcat.append("BotService - setSupportPrice " +
                     "SupportPrices: $prices " +
-                    "CreatedTime: ${GeneralUtils.currentDateTime}")
+                    "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
         }
     }
 }

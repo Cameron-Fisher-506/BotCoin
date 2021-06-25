@@ -26,7 +26,7 @@ object DTUtils {
             println("Error: ${e.message} " +
                     "Method: parseDateTime " +
                     "Data: $dateTime " +
-                    "Date: ${GeneralUtils.currentDateTime}")
+                    "Date: ${GeneralUtils.getCurrentDateTime()}")
         }
         return toReturn
     }

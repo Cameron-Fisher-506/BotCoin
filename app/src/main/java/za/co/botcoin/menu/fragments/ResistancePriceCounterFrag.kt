@@ -26,7 +26,7 @@ class ResistancePriceCounterFrag : Fragment(R.layout.resistance_price_counter_fr
 
     private fun wireUI() {
         try {
-            val jsonObject = SharedPreferencesUtils.get(context, SharedPreferencesUtils.RESISTANCE_PRICE_COUNTER)
+            val jsonObject = context?.let { SharedPreferencesUtils.get(it, SharedPreferencesUtils.RESISTANCE_PRICE_COUNTER) }
             var itemPosition: Int? = null
 
             if (jsonObject != null && jsonObject.has("itemPosition")) {
@@ -54,12 +54,12 @@ class ResistancePriceCounterFrag : Fragment(R.layout.resistance_price_counter_fr
     private fun setImgBtnResistancePriceCounterListener() {
         this.binding.imgBtnResistancePriceCounter.setOnClickListener {
             GeneralUtils.createAlertDialog(context, "Resistance Price Counter", """
-     BotCoin uses the Resistance Price Counter, to sell at solid resistance price
-     
-     E.g.
-     Resistance Price Counter: 5
-     BotCoin keeps track of the number of hits each price gets. The highest price with the highest number of hits > 5 will be set as the resistance price.
-     """.trimIndent(), false).show()
+         BotCoin uses the Resistance Price Counter, to sell at solid resistance price
+         
+         E.g.
+         Resistance Price Counter: 5
+         BotCoin keeps track of the number of hits each price gets. The highest price with the highest number of hits > 5 will be set as the resistance price.
+         """.trimIndent(), false)?.show()
         }
     }
 
@@ -68,11 +68,11 @@ class ResistancePriceCounterFrag : Fragment(R.layout.resistance_price_counter_fr
             val jsonObject = JSONObject()
             jsonObject.put(SharedPreferencesUtils.RESISTANCE_PRICE_COUNTER, ConstantUtils.resistancePriceCounter)
             jsonObject.put("itemPosition", itemPosition)
-            SharedPreferencesUtils.save(context, SharedPreferencesUtils.RESISTANCE_PRICE_COUNTER, jsonObject)
+            context?.let { SharedPreferencesUtils.save(it, SharedPreferencesUtils.RESISTANCE_PRICE_COUNTER, jsonObject) }
         } catch (e: Exception) {
             Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                     "Method: MainActivity - saveUserResistancePriceCounter " +
-                    "CreatedTime: ${GeneralUtils.currentDateTime}")
+                    "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
         }
     }
 }

@@ -44,15 +44,15 @@ class LunoApiFrag : Fragment(R.layout.luno_api_fragment) {
                     val jsonObjectApiKey = JSONObject()
                     jsonObjectApiKey.put("keyID", keyID)
                     jsonObjectApiKey.put("secretKey", secretKey)
-                    SharedPreferencesUtils.save(activity, SharedPreferencesUtils.LUNO_API_PREF, jsonObjectApiKey)
+                    activity?.let { context -> SharedPreferencesUtils.save(context, SharedPreferencesUtils.LUNO_API_PREF, jsonObjectApiKey) }
                     GeneralUtils.makeToast(activity, "API Key Saved!")
                 } catch (e: Exception) {
                     Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                             "Method: LunoApiFrag - onCreateView " +
-                            "CreatedTime: ${GeneralUtils.currentDateTime}")
+                            "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
                 }
             } else {
-                GeneralUtils.createAlertDialog(activity, "Luno API Credentials (Luno API)", "Please set your Luno API credentials in order to use BotCoin!", false).show()
+                GeneralUtils.createAlertDialog(activity, "Luno API Credentials (Luno API)", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
             }
         }
     }

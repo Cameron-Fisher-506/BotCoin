@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                     "Method: MainActivity - displayPrivacyPolicy " +
-                    "CreatedTime: ${GeneralUtils.currentDateTime}")
+                    "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
         }
     }
 
@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                     "Method: MainActivity - saveDefaultPullOutBidPrice " +
-                    "CreatedTime: ${GeneralUtils.currentDateTime}")
+                    "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
         }
     }
 
@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                     "Method: MainActivity - setUserPulloutBidPrice " +
-                    "CreatedTime: ${GeneralUtils.currentDateTime}")
+                    "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
         }
     }
 

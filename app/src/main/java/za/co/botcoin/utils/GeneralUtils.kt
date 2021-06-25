@@ -97,7 +97,7 @@ object GeneralUtils {
     @JvmStatic
     fun isApiKeySet(context: Context?): Boolean {
         var toReturn = false
-        val jsonObjectLunoApiKey = SharedPreferencesUtils.get(context, SharedPreferencesUtils.LUNO_API_PREF)
+        val jsonObjectLunoApiKey = context?.let { SharedPreferencesUtils[it, SharedPreferencesUtils.LUNO_API_PREF] }
         if (jsonObjectLunoApiKey != null && jsonObjectLunoApiKey.has("keyID") && jsonObjectLunoApiKey.has("secretKey")) {
             try {
                 ConstantUtils.USER_KEY_ID = jsonObjectLunoApiKey.getString("keyID")

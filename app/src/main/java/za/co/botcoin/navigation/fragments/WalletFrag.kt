@@ -24,9 +24,9 @@ class WalletFrag : Fragment(R.layout.wallet_fragment), WSCallUtilsCallBack {
         addXrpOptionListener()
         if (GeneralUtils.isApiKeySet(context)) {
             //Get ZAR and XRP balance
-            WSCallsUtils.get(this, BALANCE_REQ_CODE, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_BALANCE, GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY))
+            WSCallsUtils.get(this, BALANCE_REQ_CODE, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_BALANCE, GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID ?: "", ConstantUtils.USER_SECRET_KEY ?: ""))
         } else {
-            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
+            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
         }
     }
 
@@ -47,7 +47,7 @@ class WalletFrag : Fragment(R.layout.wallet_fragment), WSCallUtilsCallBack {
         })
     }
 
-    override fun taskCompleted(response: String, reqCode: Int) {
+    override fun taskCompleted(response: String?, reqCode: Int) {
         if (response != null) {
             if (reqCode == BALANCE_REQ_CODE) {
                 try {
@@ -72,18 +72,18 @@ class WalletFrag : Fragment(R.layout.wallet_fragment), WSCallUtilsCallBack {
                             Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                                     "Method: MainActivity - onCreate " +
                                     "URL: ${StringUtils.GLOBAL_LUNO_URL}/api/1/balance " +
-                                    "CreatedTime: ${GeneralUtils.currentDateTime}")
+                                    "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
                         }
                     } else {
                         Log.e(ConstantUtils.BOTCOIN_TAG, "Error: No Response " +
                                 "Method: MainActivity - onCreate " +
                                 "URL: ${StringUtils.GLOBAL_LUNO_URL}/api/1/balance " +
-                                "CreatedTime: ${GeneralUtils.currentDateTime}")
+                                "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
                     }
                 } catch (e: Exception) {
                     Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                             "Method: MainActivity - onCreate " +
-                            "CreatedTime: ${GeneralUtils.currentDateTime}")
+                            "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
                 }
             }
         } else {

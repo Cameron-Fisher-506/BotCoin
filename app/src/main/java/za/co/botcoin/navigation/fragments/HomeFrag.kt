@@ -35,13 +35,13 @@ class HomeFrag : Fragment(R.layout.home_fragment), WSCallUtilsCallBack {
             timer = Timer()
             timer!!.scheduleAtFixedRate(timerTask, 0, ConstantUtils.TICKER_RUN_TIME.toLong())
         } else {
-            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
+            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
         }
     }
 
     private val tickers: Unit
         private get() {
-            WSCallsUtils.get(this, TICKERS_REQ_CODE, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_TICKERS, GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY))
+            WSCallsUtils.get(this, TICKERS_REQ_CODE, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_TICKERS, GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID ?: "", ConstantUtils.USER_SECRET_KEY ?: ""))
         }
 
     override fun onDestroyView() {

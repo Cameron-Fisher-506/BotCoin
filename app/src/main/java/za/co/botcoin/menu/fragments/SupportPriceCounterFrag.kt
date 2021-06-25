@@ -25,7 +25,7 @@ class SupportPriceCounterFrag : Fragment(R.layout.support_price_counter_fragment
 
     private fun wireUI() {
         try {
-            val jsonObject = SharedPreferencesUtils.get(context, SharedPreferencesUtils.SUPPORT_PRICE_COUNTER)
+            val jsonObject = context?.let { SharedPreferencesUtils.get(it, SharedPreferencesUtils.SUPPORT_PRICE_COUNTER) }
             var itemPosition: Int? = null
             if (jsonObject != null && jsonObject.has("itemPosition")) {
                 itemPosition = jsonObject.getInt("itemPosition")
@@ -56,7 +56,7 @@ class SupportPriceCounterFrag : Fragment(R.layout.support_price_counter_fragment
      E.g.
      Support Price Counter: 5
      BotCoin keeps track of the number of hits each price gets. The lowest price with the highest number of hits > 5 will be set as the support price.
-     """.trimIndent(), false).show()
+     """.trimIndent(), false)?.show()
         }
     }
 
@@ -65,11 +65,11 @@ class SupportPriceCounterFrag : Fragment(R.layout.support_price_counter_fragment
             val jsonObject = JSONObject()
             jsonObject.put(SharedPreferencesUtils.SUPPORT_PRICE_COUNTER, ConstantUtils.supportPriceCounter)
             jsonObject.put("itemPosition", itemPosition)
-            SharedPreferencesUtils.save(context, SharedPreferencesUtils.SUPPORT_PRICE_COUNTER, jsonObject)
+            context?.let { SharedPreferencesUtils.save(it, SharedPreferencesUtils.SUPPORT_PRICE_COUNTER, jsonObject) }
         } catch (e: Exception) {
             Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                     "Method: MainActivity - saveUserSupportPriceCounter " +
-                    "CreatedTime: ${GeneralUtils.currentDateTime}")
+                    "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
         }
     }
 }
