@@ -77,7 +77,7 @@ class HomeFrag : Fragment(R.layout.home_fragment), WSCallUtilsCallBack {
                     Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                             "Method: HomeFrag - onCreateView " +
                             "URL: ${StringUtils.GLOBAL_ENDPOINT_TICKERS} " +
-                            "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+                            "CreatedTime: ${GeneralUtils.currentDateTime}")
                 }
             }
         } else {

@@ -69,7 +69,7 @@ class PrivacyPolicyFrag : Fragment(R.layout.privacy_policy_fragment) {
                 Log.d(ConstantUtils.BOTCOIN_TAG, "Class: PrivacyPolicyFrag" +
                         "Method: onCreateView" +
                         "Error: ${e.message}" +
-                        "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+                        "CreatedTime: ${GeneralUtils.currentDateTime}")
             }
         }
     }

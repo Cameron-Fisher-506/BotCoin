@@ -421,9 +421,9 @@ public class BotService extends Service implements WSCallUtilsCallBack
                     supportPrices.get(i).setIncreased(true);
                 }
 
-                if(currentPrice.doubleValue() == supportPrices.get(i).getPrice().doubleValue())
+                if(currentPrice == supportPrices.get(i).getPrice())
                 {
-                    if(supportPrices.get(i).getIncreased())
+                    if(supportPrices.get(i).isIncreased())
                     {
                         int currentCounter = supportPrices.get(i).getCounter() + 1;
                         supportPrices.get(i).setCounter(currentCounter);
@@ -450,9 +450,9 @@ public class BotService extends Service implements WSCallUtilsCallBack
                     resistancePrices.get(i).setIncreased(false);
                 }
 
-                if(currentPrice.doubleValue() == resistancePrices.get(i).getPrice().doubleValue())
+                if(currentPrice.doubleValue() == resistancePrices.get(i).getPrice())
                 {
-                    if(!resistancePrices.get(i).getIncreased())
+                    if(!resistancePrices.get(i).isIncreased())
                     {
                         int currentCounter = resistancePrices.get(i).getCounter() + 1;
                         resistancePrices.get(i).setCounter(currentCounter);
@@ -471,7 +471,7 @@ public class BotService extends Service implements WSCallUtilsCallBack
         {
             for(int i = 0; i < tradePrices.size(); i++)
             {
-                if(currentPrice.doubleValue() == tradePrices.get(i).getPrice().doubleValue())
+                if(currentPrice == tradePrices.get(i).getPrice())
                 {
                     return;
                 }

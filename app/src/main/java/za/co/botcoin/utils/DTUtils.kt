@@ -1,59 +1,42 @@
-package za.co.botcoin.utils;
+package za.co.botcoin.utils
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.text.SimpleDateFormat
+import java.util.*
 
-public class DTUtils {
-    public static String getCurrentDateTime()
-    {
-        String toReturn = "";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-        Date now = new Date();
+object DTUtils {
+    fun getCurrentDateTime(): String {
+        var toReturn = ""
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(now);
-        now = calendar.getTime();
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH-mm-ss", Locale.ENGLISH)
+        var now = Date()
+        val calendar = Calendar.getInstance()
+        calendar.time = now
+        now = calendar.time
+        toReturn = simpleDateFormat.format(now)
 
-        toReturn = simpleDateFormat.format(now);
-
-        return toReturn;
-
+        return toReturn
     }
 
-    public static Date parseDateTime(String dateTime)
-    {
-        Date toReturn = null;
-
-        try
-        {
-            SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            toReturn = sdfDate.parse(dateTime);
-        }catch(Exception e)
-        {
-            System.out.println("\nError: " + e.getMessage() +
-                    "\nApp: TMSPulsePTO-Re" +
-                    "\nMethod: parseDate" +
-                    "\nData: " + dateTime +
-                    "\nDate: " + GeneralUtils.getCurrentDateTime() +
-                    "\n");
+    private fun parseDateTime(dateTime: String): Date? {
+        var toReturn: Date? = null
+        try {
+            val sdfDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
+            toReturn = sdfDate.parse(dateTime)
+        } catch (e: Exception) {
+            println("Error: ${e.message} " +
+                    "Method: parseDateTime " +
+                    "Data: $dateTime " +
+                    "Date: ${GeneralUtils.currentDateTime}")
         }
-
-
-        return toReturn;
+        return toReturn
     }
 
-    public static long getDifferenceDateTimeInMin(String dateTime)
-    {
-        long toReturn = 0;
-
-        Date parseDateTime = parseDateTime(dateTime);
-        Date currentDateTime = parseDateTime(getCurrentDateTime());
-
-        long difference = currentDateTime.getTime() - parseDateTime.getTime();
-        toReturn = difference / (60 * 1000);
-
-
-        return toReturn;
+    fun getDifferenceDateTimeInMin(dateTime: String): Long {
+        var toReturn: Long = 0
+        val parseDateTime = parseDateTime(dateTime)
+        val currentDateTime = parseDateTime(getCurrentDateTime())
+        val difference = currentDateTime!!.time - parseDateTime!!.time
+        toReturn = difference / (60 * 1000)
+        return toReturn
     }
 }

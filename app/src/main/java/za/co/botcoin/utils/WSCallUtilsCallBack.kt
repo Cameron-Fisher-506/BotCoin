@@ -1,6 +1,5 @@
-package za.co.botcoin.utils;
+package za.co.botcoin.utils
 
-public interface WSCallUtilsCallBack
-{
-    public void taskCompleted(String response, int reqCode);
+interface WSCallUtilsCallBack {
+    fun taskCompleted(response: String?, reqCode: Int)
 }

@@ -1,7 +1,12 @@
 package za.co.botcoin.objs
 
 class TradePrice {
-    private val counter = 0
-    private val price: Double = 0.0
-    private val isIncreased: Boolean = false
+    var counter: Int = 0
+    var price: Double = 0.0
+    var isIncreased: Boolean = false
+
+    constructor(price: Double, isIncreased: Boolean) {
+        this.price = price
+        this.isIncreased = isIncreased
+    }
 }

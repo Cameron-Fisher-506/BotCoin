@@ -72,7 +72,7 @@ class ResistancePriceCounterFrag : Fragment(R.layout.resistance_price_counter_fr
         } catch (e: Exception) {
             Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                     "Method: MainActivity - saveUserResistancePriceCounter " +
-                    "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+                    "CreatedTime: ${GeneralUtils.currentDateTime}")
         }
     }
 }

@@ -9,4 +9,10 @@ class Trade {
         const val BUY_TYPE = "BUY"
         const val SELL_TYPE = "SELL"
     }
+
+    constructor(type: String, amount: String, price: String) {
+        this.type = type
+        this.amount = amount
+        this.price = price
+    }
 }

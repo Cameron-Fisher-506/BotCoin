@@ -26,7 +26,7 @@ class LogcatFrag : Fragment(R.layout.logcat_fragment) {
             }
             this.binding.txtLogcat.append("BotService - setResistancePrice " +
                     "ResistancePrices: $prices " +
-                    "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+                    "CreatedTime: ${GeneralUtils.currentDateTime}")
         }
         if (ConstantUtils.supportPrices != null && ConstantUtils.supportPrices.size > 0) {
             val prices = StringBuilder()
@@ -35,7 +35,7 @@ class LogcatFrag : Fragment(R.layout.logcat_fragment) {
             }
             this.binding.txtLogcat.append("BotService - setSupportPrice " +
                     "SupportPrices: $prices " +
-                    "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+                    "CreatedTime: ${GeneralUtils.currentDateTime}")
         }
     }
 }

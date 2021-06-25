@@ -49,7 +49,7 @@ class LunoApiFrag : Fragment(R.layout.luno_api_fragment) {
                 } catch (e: Exception) {
                     Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                             "Method: LunoApiFrag - onCreateView " +
-                            "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+                            "CreatedTime: ${GeneralUtils.currentDateTime}")
                 }
             } else {
                 GeneralUtils.createAlertDialog(activity, "Luno API Credentials (Luno API)", "Please set your Luno API credentials in order to use BotCoin!", false).show()

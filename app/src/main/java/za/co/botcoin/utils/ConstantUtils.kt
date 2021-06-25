@@ -1,65 +1,68 @@
-package za.co.botcoin.utils;
+package za.co.botcoin.utils
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
+import za.co.botcoin.objs.TradePrice
+import java.util.*
 
-import za.co.botcoin.objs.TradePrice;
-
-public class ConstantUtils {
-
+object ConstantUtils {
     //KEYS
-    public static String KEY_ID = "eagwrgxnn8vm";
-    public static String SECRET_KEY = "J5TyKa7OYuO_OpRuMxovvk-WhQASAhlxtpN0VfyssNw";
+    @JvmField
+    var KEY_ID = "eagwrgxnn8vm"
+    @JvmField
+    var SECRET_KEY = "J5TyKa7OYuO_OpRuMxovvk-WhQASAhlxtpN0VfyssNw"
 
     //USER API KEYS
-    public static String USER_KEY_ID = null;
-    public static String USER_SECRET_KEY = null;
+    @JvmField
+    var USER_KEY_ID: String? = null
+    @JvmField
+    var USER_SECRET_KEY: String? = null
 
     //TAG
-    public static final String BOTCOIN_TAG = "BOTCOIN";
+    const val BOTCOIN_TAG = "BOTCOIN"
 
     //CHAR_SET
-    public static final String UTF_8 = "UTF-8";
+    const val UTF_8 = "UTF-8"
 
     //CURRENCY
-    public static final String BTC = "XBT";
-    public static final String ETH = "ETH";
-    public static final String LTC = "LTC";
-    public static final String XRP = "XRP";
-    public static final String ZAR = "ZAR";
+    const val BTC = "XBT"
+    const val ETH = "ETH"
+    const val LTC = "LTC"
+    const val XRP = "XRP"
+    const val ZAR = "ZAR"
 
     //TICKER
-    public static final int TICKER_RUN_TIME = 5000;
+    const val TICKER_RUN_TIME = 5000
 
     //TICKER PAIRS
-    public static final String PAIR_XRPZAR = "XRPZAR";
+    const val PAIR_XRPZAR = "XRPZAR"
 
     //POST ORDER
-    public static final String TRADE_TYPE_BID = "BID";
-    public static final String TRADE_TYPE_ASK = "ASK";
+    const val TRADE_TYPE_BID = "BID"
+    const val TRADE_TYPE_ASK = "ASK"
 
     //SUPPORT/RESISTANCE
-    public static String SUPPORT_PRICE = null;
-    public static String RESISTANCE_PRICE = null;
-
-    public static final long TIME_TO_SET_SUPPORT_RESISTANCE = 30;
+    var SUPPORT_PRICE: String? = null
+    var RESISTANCE_PRICE: String? = null
+    const val TIME_TO_SET_SUPPORT_RESISTANCE: Long = 30
 
     //REQUEST METHODS
-    public static final String REQUEST_METHOD_POST = "POST";
-    public static final String REQUEST_METHOD_GET = "GET";
+    const val REQUEST_METHOD_POST = "POST"
+    const val REQUEST_METHOD_GET = "GET"
 
     //SERVICE PRICES
-    public static final String SERVICE_FEE = "0.1";
-    public static final Double SERVICE_FEE_MIN_BALANCE = 1.1;
-    public static int trailingStop = 1;
-    public static final Double PULL_OUT_PRICE = 0.01;
-    public static final Double BUY_SELL_MARGIN_PRICE = 0.01;
+    const val SERVICE_FEE = "0.1"
+    const val SERVICE_FEE_MIN_BALANCE = 1.1
+    @JvmField
+    var trailingStop = 1
+    const val PULL_OUT_PRICE = 0.01
+    const val BUY_SELL_MARGIN_PRICE = 0.01
 
     //Support and Resistance Prices
-    public static List<TradePrice> supportPrices = new ArrayList<>();
-    public static List<TradePrice> resistancePrices = new ArrayList<>();
-
-    public static int supportPriceCounter = 4;
-    public static int resistancePriceCounter = 4;
+    @JvmField
+    var supportPrices: List<TradePrice> = ArrayList()
+    @JvmField
+    var resistancePrices: List<TradePrice> = ArrayList()
+    @JvmField
+    var supportPriceCounter = 4
+    @JvmField
+    var resistancePriceCounter = 4
 }

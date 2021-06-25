@@ -66,7 +66,7 @@ class TrailingStopFrag : Fragment(R.layout.set_pullout_price_fragment) {
             } catch (e: Exception) {
                 Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                         "Method: MainActivity - saveDefaultPullOutBidPrice " +
-                        "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+                        "CreatedTime: ${GeneralUtils.currentDateTime}")
             }
         }
     }
@@ -95,7 +95,7 @@ class TrailingStopFrag : Fragment(R.layout.set_pullout_price_fragment) {
         } catch (e: Exception) {
             Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                     "Method: MainActivity - saveDefaultPullOutBidPrice " +
-                    "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+                    "CreatedTime: ${GeneralUtils.currentDateTime}")
         }
     }
 }

@@ -126,7 +126,7 @@ class DonateFrag : Fragment(R.layout.donate_fragment), WSCallUtilsCallBack {
                     Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                             "Method: DonateFrag - taskCompleted " +
                             "Request Code: $reqCode " +
-                            "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+                            "CreatedTime: ${GeneralUtils.currentDateTime}")
                 }
             }
             if (reqCode == REQ_CODE_SEND) {
@@ -139,7 +139,7 @@ class DonateFrag : Fragment(R.layout.donate_fragment), WSCallUtilsCallBack {
                     Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                             "Method: DonateFrag - taskCompleted " +
                             "Request Code: $reqCode " +
-                            "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+                            "CreatedTime: ${GeneralUtils.currentDateTime}")
                 }
             }
         } else {

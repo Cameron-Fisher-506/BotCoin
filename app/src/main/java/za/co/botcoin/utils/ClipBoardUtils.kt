@@ -1,19 +1,15 @@
-package za.co.botcoin.utils;
+package za.co.botcoin.utils
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
-
-public class ClipBoardUtils
-{
-    public static void copyToClipBoard(Context context, String data)
-    {
-        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText("data", data);
-        clipboard.setPrimaryClip(clip);
-
-        GeneralUtils.makeToast(context, "Copied to clipboard!");
+object ClipBoardUtils {
+    @JvmStatic
+    fun copyToClipBoard(context: Context, data: String?) {
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("data", data)
+        clipboard.setPrimaryClip(clip)
+        GeneralUtils.makeToast(context, "Copied to clipboard!")
     }
-
 }

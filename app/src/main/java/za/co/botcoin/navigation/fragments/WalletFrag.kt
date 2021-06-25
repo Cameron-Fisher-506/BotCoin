@@ -72,18 +72,18 @@ class WalletFrag : Fragment(R.layout.wallet_fragment), WSCallUtilsCallBack {
                             Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                                     "Method: MainActivity - onCreate " +
                                     "URL: ${StringUtils.GLOBAL_LUNO_URL}/api/1/balance " +
-                                    "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+                                    "CreatedTime: ${GeneralUtils.currentDateTime}")
                         }
                     } else {
                         Log.e(ConstantUtils.BOTCOIN_TAG, "Error: No Response " +
                                 "Method: MainActivity - onCreate " +
                                 "URL: ${StringUtils.GLOBAL_LUNO_URL}/api/1/balance " +
-                                "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+                                "CreatedTime: ${GeneralUtils.currentDateTime}")
                     }
                 } catch (e: Exception) {
                     Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                             "Method: MainActivity - onCreate " +
-                            "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+                            "CreatedTime: ${GeneralUtils.currentDateTime}")
                 }
             }
         } else {

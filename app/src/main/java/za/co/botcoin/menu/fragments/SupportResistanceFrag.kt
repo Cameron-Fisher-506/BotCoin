@@ -33,7 +33,7 @@ class SupportResistanceFrag : Fragment(R.layout.support_resistance_fragment) {
                 } catch (e: Exception) {
                     Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message}" +
                             "Method: SupportResistanceFrag - addApplyListener " +
-                            "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+                            "CreatedTime: ${GeneralUtils.currentDateTime}")
                 }
                 GeneralUtils.makeToast(context, "Support and Resistance applied!")
             } else {

@@ -67,7 +67,7 @@ class DisclaimerPolicyFrag : Fragment(R.layout.disclaimer_policy_fragment) {
                 Log.d(ConstantUtils.BOTCOIN_TAG, "Class: DisclaimerPolicyFrag " +
                         "Method: onCreateView " +
                         "Error: ${e.message} " +
-                        "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+                        "CreatedTime: ${GeneralUtils.currentDateTime}")
             }
         }
     }
