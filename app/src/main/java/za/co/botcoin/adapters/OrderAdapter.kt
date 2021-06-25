@@ -1,43 +1,25 @@
-package za.co.botcoin.adapters;
+package za.co.botcoin.adapters
 
-import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.content.Context
+import android.view.View
+import android.view.ViewGroup
+import android.widget.BaseAdapter
+import za.co.botcoin.objs.Order
 
-import za.co.botcoin.objs.Order;
-
-import java.util.List;
-
-public class OrderAdapter extends BaseAdapter
-{
-
-    private List<Order> orders;
-    private Context context;
-
-    public OrderAdapter(Context context, List<Order> orders)
-    {
-        this.orders = orders;
-        this.context = context;
+class OrderAdapter(private val context: Context, private val orders: List<Order>) : BaseAdapter() {
+    override fun getCount(): Int {
+        return 0
     }
 
-    @Override
-    public int getCount() {
-        return 0;
+    override fun getItem(position: Int): Any? {
+        return null
     }
 
-    @Override
-    public Object getItem(int position) {
-        return null;
+    override fun getItemId(position: Int): Long {
+        return 0
     }
 
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+    override fun getView(position: Int, convertView: View, parent: ViewGroup): View? {
+        return null
     }
 }

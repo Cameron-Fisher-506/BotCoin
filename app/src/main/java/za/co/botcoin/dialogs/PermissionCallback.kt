@@ -1,6 +1,5 @@
-package za.co.botcoin.dialogs;
+package za.co.botcoin.dialogs
 
-public interface PermissionCallback
-{
-    public void checkPermission(boolean ischeckPermission);
+interface PermissionCallback {
+    fun checkPermission(ischeckPermission: Boolean)
 }
