@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_navigation_graph"
+    app:startDestination="@id/homeFrag">
+    <fragment
+        android:id="@+id/homeFrag"
+        android:name="za.co.botcoin.navigation.fragments.HomeFrag"
+        android:label="Home" >
+        <action
+            android:id="@+id/action_homeFrag_to_privacyPolicyFrag"
+            app:destination="@id/privacyPolicyFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/privacyPolicyFrag"
+        android:name="za.co.botcoin.policies.PrivacyPolicyFrag"
+        android:label="Privacy Policy" >
+        <action
+            android:id="@+id/action_privacyPolicyFrag_to_disclaimerPolicyFrag"
+            app:destination="@id/disclaimerPolicyFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/disclaimerPolicyFrag"
+        android:name="za.co.botcoin.policies.DisclaimerPolicyFrag"
+        android:label="Disclaimer Policy" >
+        <action
+            android:id="@+id/action_disclaimerPolicyFrag_to_homeFrag"
+            app:destination="@id/homeFrag" />
+    </fragment>
+</navigation>

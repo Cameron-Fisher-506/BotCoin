@@ -1,5 +1,6 @@
 package za.co.botcoin
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -7,46 +8,51 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import org.json.JSONObject
 import za.co.botcoin.databinding.ActivityMainBinding
-import za.co.botcoin.navigation.fragments.HomeFrag
-import za.co.botcoin.navigation.fragments.MenuFrag
-import za.co.botcoin.navigation.fragments.TradeFrag
-import za.co.botcoin.navigation.fragments.WalletFrag
-import za.co.botcoin.policies.DisclaimerPolicyFrag
-import za.co.botcoin.policies.PrivacyPolicyFrag
-import za.co.botcoin.settings.fragments.AutoTradeFrag
+import za.co.botcoin.settings.fragments.AutoTradeActivity
 import za.co.botcoin.utils.ConstantUtils
-import za.co.botcoin.utils.FragmentUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.SharedPreferencesUtils
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(this.binding.root)
 
-        //set the custom toolbar
-        val toolbar = findViewById<View>(R.id.app_bar) as Toolbar
-        setSupportActionBar(toolbar)
         wireUI()
-        displayPrivacyPolicy()
+        attachNavController()
+        //displayPrivacyPolicy()
     }
 
-    private fun displayPrivacyPolicy() {
+    private fun attachNavController() {
+        this.navController = Navigation.findNavController(this, R.id.navHostFragment)
+        NavigationUI.setupActionBarWithNavController(this, this.navController)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return NavigationUI.navigateUp(this.navController, null)
+    }
+
+    private fun wireUI() {
+        this.binding.bottomNavigationView.selectedItemId = R.id.home
+        this.binding.bottomNavigationView.setOnNavigationItemSelectedListener {
+            true
+        }
+    }
+
+    /*private fun displayPrivacyPolicy() {
         try {
             var jsonObject = SharedPreferencesUtils.get(this, SharedPreferencesUtils.PRIVACY_POLICY_ACCEPTANCE)
             if (jsonObject == null) {
-                setNavIcons(true, false, false, false)
-                this.binding.navContainer.btnHome.isClickable = false
-                this.binding.navContainer.btnBot.isClickable = false
-                this.binding.navContainer.btnWallet.isClickable = false
-                this.binding.navContainer.btnMenu.isClickable = false
-                val privacyPolicyFrag = PrivacyPolicyFrag()
-                FragmentUtils.startFragment(supportFragmentManager, privacyPolicyFrag, R.id.fragContainer, supportActionBar, "Privacy Policy", true, false, true, null)
+
                 return
             }
             jsonObject = SharedPreferencesUtils.get(this, SharedPreferencesUtils.DISCLAIMER_ACCEPTANCE)
@@ -76,14 +82,7 @@ class MainActivity : AppCompatActivity() {
                     "Method: MainActivity - displayPrivacyPolicy " +
                     "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
         }
-    }
-
-    private fun wireUI() {
-        setBtnHomeOnClickListener()
-        setBtnBotOnClickListener()
-        setBtnWalletOnClickListener()
-        setBtnMenuOnClickListener()
-    }
+    }*/
 
     private fun saveDefaultPullOutBidPrice() {
         try {
@@ -125,67 +124,11 @@ class MainActivity : AppCompatActivity() {
             R.id.autoTrade -> {
 
                 //auto trade
-                val autoTradeFrag = AutoTradeFrag()
-                FragmentUtils.startFragment(supportFragmentManager, autoTradeFrag, R.id.fragContainer, supportActionBar, "Auto Trade", true, false, true, null)
+                startActivity(Intent(this, AutoTradeActivity::class.java))
             }
             else -> {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun setBtnHomeOnClickListener() {
-        this.binding.navContainer.btnHome.setOnClickListener {
-            setNavIcons(true, false, false, false)
-            val homeFrag = HomeFrag()
-            FragmentUtils.startFragment(supportFragmentManager, homeFrag, R.id.fragContainer, supportActionBar, "Home", true, false, true, null)
-        }
-    }
-
-    private fun setBtnBotOnClickListener() {
-        this.binding.navContainer.btnBot.setOnClickListener {
-            setNavIcons(false, true, false, false)
-            val tradeFrag = TradeFrag()
-            FragmentUtils.startFragment(supportFragmentManager, tradeFrag, R.id.fragContainer, supportActionBar, "Trade", true, false, true, null)
-        }
-    }
-
-    private fun setBtnWalletOnClickListener() {
-        this.binding.navContainer.btnWallet.setOnClickListener {
-            setNavIcons(false, false, true, false)
-            val walletFrag = WalletFrag()
-            FragmentUtils.startFragment(supportFragmentManager, walletFrag, R.id.fragContainer, supportActionBar, "Wallet", true, false, true, null)
-        }
-    }
-
-    private fun setBtnMenuOnClickListener() {
-        this.binding.navContainer.btnMenu.setOnClickListener {
-            setNavIcons(false, false, false, true)
-            val menuFrag = MenuFrag()
-            FragmentUtils.startFragment(supportFragmentManager, menuFrag, R.id.fragContainer, supportActionBar, "Menu", true, false, true, null)
-        }
-    }
-
-    private fun setNavIcons(isHome: Boolean, isBot: Boolean, isWallet: Boolean, isMenu: Boolean) {
-        if (isHome) {
-            this.binding.navContainer.btnHome.setBackgroundResource(R.drawable.home_fill)
-        } else {
-            this.binding.navContainer.btnHome.setBackgroundResource(R.drawable.home)
-        }
-        if (isBot) {
-            this.binding.navContainer.btnBot.setBackgroundResource(R.drawable.bot_fill)
-        } else {
-            this.binding.navContainer.btnBot.setBackgroundResource(R.drawable.bot)
-        }
-        if (isWallet) {
-            this.binding.navContainer.btnWallet.setBackgroundResource(R.drawable.wallet_fill)
-        } else {
-            this.binding.navContainer.btnWallet.setBackgroundResource(R.drawable.wallet)
-        }
-        if (isMenu) {
-            this.binding.navContainer.btnMenu.setBackgroundResource(R.drawable.menu_fill)
-        } else {
-            this.binding.navContainer.btnMenu.setBackgroundResource(R.drawable.menu)
-        }
     }
 }

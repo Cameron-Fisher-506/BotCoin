@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import org.json.JSONObject
 import za.co.botcoin.MainActivity
 import za.co.botcoin.R
@@ -13,8 +14,9 @@ import za.co.botcoin.databinding.AutoTradeFragmentBinding
 import za.co.botcoin.menu.fragments.LunoApiFrag
 import za.co.botcoin.services.BotService
 import za.co.botcoin.utils.*
+import java.util.*
 
-class AutoTradeFrag : Fragment(R.layout.auto_trade_fragment) {
+class AutoTradeFragment : Fragment(R.layout.auto_trade_fragment) {
     private lateinit var binding: AutoTradeFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,8 +56,8 @@ class AutoTradeFrag : Fragment(R.layout.auto_trade_fragment) {
             this.binding.switchAutoTrade.isChecked = false
             GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
 
-            val lunoApiFrag = LunoApiFrag()
-            FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, lunoApiFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Luno API", true, false, true, null)
+            val action = AutoTradeFragmentDirections.actionAutoTradeFragmentToLunoApiFrag()
+            Navigation.findNavController(view).navigate(action)
         }
 
         this.binding.switchAutoTrade.setOnCheckedChangeListener { _, isChecked ->
@@ -80,14 +82,14 @@ class AutoTradeFrag : Fragment(R.layout.auto_trade_fragment) {
 
     private fun startBotService() {
         if (Build.VERSION.SDK_INT >= 26) {
-            activity!!.startForegroundService(Intent(activity, BotService::class.java))
+            activity?.startForegroundService(Intent(activity, BotService::class.java))
         } else {
-            activity!!.startService(Intent(activity, BotService::class.java))
+            activity?.startService(Intent(activity, BotService::class.java))
         }
     }
 
     private fun stopBotService() {
-        activity!!.stopService(Intent(activity, BotService::class.java))
+        activity?.stopService(Intent(activity, BotService::class.java))
     }
 
     private fun setSwitchAutoTrade() {

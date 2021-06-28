@@ -23,13 +23,8 @@ class LunoApiFrag : Fragment(R.layout.luno_api_fragment) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = LunoApiFragmentBinding.bind(view)
 
-        if (ConstantUtils.USER_KEY_ID != null) {
-            this.binding.edTxtKeyID.setText(ConstantUtils.USER_KEY_ID)
-        }
-
-        if (ConstantUtils.USER_SECRET_KEY != null) {
-            this.binding.edTxtSecretKey.setText(ConstantUtils.USER_SECRET_KEY)
-        }
+        ConstantUtils.USER_KEY_ID?.let { this.binding.edTxtKeyID.setText(it) }
+        ConstantUtils.USER_SECRET_KEY?.let { this.binding.edTxtSecretKey.setText(it) }
         setBtnSaveListener()
     }
 
@@ -37,13 +32,16 @@ class LunoApiFrag : Fragment(R.layout.luno_api_fragment) {
         this.binding.btnSave.setOnClickListener {
             val keyID = this.binding.edTxtKeyID.text.toString()
             val secretKey = this.binding.edTxtSecretKey.text.toString()
-            if (keyID != "" && secretKey != "") {
+
+            if (keyID.isNotEmpty() && secretKey.isNotEmpty()) {
                 ConstantUtils.USER_KEY_ID = keyID
                 ConstantUtils.USER_SECRET_KEY = secretKey
+
                 try {
                     val jsonObjectApiKey = JSONObject()
                     jsonObjectApiKey.put("keyID", keyID)
                     jsonObjectApiKey.put("secretKey", secretKey)
+
                     activity?.let { context -> SharedPreferencesUtils.save(context, SharedPreferencesUtils.LUNO_API_PREF, jsonObjectApiKey) }
                     GeneralUtils.makeToast(activity, "API Key Saved!")
                 } catch (e: Exception) {

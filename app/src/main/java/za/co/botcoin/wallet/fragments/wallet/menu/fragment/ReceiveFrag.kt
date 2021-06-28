@@ -41,7 +41,7 @@ class ReceiveFrag : Fragment(R.layout.receive_fragment), WSCallUtilsCallBack {
         } else {
             createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)!!.show()
             val lunoApiFrag = LunoApiFrag()
-            startFragment((activity as MainActivity?)!!.supportFragmentManager, lunoApiFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Luno API", true, false, true, null)
+            //startFragment((activity as MainActivity?)!!.supportFragmentManager, lunoApiFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Luno API", true, false, true, null)
         }
     }
 

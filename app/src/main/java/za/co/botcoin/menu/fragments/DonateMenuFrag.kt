@@ -29,7 +29,7 @@ class DonateMenuFrag : Fragment(R.layout.donate_menu_fragment) {
             bundle.putString("asset", ConstantUtils.BTC)
             val donateFrag = DonateFrag()
             donateFrag.arguments = bundle
-            FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, donateFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Donate BTC", true, false, true, null)
+            //FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, donateFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Donate BTC", true, false, true, null)
         }
     }
 
@@ -39,7 +39,7 @@ class DonateMenuFrag : Fragment(R.layout.donate_menu_fragment) {
             bundle.putString("asset", ConstantUtils.XRP)
             val donateFrag = DonateFrag()
             donateFrag.arguments = bundle
-            FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, donateFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Donate XRP", true, false, true, null)
+            //FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, donateFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Donate XRP", true, false, true, null)
         }
     }
 
@@ -49,7 +49,7 @@ class DonateMenuFrag : Fragment(R.layout.donate_menu_fragment) {
             bundle.putString("asset", ConstantUtils.ETH)
             val donateFrag = DonateFrag()
             donateFrag.arguments = bundle
-            FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, donateFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Donate ETH", true, false, true, null)
+            //FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, donateFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Donate ETH", true, false, true, null)
         }
     }
 
@@ -59,7 +59,7 @@ class DonateMenuFrag : Fragment(R.layout.donate_menu_fragment) {
             bundle.putString("asset", ConstantUtils.LTC)
             val donateFrag = DonateFrag()
             donateFrag.arguments = bundle
-            FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, donateFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Donate LTC", true, false, true, null)
+            //FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, donateFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Donate LTC", true, false, true, null)
         }
     }
 }

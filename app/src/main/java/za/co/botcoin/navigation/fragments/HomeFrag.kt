@@ -26,17 +26,17 @@ class HomeFrag : Fragment(R.layout.home_fragment), WSCallUtilsCallBack {
         super.onViewCreated(view, savedInstanceState)
         this.binding = HomeFragmentBinding.bind(view)
 
-        if (GeneralUtils.isApiKeySet(context)) {
+        //if (GeneralUtils.isApiKeySet(context)) {
             timerTask = object : TimerTask() {
                 override fun run() {
                     tickers
                 }
             }
             timer = Timer()
-            timer!!.scheduleAtFixedRate(timerTask, 0, ConstantUtils.TICKER_RUN_TIME.toLong())
-        } else {
-            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
-        }
+            timer?.scheduleAtFixedRate(timerTask, 0, ConstantUtils.TICKER_RUN_TIME.toLong())
+        //} else {
+            //GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
+        //}
     }
 
     private val tickers: Unit
@@ -66,7 +66,7 @@ class HomeFrag : Fragment(R.layout.home_fragment), WSCallUtilsCallBack {
                                 if (pair == ConstantUtils.PAIR_XRPZAR) {
                                     val lastTrade = ticker.getString("last_trade")
                                     (activity as MainActivity?)!!.runOnUiThread {
-                                        this.binding.txtXrpZar.text = R.string.XRPZAR.toString()
+                                        this.binding.txtXrpZar.setText(R.string.XRPZAR)
                                         this.binding.txtXrpZar.append(lastTrade)
                                     }
                                 }

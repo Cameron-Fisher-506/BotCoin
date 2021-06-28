@@ -156,7 +156,7 @@ object GeneralUtils {
     }
 
     fun runAutoTrade(context: Context) {
-        if (isApiKeySet(context)) {
+        /*if (isApiKeySet(context)) {
             val jsonObjectAutoTrade = SharedPreferencesUtils.get(context, SharedPreferencesUtils.AUTO_TRADE_PREF)
             if (jsonObjectAutoTrade != null && jsonObjectAutoTrade.has("isAutoTrade")) {
                 try {
@@ -179,6 +179,6 @@ object GeneralUtils {
         } else {
             createAlertDialog(context, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)!!.show()
             context.stopService(Intent(context, BotService::class.java))
-        }
+        }*/
     }
 }

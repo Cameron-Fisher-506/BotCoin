@@ -93,6 +93,12 @@
     <string name="created_time">Created Time</string>
     <string name="completed_time">Completed Time</string>
 
+    // Bottom navigation
+    <string name="home">home</string>
+    <string name="trade">Trade Bot</string>
+    <string name="wallet">Wallet</string>
+    <string name="menu">Menu</string>
+
     <string-array name="trailing_stop_items">
         <item>1%</item>
         <item>2%</item>

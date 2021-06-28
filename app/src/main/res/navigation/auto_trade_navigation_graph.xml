@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/auto_trade_navigation_graph"
+    app:startDestination="@id/autoTradeFrag">
+
+    <fragment
+        android:id="@+id/lunoApiFrag"
+        android:name="za.co.botcoin.menu.fragments.LunoApiFrag"
+        android:label="Luno Api" />
+    <fragment
+        android:id="@+id/autoTradeFrag"
+        android:name="za.co.botcoin.settings.fragments.AutoTradeFragment"
+        android:label="Auto Trade" >
+        <action
+            android:id="@+id/action_autoTradeFragment_to_lunoApiFrag"
+            app:destination="@id/lunoApiFrag" />
+    </fragment>
+</navigation>

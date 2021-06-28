@@ -33,7 +33,7 @@ class WalletFrag : Fragment(R.layout.wallet_fragment), WSCallUtilsCallBack {
     private fun addZarOptionListener() {
         this.binding.linearLayoutZar.setOnClickListener {
             val withdrawFrag = WithdrawFrag()
-            FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, withdrawFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Withdraw", true, false, true, null)
+            //FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, withdrawFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Withdraw", true, false, true, null)
         }
     }
 
@@ -43,7 +43,7 @@ class WalletFrag : Fragment(R.layout.wallet_fragment), WSCallUtilsCallBack {
             bundle.putString("asset", ConstantUtils.XRP)
             val walletMenuFrag = WalletMenuFrag()
             walletMenuFrag.arguments = bundle
-            FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, walletMenuFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Wallet Menu", true, false, true, null)
+            //FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, walletMenuFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Wallet Menu", true, false, true, null)
         })
     }
 

@@ -30,7 +30,7 @@ class WalletMenuFrag : Fragment(R.layout.wallet_menu_fragment) {
             bundle.putString("asset", arguments!!.getString("asset"))
             val sendFrag = SendFrag()
             sendFrag.arguments = bundle
-            startFragment((activity as MainActivity?)!!.supportFragmentManager, sendFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Send", true, false, true, null)
+            //startFragment((activity as MainActivity?)!!.supportFragmentManager, sendFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Send", true, false, true, null)
         }
     }
 
@@ -40,7 +40,7 @@ class WalletMenuFrag : Fragment(R.layout.wallet_menu_fragment) {
             bundle.putString("asset", arguments!!.getString("asset"))
             val receiveFrag = ReceiveFrag()
             receiveFrag.arguments = bundle
-            startFragment((activity as MainActivity?)!!.supportFragmentManager, receiveFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Receive", true, false, true, null)
+            //startFragment((activity as MainActivity?)!!.supportFragmentManager, receiveFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Receive", true, false, true, null)
         }
     }
 
@@ -50,7 +50,7 @@ class WalletMenuFrag : Fragment(R.layout.wallet_menu_fragment) {
             bundle.putString("asset", arguments!!.getString("asset"))
             val ordersFrag = OrdersFrag()
             ordersFrag.arguments = bundle
-            startFragment((activity as MainActivity?)!!.supportFragmentManager, ordersFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Orders", true, false, true, null)
+            //startFragment((activity as MainActivity?)!!.supportFragmentManager, ordersFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Orders", true, false, true, null)
         }
     }
 }
