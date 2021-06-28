@@ -21,6 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".settings.fragments.AutoTradeActivity"/>
+        <activity android:name=".trade.TradeActivity"/>
+
         <service android:name="za.co.botcoin.services.BotService"/>
     </application>
 

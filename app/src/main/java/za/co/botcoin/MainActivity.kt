@@ -14,6 +14,7 @@ import androidx.navigation.ui.NavigationUI
 import org.json.JSONObject
 import za.co.botcoin.databinding.ActivityMainBinding
 import za.co.botcoin.settings.fragments.AutoTradeActivity
+import za.co.botcoin.trade.TradeActivity
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.SharedPreferencesUtils
@@ -44,6 +45,9 @@ class MainActivity : AppCompatActivity() {
     private fun wireUI() {
         this.binding.bottomNavigationView.selectedItemId = R.id.home
         this.binding.bottomNavigationView.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.trade -> startActivity(Intent(this, TradeActivity::class.java))
+            }
             true
         }
     }

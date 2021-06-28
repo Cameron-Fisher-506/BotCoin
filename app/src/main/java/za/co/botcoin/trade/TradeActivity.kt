@@ -1,4 +1,4 @@
-package za.co.botcoin.settings.fragments
+package za.co.botcoin.trade
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,17 +8,15 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import za.co.botcoin.MainActivity
 import za.co.botcoin.R
-import za.co.botcoin.databinding.AutoTradeActivityBinding
-import za.co.botcoin.objs.Trade
-import za.co.botcoin.trade.TradeActivity
+import za.co.botcoin.databinding.TradeActivityBinding
 
-class AutoTradeActivity : AppCompatActivity() {
-    private lateinit var binding: AutoTradeActivityBinding
+class TradeActivity : AppCompatActivity() {
+    private lateinit var binding: TradeActivityBinding
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.binding = AutoTradeActivityBinding.inflate(layoutInflater)
+        this.binding = TradeActivityBinding.inflate(layoutInflater)
         setContentView(this.binding.root)
 
         wireUI()
@@ -27,7 +25,7 @@ class AutoTradeActivity : AppCompatActivity() {
 
     private fun attachNavController() {
         this.navController = Navigation.findNavController(this, R.id.navHostFragment)
-        NavigationUI.setupActionBarWithNavController(this, this.navController )
+        NavigationUI.setupActionBarWithNavController(this, this.navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -35,11 +33,10 @@ class AutoTradeActivity : AppCompatActivity() {
     }
 
     private fun wireUI() {
-        this.binding.bottomNavigationView.selectedItemId = R.id.menu
+        this.binding.bottomNavigationView.selectedItemId = R.id.trade
         this.binding.bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> startActivity(Intent(this, MainActivity::class.java))
-                R.id.trade -> startActivity(Intent(this, TradeActivity::class.java))
             }
             true
         }

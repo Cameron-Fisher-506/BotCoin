@@ -1,4 +1,4 @@
-package za.co.botcoin.navigation.fragments
+package za.co.botcoin.trade
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,7 +15,7 @@ import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.viewpageradapters.TradeAdapter
 import java.util.*
 
-class TradeFrag : Fragment(R.layout.trade_option_fragment) {
+class TradeFragment : Fragment(R.layout.trade_option_fragment) {
     private lateinit var binding: TradeOptionFragmentBinding
 
     private var trades: ArrayList<Trade> = ArrayList()
