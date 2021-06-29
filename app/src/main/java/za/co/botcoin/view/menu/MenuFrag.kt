@@ -1,12 +1,14 @@
 package za.co.botcoin.view.menu
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.MenuFragmentBinding
 
-class MenuFrag : Fragment() {
+class MenuFrag : Fragment(R.layout.menu_fragment) {
     private lateinit var binding: MenuFragmentBinding
 
     companion object {
@@ -17,64 +19,61 @@ class MenuFrag : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         this.binding = MenuFragmentBinding.bind(view)
 
-        addLunoApiOptionListener(view.findViewById(R.id.linearLayoutLunoApiOption))
-        addSupportResistanceListener(view.findViewById(R.id.linearLayoutSupportResistanceOption))
-        addDonateListener(view.findViewById(R.id.linearLayoutDonateOption))
-        addPullOutPriceOptionListener(view.findViewById(R.id.linearLayoutSetPullOutPrice))
-        addLogcatOptionListener(view.findViewById(R.id.linearLayoutLogcat))
-        addSetSupportPriceCounterOptionListener(view.findViewById(R.id.linearLayoutSetSupportPriceCounter))
-        addSetResistancePriceCounterOptionListener(view.findViewById(R.id.linearLayoutSetResistancePriceCounter))
+        addLunoApiOptionListener()
+        addSupportResistanceListener()
+        addDonateListener()
+        addPullOutPriceOptionListener()
+        addLogcatOptionListener()
+        addSetSupportPriceCounterOptionListener()
+        addSetResistancePriceCounterOptionListener()
     }
 
-    private fun addSetResistancePriceCounterOptionListener(view: View) {
+    private fun addSetResistancePriceCounterOptionListener() {
         this.binding.linearLayoutSetResistancePriceCounter.setOnClickListener {
-            val resistancePriceCounterFrag = ResistancePriceCounterFrag()
-            //FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, resistancePriceCounterFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Set Resistance Price Counter", true, false,
-                //true, null)
+            val action = MenuFragDirections.actionMenuFragToResistancePriceCounterFrag()
+            Navigation.findNavController(it).navigate(action)
         }
     }
 
-    private fun addSetSupportPriceCounterOptionListener(view: View) {
-
+    private fun addSetSupportPriceCounterOptionListener() {
         this.binding.linearLayoutSetSupportPriceCounter.setOnClickListener {
-            val supportPriceCounterFrag = SupportPriceCounterFrag()
-            //FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, supportPriceCounterFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Set Support Price Counter", true, false, true,
-                //null)
+            val action = MenuFragDirections.actionMenuFragToSupportPriceCounterFrag()
+            Navigation.findNavController(it).navigate(action)
         }
     }
 
-    private fun addLogcatOptionListener(view: View) {
+    private fun addLogcatOptionListener() {
         this.binding.linearLayoutLogcat.setOnClickListener {
-            val logcatFrag = LogcatFrag()
-            //FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, logcatFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Logcat", true, false, true, null)
+            val action = MenuFragDirections.actionMenuFragToLogcatFrag2()
+            Navigation.findNavController(it).navigate(action)
         }
     }
 
-    private fun addPullOutPriceOptionListener(view: View) {
+    private fun addPullOutPriceOptionListener() {
         this.binding.linearLayoutSetPullOutPrice.setOnClickListener {
-            val setPullOutPriceFrag = TrailingStopFrag()
-            //FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, setPullOutPriceFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Set Pull-out Price", true, false, true, null)
+            val action = MenuFragDirections.actionMenuFragToTrailingStopFrag()
+            Navigation.findNavController(it).navigate(action)
         }
     }
 
-    private fun addLunoApiOptionListener(view: View) {
+    private fun addLunoApiOptionListener() {
         this.binding.linearLayoutLunoApiOption.setOnClickListener {
-            val lunoApiFrag = LunoApiFrag()
-            //FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, lunoApiFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Luno API", true, false, true, null)
+            val action = MenuFragDirections.actionMenuFragToLunoApiFrag2()
+            Navigation.findNavController(it).navigate(action)
         }
     }
 
-    private fun addSupportResistanceListener(view: View) {
+    private fun addSupportResistanceListener() {
         this.binding.linearLayoutSupportResistanceOption.setOnClickListener {
-            val supportResistanceFrag = SupportResistanceFrag()
-            //FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, supportResistanceFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Support/Resistance", true, false, true, null)
+            val action = MenuFragDirections.actionMenuFragToSupportResistanceFrag()
+            Navigation.findNavController(it).navigate(action)
         }
     }
 
-    private fun addDonateListener(view: View) {
+    private fun addDonateListener() {
         this.binding.linearLayoutDonateOption.setOnClickListener {
-            val donateFrag = DonateMenuFrag()
-            //FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, donateFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Donate Menu", true, false, true, null)
+            val action = MenuFragDirections.actionMenuFragToDonateMenuFrag()
+            Navigation.findNavController(it).navigate(action)
         }
     }
 }

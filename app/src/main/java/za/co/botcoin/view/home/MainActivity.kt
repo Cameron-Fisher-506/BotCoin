@@ -15,6 +15,7 @@ import za.co.botcoin.databinding.ActivityMainBinding
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.SharedPreferencesUtils
+import za.co.botcoin.view.menu.MenuActivity
 import za.co.botcoin.view.settings.AutoTradeActivity
 import za.co.botcoin.view.trade.TradeActivity
 import za.co.botcoin.view.wallet.WalletActivity
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.trade -> startActivity(Intent(this, TradeActivity::class.java))
                 R.id.wallet -> startActivity(Intent(this, WalletActivity::class.java))
+                R.id.menu -> startActivity(Intent(this, MenuActivity::class.java))
             }
             true
         }

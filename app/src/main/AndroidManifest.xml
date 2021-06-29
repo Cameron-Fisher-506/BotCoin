@@ -23,6 +23,7 @@
         <activity android:name=".view.settings.AutoTradeActivity"/>
         <activity android:name="za.co.botcoin.view.trade.TradeActivity"/>
         <activity android:name=".view.wallet.WalletActivity"/>
+        <activity android:name=".view.menu.MenuActivity"/>
 
         <service android:name="za.co.botcoin.services.BotService"/>
     </application>

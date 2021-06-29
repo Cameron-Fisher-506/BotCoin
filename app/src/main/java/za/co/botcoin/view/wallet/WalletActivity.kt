@@ -9,6 +9,7 @@ import androidx.navigation.ui.NavigationUI
 import za.co.botcoin.view.home.MainActivity
 import za.co.botcoin.R
 import za.co.botcoin.databinding.WalletActivityBinding
+import za.co.botcoin.view.menu.MenuActivity
 import za.co.botcoin.view.trade.TradeActivity
 
 class WalletActivity : AppCompatActivity() {
@@ -39,6 +40,7 @@ class WalletActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.home -> startActivity(Intent(this, MainActivity::class.java))
                 R.id.trade -> startActivity(Intent(this, TradeActivity::class.java))
+                R.id.menu -> startActivity(Intent(this, MenuActivity::class.java))
             }
             true
         }

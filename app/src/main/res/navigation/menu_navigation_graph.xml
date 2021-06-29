@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/menu_navigation_graph"
+    app:startDestination="@id/menuFrag">
+
+    <fragment
+        android:id="@+id/menuFrag"
+        android:name="za.co.botcoin.view.menu.MenuFrag"
+        android:label="Menu" >
+        <action
+            android:id="@+id/action_menuFrag_to_lunoApiFrag2"
+            app:destination="@id/lunoApiFrag2" />
+        <action
+            android:id="@+id/action_menuFrag_to_notificationsFrag"
+            app:destination="@id/notificationsFrag" />
+        <action
+            android:id="@+id/action_menuFrag_to_supportPriceCounterFrag"
+            app:destination="@id/supportPriceCounterFrag" />
+        <action
+            android:id="@+id/action_menuFrag_to_trailingStopFrag"
+            app:destination="@id/trailingStopFrag" />
+        <action
+            android:id="@+id/action_menuFrag_to_resistancePriceCounterFrag"
+            app:destination="@id/resistancePriceCounterFrag" />
+        <action
+            android:id="@+id/action_menuFrag_to_supportResistanceFrag"
+            app:destination="@id/supportResistanceFrag" />
+        <action
+            android:id="@+id/action_menuFrag_to_donateMenuFrag"
+            app:destination="@id/donateMenuFrag" />
+        <action
+            android:id="@+id/action_menuFrag_to_logcatFrag2"
+            app:destination="@id/logcatFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/lunoApiFrag2"
+        android:name="za.co.botcoin.view.menu.LunoApiFrag"
+        android:label="Luno Api" />
+    <fragment
+        android:id="@+id/notificationsFrag"
+        android:name="za.co.botcoin.view.menu.NotificationsFrag"
+        android:label="Notifications" />
+    <fragment
+        android:id="@+id/supportPriceCounterFrag"
+        android:name="za.co.botcoin.view.menu.SupportPriceCounterFrag"
+        android:label="Support Price Counter" />
+    <fragment
+        android:id="@+id/logcatFrag"
+        android:name="za.co.botcoin.view.menu.LogcatFrag"
+        android:label="Logcat" />
+    <fragment
+        android:id="@+id/trailingStopFrag"
+        android:name="za.co.botcoin.view.menu.TrailingStopFrag"
+        android:label="Trailing Stop" />
+    <fragment
+        android:id="@+id/resistancePriceCounterFrag"
+        android:name="za.co.botcoin.view.menu.ResistancePriceCounterFrag"
+        android:label="Resistance Price Counter" />
+    <fragment
+        android:id="@+id/supportResistanceFrag"
+        android:name="za.co.botcoin.view.menu.SupportResistanceFrag"
+        android:label="Support Resistance" />
+    <fragment
+        android:id="@+id/donateMenuFrag"
+        android:name="za.co.botcoin.view.menu.DonateMenuFrag"
+        android:label="Donate Menu" >
+        <action
+            android:id="@+id/action_donateMenuFrag_to_donateFrag2"
+            app:destination="@id/donateFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/donateFrag"
+        android:name="za.co.botcoin.view.menu.donate.DonateFrag"
+        android:label="Donate" >
+        <argument
+            android:name="asset"
+            app:argType="string" />
+    </fragment>
+</navigation>
