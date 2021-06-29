@@ -3,6 +3,7 @@ package za.co.botcoin.view.wallet
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.WalletMenuFragmentBinding
 import za.co.botcoin.view.wallet.menu.OrdersFrag
@@ -16,39 +17,31 @@ class WalletMenuFrag : Fragment(R.layout.wallet_menu_fragment) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = WalletMenuFragmentBinding.bind(view)
 
-        addReceiveListener(view)
-        addSendListener(view)
-        addOrdersListener(view)
+        arguments?.let {
+            addReceiveListener(it.getString("asset") ?: "")
+            addSendListener(it.getString("asset") ?: "")
+            addOrdersListener(it.getString("asset") ?: "")
+        }
     }
 
-    private fun addSendListener(view: View) {
-
+    private fun addSendListener(asset: String) {
         this.binding.linearLayoutSendOption.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("asset", arguments!!.getString("asset"))
-            val sendFrag = SendFrag()
-            sendFrag.arguments = bundle
-            //startFragment((activity as MainActivity?)!!.supportFragmentManager, sendFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Send", true, false, true, null)
+            val action = WalletMenuFragDirections.actionWalletMenuFragToSendFrag(asset)
+            Navigation.findNavController(it).navigate(action)
         }
     }
 
-    private fun addReceiveListener(view: View) {
+    private fun addReceiveListener(asset: String) {
         this.binding.linearLayoutReceiveOption.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("asset", arguments!!.getString("asset"))
-            val receiveFrag = ReceiveFrag()
-            receiveFrag.arguments = bundle
-            //startFragment((activity as MainActivity?)!!.supportFragmentManager, receiveFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Receive", true, false, true, null)
+            val action = WalletMenuFragDirections.actionWalletMenuFragToReceiveFrag(asset)
+            Navigation.findNavController(it).navigate(action)
         }
     }
 
-    private fun addOrdersListener(view: View) {
+    private fun addOrdersListener(asset: String) {
         this.binding.linearLayoutOrdersOption.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("asset", arguments!!.getString("asset"))
-            val ordersFrag = OrdersFrag()
-            ordersFrag.arguments = bundle
-            //startFragment((activity as MainActivity?)!!.supportFragmentManager, ordersFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Orders", true, false, true, null)
+           val action = WalletMenuFragDirections.actionWalletMenuFragToOrdersFrag(asset)
+            Navigation.findNavController(it).navigate(action)
         }
     }
 }

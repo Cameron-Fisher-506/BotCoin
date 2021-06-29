@@ -1,4 +1,4 @@
-package za.co.botcoin.view.trade
+package za.co.botcoin.view.wallet.menu
 
 import android.content.Context
 import android.view.View

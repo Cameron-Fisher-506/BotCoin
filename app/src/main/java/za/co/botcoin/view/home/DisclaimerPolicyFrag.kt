@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import org.json.JSONObject
-import za.co.botcoin.MainActivity
 import za.co.botcoin.R
 import za.co.botcoin.databinding.DisclaimerPolicyFragmentBinding
 import za.co.botcoin.utils.ConstantUtils

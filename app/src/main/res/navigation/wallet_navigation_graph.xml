@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/wallet_navigation_graph"
+    app:startDestination="@id/walletFrag">
+
+    <fragment
+        android:id="@+id/walletFrag"
+        android:name="za.co.botcoin.view.wallet.WalletFrag"
+        android:label="Wallet" >
+        <action
+            android:id="@+id/action_walletFrag_to_walletMenuFrag"
+            app:destination="@id/walletMenuFrag" />
+        <action
+            android:id="@+id/action_walletFrag_to_withdrawFrag"
+            app:destination="@id/withdrawFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/walletMenuFrag"
+        android:name="za.co.botcoin.view.wallet.WalletMenuFrag"
+        android:label="Wallet Menu" >
+        <action
+            android:id="@+id/action_walletMenuFrag_to_ordersFrag"
+            app:destination="@id/ordersFrag" />
+        <action
+            android:id="@+id/action_walletMenuFrag_to_receiveFrag"
+            app:destination="@id/receiveFrag" />
+        <action
+            android:id="@+id/action_walletMenuFrag_to_sendFrag"
+            app:destination="@id/sendFrag" />
+        <argument
+            android:name="asset"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/withdrawFrag"
+        android:name="za.co.botcoin.view.wallet.WithdrawFrag"
+        android:label="Withdraw" />
+    <fragment
+        android:id="@+id/ordersFrag"
+        android:name="za.co.botcoin.view.wallet.menu.OrdersFrag"
+        android:label="Orders" >
+        <argument
+            android:name="asset"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/receiveFrag"
+        android:name="za.co.botcoin.view.wallet.menu.ReceiveFrag"
+        android:label="Receive" >
+        <argument
+            android:name="asset"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/sendFrag"
+        android:name="za.co.botcoin.view.wallet.menu.SendFrag"
+        android:label="Send" >
+        <argument android:name="asset"
+            app:argType="string" />
+    </fragment>
+</navigation>

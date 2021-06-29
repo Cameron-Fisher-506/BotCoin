@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/botcoin"
         android:supportsRtl="true"
         android:theme="@style/Theme.BotCoin">
-        <activity android:name="MainActivity">
+        <activity android:name=".view.home.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,6 +22,7 @@
         </activity>
         <activity android:name=".view.settings.AutoTradeActivity"/>
         <activity android:name="za.co.botcoin.view.trade.TradeActivity"/>
+        <activity android:name=".view.wallet.WalletActivity"/>
 
         <service android:name="za.co.botcoin.services.BotService"/>
     </application>

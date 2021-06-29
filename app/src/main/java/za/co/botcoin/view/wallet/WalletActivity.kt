@@ -1,4 +1,4 @@
-package za.co.botcoin.view.settings
+package za.co.botcoin.view.wallet
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,25 +8,25 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import za.co.botcoin.view.home.MainActivity
 import za.co.botcoin.R
-import za.co.botcoin.databinding.AutoTradeActivityBinding
+import za.co.botcoin.databinding.WalletActivityBinding
 import za.co.botcoin.view.trade.TradeActivity
 
-class AutoTradeActivity : AppCompatActivity() {
-    private lateinit var binding: AutoTradeActivityBinding
+class WalletActivity : AppCompatActivity() {
+    private lateinit var binding: WalletActivityBinding
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.binding = AutoTradeActivityBinding.inflate(layoutInflater)
+        this.binding = WalletActivityBinding.inflate(layoutInflater)
         setContentView(this.binding.root)
 
         wireUI()
-        attachNavController()
+        attacheNavController()
     }
 
-    private fun attachNavController() {
+    private fun attacheNavController() {
         this.navController = Navigation.findNavController(this, R.id.navHostFragment)
-        NavigationUI.setupActionBarWithNavController(this, this.navController )
+        NavigationUI.setupActionBarWithNavController(this, this.navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -34,7 +34,7 @@ class AutoTradeActivity : AppCompatActivity() {
     }
 
     private fun wireUI() {
-        this.binding.bottomNavigationView.selectedItemId = R.id.menu
+        this.binding.bottomNavigationView.selectedItemId = R.id.wallet
         this.binding.bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> startActivity(Intent(this, MainActivity::class.java))

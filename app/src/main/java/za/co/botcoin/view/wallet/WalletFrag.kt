@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import org.json.JSONObject
-import za.co.botcoin.MainActivity
+import za.co.botcoin.view.home.MainActivity
 import za.co.botcoin.R
 import za.co.botcoin.databinding.WalletFragmentBinding
 import za.co.botcoin.utils.*
@@ -30,18 +32,15 @@ class WalletFrag : Fragment(R.layout.wallet_fragment), WSCallUtilsCallBack {
 
     private fun addZarOptionListener() {
         this.binding.linearLayoutZar.setOnClickListener {
-            val withdrawFrag = WithdrawFrag()
-            //FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, withdrawFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Withdraw", true, false, true, null)
+            val action = WalletFragDirections.actionWalletFragToWithdrawFrag()
+            Navigation.findNavController(it).navigate(action)
         }
     }
 
     private fun addXrpOptionListener() {
         this.binding.linearLayoutXrp.setOnClickListener(View.OnClickListener {
-            val bundle = Bundle()
-            bundle.putString("asset", ConstantUtils.XRP)
-            val walletMenuFrag = WalletMenuFrag()
-            walletMenuFrag.arguments = bundle
-            //FragmentUtils.startFragment((activity as MainActivity?)!!.supportFragmentManager, walletMenuFrag, R.id.fragContainer, (activity as MainActivity?)!!.supportActionBar, "Wallet Menu", true, false, true, null)
+            val action = WalletFragDirections.actionWalletFragToWalletMenuFrag(ConstantUtils.XRP)
+            Navigation.findNavController(it).navigate(action)
         })
     }
 

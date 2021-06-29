@@ -6,9 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
-import za.co.botcoin.MainActivity
+import za.co.botcoin.view.home.MainActivity
 import za.co.botcoin.R
 import za.co.botcoin.databinding.TradeActivityBinding
+import za.co.botcoin.view.wallet.WalletActivity
 
 class TradeActivity : AppCompatActivity() {
     private lateinit var binding: TradeActivityBinding
@@ -37,6 +38,7 @@ class TradeActivity : AppCompatActivity() {
         this.binding.bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> startActivity(Intent(this, MainActivity::class.java))
+                R.id.wallet -> startActivity(Intent(this, WalletActivity::class.java))
             }
             true
         }

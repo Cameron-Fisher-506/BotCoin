@@ -1,4 +1,4 @@
-package za.co.botcoin
+package za.co.botcoin.view.home
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,12 +10,15 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import org.json.JSONObject
+import za.co.botcoin.R
 import za.co.botcoin.databinding.ActivityMainBinding
+import za.co.botcoin.databinding.WalletActivityBinding
 import za.co.botcoin.view.settings.AutoTradeActivity
 import za.co.botcoin.view.trade.TradeActivity
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.SharedPreferencesUtils
+import za.co.botcoin.view.wallet.WalletActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -45,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         this.binding.bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.trade -> startActivity(Intent(this, TradeActivity::class.java))
+                R.id.wallet -> startActivity(Intent(this, WalletActivity::class.java))
             }
             true
         }
