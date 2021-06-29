@@ -4,14 +4,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import org.json.JSONObject
 import za.co.botcoin.R
 import za.co.botcoin.databinding.HomeFragmentBinding
+import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.*
 import java.util.*
 
 class HomeFrag : Fragment(R.layout.home_fragment), WSCallUtilsCallBack {
     private lateinit var binding: HomeFragmentBinding
+    private lateinit var tickersViewModel: TickersViewModel
 
     private val TICKERS_REQ_CODE = 101
     private var timerTask: TimerTask? = null
@@ -25,17 +28,43 @@ class HomeFrag : Fragment(R.layout.home_fragment), WSCallUtilsCallBack {
         super.onViewCreated(view, savedInstanceState)
         this.binding = HomeFragmentBinding.bind(view)
 
+        this.tickersViewModel = ViewModelProviders.of(this).get(TickersViewModel::class.java)
+        this.tickersViewModel.getTickers(true)
+
         //if (GeneralUtils.isApiKeySet(context)) {
-            timerTask = object : TimerTask() {
-                override fun run() {
-                    tickers
-                }
+        /*timerTask = object : TimerTask() {
+            override fun run() {
+                tickers
             }
-            timer = Timer()
-            timer?.scheduleAtFixedRate(timerTask, 0, ConstantUtils.TICKER_RUN_TIME.toLong())
+        }
+        timer = Timer()
+        timer?.scheduleAtFixedRate(timerTask, 0, ConstantUtils.TICKER_RUN_TIME.toLong())*/
         //} else {
-            //GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
+        //GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
         //}
+    }
+
+    private fun attachObservers() {
+        this.tickersViewModel.tickersLiveData.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    val data = it.data
+                    if (!data.isNullOrEmpty()) {
+                        /*if (pair == ConstantUtils.PAIR_XRPZAR) {
+                            val lastTrade = ticker.getString("last_trade")
+                            (activity as MainActivity?)!!.runOnUiThread {
+                                this.binding.txtXrpZar.setText(R.string.XRPZAR)
+                                this.binding.txtXrpZar.append(lastTrade)
+                            }
+                        }*/
+                    } else {
+
+                    }
+                }
+                Status.ERROR -> {}
+                Status.LOADING -> {}
+            }
+        });
     }
 
     private val tickers: Unit

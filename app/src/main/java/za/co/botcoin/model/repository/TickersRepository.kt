@@ -19,15 +19,15 @@ class TickersRepository(private val application: Application) {
 
     private val updateLiveData by lazy { MutableLiveData<Boolean>() }
 
-    /*fun getTickers(update: Boolean): LiveData<Resource<List<Ticker>>> {
+    fun getTickers(update: Boolean): LiveData<Resource<List<Ticker>>> {
         updateLiveData.value = update
         return Transformations.switchMap(updateLiveData) {
             DataAccessStrategyUtils.synchronizedCache(
                     application,
-                    { BotCoinDatabase.getResource { tickerDao. } },
+                    { BotCoinDatabase.getResource { tickerDao.getMostRecentByPair(ConstantUtils.PAIR_XRPZAR) } },
                     { botCoinService.getTickers(GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)) },
                     {}
             )
         }
-    }*/
+    }
 }
