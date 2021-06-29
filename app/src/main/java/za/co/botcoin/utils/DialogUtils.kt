@@ -15,20 +15,14 @@ object DialogUtils {
 
         if (isPrompt) {
             builder.setCancelable(true)
-            builder.setPositiveButton(
-                    "Yes"
-            ) { dialog, id ->
+            builder.setPositiveButton("Yes") { dialog, id ->
                 permissionCallback.checkPermission(true)
                 dialog.cancel()
             }
-            builder.setNegativeButton(
-                    "No"
-            ) { dialog, id -> dialog.cancel() }
+            builder.setNegativeButton("No") { dialog, id -> dialog.cancel() }
         } else {
             builder.setCancelable(false)
-            builder.setPositiveButton(
-                    "Okay"
-            ) { dialog, id -> dialog.cancel() }
+            builder.setPositiveButton("Okay") { dialog, id -> dialog.cancel() }
         }
 
         toReturn = builder.create()
