@@ -7,11 +7,14 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import kotlinx.coroutines.Dispatchers
 import za.co.botcoin.model.models.Order
+import za.co.botcoin.model.models.Ticker
 import za.co.botcoin.utils.Resource
 import java.lang.Exception
 
-@Database(entities = [Order::class], version = 1, exportSchema = false)
+@Database(entities = [Ticker::class], version = 1, exportSchema = false)
 abstract class BotCoinDatabase : RoomDatabase() {
+
+    abstract fun tickerDao(): ITickerDao
 
     companion object {
         @Volatile
@@ -24,11 +27,7 @@ abstract class BotCoinDatabase : RoomDatabase() {
                 return tempInstance
             } else {
                 synchronized(this) {
-                    val instance = Room.databaseBuilder(
-                            context.applicationContext,
-                            BotCoinDatabase::class.java,
-                            "botcoin"
-                    ).build()
+                    val instance = Room.databaseBuilder(context.applicationContext, BotCoinDatabase::class.java, "botcoin").build()
                     INSTANCE = instance
                     return instance
                 }

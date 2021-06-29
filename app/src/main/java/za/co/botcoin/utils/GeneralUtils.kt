@@ -80,18 +80,17 @@ object GeneralUtils {
     }
 
     @JvmStatic
-    fun getAuth(keyId: String, secretKey: String): String? {
-        var toReturn: String? = null
+    fun getAuth(keyId: String, secretKey: String): String {
         try {
             val auth = "$keyId:$secretKey"
             val authEncBytes = Base64.encode(auth.toByteArray(), 0)
-            toReturn = String(authEncBytes)
+            return String(authEncBytes)
         } catch (e: Exception) {
             Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                     "Method: getAuth " +
                     "CreatedTime: ${getCurrentDateTime()}")
         }
-        return toReturn
+        return ""
     }
 
     @JvmStatic

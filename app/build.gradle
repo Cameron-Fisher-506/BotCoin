@@ -39,6 +39,7 @@ android {
     }
 }
 
+def retrofitVersion = '2.9.0'
 def navVersion = '2.1.0-alpha05'
 def roomVersion = '2.2.6'
 def lifecycleExtensionsVersion = '1.1.1'
@@ -70,5 +71,9 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:${lifecycleExtensionsVersion}"
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:${retrofitVersion}"
+    implementation "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
 
 }
