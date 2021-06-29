@@ -24,7 +24,7 @@ class TickersRepository(private val application: Application) {
         return Transformations.switchMap(updateLiveData) {
             DataAccessStrategyUtils.synchronizedCache(
                     application,
-                    { BotCoinDatabase.getResource { tickerDao.getMostRecentByPair(ConstantUtils.PAIR_XRPZAR) } },
+                    { BotCoinDatabase.getResource { tickerDao.getMostRecentByPair() } },
                     { botCoinService.getTickers(GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)) },
                     {}
             )

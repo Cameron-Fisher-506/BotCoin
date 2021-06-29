@@ -12,7 +12,7 @@ import za.co.botcoin.model.models.Ticker
 import za.co.botcoin.utils.Resource
 import java.lang.Exception
 
-@Database(entities = [Ticker::class, Luno::class], version = 1, exportSchema = false)
+@Database(entities = [Luno::class, Ticker::class], version = 1, exportSchema = false)
 abstract class BotCoinDatabase : RoomDatabase() {
 
     abstract fun tickerDao(): ITickerDao
