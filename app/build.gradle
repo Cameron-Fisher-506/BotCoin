@@ -40,6 +40,8 @@ android {
 }
 
 def navVersion = '2.1.0-alpha05'
+def roomVersion = '2.2.6'
+def lifecycleExtensionsVersion = '1.1.1'
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -57,4 +59,16 @@ dependencies {
     //navigation
     implementation "androidx.navigation:navigation-fragment-ktx:${navVersion}"
     implementation "androidx.navigation:navigation-ui-ktx:${navVersion}"
+
+    //Room Database components
+    implementation "androidx.room:room-runtime:${roomVersion}"
+    kapt "androidx.room:room-compiler:${roomVersion}"
+    implementation "androidx.room:room-ktx:${roomVersion}"
+    androidTestImplementation "androidx.room:room-testing:${roomVersion}"
+
+    //Lifecycle components
+    implementation "android.arch.lifecycle:extensions:${lifecycleExtensionsVersion}"
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
+
 }
