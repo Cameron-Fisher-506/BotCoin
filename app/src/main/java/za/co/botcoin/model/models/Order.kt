@@ -1,6 +1,6 @@
 package za.co.botcoin.model.models
 
-class Order {
+class Order : BaseModel {
     var id: String = ""
     var type: String = ""
     var state: String = ""

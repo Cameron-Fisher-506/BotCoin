@@ -1,6 +1,6 @@
 package za.co.botcoin.model.models
 
-class TradePrice {
+class TradePrice : BaseModel {
     var counter: Int = 0
     var price: Double = 0.0
     var isIncreased: Boolean = false

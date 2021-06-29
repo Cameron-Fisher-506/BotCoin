@@ -1,6 +1,6 @@
 package za.co.botcoin.model.models
 
-class Trade {
+class Trade : BaseModel {
     var type: String = ""
     var amount: String = ""
     var price: String = ""
