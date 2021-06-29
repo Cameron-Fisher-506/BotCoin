@@ -38,7 +38,7 @@ class MenuActivity : AppCompatActivity() {
         this.binding.bottomNavigationView.selectedItemId = R.id.menu
         this.binding.bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.homeFrag -> startActivity(Intent(this, MainActivity::class.java))
+                R.id.home -> startActivity(Intent(this, MainActivity::class.java))
                 R.id.trade -> startActivity(Intent(this, TradeActivity::class.java))
                 R.id.wallet -> startActivity(Intent(this, WalletActivity::class.java))
             }
