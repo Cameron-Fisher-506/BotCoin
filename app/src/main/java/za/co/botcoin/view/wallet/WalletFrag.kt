@@ -5,12 +5,11 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI
 import org.json.JSONObject
-import za.co.botcoin.view.home.MainActivity
 import za.co.botcoin.R
 import za.co.botcoin.databinding.WalletFragmentBinding
 import za.co.botcoin.utils.*
+import za.co.botcoin.view.home.MainActivity
 
 class WalletFrag : Fragment(R.layout.wallet_fragment), WSCallUtilsCallBack {
     private lateinit var binding: WalletFragmentBinding

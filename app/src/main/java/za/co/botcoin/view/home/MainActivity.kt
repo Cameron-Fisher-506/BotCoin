@@ -12,12 +12,11 @@ import androidx.navigation.ui.NavigationUI
 import org.json.JSONObject
 import za.co.botcoin.R
 import za.co.botcoin.databinding.ActivityMainBinding
-import za.co.botcoin.databinding.WalletActivityBinding
-import za.co.botcoin.view.settings.AutoTradeActivity
-import za.co.botcoin.view.trade.TradeActivity
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.SharedPreferencesUtils
+import za.co.botcoin.view.settings.AutoTradeActivity
+import za.co.botcoin.view.trade.TradeActivity
 import za.co.botcoin.view.wallet.WalletActivity
 
 class MainActivity : AppCompatActivity() {

@@ -6,9 +6,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.WalletMenuFragmentBinding
-import za.co.botcoin.view.wallet.menu.OrdersFrag
-import za.co.botcoin.view.wallet.menu.ReceiveFrag
-import za.co.botcoin.view.wallet.menu.SendFrag
 
 class WalletMenuFrag : Fragment(R.layout.wallet_menu_fragment) {
     private lateinit var binding: WalletMenuFragmentBinding
