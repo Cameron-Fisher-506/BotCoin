@@ -4,11 +4,11 @@
 
     <fragment
         android:id="@+id/lunoApiFrag"
-        android:name="za.co.botcoin.menu.fragments.LunoApiFrag"
+        android:name="za.co.botcoin.view.menu.LunoApiFrag"
         android:label="Luno Api" />
     <fragment
         android:id="@+id/autoTradeFrag"
-        android:name="za.co.botcoin.settings.fragments.AutoTradeFragment"
+        android:name="za.co.botcoin.view.settings.AutoTradeFragment"
         android:label="Auto Trade" >
         <action
             android:id="@+id/action_autoTradeFragment_to_lunoApiFrag"

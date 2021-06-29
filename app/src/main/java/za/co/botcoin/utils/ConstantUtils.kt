@@ -1,20 +1,20 @@
 package za.co.botcoin.utils
 
-import za.co.botcoin.objs.TradePrice
+import za.co.botcoin.model.models.TradePrice
 import java.util.*
 
 object ConstantUtils {
     //KEYS
     @JvmField
-    var KEY_ID = "eagwrgxnn8vm"
+    var KEY_ID = "gjewj9fbuyf96"
     @JvmField
-    var SECRET_KEY = "J5TyKa7OYuO_OpRuMxovvk-WhQASAhlxtpN0VfyssNw"
+    var SECRET_KEY = "wZLGmScVDX03H5hQPmx4f48b4_1tQpt66TQPuxx_4qs"
 
     //USER API KEYS
     @JvmField
-    var USER_KEY_ID: String? = null
+    var USER_KEY_ID: String? = "gjewj9fbuyf96"
     @JvmField
-    var USER_SECRET_KEY: String? = null
+    var USER_SECRET_KEY: String? = "wZLGmScVDX03H5hQPmx4f48b4_1tQpt66TQPuxx_4qs"
 
     //TAG
     const val BOTCOIN_TAG = "BOTCOIN"

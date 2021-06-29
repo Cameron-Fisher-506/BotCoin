@@ -12,8 +12,8 @@ import android.os.IBinder;
 import android.util.Log;
 import androidx.annotation.Nullable;
 import za.co.botcoin.R;
-import za.co.botcoin.objs.Order;
-import za.co.botcoin.objs.TradePrice;
+import za.co.botcoin.model.models.Order;
+import za.co.botcoin.model.models.TradePrice;
 import za.co.botcoin.utils.ConstantUtils;
 import za.co.botcoin.utils.GeneralUtils;
 import za.co.botcoin.utils.MathUtils;
@@ -24,11 +24,10 @@ import za.co.botcoin.utils.WSCallsUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.SocketHandler;
 
 public class BotService extends Service implements WSCallUtilsCallBack
 {

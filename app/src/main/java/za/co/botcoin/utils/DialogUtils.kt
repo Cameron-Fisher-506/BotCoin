@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.widget.EditText
 import android.widget.LinearLayout
-import za.co.botcoin.dialogs.PermissionCallback
 
 object DialogUtils {
     fun createAlertPermission(context: Context?, title: String?, message: String?, isPrompt: Boolean, permissionCallback: PermissionCallback): AlertDialog? {
