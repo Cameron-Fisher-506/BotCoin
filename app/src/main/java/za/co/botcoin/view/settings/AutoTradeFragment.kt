@@ -11,7 +11,6 @@ import org.json.JSONObject
 import za.co.botcoin.R
 import za.co.botcoin.databinding.AutoTradeFragmentBinding
 import za.co.botcoin.services.BotService
-import za.co.botcoin.settings.fragments.AutoTradeFragmentDirections
 import za.co.botcoin.utils.*
 
 class AutoTradeFragment : Fragment(R.layout.auto_trade_fragment) {
