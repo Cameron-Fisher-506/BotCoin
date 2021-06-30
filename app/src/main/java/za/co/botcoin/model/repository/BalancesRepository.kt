@@ -26,8 +26,8 @@ class BalancesRepository(private val application: Application) {
             DataAccessStrategyUtils.synchronizedCache(
                     application,
                     { BotCoinDatabase.getResource { balanceDao.getAll() } },
-                    { botCoinService.getBalances(GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)) },
-                    { it.balances.let { balances -> balanceDao.upsert(balances, balanceDao) } }
+                    { botCoinService.getBalances("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}") },
+                    { it.balance?.let { balance -> balanceDao.upsert(balance, balanceDao) } }
             )
         }
     }

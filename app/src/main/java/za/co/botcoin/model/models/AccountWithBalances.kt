@@ -8,5 +8,5 @@ data class AccountWithBalances(
         val account: Account = Account(),
 
         @Relation(parentColumn = "id", entityColumn = "lunoAccountId")
-        var balances: List<Balance>
+        var balance: List<Balance>?
 ) : BaseModel()

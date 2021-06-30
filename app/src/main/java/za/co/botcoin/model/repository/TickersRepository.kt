@@ -27,8 +27,8 @@ class TickersRepository(private val application: Application) {
             DataAccessStrategyUtils.synchronizedCache(
                     application,
                     { BotCoinDatabase.getResource { tickerDao.getAll() } },
-                    { botCoinService.getTickers(GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)) },
-                    { it.tickers.let { tickers -> tickerDao.upsert(tickers, tickerDao) } }
+                    { botCoinService.getTickers("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}") },
+                    { it.tickers?.let { tickers -> tickerDao.upsert(tickers, tickerDao) } }
             )
         }
     }

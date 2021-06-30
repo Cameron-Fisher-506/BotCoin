@@ -8,5 +8,5 @@ data class AccountWithTickers(
         val account: Account = Account(),
 
         @Relation(parentColumn = "id", entityColumn = "accountId")
-        var tickers: List<Ticker>
+        var tickers: List<Ticker>?
 ) : BaseModel()
