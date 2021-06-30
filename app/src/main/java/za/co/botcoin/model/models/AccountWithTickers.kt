@@ -7,6 +7,6 @@ data class AccountWithTickers(
         @Embedded
         val account: Account = Account(),
 
-        @Relation(parentColumn = "id", entityColumn = "lunoId")
+        @Relation(parentColumn = "id", entityColumn = "accountId")
         var tickers: List<Ticker>
 ) : BaseModel()

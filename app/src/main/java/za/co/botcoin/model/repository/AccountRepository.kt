@@ -6,14 +6,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import za.co.botcoin.model.models.Account
 import za.co.botcoin.model.room.BotCoinDatabase
-import za.co.botcoin.model.room.ILunoDao
+import za.co.botcoin.model.room.IAccountDao
 
-class LunoRepository(private val application: Application) {
-    private val lunoDao: ILunoDao = BotCoinDatabase.getDatabase(application).lunoDao()
+class AccountRepository(private val application: Application) {
+    private val accountDao: IAccountDao = BotCoinDatabase.getDatabase(application).accountDao()
 
     init {
        CoroutineScope(Dispatchers.IO).launch {
-           lunoDao.insert(Account(1, "Luno"))
+           accountDao.insert(Account(1, "Luno Account"))
        }
     }
 }

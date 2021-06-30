@@ -7,5 +7,5 @@ import za.co.botcoin.model.models.Ticker
 @Dao
 interface ITickerDao: IBaseDao<Ticker> {
     @Query("SELECT * FROM ticker")
-    suspend fun getMostRecentByPair(): List<Ticker>
+    suspend fun getAll(): List<Ticker>
 }

@@ -16,7 +16,8 @@ import java.lang.Exception
 abstract class BotCoinDatabase : RoomDatabase() {
 
     abstract fun tickerDao(): ITickerDao
-    abstract fun lunoDao(): ILunoDao
+    abstract fun accountDao(): IAccountDao
+    abstract fun balanceDao(): IBalanceDao
 
     companion object {
         @Volatile

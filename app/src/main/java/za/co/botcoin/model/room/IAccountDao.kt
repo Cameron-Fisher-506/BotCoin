@@ -4,5 +4,5 @@ import androidx.room.Dao
 import za.co.botcoin.model.models.Account
 
 @Dao
-interface ILunoDao : IBaseDao<Account> {
+interface IAccountDao : IBaseDao<Account> {
 }

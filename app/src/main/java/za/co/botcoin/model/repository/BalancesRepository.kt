@@ -4,10 +4,9 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import kotlinx.coroutines.channels.ticker
-import za.co.botcoin.model.models.Ticker
+import za.co.botcoin.model.models.Balance
 import za.co.botcoin.model.room.BotCoinDatabase
-import za.co.botcoin.model.room.ITickerDao
+import za.co.botcoin.model.room.IBalanceDao
 import za.co.botcoin.model.room.upsert
 import za.co.botcoin.model.service.BotCoinService
 import za.co.botcoin.utils.ConstantUtils
@@ -15,20 +14,20 @@ import za.co.botcoin.utils.DataAccessStrategyUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.Resource
 
-class TickersRepository(private val application: Application) {
+class BalancesRepository(private val application: Application) {
     private val botCoinService: BotCoinService = BotCoinService()
-    private val tickerDao: ITickerDao = BotCoinDatabase.getDatabase(application).tickerDao()
+    private val balanceDao: IBalanceDao = BotCoinDatabase.getDatabase(application).balanceDao()
 
     private val updateLiveData by lazy { MutableLiveData<Boolean>() }
 
-    fun fetchTickers(update: Boolean): LiveData<Resource<List<Ticker>>> {
+    public fun fetchBalances(update: Boolean): LiveData<Resource<List<Balance>>> {
         updateLiveData.value = update
         return Transformations.switchMap(updateLiveData) {
             DataAccessStrategyUtils.synchronizedCache(
                     application,
-                    { BotCoinDatabase.getResource { tickerDao.getAll() } },
-                    { botCoinService.getTickers(GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)) },
-                    { it.tickers.let { tickers -> tickerDao.upsert(tickers, tickerDao) } }
+                    { BotCoinDatabase.getResource { balanceDao.getAll() } },
+                    { botCoinService.getBalances(GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)) },
+                    { it.balances.let { balances -> balanceDao.upsert(balances, balanceDao) } }
             )
         }
     }

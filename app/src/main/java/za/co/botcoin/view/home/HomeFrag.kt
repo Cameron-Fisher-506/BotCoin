@@ -42,10 +42,10 @@ class HomeFrag : Fragment(R.layout.home_fragment) {
         this.tickersViewModel.tickersLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
-                    displayLinearLayout()
-
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
+                        displayLinearLayout()
+
                         data.map { ticker ->
                             if (ticker.pair == ConstantUtils.PAIR_XRPZAR) {
                                 this.binding.txtXrpZar.setText(R.string.XRPZAR)

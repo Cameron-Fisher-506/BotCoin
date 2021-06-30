@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(indices = [Index(value = ["asset"], unique = false)])
+@Entity(indices = [Index(value = ["asset"], unique = true)])
 class Balance : BaseModel() {
     @PrimaryKey(autoGenerate = false)
     var asset: String = ""
@@ -13,4 +13,5 @@ class Balance : BaseModel() {
     var name: String = ""
     var reserved: String = ""
     var unconfirmed: String = ""
+    var lunoAccountId: Int = 1
 }
