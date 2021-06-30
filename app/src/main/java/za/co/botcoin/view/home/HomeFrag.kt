@@ -42,6 +42,8 @@ class HomeFrag : Fragment(R.layout.home_fragment) {
         this.tickersViewModel.tickersLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
+                    displayData()
+
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
                         data.map { ticker ->
@@ -51,12 +53,22 @@ class HomeFrag : Fragment(R.layout.home_fragment) {
                             }
                         }
                     } else {
-
+                        displayError()
                     }
                 }
-                Status.ERROR -> { }
+                Status.ERROR -> { displayError() }
                 Status.LOADING -> { }
             }
         });
+    }
+
+    private fun displayData() {
+        this.binding.linearLayoutXrpZar.visibility = View.VISIBLE
+        this.binding.errorTextView.visibility = View.GONE
+    }
+
+    private fun displayError() {
+        this.binding.linearLayoutXrpZar.visibility = View.GONE
+        this.binding.errorTextView.visibility = View.VISIBLE
     }
 }

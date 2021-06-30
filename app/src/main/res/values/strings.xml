@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">BotCoin</string>
 
+    <string name="error_no_data_found">No data found.</string>
+
+
     //WALLET
     <string name="ZAR">ZAR\u0020</string>
     <string name="XRP">XRP\u0020</string>
