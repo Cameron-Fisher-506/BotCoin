@@ -17,7 +17,7 @@ class TickersViewModel(application: Application): AndroidViewModel(application) 
         LunoRepository(application)
     }
 
-    fun getTickers(update: Boolean) {
-        tickersLiveData = tickersRepository.getTickers(update)
+    fun fetchTickers(update: Boolean) {
+        tickersLiveData = tickersRepository.fetchTickers(update)
     }
 }

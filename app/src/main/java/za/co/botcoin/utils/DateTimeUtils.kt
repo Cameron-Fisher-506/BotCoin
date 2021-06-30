@@ -32,7 +32,7 @@ object DateTimeUtils {
     fun getCurrentDateTime(): String {
         var toReturn = ""
 
-        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH-mm-ss", Locale.ENGLISH)
+        val simpleDateFormat = SimpleDateFormat(DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS, Locale.ENGLISH)
         var now = Date()
         val calendar = Calendar.getInstance()
         calendar.time = now
@@ -45,7 +45,7 @@ object DateTimeUtils {
     private fun parseDateTime(dateTime: String): Date? {
         var toReturn: Date? = null
         try {
-            val sdfDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
+            val sdfDate = SimpleDateFormat(DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS, Locale.ENGLISH)
             toReturn = sdfDate.parse(dateTime)
         } catch (e: Exception) {
             println("Error: ${e.message} " +

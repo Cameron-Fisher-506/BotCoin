@@ -34,7 +34,7 @@ object DataAccessStrategyUtils {
                 val data = result.data
                 if (data != null && (data as List<T>).size > 0) {
                     var mustUpdate = false
-                    val oldDateTime = SharedPreferencesUtils[context, SharedPreferencesUtils.LAST_REQUEST_TIME]
+                    val oldDateTime = SharedPrefsUtils[context, SharedPrefsUtils.LAST_REQUEST_TIME]
                     if (oldDateTime != null) {
                         if (DateTimeUtils.differenceInMinutes(oldDateTime, DateTimeUtils.getCurrentDateTime()) > DateTimeUtils.ONE_MINUTE) {
                             mustUpdate = true
@@ -43,7 +43,7 @@ object DataAccessStrategyUtils {
 
                     if (mustUpdate) {
                         val response = wsCall.invoke()
-                        SharedPreferencesUtils.save(context, SharedPreferencesUtils.LAST_REQUEST_TIME)
+                        SharedPrefsUtils.save(context, SharedPrefsUtils.LAST_REQUEST_TIME)
                         when (response.status) {
                             Status.SUCCESS -> {
                                 response.data?.let { saveCall(it) }
@@ -57,7 +57,7 @@ object DataAccessStrategyUtils {
                     }
                 } else {
                     val response = wsCall.invoke()
-                    SharedPreferencesUtils.save(context, SharedPreferencesUtils.LAST_REQUEST_TIME)
+                    SharedPrefsUtils.save(context, SharedPrefsUtils.LAST_REQUEST_TIME)
                     when (response.status) {
                         Status.SUCCESS -> {
                             response.data?.let { saveCall(it) }

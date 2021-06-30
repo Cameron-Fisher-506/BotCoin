@@ -1,115 +1,62 @@
 package za.co.botcoin.view.home
 
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import org.json.JSONObject
 import za.co.botcoin.R
 import za.co.botcoin.databinding.HomeFragmentBinding
 import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.*
 import java.util.*
 
-class HomeFrag : Fragment(R.layout.home_fragment), WSCallUtilsCallBack {
+class HomeFrag : Fragment(R.layout.home_fragment) {
     private lateinit var binding: HomeFragmentBinding
     private lateinit var tickersViewModel: TickersViewModel
-
-    private val TICKERS_REQ_CODE = 101
-    private var timerTask: TimerTask? = null
-    private var timer: Timer? = null
-
-    companion object {
-        const val TITLE = "Home"
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = HomeFragmentBinding.bind(view)
 
         this.tickersViewModel = ViewModelProviders.of(this).get(TickersViewModel::class.java)
-        this.tickersViewModel.getTickers(true)
+        attachTickerObserver()
 
-        //if (GeneralUtils.isApiKeySet(context)) {
-        /*timerTask = object : TimerTask() {
-            override fun run() {
-                tickers
-            }
+        if (GeneralUtils.isApiKeySet(context)) {
+            val handler = Handler()
+            val delay: Long = 100000L
+            handler.postDelayed(object : Runnable {
+                override fun run() {
+                    attachTickerObserver()
+                    handler.postDelayed(this, delay)
+                }
+            }, delay)
+
+        } else {
+            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
         }
-        timer = Timer()
-        timer?.scheduleAtFixedRate(timerTask, 0, ConstantUtils.TICKER_RUN_TIME.toLong())*/
-        //} else {
-        //GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
-        //}
     }
 
-    private fun attachObservers() {
+    private fun attachTickerObserver() {
+        tickersViewModel.fetchTickers(true)
         this.tickersViewModel.tickersLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
-                        /*if (pair == ConstantUtils.PAIR_XRPZAR) {
-                            val lastTrade = ticker.getString("last_trade")
-                            (activity as MainActivity?)!!.runOnUiThread {
+                        data.map { ticker ->
+                            if (ticker.pair == ConstantUtils.PAIR_XRPZAR) {
                                 this.binding.txtXrpZar.setText(R.string.XRPZAR)
-                                this.binding.txtXrpZar.append(lastTrade)
+                                this.binding.txtXrpZar.append(ticker.lastTrade)
                             }
-                        }*/
+                        }
                     } else {
 
                     }
                 }
-                Status.ERROR -> {}
-                Status.LOADING -> {}
+                Status.ERROR -> { }
+                Status.LOADING -> { }
             }
         });
-    }
-
-    private val tickers: Unit
-        private get() {
-            WSCallsUtils.get(this, TICKERS_REQ_CODE, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_TICKERS, GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID ?: "", ConstantUtils.USER_SECRET_KEY ?: ""))
-        }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        if (timer != null) {
-            timer!!.cancel()
-            timer!!.purge()
-        }
-    }
-
-    override fun taskCompleted(response: String?, reqCode: Int) {
-        if (response != null) {
-            if (reqCode == TICKERS_REQ_CODE) {
-                try {
-                    val jsonObject = JSONObject(response)
-                    if (jsonObject != null && jsonObject.has("tickers")) {
-                        val tickers = jsonObject.getJSONArray("tickers")
-                        if (tickers != null && tickers.length() > 0) {
-                            for (i in 0 until tickers.length()) {
-                                val ticker = tickers.getJSONObject(i)
-                                val pair = ticker.getString("pair")
-                                if (pair == ConstantUtils.PAIR_XRPZAR) {
-                                    val lastTrade = ticker.getString("last_trade")
-                                    (activity as MainActivity?)!!.runOnUiThread {
-                                        this.binding.txtXrpZar.setText(R.string.XRPZAR)
-                                        this.binding.txtXrpZar.append(lastTrade)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } catch (e: Exception) {
-                    Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
-                            "Method: HomeFrag - onCreateView " +
-                            "URL: ${StringUtils.GLOBAL_ENDPOINT_TICKERS} " +
-                            "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
-                }
-            }
-        } else {
-            GeneralUtils.createAlertDialog(activity as MainActivity?, "No Signal", "Please check your network connection!", false)
-        }
     }
 }

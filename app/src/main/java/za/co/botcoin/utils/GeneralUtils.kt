@@ -83,7 +83,7 @@ object GeneralUtils {
     fun getAuth(keyId: String, secretKey: String): String {
         try {
             val auth = "$keyId:$secretKey"
-            val authEncBytes = Base64.encode(auth.toByteArray(), 0)
+            val authEncBytes = Base64.encode(auth.toByteArray(), Base64.NO_WRAP)
             return String(authEncBytes)
         } catch (e: Exception) {
             Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
@@ -95,7 +95,7 @@ object GeneralUtils {
 
     @JvmStatic
     fun isApiKeySet(context: Context?): Boolean {
-        var toReturn = false
+        var toReturn = true
         val jsonObjectLunoApiKey = context?.let { SharedPreferencesUtils[it, SharedPreferencesUtils.LUNO_API_PREF] }
         if (jsonObjectLunoApiKey != null && jsonObjectLunoApiKey.has("keyID") && jsonObjectLunoApiKey.has("secretKey")) {
             try {

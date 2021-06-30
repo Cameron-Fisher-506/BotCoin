@@ -8,5 +8,5 @@ data class LunoWithTickers(
         val luno: Luno = Luno(),
 
         @Relation(parentColumn = "id", entityColumn = "lunoId")
-        var tickers: List<Ticker>?
+        var tickers: List<Ticker>
 ) : BaseModel()
