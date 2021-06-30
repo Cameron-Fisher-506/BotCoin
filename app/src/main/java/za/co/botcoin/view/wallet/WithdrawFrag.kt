@@ -10,60 +10,66 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import org.json.JSONObject
 import za.co.botcoin.R
 import za.co.botcoin.databinding.WithdrawFragmentBinding
+import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.*
 import za.co.botcoin.utils.GeneralUtils.buildWithdrawal
 import za.co.botcoin.utils.GeneralUtils.createAlertDialog
 import za.co.botcoin.utils.GeneralUtils.getAuth
 import za.co.botcoin.utils.GeneralUtils.isApiKeySet
 
-class WithdrawFrag : Fragment(R.layout.withdraw_fragment), WSCallUtilsCallBack {
+class WithdrawFrag : Fragment(R.layout.withdraw_fragment) {
     private lateinit var binding: WithdrawFragmentBinding
-    private val REQ_CODE_WITHDRAW = 101
+    private lateinit var withdrawalViewModel: WithdrawalViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = WithdrawFragmentBinding.bind(view)
 
-        addWithdrawListener(view)
+        this.withdrawalViewModel = ViewModelProviders.of(this).get(WithdrawalViewModel::class.java)
+
+        addWithdrawListener()
     }
 
-    private fun addWithdrawListener(view: View) {
-        this.binding.btnWithdraw.setOnClickListener(View.OnClickListener {
-            if (this.binding.edTxtAmount.text.toString() != "" && this.binding.edTxtAmount.text.toString() != "0" && this.binding.edTxtBeneficiaryId.text.toString() != "") {
+    private fun addWithdrawListener() {
+        this.binding.btnWithdraw.setOnClickListener {
+            val amount: String = this.binding.edTxtAmount.text.toString()
+            val beneficiaryId: String = this.binding.edTxtAmount.text.toString()
+
+            if (amount.isNotBlank() && amount != "0" && beneficiaryId.isNotBlank()) {
                 if (isApiKeySet(context)) {
-                    withdrawal(this.binding.edTxtAmount.text.toString(), this.binding.edTxtBeneficiaryId.text.toString())
+                    this.withdrawalViewModel.withdrawal(true, "ZAR_EFT", amount, beneficiaryId)
+                    attachWithdrawalObserver()
                 } else {
                     createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)!!.show()
                 }
             } else {
                 createAlertDialog(activity, "Withdrawal", "Please provide an amount more than 0 and a valid beneficiary ID!", false)!!.show()
             }
-        })
+        }
     }
 
-    private fun withdrawal(amount: String, beneficiaryId: String) {
-        WSCallsUtils.post(this, REQ_CODE_WITHDRAW, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_WITHDRAWALS + buildWithdrawal(amount, beneficiaryId), "", getAuth(ConstantUtils.USER_KEY_ID!!, ConstantUtils.USER_SECRET_KEY!!))
-    }
+    private fun attachWithdrawalObserver() {
+        this.withdrawalViewModel.withdrawalLiveData.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    val data = it.data
+                    if (!data.isNullOrEmpty()) {
+                        data.map { withdrawal ->  notify("Withdrew " + withdrawal.amount + " Rands.", "") }
+                    } else {
 
-    override fun taskCompleted(response: String?, reqCode: Int) {
-        if (response != null) {
-            if (reqCode == REQ_CODE_WITHDRAW) {
-                try {
-                    val jsonObject = JSONObject(response)
-                    if (jsonObject != null) {
-                        notify("Withdrew " + this.binding.edTxtAmount.text.toString() + " Rands.", jsonObject.toString())
                     }
-                } catch (e: Exception) {
-                    Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
-                            "Method: DonateFrag - taskCompleted " +
-                            "Request Code: $reqCode " +
-                            "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+
+                }
+                Status.ERROR -> {
+                }
+                Status.LOADING -> {
                 }
             }
-        }
+        })
     }
 
     private fun notify(title: String?, message: String?) {

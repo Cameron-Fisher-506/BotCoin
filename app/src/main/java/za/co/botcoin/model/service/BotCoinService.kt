@@ -21,4 +21,6 @@ class BotCoinService: BaseService() {
     suspend fun getTickers(auth: String) = getResource { api.getTickers(auth) }
 
     suspend fun getBalances(auth: String) = getResource { api.getBalances(auth) }
+
+    suspend fun withdrawal(type: String, amount: String, beneficiaryId: String) = getResource { api.withdrawal(type, amount, beneficiaryId) }
 }

@@ -18,6 +18,7 @@ abstract class BotCoinDatabase : RoomDatabase() {
     abstract fun tickerDao(): ITickerDao
     abstract fun accountDao(): IAccountDao
     abstract fun balanceDao(): IBalanceDao
+    abstract fun withdrawalDao(): IWithdrawalDao
 
     companion object {
         @Volatile
