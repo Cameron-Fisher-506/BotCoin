@@ -6,13 +6,13 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import kotlinx.coroutines.Dispatchers
-import za.co.botcoin.model.models.Luno
-import za.co.botcoin.model.models.Order
+import za.co.botcoin.model.models.Balance
+import za.co.botcoin.model.models.Account
 import za.co.botcoin.model.models.Ticker
 import za.co.botcoin.utils.Resource
 import java.lang.Exception
 
-@Database(entities = [Luno::class, Ticker::class], version = 1, exportSchema = false)
+@Database(entities = [Account::class, Ticker::class, Balance::class], version = 1, exportSchema = false)
 abstract class BotCoinDatabase : RoomDatabase() {
 
     abstract fun tickerDao(): ITickerDao

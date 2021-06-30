@@ -4,7 +4,7 @@ import android.app.Application
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import za.co.botcoin.model.models.Luno
+import za.co.botcoin.model.models.Account
 import za.co.botcoin.model.room.BotCoinDatabase
 import za.co.botcoin.model.room.ILunoDao
 
@@ -13,7 +13,7 @@ class LunoRepository(private val application: Application) {
 
     init {
        CoroutineScope(Dispatchers.IO).launch {
-           lunoDao.insert(Luno(1, "Luno"))
+           lunoDao.insert(Account(1, "Luno"))
        }
     }
 }

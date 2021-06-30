@@ -1,8 +1,8 @@
 package za.co.botcoin.model.room
 
 import androidx.room.Dao
-import za.co.botcoin.model.models.Luno
+import za.co.botcoin.model.models.Account
 
 @Dao
-interface ILunoDao : IBaseDao<Luno> {
+interface ILunoDao : IBaseDao<Account> {
 }

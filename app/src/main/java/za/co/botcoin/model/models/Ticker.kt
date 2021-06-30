@@ -13,7 +13,7 @@ class Ticker : BaseModel() {
     var bid: String = ""
     var status: String = ""
     var timestamp: String = ""
-    var lunoId: Int = 1
+    var accountId: Int = 1
 
     @SerializedName("last_trade")
     var lastTrade: String = ""
