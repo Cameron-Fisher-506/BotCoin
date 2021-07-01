@@ -29,4 +29,8 @@ class BotCoinService: BaseService() {
     suspend fun send(auth: String, amount: String, currency: String, address: String) = getResource { api.send(auth, amount, currency,address) }
 
     suspend fun receive(auth: String, asset: String) = getResource { api.receive(auth, asset) }
+
+    suspend fun getOrders(auth: String) = getResource { api.getOrders(auth) }
+
+    suspend fun stopOrder(auth: String, orderId: String) = getResource { api.stopOrder(auth, orderId) }
 }
