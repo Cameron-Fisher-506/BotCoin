@@ -7,9 +7,9 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(indices = [Index(value = ["withdrawalId"], unique = false)])
 class Send {
-    val success: Boolean = false
+    var success: Boolean = false
 
     @PrimaryKey(autoGenerate = false)
     @SerializedName("withdrawal_id")
-    val withdrawalId: String = ""
+    var withdrawalId: String = ""
 }
