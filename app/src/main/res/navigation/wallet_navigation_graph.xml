@@ -49,6 +49,9 @@
         <argument
             android:name="asset"
             app:argType="string" />
+        <action
+            android:id="@+id/action_receiveFrag_to_lunoApiFrag"
+            app:destination="@id/lunoApiFrag" />
     </fragment>
     <fragment
         android:id="@+id/sendFrag"
@@ -57,4 +60,8 @@
         <argument android:name="asset"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/lunoApiFrag"
+        android:name="za.co.botcoin.view.menu.LunoApiFrag"
+        android:label="LunoApiFrag" />
 </navigation>

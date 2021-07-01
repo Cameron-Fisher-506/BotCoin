@@ -27,4 +27,6 @@ class BotCoinService: BaseService() {
     suspend fun send(amount: String, currency: String, address: String, destinationTag: String) = getResource { api.send(amount, currency, address, destinationTag = destinationTag) }
 
     suspend fun send(amount: String, currency: String, address: String) = getResource { api.send(amount, currency,address) }
+
+    suspend fun receive(asset: String) = getResource { api.receive(asset) }
 }

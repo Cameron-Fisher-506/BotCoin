@@ -5,10 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
-import za.co.botcoin.model.models.AccountWithBalances
-import za.co.botcoin.model.models.AccountWithTickers
-import za.co.botcoin.model.models.Send
-import za.co.botcoin.model.models.Withdrawal
+import za.co.botcoin.model.models.*
 
 interface IBotCoinApi {
     @GET("tickers")
@@ -26,4 +23,7 @@ interface IBotCoinApi {
 
     @POST("send")
     suspend fun send(@Query("amount") amount: String, @Query("currency") currency: String, @Query("address") address: String): Response<Send>
+
+    @GET("funding_address")
+    suspend fun receive(@Query("asset") asset: String): Response<Receive>
 }
