@@ -26,4 +26,10 @@ interface IBotCoinApi {
 
     @GET("funding_address")
     suspend fun receive(@Header("Authorization") auth: String, @Query("asset") asset: String): Response<Receive>
+
+    @GET("listorders")
+    suspend fun getOrders(@Header("Authorization") auth: String): Response<AccountWithOrders>
+
+    @POST("stoporder")
+    suspend fun stopOrder(@Header("Authorization") auth: String, @Query("order_id") orderId: String): Response<StopOrder>
 }
