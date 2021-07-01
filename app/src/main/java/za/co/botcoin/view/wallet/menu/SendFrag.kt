@@ -7,69 +7,63 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import org.json.JSONObject
+import androidx.lifecycle.ViewModelProviders
 import za.co.botcoin.R
 import za.co.botcoin.databinding.SendFragmentBinding
-import za.co.botcoin.utils.ConstantUtils
-import za.co.botcoin.utils.GeneralUtils.buildSend
+import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.GeneralUtils.createAlertDialog
-import za.co.botcoin.utils.GeneralUtils.getAuth
-import za.co.botcoin.utils.GeneralUtils.getCurrentDateTime
-import za.co.botcoin.utils.StringUtils
-import za.co.botcoin.utils.WSCallUtilsCallBack
-import za.co.botcoin.utils.WSCallsUtils
+import za.co.botcoin.view.wallet.WithdrawalViewModel
 
-class SendFrag : Fragment(R.layout.send_fragment), WSCallUtilsCallBack {
+class SendFrag : Fragment(R.layout.send_fragment) {
     private lateinit var binding: SendFragmentBinding
-    private val REQ_CODE_SEND = 101
-    private var asset: String? = null
+    private lateinit var withdrawalViewModel: WithdrawalViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = SendFragmentBinding.bind(view)
 
-        asset = arguments!!.getString("asset")
-        addBtnSend()
+        this.withdrawalViewModel = ViewModelProviders.of(this).get(WithdrawalViewModel::class.java)
+
+        arguments?.let {
+            addBtnSend(it.getString("asset") ?: "")
+        }
     }
 
-    private fun addBtnSend() {
-        this.binding.btnSend.setOnClickListener(View.OnClickListener {
-            if (this.binding.edTxtAmount.text.toString() != "" && this.binding.edTxtAddress.text.toString() != "") {
-                if (this.binding.edTxtAmount.text.toString() != "0") {
-                    send(this.binding.edTxtAmount.text.toString(), this.binding.edTxtAddress.text.toString(), if (this.binding.edTxtTag.text.toString() == "") null else this.binding.edTxtTag.text.toString())
+    private fun addBtnSend(asset: String) {
+        this.binding.btnSend.setOnClickListener {
+            val amount = this.binding.edTxtAmount.text.toString()
+            val address = this.binding.edTxtAddress.text.toString()
+            val destinationTag = this.binding.edTxtTag.text.toString()
+            if (amount.isNotBlank() && address.isNotBlank()) {
+                if (amount != "0") {
+                    this.withdrawalViewModel.send(true, amount, asset, address, destinationTag)
+                    attachSendObserver(amount, asset, address)
                 } else {
                     createAlertDialog(context, "Invalid amount entered!", "Please note that you cannot send 0 $asset.", false)!!.show()
                 }
             } else {
                 createAlertDialog(context, "Send", "Please enter the amount of $asset You would like to send. Please enter a valid recipient account address and tag.", false)!!.show()
             }
-        })
-    }
-
-    private fun send(amount: String, address: String, tag: String?) {
-        WSCallsUtils.post(this, REQ_CODE_SEND, StringUtils.GLOBAL_LUNO_URL + buildSend(amount, asset!!, address, tag), "", getAuth(ConstantUtils.USER_KEY_ID!!, ConstantUtils.USER_SECRET_KEY!!))
-    }
-
-    override fun taskCompleted(response: String?, reqCode: Int) {
-        if (response != null) {
-            if (reqCode == REQ_CODE_SEND) {
-                try {
-                    val jsonObject = JSONObject(response)
-                    if (jsonObject != null) {
-                        notify("Sent " + this.binding.edTxtAmount.text.toString() + " " + asset + " to " + this.binding.edTxtAddress + ".", jsonObject.toString())
-                    }
-                } catch (e: Exception) {
-                    Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
-                            "Method: DonateFrag - taskCompleted " +
-                            "Request Code: $reqCode " +
-                            "CreatedTime: ${getCurrentDateTime()}")
-                }
-            }
-        } else {
         }
+    }
+
+    private fun attachSendObserver(amount: String, asset: String, address: String) {
+        this.withdrawalViewModel.sendLiveData.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    val data = it.data
+                    if(!data.isNullOrEmpty()) {
+                        data.map { response -> if (response.success) notify("Sent $amount $asset to $address.", response.withdrawalId) else notify("Send failed.", "")}
+                    } else {
+                        notify("Send failed.", "")
+                    }
+                }
+                Status.ERROR -> { notify("Send failed.", "") }
+                Status.LOADING -> {}
+            }
+        })
     }
 
     private fun notify(title: String?, message: String?) {

@@ -6,20 +6,18 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import kotlinx.coroutines.Dispatchers
-import za.co.botcoin.model.models.Balance
-import za.co.botcoin.model.models.Account
-import za.co.botcoin.model.models.Ticker
-import za.co.botcoin.model.models.Withdrawal
+import za.co.botcoin.model.models.*
 import za.co.botcoin.utils.Resource
 import java.lang.Exception
 
-@Database(entities = [Account::class, Ticker::class, Balance::class, Withdrawal::class], version = 1, exportSchema = false)
+@Database(entities = [Account::class, Ticker::class, Balance::class, Withdrawal::class, Send::class], version = 1, exportSchema = false)
 abstract class BotCoinDatabase : RoomDatabase() {
 
     abstract fun tickerDao(): ITickerDao
     abstract fun accountDao(): IAccountDao
     abstract fun balanceDao(): IBalanceDao
     abstract fun withdrawalDao(): IWithdrawalDao
+    abstract fun sendDao(): ISendDao
 
     companion object {
         @Volatile

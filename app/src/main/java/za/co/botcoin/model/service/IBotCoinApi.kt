@@ -7,6 +7,7 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 import za.co.botcoin.model.models.AccountWithBalances
 import za.co.botcoin.model.models.AccountWithTickers
+import za.co.botcoin.model.models.Send
 import za.co.botcoin.model.models.Withdrawal
 
 interface IBotCoinApi {
@@ -18,4 +19,11 @@ interface IBotCoinApi {
 
     @POST("withdrawals")
     suspend fun withdrawal(@Query("type") type: String, @Query("amount") amount: String, @Query("beneficiary_id") beneficiaryId: String): Response<Withdrawal>
+
+    @POST("send")
+    suspend fun send(@Query("amount") amount: String, @Query("currency") currency: String, @Query("address") address: String,
+                     @Query("has_destination_tag") hasDestinationTag: Boolean = true, @Query("destination_tag") destinationTag: String): Response<Send>
+
+    @POST("send")
+    suspend fun send(@Query("amount") amount: String, @Query("currency") currency: String, @Query("address") address: String): Response<Send>
 }
