@@ -74,5 +74,8 @@
         <argument
             android:name="asset"
             app:argType="string" />
+        <action
+            android:id="@+id/action_donateFrag_to_lunoApiFrag2"
+            app:destination="@id/lunoApiFrag2" />
     </fragment>
 </navigation>
