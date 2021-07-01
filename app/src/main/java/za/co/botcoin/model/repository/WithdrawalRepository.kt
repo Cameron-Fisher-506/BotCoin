@@ -10,7 +10,9 @@ import za.co.botcoin.model.models.Send
 import za.co.botcoin.model.models.Withdrawal
 import za.co.botcoin.model.room.*
 import za.co.botcoin.model.service.BotCoinService
+import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.DataAccessStrategyUtils
+import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.Resource
 
 class WithdrawalRepository(private val application: Application) {
@@ -29,7 +31,7 @@ class WithdrawalRepository(private val application: Application) {
             DataAccessStrategyUtils.synchronizedCache(
                     application,
                     { BotCoinDatabase.getResource { withdrawalDao.getAll() } },
-                    { botCoinService.withdrawal(type, amount, beneficiaryId) },
+                    { botCoinService.withdrawal("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}", type, amount, beneficiaryId) },
                     { withdrawalDao.upsert(it, withdrawalDao) }
             )
         }
@@ -41,7 +43,8 @@ class WithdrawalRepository(private val application: Application) {
             DataAccessStrategyUtils.synchronizedCache(
                     application,
                     { BotCoinDatabase.getResource { sendDao.getAll() } },
-                    { if (destinationTag.isNotBlank()) botCoinService.send(amount, currency, address) else botCoinService.send(amount, currency, address, destinationTag) },
+                    { if (destinationTag.isNotBlank()) botCoinService.send("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}",amount, currency, address)
+                        else botCoinService.send("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}", amount, currency, address, destinationTag) },
                     { sendDao.upsert(it, sendDao) }
             )
         }
@@ -53,7 +56,7 @@ class WithdrawalRepository(private val application: Application) {
             DataAccessStrategyUtils.synchronizedCache(
                     application,
                     { BotCoinDatabase.getResource { receiveDao.getAll() } },
-                    { botCoinService.receive(asset) },
+                    { botCoinService.receive("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}", asset) },
                     { receiveDao.upsert(it, receiveDao) }
             )
         }

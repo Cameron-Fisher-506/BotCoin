@@ -15,15 +15,15 @@ interface IBotCoinApi {
     suspend fun getBalances(@Header("Authorization") auth: String): Response<AccountWithBalances>
 
     @POST("withdrawals")
-    suspend fun withdrawal(@Query("type") type: String, @Query("amount") amount: String, @Query("beneficiary_id") beneficiaryId: String): Response<Withdrawal>
+    suspend fun withdrawal(@Header("Authorization") auth: String, @Query("type") type: String, @Query("amount") amount: String, @Query("beneficiary_id") beneficiaryId: String): Response<Withdrawal>
 
     @POST("send")
-    suspend fun send(@Query("amount") amount: String, @Query("currency") currency: String, @Query("address") address: String,
+    suspend fun send(@Header("Authorization") auth: String, @Query("amount") amount: String, @Query("currency") currency: String, @Query("address") address: String,
                      @Query("has_destination_tag") hasDestinationTag: Boolean = true, @Query("destination_tag") destinationTag: String): Response<Send>
 
     @POST("send")
-    suspend fun send(@Query("amount") amount: String, @Query("currency") currency: String, @Query("address") address: String): Response<Send>
+    suspend fun send(@Header("Authorization") auth: String, @Query("amount") amount: String, @Query("currency") currency: String, @Query("address") address: String): Response<Send>
 
     @GET("funding_address")
-    suspend fun receive(@Query("asset") asset: String): Response<Receive>
+    suspend fun receive(@Header("Authorization") auth: String, @Query("asset") asset: String): Response<Receive>
 }
