@@ -20,7 +20,7 @@ class BalancesRepository(private val application: Application) {
 
     private val updateLiveData by lazy { MutableLiveData<Boolean>() }
 
-    public fun fetchBalances(update: Boolean): LiveData<Resource<List<Balance>>> {
+    fun fetchBalances(update: Boolean): LiveData<Resource<List<Balance>>> {
         updateLiveData.value = update
         return Transformations.switchMap(updateLiveData) {
             DataAccessStrategyUtils.synchronizedCache(

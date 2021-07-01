@@ -17,17 +17,13 @@ class TradeFragment : Fragment(R.layout.trade_option_fragment) {
     private var trades: ArrayList<Trade> = ArrayList()
     private var tradeAdapter: TradeAdapter? = null
 
-    companion object {
-        const val TITLE = "Trading Bot"
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = TradeOptionFragmentBinding.bind(view)
 
         trades.add(Trade(Trade.BUY_TYPE, "0", ConstantUtils.SUPPORT_PRICE ?: ""))
         trades.add(Trade(Trade.SELL_TYPE, "0", ConstantUtils.RESISTANCE_PRICE ?: ""))
-        tradeAdapter = TradeAdapter(context, trades)
+        tradeAdapter = TradeAdapter(context!!,trades)
         this.binding.botPager.adapter = tradeAdapter
         addTabBotMenuListener()
     }
