@@ -22,9 +22,15 @@ class BotCoinService: BaseService() {
 
     suspend fun getBalances(auth: String) = getResource { api.getBalances(auth) }
 
-    suspend fun withdrawal(type: String, amount: String, beneficiaryId: String) = getResource { api.withdrawal(type, amount, beneficiaryId) }
+    suspend fun withdrawal(auth: String, type: String, amount: String, beneficiaryId: String) = getResource { api.withdrawal(auth, type, amount, beneficiaryId) }
 
-    suspend fun send(amount: String, currency: String, address: String, destinationTag: String) = getResource { api.send(amount, currency, address, destinationTag = destinationTag) }
+    suspend fun send(auth: String, amount: String, currency: String, address: String, destinationTag: String) = getResource { api.send(auth, amount, currency, address, destinationTag = destinationTag) }
 
-    suspend fun send(amount: String, currency: String, address: String) = getResource { api.send(amount, currency,address) }
+    suspend fun send(auth: String, amount: String, currency: String, address: String) = getResource { api.send(auth, amount, currency,address) }
+
+    suspend fun receive(auth: String, asset: String) = getResource { api.receive(auth, asset) }
+
+    suspend fun getOrders(auth: String) = getResource { api.getOrders(auth) }
+
+    suspend fun stopOrder(auth: String, orderId: String) = getResource { api.stopOrder(auth, orderId) }
 }

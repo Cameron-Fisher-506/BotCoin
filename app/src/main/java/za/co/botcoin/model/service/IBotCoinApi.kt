@@ -5,10 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
-import za.co.botcoin.model.models.AccountWithBalances
-import za.co.botcoin.model.models.AccountWithTickers
-import za.co.botcoin.model.models.Send
-import za.co.botcoin.model.models.Withdrawal
+import za.co.botcoin.model.models.*
 
 interface IBotCoinApi {
     @GET("tickers")
@@ -18,12 +15,21 @@ interface IBotCoinApi {
     suspend fun getBalances(@Header("Authorization") auth: String): Response<AccountWithBalances>
 
     @POST("withdrawals")
-    suspend fun withdrawal(@Query("type") type: String, @Query("amount") amount: String, @Query("beneficiary_id") beneficiaryId: String): Response<Withdrawal>
+    suspend fun withdrawal(@Header("Authorization") auth: String, @Query("type") type: String, @Query("amount") amount: String, @Query("beneficiary_id") beneficiaryId: String): Response<Withdrawal>
 
     @POST("send")
-    suspend fun send(@Query("amount") amount: String, @Query("currency") currency: String, @Query("address") address: String,
+    suspend fun send(@Header("Authorization") auth: String, @Query("amount") amount: String, @Query("currency") currency: String, @Query("address") address: String,
                      @Query("has_destination_tag") hasDestinationTag: Boolean = true, @Query("destination_tag") destinationTag: String): Response<Send>
 
     @POST("send")
-    suspend fun send(@Query("amount") amount: String, @Query("currency") currency: String, @Query("address") address: String): Response<Send>
+    suspend fun send(@Header("Authorization") auth: String, @Query("amount") amount: String, @Query("currency") currency: String, @Query("address") address: String): Response<Send>
+
+    @GET("funding_address")
+    suspend fun receive(@Header("Authorization") auth: String, @Query("asset") asset: String): Response<Receive>
+
+    @GET("listorders")
+    suspend fun getOrders(@Header("Authorization") auth: String): Response<AccountWithOrders>
+
+    @POST("stoporder")
+    suspend fun stopOrder(@Header("Authorization") auth: String, @Query("order_id") orderId: String): Response<StopOrder>
 }

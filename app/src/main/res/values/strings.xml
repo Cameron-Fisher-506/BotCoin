@@ -43,10 +43,10 @@
     <string name="address">Address</string>
     <string name="tag">Tag</string>
     <string name="copy">Copy</string>
-    <string name="donate_description">Please copy the address to donate via Luno platform or any platform of your choice. Thank You!</string>
+    <string name="donate_description">Copy the address or scan QR code to donate via Luno platform or any platform of your choice. Thank You!</string>
 
     //RECEIVE
-    <string name="receive_description">Please copy the address to receive. Thank You!</string>
+    <string name="receive_description">Copy the address or scan QR code to receive.</string>
 
 
     //SUPPORT/RESISTANCE
