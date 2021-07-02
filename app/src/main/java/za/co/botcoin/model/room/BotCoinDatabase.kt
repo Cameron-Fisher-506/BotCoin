@@ -10,7 +10,7 @@ import za.co.botcoin.model.models.*
 import za.co.botcoin.utils.Resource
 import java.lang.Exception
 
-@Database(entities = [Account::class, Ticker::class, Balance::class, Withdrawal::class, Send::class, Receive::class, Order::class, StopOrder::class], version = 1, exportSchema = false)
+@Database(entities = [Account::class, Ticker::class, Balance::class, Withdrawal::class, Send::class, Receive::class, Order::class, StopOrder::class, Trade::class], version = 1, exportSchema = false)
 abstract class BotCoinDatabase : RoomDatabase() {
 
     abstract fun tickerDao(): ITickerDao
@@ -21,6 +21,7 @@ abstract class BotCoinDatabase : RoomDatabase() {
     abstract fun receiveDao(): IReceiveDao
     abstract fun orderDao(): IOrderDao
     abstract fun stopOrderDao(): IStopOrderDao
+    abstract fun tradeDao(): ITradeDao
 
     companion object {
         @Volatile

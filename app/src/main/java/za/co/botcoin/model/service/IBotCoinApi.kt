@@ -32,4 +32,7 @@ interface IBotCoinApi {
 
     @POST("stoporder")
     suspend fun stopOrder(@Header("Authorization") auth: String, @Query("order_id") orderId: String): Response<StopOrder>
+
+    @GET("listtrades")
+    suspend fun getTrades(@Header("Authorization") auth: String, @Query("pair") pair: String, @Query("sort_desc") sortDescending: Boolean): Response<AccountWithTrades>
 }
