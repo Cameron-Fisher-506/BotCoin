@@ -6,6 +6,7 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
 import za.co.botcoin.model.models.*
+import za.co.botcoin.utils.Resource
 
 interface IBotCoinApi {
     @GET("tickers")
@@ -35,4 +36,7 @@ interface IBotCoinApi {
 
     @GET("listtrades")
     suspend fun getTrades(@Header("Authorization") auth: String, @Query("pair") pair: String, @Query("sort_desc") sortDescending: Boolean): Response<AccountWithTrades>
+
+    @POST("postorder")
+    suspend fun postOrder(@Header("Authorization") auth: String, @Query("pair") pair: String, @Query("type") type: String, @Query("volume") volume: String, @Query("price") price: String): Response<PostOrder>
 }

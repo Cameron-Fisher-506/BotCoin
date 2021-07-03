@@ -2,10 +2,11 @@ package za.co.botcoin.model.models
 
 import androidx.room.Entity
 import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 @Entity(indices = [Index(value = ["orderId"], unique = true)])
-class Trade : BaseModel {
+class Trade() : BaseModel() {
     var type: String = ""
     var volume: String = ""
     var price: String = ""
@@ -28,6 +29,7 @@ class Trade : BaseModel {
     var isBuy: Boolean = false
 
     @SerializedName("order_id")
+    @PrimaryKey(autoGenerate = false)
     var orderId: String = ""
 
     var accountId: Int = 1
@@ -37,7 +39,11 @@ class Trade : BaseModel {
         const val SELL_TYPE = "SELL"
     }
 
-    constructor(type: String, amount: String, price: String) {
+    init {
+
+    }
+
+    constructor(type: String, amount: String, price: String) : this() {
         this.type = type
         this.volume = amount
         this.price = price
