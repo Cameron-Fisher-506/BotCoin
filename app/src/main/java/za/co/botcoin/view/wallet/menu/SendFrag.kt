@@ -53,6 +53,7 @@ class SendFrag : Fragment(R.layout.send_fragment) {
         this.withdrawalViewModel.sendLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
+                    displaySendOptions()
                     val data = it.data
                     if(!data.isNullOrEmpty()) {
                         data.map { response -> if (response.success) notify("Sent $amount $asset to $address.", response.withdrawalId) else notify("Send failed.", "")}
@@ -60,10 +61,36 @@ class SendFrag : Fragment(R.layout.send_fragment) {
                         notify("Send failed.", "")
                     }
                 }
-                Status.ERROR -> { notify("Send failed.", "") }
-                Status.LOADING -> {}
+                Status.ERROR -> {
+                    displaySendOptions()
+                    notify("Send failed.", "")
+                }
+                Status.LOADING -> { displayProgressBar() }
             }
         })
+    }
+
+    private fun hideAllViews() {
+        this.binding.txtSend.visibility = View.GONE
+        this.binding.btnSend.visibility = View.GONE
+        this.binding.edTxtAddress.visibility = View.GONE
+        this.binding.edTxtAmount.visibility = View.GONE
+        this.binding.edTxtTag.visibility = View.GONE
+        this.binding.progressBar.visibility = View.GONE
+    }
+
+    private fun displayProgressBar() {
+        hideAllViews()
+        this.binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun displaySendOptions() {
+        hideAllViews()
+        this.binding.txtSend.visibility = View.VISIBLE
+        this.binding.btnSend.visibility = View.VISIBLE
+        this.binding.edTxtAddress.visibility = View.VISIBLE
+        this.binding.edTxtAmount.visibility = View.VISIBLE
+        this.binding.edTxtTag.visibility = View.VISIBLE
     }
 
     private fun notify(title: String?, message: String?) {

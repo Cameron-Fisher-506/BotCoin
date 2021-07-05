@@ -43,17 +43,16 @@ class OrdersFrag : Fragment(R.layout.orders_fragment) {
         this.withdrawalViewModel.ordersLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
+                    displayOrdersRecyclerView()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
                         orderListAdapter.updateOrderList(data)
                     } else {
-
+                        displayErrorTextView()
                     }
                 }
-                Status.ERROR -> {
-                }
-                Status.LOADING -> {
-                }
+                Status.ERROR -> { displayErrorTextView() }
+                Status.LOADING -> { displayProgressBar() }
             }
         })
     }
@@ -62,6 +61,7 @@ class OrdersFrag : Fragment(R.layout.orders_fragment) {
         this.withdrawalViewModel.stopOrderLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
+                    displayOrdersRecyclerView()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
                         if (data.first().success) notify("Order Cancellation", "Order cancelled successfully.") else notify("Order Cancellation", "Order cancellation failed.")
@@ -70,12 +70,33 @@ class OrdersFrag : Fragment(R.layout.orders_fragment) {
                     }
                 }
                 Status.ERROR -> {
+                    displayOrdersRecyclerView()
                     notify("Order Cancellation", "Order cancellation failed.")
                 }
-                Status.LOADING -> {
-                }
+                Status.LOADING -> { displayProgressBar() }
             }
         })
+    }
+
+    private fun hideAllViews() {
+        this.binding.ordersRecyclerView.visibility = View.GONE
+        this.binding.errorTextView.visibility = View.GONE
+        this.binding.progressBar.visibility = View.GONE
+    }
+
+    private fun displayOrdersRecyclerView() {
+        hideAllViews()
+        this.binding.ordersRecyclerView.visibility = View.VISIBLE
+    }
+
+    private fun displayErrorTextView() {
+        hideAllViews()
+        this.binding.errorTextView.visibility = View.VISIBLE
+    }
+
+    private fun displayProgressBar() {
+        hideAllViews()
+        this.binding.progressBar.visibility = View.VISIBLE
     }
 
     private fun notify(title: String?, message: String?) {

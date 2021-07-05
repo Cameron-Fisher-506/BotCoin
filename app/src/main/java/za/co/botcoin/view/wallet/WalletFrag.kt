@@ -53,22 +53,32 @@ class WalletFrag : Fragment(R.layout.wallet_fragment) {
                     }
                 }
                 Status.ERROR -> { displayErrorTextView() }
-                Status.LOADING -> {
-                }
+                Status.LOADING -> { displayProgressBar() }
             }
         })
     }
 
     private fun displayLinearLayouts() {
-        this.binding.errorTextView.visibility = View.GONE
-        this.binding.linearLayoutXrp.visibility = View.VISIBLE
+        hideAllView()
         this.binding.linearLayoutZar.visibility = View.VISIBLE
+        this.binding.linearLayoutXrp.visibility = View.VISIBLE
     }
 
     private fun displayErrorTextView() {
+        hideAllView()
         this.binding.errorTextView.visibility = View.VISIBLE
+    }
+
+    private fun displayProgressBar() {
+        hideAllView()
+        this.binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideAllView() {
         this.binding.linearLayoutZar.visibility = View.GONE
         this.binding.linearLayoutXrp.visibility = View.GONE
+        this.binding.errorTextView.visibility = View.GONE
+        this.binding.progressBar.visibility = View.GONE
     }
 
     private fun addZarOptionListener() {
@@ -79,9 +89,9 @@ class WalletFrag : Fragment(R.layout.wallet_fragment) {
     }
 
     private fun addXrpOptionListener() {
-        this.binding.linearLayoutXrp.setOnClickListener(View.OnClickListener {
+        this.binding.linearLayoutXrp.setOnClickListener {
             val action = WalletFragDirections.actionWalletFragToWalletMenuFrag(ConstantUtils.XRP)
             Navigation.findNavController(it).navigate(action)
-        })
+        }
     }
 }

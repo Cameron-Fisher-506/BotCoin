@@ -39,6 +39,7 @@ class ReceiveFrag : Fragment(R.layout.receive_fragment) {
         this.withdrawalViewModel.receiveLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
+                    displayReceiveOptions()
                     val data = it.data
                     if(!data.isNullOrEmpty()) {
                         this.binding.edTxtAddress.setText(data.first().address)
@@ -46,16 +47,43 @@ class ReceiveFrag : Fragment(R.layout.receive_fragment) {
 
                         addBtnCopyListener()
                     } else {
-
+                        displayErrorTextView()
                     }
                 }
-                Status.ERROR -> {}
-                Status.LOADING -> {}
+                Status.ERROR -> { displayErrorTextView() }
+                Status.LOADING -> { displayProgressBar() }
             }
         })
     }
 
     private fun addBtnCopyListener() {
         this.binding.btnCopy.setOnClickListener { context?.let { context -> copyToClipBoard(context, this.binding.edTxtAddress.text.toString()) } }
+    }
+
+    private fun hideAllViews() {
+        this.binding.btnCopy.visibility = View.GONE
+        this.binding.edTxtAddress.visibility = View.GONE
+        this.binding.imgQRAddress.visibility = View.GONE
+        this.binding.txtDonate.visibility = View.GONE
+        this.binding.errorTextView.visibility = View.GONE
+        this.binding.progressBar.visibility = View.GONE
+    }
+
+    private fun displayReceiveOptions() {
+        hideAllViews()
+        this.binding.btnCopy.visibility = View.VISIBLE
+        this.binding.edTxtAddress.visibility = View.VISIBLE
+        this.binding.imgQRAddress.visibility = View.VISIBLE
+        this.binding.txtDonate.visibility = View.VISIBLE
+    }
+
+    private fun displayErrorTextView() {
+        hideAllViews()
+        this.binding.errorTextView.visibility = View.VISIBLE
+    }
+
+    private fun displayProgressBar() {
+        hideAllViews()
+        this.binding.progressBar.visibility = View.VISIBLE
     }
 }
