@@ -47,6 +47,7 @@ class DonateFrag : Fragment(R.layout.donate_fragment) {
         this.donateViewModel.receiveLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
+                    displayDonateOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
                         this.binding.edTxtAddress.setText(data.first().address)
@@ -58,11 +59,11 @@ class DonateFrag : Fragment(R.layout.donate_fragment) {
                         }*/
                         this.binding.imgQRAddress.setImageBitmap(GeneralUtils.createQRCode(data.first().qrCodeUri, this.binding.imgQRAddress.width, this.binding.imgQRAddress.height))
                     } else {
-
+                        displayErrorTextView()
                     }
                 }
-                Status.ERROR -> {}
-                Status.LOADING -> {}
+                Status.ERROR -> { displayErrorTextView() }
+                Status.LOADING -> { displayProgressBar() }
             }
         })
     }
@@ -71,6 +72,7 @@ class DonateFrag : Fragment(R.layout.donate_fragment) {
         this.donateViewModel.sendLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
+                    displayDonateOptions()
                     val data = it.data
                     if(!data.isNullOrEmpty()) {
                         data.map { response -> if (response.success) notify("Sent $amount $asset to $address.", response.withdrawalId) else notify("Send failed.", "")}
@@ -78,8 +80,11 @@ class DonateFrag : Fragment(R.layout.donate_fragment) {
                         notify("Send failed.", "")
                     }
                 }
-                Status.ERROR -> { notify("Send failed.", "") }
-                Status.LOADING -> {}
+                Status.ERROR -> {
+                    displayDonateOptions()
+                    notify("Send failed.", "")
+                }
+                Status.LOADING -> { displayProgressBar() }
             }
         })
     }
@@ -114,6 +119,41 @@ class DonateFrag : Fragment(R.layout.donate_fragment) {
                 GeneralUtils.createAlertDialog(context, "No amount entered!", "Please enter the amount of $asset You would like to donate.", false)?.show()
             }
         }
+    }
+
+    private fun hideAllViews() {
+        this.binding.btnCopy.visibility = View.GONE
+        this.binding.btnCopyTag.visibility = View.GONE
+        this.binding.btnDonate.visibility = View.GONE
+        this.binding.edTxtAddress.visibility = View.GONE
+        this.binding.edTxtAmount.visibility = View.GONE
+        this.binding.edTxtTag.visibility = View.GONE
+        this.binding.txtDonate.visibility = View.GONE
+        this.binding.imgQRAddress.visibility = View.GONE
+        this.binding.errorTextView.visibility = View.GONE
+        this.binding.progressBar.visibility = View.GONE
+    }
+
+    private fun displayDonateOptions() {
+        hideAllViews()
+        this.binding.btnCopy.visibility = View.VISIBLE
+        this.binding.btnCopyTag.visibility = View.VISIBLE
+        this.binding.btnDonate.visibility = View.VISIBLE
+        this.binding.edTxtAddress.visibility = View.VISIBLE
+        this.binding.edTxtAmount.visibility = View.VISIBLE
+        this.binding.edTxtTag.visibility = View.VISIBLE
+        this.binding.txtDonate.visibility = View.VISIBLE
+        this.binding.imgQRAddress.visibility = View.VISIBLE
+    }
+
+    private fun displayErrorTextView() {
+        hideAllViews()
+        this.binding.errorTextView.visibility = View.VISIBLE
+    }
+
+    private fun displayProgressBar() {
+        hideAllViews()
+        this.binding.progressBar.visibility = View.VISIBLE
     }
 
     private fun notify(title: String?, message: String?) {

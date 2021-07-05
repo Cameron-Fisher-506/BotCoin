@@ -56,20 +56,49 @@ class WithdrawFrag : Fragment(R.layout.withdraw_fragment) {
         this.withdrawalViewModel.withdrawalLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
+                    displayWithdrawOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
                         data.map { withdrawal ->  notify("Withdrew " + withdrawal.amount + " Rands.", "") }
                     } else {
-
+                        notify("Withdrawal Failed", "")
                     }
 
                 }
                 Status.ERROR -> {
+                    displayWithdrawOptions()
+                    notify("Withdrawal Failed", "")
                 }
-                Status.LOADING -> {
-                }
+                Status.LOADING -> { displayProgressBar() }
             }
         })
+    }
+
+    private fun hideAllViews() {
+        this.binding.btnWithdraw.visibility = View.GONE
+        this.binding.edTxtAmount.visibility = View.GONE
+        this.binding.edTxtBeneficiaryId.visibility = View.GONE
+        this.binding.txtWithdraw.visibility = View.GONE
+        this.binding.errorTextView.visibility = View.GONE
+        this.binding.progressBar.visibility = View.GONE
+    }
+
+    private fun displayWithdrawOptions() {
+        hideAllViews()
+        this.binding.btnWithdraw.visibility = View.VISIBLE
+        this.binding.edTxtAmount.visibility = View.VISIBLE
+        this.binding.edTxtBeneficiaryId.visibility = View.VISIBLE
+        this.binding.txtWithdraw.visibility = View.VISIBLE
+    }
+
+    private fun displayErrorTextView() {
+        hideAllViews()
+        this.binding.errorTextView.visibility = View.VISIBLE
+    }
+
+    private fun displayProgressBar() {
+        hideAllViews()
+        this.binding.progressBar.visibility = View.VISIBLE
     }
 
     private fun notify(title: String?, message: String?) {
