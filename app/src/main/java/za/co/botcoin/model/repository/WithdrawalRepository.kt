@@ -17,13 +17,12 @@ class WithdrawalRepository(private val application: Application) {
     private val withdrawalDao: IWithdrawalDao = BotCoinDatabase.getDatabase(application).withdrawalDao()
     private val sendDao: ISendDao = BotCoinDatabase.getDatabase(application).sendDao()
     private val receiveDao: IReceiveDao = BotCoinDatabase.getDatabase(application).receiveDao()
-    private val orderDao: IOrderDao = BotCoinDatabase.getDatabase(application).orderDao()
+
     private val stopOrderDao: IStopOrderDao = BotCoinDatabase.getDatabase(application).stopOrderDao()
 
     private val mustSendLiveData by lazy { MutableLiveData<Boolean>() }
     private val mustWithdrawLiveData by lazy { MutableLiveData<Boolean>() }
     private val mustReceiveLiveData by lazy { MutableLiveData<Boolean>() }
-    private val mustFetchOrdersLiveData by lazy { MutableLiveData<Boolean>() }
     private val mustStopOrderLiveData by lazy { MutableLiveData<Boolean>() }
 
     fun withdrawal(mustWithdraw: Boolean, type: String, amount: String, beneficiaryId: String): LiveData<Resource<List<Withdrawal>>> {
@@ -59,18 +58,6 @@ class WithdrawalRepository(private val application: Application) {
                     { BotCoinDatabase.getResource { receiveDao.getAll() } },
                     { botCoinService.receive("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}", asset) },
                     { receiveDao.upsert(it, receiveDao) }
-            )
-        }
-    }
-
-    fun fetchOrders(mustFetchOrders: Boolean): LiveData<Resource<List<Order>>> {
-        mustFetchOrdersLiveData.value = mustFetchOrders
-        return Transformations.switchMap(mustFetchOrdersLiveData) {
-            DataAccessStrategyUtils.synchronizedCache(
-                    application,
-                    { BotCoinDatabase.getResource { orderDao.getAll() } },
-                    { botCoinService.getOrders("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}") },
-                    { it.orders?.let { orders -> orderDao.upsert(orders, orderDao) } }
             )
         }
     }

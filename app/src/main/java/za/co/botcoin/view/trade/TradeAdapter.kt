@@ -6,25 +6,13 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
-import org.json.JSONObject
 import za.co.botcoin.R
 import za.co.botcoin.databinding.TradeFragmentBinding
 import za.co.botcoin.model.models.Trade
 import za.co.botcoin.utils.ConstantUtils
-import za.co.botcoin.utils.GeneralUtils.buildPostOrder
-import za.co.botcoin.utils.GeneralUtils.getAuth
-import za.co.botcoin.utils.GeneralUtils.getCurrentDateTime
-import za.co.botcoin.utils.StringUtils
-import za.co.botcoin.utils.WSCallUtilsCallBack
-import za.co.botcoin.utils.WSCallsUtils
 
 class TradeAdapter(var context: Context, var trades: ArrayList<Trade>) : RecyclerView.Adapter<TradeAdapter.ViewHolder>() {
     private lateinit var tradeViewModel: TradeViewModel
@@ -45,7 +33,7 @@ class TradeAdapter(var context: Context, var trades: ArrayList<Trade>) : Recycle
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         trade = trades[position]
         holder.binding.btnTrade.text = trade?.type
-        holder.binding.txtAmount.setText(trade?.amount)
+        holder.binding.txtAmount.setText(trade?.volume)
         holder.binding.txtPrice.setText(trade?.price)
 
         holder.binding.btnTrade.setOnClickListener {

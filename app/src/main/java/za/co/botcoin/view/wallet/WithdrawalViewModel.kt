@@ -4,10 +4,12 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import za.co.botcoin.model.models.*
+import za.co.botcoin.model.repository.AccountRepository
 import za.co.botcoin.model.repository.WithdrawalRepository
 import za.co.botcoin.utils.Resource
 
 class WithdrawalViewModel(application: Application) : AndroidViewModel(application) {
+    private val accountRepository: AccountRepository = AccountRepository(application)
     private val withdrawalRepository: WithdrawalRepository = WithdrawalRepository(application)
 
     lateinit var withdrawalLiveData: LiveData<Resource<List<Withdrawal>>>
@@ -29,7 +31,7 @@ class WithdrawalViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun fetchOrders(mustFetchOrders: Boolean) {
-        ordersLiveData = withdrawalRepository.fetchOrders(mustFetchOrders)
+        ordersLiveData = accountRepository.fetchOrders(mustFetchOrders)
     }
 
     fun stopOrder(mustStopOrder: Boolean, orderId: String) {
