@@ -38,7 +38,7 @@ class AccountRepository(private val application: Application) {
         return Transformations.switchMap(updateLiveData) {
             DataAccessStrategyUtils.synchronizedCache(
                     application,
-                    { BotCoinDatabase.getResource { tradeDao.getAll() } },
+                    { BotCoinDatabase.getResource { tradeDao.getAllDesc() } },
                     { botCoinService.getTrades("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}", pair, sortDescending) },
                     { it.trades?.let { trades -> tradeDao.upsert(trades, tradeDao) } }
             )

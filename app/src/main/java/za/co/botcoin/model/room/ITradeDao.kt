@@ -8,4 +8,7 @@ import za.co.botcoin.model.models.Trade
 interface ITradeDao : IBaseDao<Trade> {
     @Query("SELECT * FROM trade")
     suspend fun getAll(): List<Trade>
+
+    @Query("SELECT * FROM Trade ORDER BY sequence DESC LIMIT 1")
+    suspend fun getAllDesc(): List<Trade>
 }

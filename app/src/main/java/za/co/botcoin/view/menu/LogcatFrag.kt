@@ -19,7 +19,7 @@ class LogcatFrag : Fragment(R.layout.logcat_fragment) {
     }
 
     private fun displayLogcat() {
-        if (ConstantUtils.resistancePrices != null && ConstantUtils.resistancePrices.isNotEmpty()) {
+        if (ConstantUtils.resistancePrices.isNotEmpty()) {
             val prices = StringBuilder()
             for (i in ConstantUtils.resistancePrices.indices) {
                 prices.append("${ConstantUtils.resistancePrices[i].price}, ${ConstantUtils.resistancePrices[i].counter}")
@@ -28,7 +28,7 @@ class LogcatFrag : Fragment(R.layout.logcat_fragment) {
                     "ResistancePrices: $prices " +
                     "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
         }
-        if (ConstantUtils.supportPrices != null && ConstantUtils.supportPrices.isNotEmpty()) {
+        if (ConstantUtils.supportPrices.isNotEmpty()) {
             val prices = StringBuilder()
             for (i in ConstantUtils.supportPrices.indices) {
                 prices.append("${ConstantUtils.supportPrices[i].price}, ${ConstantUtils.supportPrices[i].counter}")
