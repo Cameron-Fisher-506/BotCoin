@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.util.Log
+import androidx.lifecycle.LifecycleService
 import org.json.JSONException
 import za.co.botcoin.R
 import za.co.botcoin.enum.Status
@@ -14,7 +15,6 @@ import za.co.botcoin.model.models.Order
 import za.co.botcoin.model.models.Trade
 import za.co.botcoin.model.models.TradePrice
 import za.co.botcoin.model.repository.AccountRepository
-import za.co.botcoin.model.repository.TickersRepository
 import za.co.botcoin.model.repository.WithdrawalRepository
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
@@ -23,8 +23,7 @@ import za.co.botcoin.utils.MathUtils.precision
 import za.co.botcoin.utils.SharedPreferencesUtils
 import java.util.*
 
-class BotService : Service() {
-    private lateinit var tickersRepository: TickersRepository
+class BotService : LifecycleService() {
     private lateinit var accountRepository: AccountRepository
     private lateinit var withdrawalRepository: WithdrawalRepository
 
@@ -35,7 +34,10 @@ class BotService : Service() {
     //flags
     private var pullOutOfAskPrice: Double? = null
 
+    private val handler: Handler = Handler()
+
     override fun onCreate() {
+        super.onCreate()
         if (Build.VERSION.SDK_INT >= 26) {
             val CHANNEL_ID = "BotCoin"
             val channel = NotificationChannel(CHANNEL_ID,
@@ -56,19 +58,19 @@ class BotService : Service() {
         //initialise values
         init()
 
-        val handler = Handler()
         val delay: Long = ConstantUtils.TICKER_RUN_TIME
         handler.postDelayed(object : Runnable {
             override fun run() {
                 //get current price
                 attachTickersObserver()
                 Log.d(ConstantUtils.BOTCOIN_TAG, "AUTO TRADE RUNNING...")
+                handler.postDelayed(this, delay)
             }
         }, delay)
     }
 
     private fun attachTickersObserver() {
-        tickersRepository.fetchTickers(true).observeForever {
+        accountRepository.fetchTickers(true).observe(this, {
             when (it.status) {
                 Status.SUCCESS -> {
                     val data = it.data
@@ -88,11 +90,11 @@ class BotService : Service() {
                 Status.LOADING -> {
                 }
             }
-        }
+        })
     }
 
     private fun attachTradesObserver(currentPrice: Double) {
-        this.accountRepository.fetchTrades(true, ConstantUtils.PAIR_XRPZAR, true).observeForever {
+        this.accountRepository.fetchTrades(true, ConstantUtils.PAIR_XRPZAR, true).observe(this, {
             when (it.status) {
                 Status.SUCCESS -> {
                     val data = it.data
@@ -124,11 +126,11 @@ class BotService : Service() {
                 Status.LOADING -> {
                 }
             }
-        }
+        })
     }
 
     private fun attachBalancesObserver(currentPrice: Double, lastTrade: Trade) {
-        this.accountRepository.fetchBalances(true).observeForever {
+        this.accountRepository.fetchBalances(true).observe(this, {
             when (it.status) {
                 Status.SUCCESS -> {
                     val data = it.data
@@ -160,11 +162,11 @@ class BotService : Service() {
                 Status.LOADING -> {
                 }
             }
-        }
+        })
     }
 
     private fun attachOrdersObserver(currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance) {
-        this.accountRepository.fetchOrders(true).observeForever {
+        this.accountRepository.fetchOrders(true).observe(this, {
             when (it.status) {
                 Status.SUCCESS -> {
                     val data = it.data
@@ -189,11 +191,11 @@ class BotService : Service() {
                 Status.LOADING -> {
                 }
             }
-        }
+        })
     }
 
     private fun attachStopOrderObserver(orderId: String, currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance) {
-        this.withdrawalRepository.stopOrder(true, orderId).observeForever {
+        this.withdrawalRepository.stopOrder(true, orderId).observe(this, {
             when (it.status) {
                 Status.SUCCESS -> {
                     val data = it.data
@@ -224,11 +226,11 @@ class BotService : Service() {
                 Status.LOADING -> {
                 }
             }
-        }
+        })
     }
 
     private fun attachReceiveObserver() {
-        this.withdrawalRepository.receive(true, ConstantUtils.XRP).observeForever {
+        this.withdrawalRepository.receive(true, ConstantUtils.XRP).observe(this, {
             when (it.status) {
                 Status.SUCCESS -> {
                     val data = it.data
@@ -257,11 +259,11 @@ class BotService : Service() {
                 Status.LOADING -> {
                 }
             }
-        }
+        })
     }
 
     private fun attachPostOrderObserver(pair: String, type: String, volume: String, price: String) {
-        this.accountRepository.postOrder(true, pair, type, volume, price).observeForever {
+        this.accountRepository.postOrder(true, pair, type, volume, price).observe(this, {
             when (it.status) {
                 Status.SUCCESS -> {
                     val data = it.data
@@ -276,11 +278,11 @@ class BotService : Service() {
                 Status.LOADING -> {
                 }
             }
-        }
+        })
     }
 
     private fun attachSendObserver(amount: String, currency: String, address: String, destinationTag: String) {
-        this.withdrawalRepository.send(true, amount, currency, address, destinationTag).observeForever {
+        this.withdrawalRepository.send(true, amount, currency, address, destinationTag).observe(this, {
             when (it.status) {
                 Status.SUCCESS -> {
                     val data = it.data
@@ -296,15 +298,15 @@ class BotService : Service() {
                 Status.LOADING -> {
                 }
             }
-        }
+        })
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
         return START_STICKY
     }
 
     private fun init() {
-        this.tickersRepository = TickersRepository(application)
         this.accountRepository = AccountRepository(application)
         this.withdrawalRepository = WithdrawalRepository(application)
 
@@ -679,7 +681,13 @@ class BotService : Service() {
     }
 
     override fun onBind(intent: Intent): IBinder? {
+        super.onBind(intent)
         return null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeMessages(0)
     }
 
     private fun notify(title: String?, message: String?) {

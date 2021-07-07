@@ -22,10 +22,13 @@ class AccountRepository(private val application: Application) {
     private val balanceDao: IBalanceDao = BotCoinDatabase.getDatabase(application).balanceDao()
     private val orderDao: IOrderDao = BotCoinDatabase.getDatabase(application).orderDao()
     private val postOrderDao: IPostOrderDao = BotCoinDatabase.getDatabase(application).postOrderDao()
+    private val tickerDao: ITickerDao = BotCoinDatabase.getDatabase(application).tickerDao()
 
-    private val updateLiveData by lazy { MutableLiveData<Boolean>() }
-    private val mustFetchOrdersLiveData by lazy { MutableLiveData<Boolean>() }
-    private val mustPostOrderLiveData by lazy { MutableLiveData<Boolean>() }
+    private val fetchTickersLiveData by lazy { MutableLiveData<Boolean>() }
+    private val fetchTradesLiveData by lazy { MutableLiveData<Boolean>() }
+    private val fetchBalancesLiveData by lazy { MutableLiveData<Boolean>() }
+    private val fetchOrdersLiveData by lazy { MutableLiveData<Boolean>() }
+    private val postOrderLiveData by lazy { MutableLiveData<Boolean>() }
 
     init {
        CoroutineScope(Dispatchers.IO).launch {
@@ -33,9 +36,21 @@ class AccountRepository(private val application: Application) {
        }
     }
 
+    fun fetchTickers(update: Boolean): LiveData<Resource<List<Ticker>>> {
+        fetchTickersLiveData.value = update
+        return Transformations.switchMap(fetchTickersLiveData) {
+            DataAccessStrategyUtils.synchronizedCache(
+                    application,
+                    { BotCoinDatabase.getResource { tickerDao.getAll() } },
+                    { botCoinService.getTickers("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}") },
+                    { it.tickers?.let { tickers -> tickerDao.upsert(tickers, tickerDao) } }
+            )
+        }
+    }
+
     fun fetchTrades(update: Boolean, pair: String, sortDescending: Boolean) : LiveData<Resource<List<Trade>>> {
-        updateLiveData.value = update
-        return Transformations.switchMap(updateLiveData) {
+        fetchTradesLiveData.value = update
+        return Transformations.switchMap(fetchTradesLiveData) {
             DataAccessStrategyUtils.synchronizedCache(
                     application,
                     { BotCoinDatabase.getResource { tradeDao.getAllDesc() } },
@@ -46,8 +61,8 @@ class AccountRepository(private val application: Application) {
     }
 
     fun fetchBalances(update: Boolean): LiveData<Resource<List<Balance>>> {
-        updateLiveData.value = update
-        return Transformations.switchMap(updateLiveData) {
+        fetchBalancesLiveData.value = update
+        return Transformations.switchMap(fetchBalancesLiveData) {
             DataAccessStrategyUtils.synchronizedCache(
                     application,
                     { BotCoinDatabase.getResource { balanceDao.getAll() } },
@@ -58,8 +73,8 @@ class AccountRepository(private val application: Application) {
     }
 
     fun fetchOrders(mustFetchOrders: Boolean): LiveData<Resource<List<Order>>> {
-        mustFetchOrdersLiveData.value = mustFetchOrders
-        return Transformations.switchMap(mustFetchOrdersLiveData) {
+        fetchOrdersLiveData.value = mustFetchOrders
+        return Transformations.switchMap(fetchOrdersLiveData) {
             DataAccessStrategyUtils.synchronizedCache(
                     application,
                     { BotCoinDatabase.getResource { orderDao.getAll() } },
@@ -70,8 +85,8 @@ class AccountRepository(private val application: Application) {
     }
 
     fun postOrder(mustPostOrder: Boolean, pair: String, type: String, volume: String, price: String): LiveData<Resource<List<PostOrder>>> {
-        mustPostOrderLiveData.value = mustPostOrder
-        return Transformations.switchMap(mustPostOrderLiveData) {
+        postOrderLiveData.value = mustPostOrder
+        return Transformations.switchMap(postOrderLiveData) {
             DataAccessStrategyUtils.synchronizedCache(
                     application,
                     { BotCoinDatabase.getResource { postOrderDao.getAll() } },
