@@ -207,7 +207,7 @@ class BotService : LifecycleService() {
                             if (newResistancePrice != null) {
                                 //place new sell order at trailing price
                                 resistancePrice = newResistancePrice.toString()
-                                ask(false,currentPrice, lastTrade, xrpBalance, zarBalance)
+                                ask(false, currentPrice, lastTrade, xrpBalance, zarBalance)
                             }
                             //lastAskOrder = null
                             //lastBidOrder = null
@@ -384,8 +384,7 @@ class BotService : LifecycleService() {
 
         val resistancePriceTemp = resistancePrice
         if (isRestrict) {
-            if (resistancePriceTemp != null && lastTrade.type == Trade.BID_TYPE && resistancePriceTemp.toDouble() > lastTrade.price.toDouble() && resistancePriceTemp.toDouble() > currentPrice)
-            {
+            if (resistancePriceTemp != null && lastTrade.type == Trade.BID_TYPE && resistancePriceTemp.toDouble() > lastTrade.price.toDouble() && resistancePriceTemp.toDouble() > currentPrice) {
                 placeSellOrder = true
                 Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - ask " +
                         "resistancePrice: $resistancePrice " +
@@ -454,7 +453,9 @@ class BotService : LifecycleService() {
                     resistancePrice = null
                     ConstantUtils.resistancePrices.clear()
                 }
-                else -> { Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - ask \npostOrder: null \nCreatedTime: ${GeneralUtils.getCurrentDateTime()}") }
+                else -> {
+                    Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - ask \npostOrder: null \nCreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+                }
             }
         }
         Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - ask " +
@@ -524,7 +525,9 @@ class BotService : LifecycleService() {
         //check if the current price increases above the temp support price
         if (supportPrices.isNotEmpty()) {
             supportPrices.map {
-                if (currentPrice > it.price) { it.isIncreased = true }
+                if (currentPrice > it.price) {
+                    it.isIncreased = true
+                }
                 if (currentPrice == it.price) {
                     if (it.isIncreased) {
                         it.counter++
@@ -541,7 +544,9 @@ class BotService : LifecycleService() {
         //check if the current price increases above the temp support price
         if (resistancePrices.isNotEmpty()) {
             resistancePrices.map {
-                if (currentPrice < it.price) { it.isIncreased = false }
+                if (currentPrice < it.price) {
+                    it.isIncreased = false
+                }
                 if (currentPrice == it.price && !it.isIncreased) {
                     it.counter++
                     it.isIncreased = true
@@ -552,7 +557,11 @@ class BotService : LifecycleService() {
 
     private fun addPriceToList(tradePrices: ArrayList<TradePrice>, currentPrice: Double, isIncreased: Boolean) {
         if (tradePrices.isNotEmpty()) {
-            tradePrices.map { if (currentPrice == it.price) { return } }
+            tradePrices.map {
+                if (currentPrice == it.price) {
+                    return
+                }
+            }
 
             //price is not in the list
             tradePrices.add(TradePrice(currentPrice, isIncreased))
@@ -568,7 +577,9 @@ class BotService : LifecycleService() {
             val prices = StringBuilder()
             tradePrices.map {
                 prices.append("[${it.price}, ${it.counter}]")
-                if (maxCounter == it.counter && toReturn > it.price) { toReturn = it.price }
+                if (maxCounter == it.counter && toReturn > it.price) {
+                    toReturn = it.price
+                }
             }
             Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - getLowestPriceWithCounter " + "Prices: $prices" + "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
         }
