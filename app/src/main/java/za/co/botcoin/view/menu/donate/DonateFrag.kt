@@ -34,7 +34,7 @@ class DonateFrag : Fragment(R.layout.donate_fragment) {
 
         wireUI()
         if (GeneralUtils.isApiKeySet(context)) {
-            this.donateViewModel.receive(true, asset)
+            this.donateViewModel.receive(asset)
             attachReceiveObserver()
         } else {
             GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
@@ -110,7 +110,7 @@ class DonateFrag : Fragment(R.layout.donate_fragment) {
             val destinationTag: String = this.binding.edTxtTag.text.toString()
             if (amount.isNotBlank()) {
                 if (amount != "0") {
-                    this.donateViewModel.send(true, amount, asset, address, destinationTag)
+                    this.donateViewModel.send(amount, asset, address, destinationTag)
                     attachSendObserver(amount, asset, address)
                 } else {
                     GeneralUtils.createAlertDialog(context, "Invalid amount entered!", "Please note that you cannot donate 0 $asset.", false)?.show()

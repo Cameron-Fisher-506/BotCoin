@@ -39,7 +39,7 @@ class HomeFrag : Fragment(R.layout.home_fragment) {
     }
 
     private fun attachTickerObserver() {
-        tickersViewModel.fetchTickers(true)
+        tickersViewModel.fetchTickers()
         this.tickersViewModel.tickersLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
