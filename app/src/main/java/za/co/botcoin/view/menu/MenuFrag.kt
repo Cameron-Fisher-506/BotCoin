@@ -44,7 +44,7 @@ class MenuFrag : Fragment(R.layout.menu_fragment) {
 
     private fun addLogcatOptionListener() {
         this.binding.linearLayoutLogcat.setOnClickListener {
-            val action = MenuFragDirections.actionMenuFragToLogcatFrag2()
+            val action = MenuFragDirections.actionMenuFragToLogcatFrag()
             Navigation.findNavController(it).navigate(action)
         }
     }
@@ -58,7 +58,7 @@ class MenuFrag : Fragment(R.layout.menu_fragment) {
 
     private fun addLunoApiOptionListener() {
         this.binding.linearLayoutLunoApiOption.setOnClickListener {
-            val action = MenuFragDirections.actionMenuFragToLunoApiFrag2()
+            val action = MenuFragDirections.actionMenuFragToLunoApiFrag()
             Navigation.findNavController(it).navigate(action)
         }
     }

@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 @Entity(indices = [Index(value = ["id"], unique = true)])
-class Order : BaseModel {
+class Order : BaseModel() {
     @PrimaryKey(autoGenerate = false)
     @SerializedName("order_id")
     var id: String = ""
@@ -38,15 +38,4 @@ class Order : BaseModel {
     var completedTime: String = ""
 
     var accountId: Int = 1
-
-    constructor(id: String, type: String, state: String, limitPrice: String, limitVolume: String, pair: String, createdTime: String, completedTime: String) {
-        this.id = id
-        this.type = type
-        this.state = state
-        this.limitPrice = limitPrice
-        this.limitVolume = limitVolume
-        this.pair = pair
-        this.createdTime = createdTime
-        this.completedTime = completedTime
-    }
 }
