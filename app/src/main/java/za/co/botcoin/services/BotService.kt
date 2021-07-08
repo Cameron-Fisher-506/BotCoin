@@ -31,6 +31,10 @@ class BotService : LifecycleService() {
     private var supportPrice: String? = null
     private var resistancePrice: String? = null
 
+    //Support and Resistance Prices
+    var supportPrices: ArrayList<TradePrice> = ArrayList()
+    var resistancePrices: ArrayList<TradePrice> = ArrayList()
+
     //flags
     private var pullOutOfAskPrice: Double? = null
 
@@ -329,7 +333,7 @@ class BotService : LifecycleService() {
                 notify("Auto Trade", "New buy order has been placed.")
                 //empty the the trade price list
                 supportPrice = null
-                ConstantUtils.supportPrices.clear()
+                supportPrices.clear()
                 if (SharedPreferencesUtils[applicationContext, SharedPreferencesUtils.SUPPORT_PRICE_COUNTER] != null) {
                     try {
                         val jsonObjectSupportPriceCounter = SharedPreferencesUtils[applicationContext, SharedPreferencesUtils.SUPPORT_PRICE_COUNTER]
@@ -433,7 +437,6 @@ class BotService : LifecycleService() {
             val amountXrpToSell = calcAmountXrpToSell(xrpBalance.balance.toDouble()).toString()
             var postOrder: String? = null
 
-            val resistancePriceTemp = resistancePrice
             val newSellPriceTemp = newSellPrice
             when {
                 resistancePriceTemp != null -> {
@@ -442,7 +445,7 @@ class BotService : LifecycleService() {
 
                     //empty the the trade price list
                     resistancePrice = null
-                    ConstantUtils.resistancePrices.clear()
+                    resistancePrices.clear()
                 }
 
                 newSellPriceTemp != null -> {
@@ -451,7 +454,7 @@ class BotService : LifecycleService() {
 
                     //empty the the trade price list
                     resistancePrice = null
-                    ConstantUtils.resistancePrices.clear()
+                    resistancePrices.clear()
                 }
                 else -> {
                     Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - ask \npostOrder: null \nCreatedTime: ${GeneralUtils.getCurrentDateTime()}")
@@ -601,51 +604,51 @@ class BotService : LifecycleService() {
     }
 
     private fun setSupportPrice(currentPrice: Double, lastTrade: Trade) {
-        if (ConstantUtils.supportPrices.isNotEmpty()) {
+        if (supportPrices.isNotEmpty()) {
             val prices = StringBuilder()
-            ConstantUtils.supportPrices.map { prices.append("[${it.price}, ${it.counter}]") }
+            supportPrices.map { prices.append("[${it.price}, ${it.counter}]") }
             Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - setSupportPrice " + "SupportPrices: $prices " + "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
         }
 
         //Get the number of prices counter more than 2
-        if (getNumberOfPricesCounterMoreThanTwo(ConstantUtils.supportPrices, lastTrade) == 1) {
+        if (getNumberOfPricesCounterMoreThanTwo(supportPrices, lastTrade) == 1) {
             //Only 1 price with counter > 3
-            supportPrice = getPriceEqualCounter(ConstantUtils.supportPrices, getMaxCounter(ConstantUtils.supportPrices)).toString()
-        } else if (getNumberOfPricesCounterMoreThanTwo(ConstantUtils.supportPrices, lastTrade) > 1) {
+            supportPrice = getPriceEqualCounter(supportPrices, getMaxCounter(supportPrices)).toString()
+        } else if (getNumberOfPricesCounterMoreThanTwo(supportPrices, lastTrade) > 1) {
             //get the max counter
-            if (getNumberOfPricesThatHaveCounter(ConstantUtils.supportPrices, getMaxCounter(ConstantUtils.supportPrices)) == 1) {
+            if (getNumberOfPricesThatHaveCounter(supportPrices, getMaxCounter(supportPrices)) == 1) {
                 //choose the price with that maxCounter
-                supportPrice = getPriceEqualCounter(ConstantUtils.supportPrices, getMaxCounter(ConstantUtils.supportPrices)).toString()
-            } else if (getNumberOfPricesThatHaveCounter(ConstantUtils.supportPrices, getMaxCounter(ConstantUtils.supportPrices)) > 1) {
+                supportPrice = getPriceEqualCounter(supportPrices, getMaxCounter(supportPrices)).toString()
+            } else if (getNumberOfPricesThatHaveCounter(supportPrices, getMaxCounter(supportPrices)) > 1) {
                 //get lowest price with counter value
-                supportPrice = (getLowestPriceWithCounter(ConstantUtils.supportPrices, getMaxCounter(ConstantUtils.supportPrices))).toString()
+                supportPrice = (getLowestPriceWithCounter(supportPrices, getMaxCounter(supportPrices))).toString()
             }
         }
-        modifySupportPrices(ConstantUtils.supportPrices, currentPrice)
+        modifySupportPrices(supportPrices, currentPrice)
     }
 
     private fun setResistancePrice(currentPrice: Double, lastTrade: Trade) {
-        if (ConstantUtils.resistancePrices.isNotEmpty()) {
+        if (resistancePrices.isNotEmpty()) {
             val prices = StringBuilder()
-            ConstantUtils.resistancePrices.map { prices.append("[${it.price}, ${it.counter}]") }
+            resistancePrices.map { prices.append("[${it.price}, ${it.counter}]") }
             Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - setResistancePrice " + "ResistancePrices: $prices " + "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
         }
 
         //Get the number of prices counter more 2
-        if (getNumberOfPricesCounterMoreThanTwo(ConstantUtils.resistancePrices, lastTrade) == 1) {
+        if (getNumberOfPricesCounterMoreThanTwo(resistancePrices, lastTrade) == 1) {
             //Only 1 price with counter > 2
-            resistancePrice = getPriceEqualCounter(ConstantUtils.resistancePrices, getMaxCounter(ConstantUtils.resistancePrices)).toString()
-        } else if (getNumberOfPricesCounterMoreThanTwo(ConstantUtils.resistancePrices, lastTrade) > 1) {
+            resistancePrice = getPriceEqualCounter(resistancePrices, getMaxCounter(resistancePrices)).toString()
+        } else if (getNumberOfPricesCounterMoreThanTwo(resistancePrices, lastTrade) > 1) {
             //get the max counter
-            if (getNumberOfPricesThatHaveCounter(ConstantUtils.resistancePrices, getMaxCounter(ConstantUtils.resistancePrices)) == 1) {
+            if (getNumberOfPricesThatHaveCounter(resistancePrices, getMaxCounter(resistancePrices)) == 1) {
                 //choose the price with that maxCounter
-                resistancePrice = getPriceEqualCounter(ConstantUtils.resistancePrices, getMaxCounter(ConstantUtils.resistancePrices)).toString()
-            } else if (getNumberOfPricesThatHaveCounter(ConstantUtils.resistancePrices, getMaxCounter(ConstantUtils.resistancePrices)) > 1) {
+                resistancePrice = getPriceEqualCounter(resistancePrices, getMaxCounter(resistancePrices)).toString()
+            } else if (getNumberOfPricesThatHaveCounter(resistancePrices, getMaxCounter(resistancePrices)) > 1) {
                 //get highest price with counter value
-                resistancePrice = (getHighestPriceWithCounter(ConstantUtils.resistancePrices, getMaxCounter(ConstantUtils.resistancePrices))).toString()
+                resistancePrice = (getHighestPriceWithCounter(resistancePrices, getMaxCounter(resistancePrices))).toString()
             }
         }
-        modifyResistancePrices(ConstantUtils.resistancePrices, currentPrice)
+        modifyResistancePrices(resistancePrices, currentPrice)
     }
 
     private fun getDifferenceBetweenPrices(priceA: Double, priceB: Double): Double {
