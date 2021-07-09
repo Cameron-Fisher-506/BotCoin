@@ -41,7 +41,7 @@ class WithdrawFrag : Fragment(R.layout.withdraw_fragment) {
 
             if (amount.isNotBlank() && amount != "0" && beneficiaryId.isNotBlank()) {
                 if (isApiKeySet(context)) {
-                    this.withdrawalViewModel.withdrawal(true, "ZAR_EFT", amount, beneficiaryId)
+                    this.withdrawalViewModel.withdrawal("ZAR_EFT", amount, beneficiaryId)
                     attachWithdrawalObserver()
                 } else {
                     createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)!!.show()

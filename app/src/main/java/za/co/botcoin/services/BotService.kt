@@ -1,12 +1,16 @@
 package za.co.botcoin.services
 
-import android.app.*
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.Service
 import android.content.Intent
 import android.os.Build
-import android.os.Handler
 import android.os.IBinder
 import android.util.Log
-import androidx.lifecycle.LifecycleService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONException
 import za.co.botcoin.R
 import za.co.botcoin.enum.Status
@@ -23,7 +27,7 @@ import za.co.botcoin.utils.MathUtils.precision
 import za.co.botcoin.utils.SharedPreferencesUtils
 import java.util.*
 
-class BotService : LifecycleService() {
+class BotService : Service() {
     private lateinit var accountRepository: AccountRepository
     private lateinit var withdrawalRepository: WithdrawalRepository
 
@@ -38,7 +42,8 @@ class BotService : LifecycleService() {
     //flags
     private var pullOutOfAskPrice: Double? = null
 
-    private val handler: Handler = Handler()
+    private lateinit var timer: Timer
+    private lateinit var timerTask: TimerTask
 
     override fun onCreate() {
         super.onCreate()
@@ -62,251 +67,244 @@ class BotService : LifecycleService() {
         //initialise values
         init()
 
-        val delay: Long = ConstantUtils.TICKER_RUN_TIME
-        handler.postDelayed(object : Runnable {
+        this.timerTask = object : TimerTask() {
             override fun run() {
                 //get current price
                 attachTickersObserver()
                 Log.d(ConstantUtils.BOTCOIN_TAG, "AUTO TRADE RUNNING...")
-                handler.postDelayed(this, delay)
             }
-        }, delay)
+        }
+        this.timer = Timer()
+        this.timer .schedule(this.timerTask, 0, ConstantUtils.TICKER_RUN_TIME)
     }
 
-    private fun attachTickersObserver() {
-        accountRepository.fetchTickers(true).observe(this, {
-            when (it.status) {
-                Status.SUCCESS -> {
-                    val data = it.data
-                    if (!data.isNullOrEmpty()) {
-                        data.map { ticker ->
-                            if (ticker.pair == ConstantUtils.PAIR_XRPZAR) {
-                                //getLastPurchase
-                                attachTradesObserver(ticker.lastTrade.toDouble())
-                            }
-                        }
-                    } else {
-
-                    }
-                }
-                Status.ERROR -> {
-                }
-                Status.LOADING -> {
-                }
-            }
-        })
-    }
-
-    private fun attachTradesObserver(currentPrice: Double) {
-        this.accountRepository.fetchTrades(true, ConstantUtils.PAIR_XRPZAR, true).observe(this, {
-            when (it.status) {
-                Status.SUCCESS -> {
-                    val data = it.data
-                    var lastTrade: Trade = Trade()
-                    if (!data.isNullOrEmpty()) {
-                        data.map { trade ->
-                            lastTrade = trade
-                            if (trade.type == Trade.BID_TYPE) {
-                                if (currentPrice > lastTrade.price.toDouble()) {
-                                    setResistancePrice(currentPrice, lastTrade)
-                                }
-                            } else {
-                                setSupportPrice(currentPrice, lastTrade)
-                            }
-                        }
-                    } else {
-                        lastTrade.type = Trade.ASK_TYPE
-                        lastTrade.price = "0.0"
-                        //set support/resistance price
-                        setSupportPrice(currentPrice, lastTrade)
-                        //setResistancePrice();
-                    }
-
-                    //Get ZAR and XRP balance
-                    attachBalancesObserver(currentPrice, lastTrade)
-                }
-                Status.ERROR -> {
-                }
-                Status.LOADING -> {
-                }
-            }
-        })
-    }
-
-    private fun attachBalancesObserver(currentPrice: Double, lastTrade: Trade) {
-        this.accountRepository.fetchBalances(true).observe(this, {
-            when (it.status) {
-                Status.SUCCESS -> {
-                    val data = it.data
-                    var zarBalance: Balance = Balance()
-                    var xrpBalance: Balance = Balance()
-                    if (!data.isNullOrEmpty()) {
-                        data.map { balance ->
-                            if (balance.asset == ConstantUtils.XRP) {
-                                xrpBalance = balance
-                            } else if (balance.asset == ConstantUtils.ZAR) {
-                                zarBalance = balance
-                            }
-                        }
-
-                        //buy
-                        bid(true, currentPrice, lastTrade, zarBalance)
-
-                        //sell
-                        ask(true, currentPrice, lastTrade, xrpBalance, zarBalance)
-
-                        //get all the orders
-                        attachOrdersObserver(currentPrice, lastTrade, xrpBalance, zarBalance)
-                    } else {
-
-                    }
-                }
-                Status.ERROR -> {
-                }
-                Status.LOADING -> {
-                }
-            }
-        })
-    }
-
-    private fun attachOrdersObserver(currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance) {
-        this.accountRepository.fetchOrders(true).observe(this, {
-            when (it.status) {
-                Status.SUCCESS -> {
-                    val data = it.data
-                    var lastAskOrder: Order = Order()
-                    var lastBidOrder: Order = Order()
-                    if (!data.isNullOrEmpty()) {
-                        data.map { order ->
-                            if (order.type == "ASK" && order.state == "PENDING") {
-                                lastAskOrder = order
-                            } else if (order.type == "BID" && order.state == "PENDING") {
-                                lastBidOrder = order
-                            }
+    private fun attachTickersObserver() = CoroutineScope(Dispatchers.IO).launch {
+        val resource = accountRepository.fetchTickers()
+        when (resource.status) {
+            Status.SUCCESS -> {
+                val data = resource.data
+                if (!data.isNullOrEmpty()) {
+                    data.map { ticker ->
+                        if (ticker.pair == ConstantUtils.PAIR_XRPZAR) {
+                            //getLastPurchase
+                            attachTradesObserver(ticker.lastTrade.toDouble())
                         }
                     }
+                } else {
 
-                    //check if pull out is  necessary
-                    pullOutOfAsk(currentPrice, lastTrade, xrpBalance, zarBalance, lastAskOrder)
-                    pullOutOfBid(currentPrice, lastTrade, xrpBalance, zarBalance, lastBidOrder)
-                }
-                Status.ERROR -> {
-                }
-                Status.LOADING -> {
                 }
             }
-        })
+            Status.ERROR -> {
+            }
+            Status.LOADING -> {
+            }
+        }
     }
 
-    private fun attachStopOrderObserver(orderId: String, currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance) {
-        this.withdrawalRepository.stopOrder(true, orderId).observe(this, {
-            when (it.status) {
-                Status.SUCCESS -> {
-                    val data = it.data
-                    if (!data.isNullOrEmpty()) {
-                        if (data.first().success) {
-                            notify("Order Cancellation", "Order cancelled successfully.")
-
-                            val newResistancePrice = pullOutOfAskPrice
-                            if (newResistancePrice != null) {
-                                //place new sell order at trailing price
-                                resistancePrice = newResistancePrice.toString()
-                                ask(false, currentPrice, lastTrade, xrpBalance, zarBalance)
+    private fun attachTradesObserver(currentPrice: Double) = CoroutineScope(Dispatchers.IO).launch {
+        val resource = accountRepository.fetchTrades(ConstantUtils.PAIR_XRPZAR, true)
+        when (resource.status) {
+            Status.SUCCESS -> {
+                val data = resource.data
+                var lastTrade: Trade = Trade()
+                if (!data.isNullOrEmpty()) {
+                    data.map { trade ->
+                        lastTrade = trade
+                        if (trade.type == Trade.BID_TYPE) {
+                            if (currentPrice > lastTrade.price.toDouble()) {
+                                setResistancePrice(currentPrice, lastTrade)
                             }
-                            //lastAskOrder = null
-                            //lastBidOrder = null
-                            pullOutOfAskPrice = null
                         } else {
-                            notify("Order Cancellation", "Order cancellation failed.")
+                            setSupportPrice(currentPrice, lastTrade)
                         }
+                    }
+                } else {
+                    lastTrade.type = Trade.ASK_TYPE
+                    lastTrade.price = "0.0"
+                    //set support/resistance price
+                    setSupportPrice(currentPrice, lastTrade)
+                    //setResistancePrice();
+                }
+
+                //Get ZAR and XRP balance
+                attachBalancesObserver(currentPrice, lastTrade)
+            }
+            Status.ERROR -> {
+            }
+            Status.LOADING -> {
+            }
+        }
+    }
+
+    private fun attachBalancesObserver(currentPrice: Double, lastTrade: Trade) = CoroutineScope(Dispatchers.IO).launch {
+        val resource = accountRepository.fetchBalances()
+        when (resource.status) {
+            Status.SUCCESS -> {
+                val data = resource.data
+                var zarBalance: Balance = Balance()
+                var xrpBalance: Balance = Balance()
+                if (!data.isNullOrEmpty()) {
+                    data.map { balance ->
+                        if (balance.asset == ConstantUtils.XRP) {
+                            xrpBalance = balance
+                        } else if (balance.asset == ConstantUtils.ZAR) {
+                            zarBalance = balance
+                        }
+                    }
+
+                    //buy
+                    bid(true, currentPrice, lastTrade, zarBalance)
+
+                    //sell
+                    ask(true, currentPrice, lastTrade, xrpBalance, zarBalance)
+
+                    //get all the orders
+                    attachOrdersObserver(currentPrice, lastTrade, xrpBalance, zarBalance)
+                } else {
+
+                }
+            }
+            Status.ERROR -> {
+            }
+            Status.LOADING -> {
+            }
+        }
+    }
+
+
+    private fun attachOrdersObserver(currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance) = CoroutineScope(Dispatchers.IO).launch {
+        val response = accountRepository.fetchOrders()
+        when (response.status) {
+            Status.SUCCESS -> {
+                val data = response.data
+                var lastAskOrder: Order = Order()
+                var lastBidOrder: Order = Order()
+                if (!data.isNullOrEmpty()) {
+                    data.map { order ->
+                        if (order.type == "ASK" && order.state == "PENDING") {
+                            lastAskOrder = order
+                        } else if (order.type == "BID" && order.state == "PENDING") {
+                            lastBidOrder = order
+                        }
+                    }
+                }
+
+                //check if pull out is  necessary
+                pullOutOfAsk(currentPrice, lastTrade, xrpBalance, zarBalance, lastAskOrder)
+                pullOutOfBid(currentPrice, lastTrade, xrpBalance, zarBalance, lastBidOrder)
+            }
+            Status.ERROR -> {
+            }
+            Status.LOADING -> {
+            }
+        }
+    }
+
+
+    private fun attachStopOrderObserver(orderId: String, currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance) = CoroutineScope(Dispatchers.IO).launch {
+        val resource = withdrawalRepository.stopOrder(orderId)
+        when (resource.status) {
+            Status.SUCCESS -> {
+                val data = resource.data
+                if (!data.isNullOrEmpty()) {
+                    if (data.first().success) {
+                        notify("Order Cancellation", "Order cancelled successfully.")
+
+                        val newResistancePrice = pullOutOfAskPrice
+                        if (newResistancePrice != null) {
+                            //place new sell order at trailing price
+                            resistancePrice = newResistancePrice.toString()
+                            ask(false, currentPrice, lastTrade, xrpBalance, zarBalance)
+                        }
+                        //lastAskOrder = null
+                        //lastBidOrder = null
+                        pullOutOfAskPrice = null
                     } else {
                         notify("Order Cancellation", "Order cancellation failed.")
                     }
-
-                }
-                Status.ERROR -> {
+                } else {
                     notify("Order Cancellation", "Order cancellation failed.")
                 }
-                Status.LOADING -> {
-                }
             }
-        })
+            Status.ERROR -> {
+                notify("Order Cancellation", "Order cancellation failed.")
+            }
+            Status.LOADING -> {
+            }
+        }
     }
 
-    private fun attachReceiveObserver() {
-        this.withdrawalRepository.receive(true, ConstantUtils.XRP).observe(this, {
-            when (it.status) {
-                Status.SUCCESS -> {
-                    val data = it.data
-                    if (!data.isNullOrEmpty()) {
-                        /*val address_meta = jsonObject.getJSONArray("address_meta")
-                        var address: String? = null
-                        var tag: String? = null
-                        if (data.first().address_meta != null && address_meta.length() > 0) {
-                            for (i in 0 until address_meta.length()) {
-                                val jsonObjectAddressMeta = address_meta.getJSONObject(i)
-                                if (jsonObjectAddressMeta.getString("label") == "Address") {
-                                    address = jsonObjectAddressMeta.getString("value")
-                                }
-                                if (jsonObjectAddressMeta.getString("label") == "XRP Tag") {
-                                    tag = jsonObjectAddressMeta.getString("value")
-                                }
+    private fun attachReceiveObserver() = CoroutineScope(Dispatchers.IO).launch {
+        val resource = withdrawalRepository.receive(ConstantUtils.XRP)
+        when (resource.status) {
+            Status.SUCCESS -> {
+                val data = resource.data
+                if (!data.isNullOrEmpty()) {
+                    /*val address_meta = jsonObject.getJSONArray("address_meta")
+                    var address: String? = null
+                    var tag: String? = null
+                    if (data.first().address_meta != null && address_meta.length() > 0) {
+                        for (i in 0 until address_meta.length()) {
+                            val jsonObjectAddressMeta = address_meta.getJSONObject(i)
+                            if (jsonObjectAddressMeta.getString("label") == "Address") {
+                                address = jsonObjectAddressMeta.getString("value")
+                            }
+                            if (jsonObjectAddressMeta.getString("label") == "XRP Tag") {
+                                tag = jsonObjectAddressMeta.getString("value")
                             }
                         }
-                        if (address != null && tag != null) {
-                            attachSendObserver(address, tag)
-                        }*/
                     }
-                }
-                Status.ERROR -> {
-                }
-                Status.LOADING -> {
+                    if (address != null && tag != null) {
+                        attachSendObserver(address, tag)
+                    }*/
                 }
             }
-        })
+            Status.ERROR -> {
+            }
+            Status.LOADING -> {
+            }
+        }
     }
 
-    private fun attachPostOrderObserver(pair: String, type: String, volume: String, price: String) {
-        this.accountRepository.postOrder(true, pair, type, volume, price).observe(this, {
-            when (it.status) {
-                Status.SUCCESS -> {
-                    val data = it.data
-                    if (!data.isNullOrEmpty()) {
+    private fun attachPostOrderObserver(pair: String, type: String, volume: String, price: String) = CoroutineScope(Dispatchers.IO).launch {
+        val resource = accountRepository.postOrder(pair, type, volume, price)
+        when (resource.status) {
+            Status.SUCCESS -> {
+                val data = resource.data
+                if (!data.isNullOrEmpty()) {
 
-                    } else {
+                } else {
 
-                    }
-                }
-                Status.ERROR -> {
-                }
-                Status.LOADING -> {
                 }
             }
-        })
+            Status.ERROR -> {
+            }
+            Status.LOADING -> {
+            }
+        }
     }
 
-    private fun attachSendObserver(amount: String, currency: String, address: String, destinationTag: String) {
-        this.withdrawalRepository.send(true, amount, currency, address, destinationTag).observe(this, {
-            when (it.status) {
-                Status.SUCCESS -> {
-                    val data = it.data
-                    if (!data.isNullOrEmpty()) {
-                        data.map { send -> if (send.success) notify("Sent $amount $currency to $address.", send.withdrawalId) else notify("Send failed.", "") }
-                    } else {
-                        notify("Send failed.", "")
-                    }
-                }
-                Status.ERROR -> {
+
+    private fun attachSendObserver(amount: String, currency: String, address: String, destinationTag: String) = CoroutineScope(Dispatchers.IO).launch {
+        val resource = withdrawalRepository.send(amount, currency, address, destinationTag)
+        when (resource.status) {
+            Status.SUCCESS -> {
+                val data = resource.data
+                if (!data.isNullOrEmpty()) {
+                    data.map { send -> if (send.success) notify("Sent $amount $currency to $address.", send.withdrawalId) else notify("Send failed.", "") }
+                } else {
                     notify("Send failed.", "")
                 }
-                Status.LOADING -> {
-                }
             }
-        })
+            Status.ERROR -> {
+                notify("Send failed.", "")
+            }
+            Status.LOADING -> {
+            }
+        }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        super.onStartCommand(intent, flags, startId)
         return START_STICKY
     }
 
@@ -695,13 +693,13 @@ class BotService : LifecycleService() {
     }
 
     override fun onBind(intent: Intent): IBinder? {
-        super.onBind(intent)
         return null
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        handler.removeMessages(0)
+        this.timer.cancel()
+        this.timer.purge()
     }
 
     private fun notify(title: String?, message: String?) {

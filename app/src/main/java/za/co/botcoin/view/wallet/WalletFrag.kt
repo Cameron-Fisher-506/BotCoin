@@ -33,7 +33,7 @@ class WalletFrag : Fragment(R.layout.wallet_fragment) {
     }
 
     private fun attachBalanceObserver() {
-        this.walletViewModel.fetchBalances(true)
+        this.walletViewModel.fetchBalances()
         this.walletViewModel.balancesLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {

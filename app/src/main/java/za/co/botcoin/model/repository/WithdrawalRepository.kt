@@ -17,60 +17,44 @@ class WithdrawalRepository(private val application: Application) {
     private val withdrawalDao: IWithdrawalDao = BotCoinDatabase.getDatabase(application).withdrawalDao()
     private val sendDao: ISendDao = BotCoinDatabase.getDatabase(application).sendDao()
     private val receiveDao: IReceiveDao = BotCoinDatabase.getDatabase(application).receiveDao()
-
     private val stopOrderDao: IStopOrderDao = BotCoinDatabase.getDatabase(application).stopOrderDao()
 
-    private val mustSendLiveData by lazy { MutableLiveData<Boolean>() }
-    private val mustWithdrawLiveData by lazy { MutableLiveData<Boolean>() }
-    private val mustReceiveLiveData by lazy { MutableLiveData<Boolean>() }
-    private val mustStopOrderLiveData by lazy { MutableLiveData<Boolean>() }
-
-    fun withdrawal(mustWithdraw: Boolean, type: String, amount: String, beneficiaryId: String): LiveData<Resource<List<Withdrawal>>> {
-        mustWithdrawLiveData.value = mustWithdraw
-        return Transformations.switchMap(mustWithdrawLiveData) {
-            DataAccessStrategyUtils.synchronizedCache(
-                    application,
-                    { BotCoinDatabase.getResource { withdrawalDao.getAll() } },
-                    { botCoinService.withdrawal("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}", type, amount, beneficiaryId) },
-                    { withdrawalDao.upsert(it, withdrawalDao) }
-            )
-        }
+    suspend fun withdrawal(type: String, amount: String, beneficiaryId: String): Resource<List<Withdrawal>> {
+        return DataAccessStrategyUtils.synchronizedCache(
+                application,
+                { BotCoinDatabase.getResource { withdrawalDao.getAll() } },
+                { botCoinService.withdrawal("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}", type, amount, beneficiaryId) },
+                { withdrawalDao.upsert(it, withdrawalDao) }
+        )
     }
 
-    fun send(mustSend: Boolean, amount: String, currency: String, address: String, destinationTag: String = ""): LiveData<Resource<List<Send>>> {
-        mustSendLiveData.value = mustSend
-        return Transformations.switchMap(mustSendLiveData) {
-            DataAccessStrategyUtils.synchronizedCache(
-                    application,
-                    { BotCoinDatabase.getResource { sendDao.getAll() } },
-                    { if (destinationTag.isNotBlank()) botCoinService.send("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}",amount, currency, address)
-                        else botCoinService.send("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}", amount, currency, address, destinationTag) },
-                    { sendDao.upsert(it, sendDao) }
-            )
-        }
+    suspend fun send(amount: String, currency: String, address: String, destinationTag: String = ""): Resource<List<Send>> {
+        return DataAccessStrategyUtils.synchronizedCache(
+                application,
+                { BotCoinDatabase.getResource { sendDao.getAll() } },
+                {
+                    if (destinationTag.isNotBlank()) botCoinService.send("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}", amount, currency, address)
+                    else botCoinService.send("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}", amount, currency, address, destinationTag)
+                },
+                { sendDao.upsert(it, sendDao) }
+        )
     }
 
-    fun receive(mustReceive: Boolean, asset: String): LiveData<Resource<List<Receive>>> {
-        mustReceiveLiveData.value = mustReceive
-        return Transformations.switchMap(mustReceiveLiveData) {
-            DataAccessStrategyUtils.synchronizedCache(
-                    application,
-                    { BotCoinDatabase.getResource { receiveDao.getAll() } },
-                    { botCoinService.receive("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}", asset) },
-                    { receiveDao.upsert(it, receiveDao) }
-            )
-        }
+    suspend fun receive(asset: String): Resource<List<Receive>> {
+        return DataAccessStrategyUtils.synchronizedCache(
+                application,
+                { BotCoinDatabase.getResource { receiveDao.getAll() } },
+                { botCoinService.receive("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}", asset) },
+                { receiveDao.upsert(it, receiveDao) }
+        )
     }
 
-    fun stopOrder(mustStopOrder: Boolean, orderId: String): LiveData<Resource<List<StopOrder>>> {
-        mustStopOrderLiveData.value = mustStopOrder
-        return Transformations.switchMap(mustStopOrderLiveData) {
-            DataAccessStrategyUtils.synchronizedCache(
-                    application,
-                    { BotCoinDatabase.getResource { stopOrderDao.getAll() } },
-                    { botCoinService.stopOrder("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}", orderId) },
-                    { stopOrderDao.upsert(it, stopOrderDao) }
-            )
-        }
+    suspend fun stopOrder(orderId: String): Resource<List<StopOrder>> {
+        return DataAccessStrategyUtils.synchronizedCache(
+                application,
+                { BotCoinDatabase.getResource { stopOrderDao.getAll() } },
+                { botCoinService.stopOrder("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}", orderId) },
+                { stopOrderDao.upsert(it, stopOrderDao) }
+        )
     }
 }

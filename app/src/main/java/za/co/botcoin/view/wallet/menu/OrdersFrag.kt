@@ -29,7 +29,7 @@ class OrdersFrag : Fragment(R.layout.orders_fragment) {
         this.withdrawalViewModel = ViewModelProviders.of(this).get(WithdrawalViewModel::class.java)
         wireUI()
 
-        this.withdrawalViewModel.fetchOrders(true)
+        this.withdrawalViewModel.fetchOrders()
         attachOrdersObserver()
     }
 

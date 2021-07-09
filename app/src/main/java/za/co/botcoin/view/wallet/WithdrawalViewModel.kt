@@ -3,6 +3,7 @@ package za.co.botcoin.view.wallet
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
 import za.co.botcoin.model.models.*
 import za.co.botcoin.model.repository.AccountRepository
 import za.co.botcoin.model.repository.WithdrawalRepository
@@ -18,23 +19,23 @@ class WithdrawalViewModel(application: Application) : AndroidViewModel(applicati
     lateinit var ordersLiveData: LiveData<Resource<List<Order>>>
     lateinit var stopOrderLiveData: LiveData<Resource<List<StopOrder>>>
 
-    fun withdrawal(mustWithdraw: Boolean, type: String, amount: String, beneficiaryId: String) {
-        withdrawalLiveData = withdrawalRepository.withdrawal(mustWithdraw, type, amount, beneficiaryId)
+    fun withdrawal(type: String, amount: String, beneficiaryId: String) {
+        withdrawalLiveData = liveData { emit(withdrawalRepository.withdrawal(type, amount, beneficiaryId)) }
     }
 
-    fun send(mustSend: Boolean, amount: String, currency: String, address: String, destinationTag: String = "") {
-        sendLiveData = withdrawalRepository.send(mustSend, amount, currency, address, destinationTag)
+    fun send(amount: String, currency: String, address: String, destinationTag: String = "") {
+        sendLiveData = liveData { emit(withdrawalRepository.send(amount, currency, address, destinationTag)) }
     }
 
-    fun receive(mustReceive: Boolean, asset: String) {
-        receiveLiveData = withdrawalRepository.receive(mustReceive, asset)
+    fun receive(asset: String) {
+        receiveLiveData = liveData { emit(withdrawalRepository.receive(asset)) }
     }
 
-    fun fetchOrders(mustFetchOrders: Boolean) {
-        ordersLiveData = accountRepository.fetchOrders(mustFetchOrders)
+    fun fetchOrders() {
+        ordersLiveData = liveData { emit(accountRepository.fetchOrders()) }
     }
 
-    fun stopOrder(mustStopOrder: Boolean, orderId: String) {
-        stopOrderLiveData = withdrawalRepository.stopOrder(mustStopOrder, orderId)
+    fun stopOrder(orderId: String) {
+        stopOrderLiveData = liveData { emit(withdrawalRepository.stopOrder(orderId)) }
     }
 }
