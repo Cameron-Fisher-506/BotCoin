@@ -22,14 +22,8 @@
             android:id="@+id/action_menuFrag_to_resistancePriceCounterFrag"
             app:destination="@id/resistancePriceCounterFrag" />
         <action
-            android:id="@+id/action_menuFrag_to_supportResistanceFrag"
-            app:destination="@id/supportResistanceFrag" />
-        <action
             android:id="@+id/action_menuFrag_to_donateMenuFrag"
             app:destination="@id/donateMenuFrag" />
-        <action
-            android:id="@+id/action_menuFrag_to_logcatFrag"
-            app:destination="@id/logcatFrag" />
     </fragment>
     <fragment
         android:id="@+id/lunoApiFrag"
@@ -44,10 +38,6 @@
         android:name="za.co.botcoin.view.menu.SupportPriceCounterFrag"
         android:label="Support Price Counter" />
     <fragment
-        android:id="@+id/logcatFrag"
-        android:name="za.co.botcoin.view.menu.LogcatFrag"
-        android:label="Logcat" />
-    <fragment
         android:id="@+id/trailingStopFrag"
         android:name="za.co.botcoin.view.menu.TrailingStopFrag"
         android:label="Trailing Stop" />
@@ -55,10 +45,6 @@
         android:id="@+id/resistancePriceCounterFrag"
         android:name="za.co.botcoin.view.menu.ResistancePriceCounterFrag"
         android:label="Resistance Price Counter" />
-    <fragment
-        android:id="@+id/supportResistanceFrag"
-        android:name="za.co.botcoin.view.menu.SupportResistanceFrag"
-        android:label="Support Resistance" />
     <fragment
         android:id="@+id/donateMenuFrag"
         android:name="za.co.botcoin.view.menu.DonateMenuFrag"

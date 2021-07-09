@@ -11,19 +11,13 @@ import za.co.botcoin.databinding.MenuFragmentBinding
 class MenuFrag : Fragment(R.layout.menu_fragment) {
     private lateinit var binding: MenuFragmentBinding
 
-    companion object {
-        const val TITLE = "Menu"
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = MenuFragmentBinding.bind(view)
 
         addLunoApiOptionListener()
-        addSupportResistanceListener()
         addDonateListener()
         addPullOutPriceOptionListener()
-        addLogcatOptionListener()
         addSetSupportPriceCounterOptionListener()
         addSetResistancePriceCounterOptionListener()
     }
@@ -42,15 +36,8 @@ class MenuFrag : Fragment(R.layout.menu_fragment) {
         }
     }
 
-    private fun addLogcatOptionListener() {
-        this.binding.linearLayoutLogcat.setOnClickListener {
-            val action = MenuFragDirections.actionMenuFragToLogcatFrag()
-            Navigation.findNavController(it).navigate(action)
-        }
-    }
-
     private fun addPullOutPriceOptionListener() {
-        this.binding.linearLayoutSetPullOutPrice.setOnClickListener {
+        this.binding.linearLayoutTrailingStop.setOnClickListener {
             val action = MenuFragDirections.actionMenuFragToTrailingStopFrag()
             Navigation.findNavController(it).navigate(action)
         }
@@ -59,13 +46,6 @@ class MenuFrag : Fragment(R.layout.menu_fragment) {
     private fun addLunoApiOptionListener() {
         this.binding.linearLayoutLunoApiOption.setOnClickListener {
             val action = MenuFragDirections.actionMenuFragToLunoApiFrag()
-            Navigation.findNavController(it).navigate(action)
-        }
-    }
-
-    private fun addSupportResistanceListener() {
-        this.binding.linearLayoutSupportResistanceOption.setOnClickListener {
-            val action = MenuFragDirections.actionMenuFragToSupportResistanceFrag()
             Navigation.findNavController(it).navigate(action)
         }
     }

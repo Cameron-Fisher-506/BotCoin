@@ -6,6 +6,6 @@ import za.co.botcoin.model.models.Order
 
 @Dao
 interface IOrderDao : IBaseDao<Order> {
-    @Query("SELECT * FROM 'order'")
+    @Query("SELECT * FROM 'order' ORDER BY id DESC")
     suspend fun getAll(): List<Order>
 }
