@@ -229,7 +229,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutNotifications" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutSetPullOutPrice"
+        android:id="@+id/linearLayoutTrailingStop"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="@+id/linearLayoutLunoApiOption"
@@ -259,7 +259,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:text="@string/pull_out_price"
+                android:text="@string/trailing_stop"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -282,7 +282,7 @@
         app:layout_constraintEnd_toEndOf="@+id/linearLayoutSupportResistanceOption"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/linearLayoutSupportResistanceOption"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSetPullOutPrice" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTrailingStop" />
 
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -292,7 +292,7 @@
         app:layout_constraintEnd_toEndOf="@+id/linearLayoutLunoApiOption"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/linearLayoutLunoApiOption"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSetPullOutPrice">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTrailingStop">
 
 
         <ImageView

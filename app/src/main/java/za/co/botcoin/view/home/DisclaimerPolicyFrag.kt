@@ -12,7 +12,7 @@ import za.co.botcoin.R
 import za.co.botcoin.databinding.DisclaimerPolicyFragmentBinding
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
-import za.co.botcoin.utils.SharedPreferencesUtils
+import za.co.botcoin.utils.SharedPrefsUtils
 import kotlin.system.exitProcess
 
 class DisclaimerPolicyFrag : Fragment(R.layout.disclaimer_policy_fragment) {
@@ -54,9 +54,7 @@ class DisclaimerPolicyFrag : Fragment(R.layout.disclaimer_policy_fragment) {
 
         this.binding.btnAccept.setOnClickListener {
             try {
-                val jsonObject = JSONObject()
-                jsonObject.put("isAccepted", true)
-                context?.let { it1 -> SharedPreferencesUtils.save(it1, SharedPreferencesUtils.DISCLAIMER_ACCEPTANCE, jsonObject) }
+                context?.let { it1 -> SharedPrefsUtils.save(it1, SharedPrefsUtils.DISCLAIMER_ACCEPTANCE, "true") }
                 context?.startActivity(Intent(activity, MainActivity::class.java))
             } catch (e: Exception) {
                 Log.d(ConstantUtils.BOTCOIN_TAG, "Class: DisclaimerPolicyFrag " +

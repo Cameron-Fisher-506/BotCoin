@@ -2,19 +2,16 @@ package za.co.botcoin.view.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
-import org.json.JSONObject
 import za.co.botcoin.R
 import za.co.botcoin.databinding.ActivityMainBinding
 import za.co.botcoin.utils.ConstantUtils
-import za.co.botcoin.utils.GeneralUtils
-import za.co.botcoin.utils.SharedPreferencesUtils
+import za.co.botcoin.utils.SharedPrefsUtils
 import za.co.botcoin.view.menu.MenuActivity
 import za.co.botcoin.view.settings.AutoTradeActivity
 import za.co.botcoin.view.trade.TradeActivity
@@ -91,33 +88,9 @@ class MainActivity : AppCompatActivity() {
         }
     }*/
 
-    private fun saveDefaultPullOutBidPrice() {
-        try {
-            if (SharedPreferencesUtils.get(applicationContext, SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT) == null) {
-                val jsonObject = JSONObject()
-                jsonObject.put(SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT, ConstantUtils.trailingStop)
-                SharedPreferencesUtils.save(applicationContext, SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT, jsonObject)
-            }
-        } catch (e: Exception) {
-            Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
-                    "Method: MainActivity - saveDefaultPullOutBidPrice " +
-                    "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
-        }
-    }
-
     private fun setUserPulloutBidPrice() {
-        try {
-            if (SharedPreferencesUtils.get(applicationContext, SharedPreferencesUtils.PULLOUT_BID_PRICE_USER) != null) {
-                val jsonObject = SharedPreferencesUtils.get(applicationContext, SharedPreferencesUtils.PULLOUT_BID_PRICE_USER)
-                if (jsonObject != null && jsonObject.has(SharedPreferencesUtils.PULLOUT_BID_PRICE_USER)) {
-                    ConstantUtils.trailingStop = jsonObject.getInt(SharedPreferencesUtils.PULLOUT_BID_PRICE_USER)
-                }
-            }
-        } catch (e: Exception) {
-            Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
-                    "Method: MainActivity - setUserPulloutBidPrice " +
-                    "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
-        }
+        val trailingStop = SharedPrefsUtils[applicationContext, SharedPrefsUtils.TRAILING_STOP]
+        if (trailingStop != null) { ConstantUtils.trailingStop = trailingStop.toInt() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -133,8 +106,7 @@ class MainActivity : AppCompatActivity() {
                 //auto trade
                 startActivity(Intent(this, AutoTradeActivity::class.java))
             }
-            else -> {
-            }
+            else -> { }
         }
         return super.onOptionsItemSelected(item)
     }

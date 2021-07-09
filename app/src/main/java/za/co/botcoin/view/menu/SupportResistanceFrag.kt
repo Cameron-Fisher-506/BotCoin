@@ -1,15 +1,11 @@
 package za.co.botcoin.view.menu
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import org.json.JSONObject
 import za.co.botcoin.R
 import za.co.botcoin.databinding.SupportResistanceFragmentBinding
-import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
-import za.co.botcoin.utils.SharedPreferencesUtils
 
 class SupportResistanceFrag : Fragment(R.layout.support_resistance_fragment) {
     private lateinit var binding: SupportResistanceFragmentBinding
@@ -21,11 +17,11 @@ class SupportResistanceFrag : Fragment(R.layout.support_resistance_fragment) {
     }
 
     private fun addApplyListener() {
-        this.binding.btnApply.setOnClickListener { view ->
+        this.binding.btnApply.setOnClickListener {
             val supportPrice = this.binding.txtSupport.text.toString()
             val resistancePrice = this.binding.txtResistance.text.toString()
-            if (supportPrice != "" && resistancePrice != "") {
-                try {
+            if (supportPrice.isNotBlank() && resistancePrice.isNotBlank()) {
+                /*try {
                     val jsonObjectSupportResistance = JSONObject()
                     jsonObjectSupportResistance.put("supportPrice", supportPrice)
                     jsonObjectSupportResistance.put("resistancePrice", resistancePrice)
@@ -35,7 +31,7 @@ class SupportResistanceFrag : Fragment(R.layout.support_resistance_fragment) {
                             "Method: SupportResistanceFrag - addApplyListener " +
                             "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
                 }
-                GeneralUtils.makeToast(context, "Support and Resistance applied!")
+                GeneralUtils.makeToast(context, "Support and Resistance applied!")*/
             } else {
                 GeneralUtils.createAlertDialog(context, "Support/Resistance", "Please enter a Support and Resistance price before applying the change!", false)?.show()
             }

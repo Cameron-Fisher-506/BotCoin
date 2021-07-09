@@ -50,7 +50,7 @@ class MenuFrag : Fragment(R.layout.menu_fragment) {
     }
 
     private fun addPullOutPriceOptionListener() {
-        this.binding.linearLayoutSetPullOutPrice.setOnClickListener {
+        this.binding.linearLayoutTrailingStop.setOnClickListener {
             val action = MenuFragDirections.actionMenuFragToTrailingStopFrag()
             Navigation.findNavController(it).navigate(action)
         }

@@ -2,16 +2,13 @@ package za.co.botcoin.utils
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.os.Build
 import android.util.Base64
 import android.util.Log
 import android.widget.Toast
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
-import za.co.botcoin.services.BotService
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -88,22 +85,14 @@ object GeneralUtils {
     }
 
     fun isApiKeySet(context: Context?): Boolean {
-        var toReturn = true
-        val jsonObjectLunoApiKey = context?.let { SharedPreferencesUtils[it, SharedPreferencesUtils.LUNO_API_PREF] }
-        if (jsonObjectLunoApiKey != null && jsonObjectLunoApiKey.has("keyID") && jsonObjectLunoApiKey.has("secretKey")) {
-            try {
-                ConstantUtils.USER_KEY_ID = jsonObjectLunoApiKey.getString("keyID")
-                ConstantUtils.USER_SECRET_KEY = jsonObjectLunoApiKey.getString("secretKey")
-                if (ConstantUtils.USER_SECRET_KEY != null && ConstantUtils.USER_KEY_ID != null) {
-                    toReturn = true
-                }
-            } catch (e: Exception) {
-                Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
-                        "Method: MainActivity - checkIfApiKeySet " +
-                        "CreatedTime: ${getCurrentDateTime()}")
-            }
+        val lunoApiKeyId = context?.let { SharedPrefsUtils[it, SharedPrefsUtils.LUNO_API_KEY_ID] }
+        val lunoApiSecretKey = context?.let { SharedPrefsUtils[it, SharedPrefsUtils.LUNO_API_SECRET_KEY] }
+        if (!lunoApiKeyId.isNullOrBlank() && !lunoApiSecretKey.isNullOrBlank()) {
+            ConstantUtils.USER_KEY_ID = lunoApiKeyId
+            ConstantUtils.USER_SECRET_KEY = lunoApiSecretKey
+            return true
         }
-        return toReturn
+        return true
     }
 
     fun createAlertDialog(context: Context?, title: String?, message: String?, isPrompt: Boolean): AlertDialog? {

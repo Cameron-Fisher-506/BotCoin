@@ -1,16 +1,14 @@
 package za.co.botcoin.view.menu
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
-import org.json.JSONObject
 import za.co.botcoin.R
 import za.co.botcoin.databinding.SupportPriceCounterFragmentBinding
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
-import za.co.botcoin.utils.SharedPreferencesUtils
+import za.co.botcoin.utils.SharedPrefsUtils
 
 class SupportPriceCounterFrag : Fragment(R.layout.support_price_counter_fragment) {
     private lateinit var binding: SupportPriceCounterFragmentBinding
@@ -24,19 +22,12 @@ class SupportPriceCounterFrag : Fragment(R.layout.support_price_counter_fragment
     }
 
     private fun wireUI() {
-        try {
-            val jsonObject = context?.let { SharedPreferencesUtils.get(it, SharedPreferencesUtils.SUPPORT_PRICE_COUNTER) }
-            var itemPosition: Int? = null
-            if (jsonObject != null && jsonObject.has("itemPosition")) {
-                itemPosition = jsonObject.getInt("itemPosition")
-            }
-            val adapter = ArrayAdapter.createFromResource(context!!, R.array.support_price_counter_items, android.R.layout.simple_spinner_item)
-            this.binding.spinner.adapter = adapter
-            if (itemPosition != null) {
-                this.binding.spinner.setSelection(itemPosition)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        val adapter = context?.let { ArrayAdapter.createFromResource(it, R.array.support_price_counter_items, android.R.layout.simple_spinner_item) }
+        this.binding.spinner.adapter = adapter
+
+        val supportPriceCounter = context?.let { SharedPrefsUtils[it, SharedPrefsUtils.SUPPORT_PRICE_COUNTER] }
+        if (supportPriceCounter != null) {
+            this.binding.spinner.setSelection(supportPriceCounter.toInt())
         }
     }
 
@@ -61,15 +52,6 @@ class SupportPriceCounterFrag : Fragment(R.layout.support_price_counter_fragment
     }
 
     private fun saveUserSupportPriceCounter(itemPosition: Int) {
-        try {
-            val jsonObject = JSONObject()
-            jsonObject.put(SharedPreferencesUtils.SUPPORT_PRICE_COUNTER, ConstantUtils.supportPriceCounter)
-            jsonObject.put("itemPosition", itemPosition)
-            context?.let { SharedPreferencesUtils.save(it, SharedPreferencesUtils.SUPPORT_PRICE_COUNTER, jsonObject) }
-        } catch (e: Exception) {
-            Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
-                    "Method: MainActivity - saveUserSupportPriceCounter " +
-                    "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
-        }
+        context?.let { SharedPrefsUtils.save(it, SharedPrefsUtils.SUPPORT_PRICE_COUNTER, itemPosition.toString()) }
     }
 }
