@@ -27,9 +27,6 @@
         <action
             android:id="@+id/action_menuFrag_to_donateMenuFrag"
             app:destination="@id/donateMenuFrag" />
-        <action
-            android:id="@+id/action_menuFrag_to_logcatFrag"
-            app:destination="@id/logcatFrag" />
     </fragment>
     <fragment
         android:id="@+id/lunoApiFrag"
@@ -43,10 +40,6 @@
         android:id="@+id/supportPriceCounterFrag"
         android:name="za.co.botcoin.view.menu.SupportPriceCounterFrag"
         android:label="Support Price Counter" />
-    <fragment
-        android:id="@+id/logcatFrag"
-        android:name="za.co.botcoin.view.menu.LogcatFrag"
-        android:label="Logcat" />
     <fragment
         android:id="@+id/trailingStopFrag"
         android:name="za.co.botcoin.view.menu.TrailingStopFrag"

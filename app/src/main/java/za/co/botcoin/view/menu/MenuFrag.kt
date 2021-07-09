@@ -11,10 +11,6 @@ import za.co.botcoin.databinding.MenuFragmentBinding
 class MenuFrag : Fragment(R.layout.menu_fragment) {
     private lateinit var binding: MenuFragmentBinding
 
-    companion object {
-        const val TITLE = "Menu"
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = MenuFragmentBinding.bind(view)
@@ -23,7 +19,6 @@ class MenuFrag : Fragment(R.layout.menu_fragment) {
         addSupportResistanceListener()
         addDonateListener()
         addPullOutPriceOptionListener()
-        addLogcatOptionListener()
         addSetSupportPriceCounterOptionListener()
         addSetResistancePriceCounterOptionListener()
     }
@@ -38,13 +33,6 @@ class MenuFrag : Fragment(R.layout.menu_fragment) {
     private fun addSetSupportPriceCounterOptionListener() {
         this.binding.linearLayoutSetSupportPriceCounter.setOnClickListener {
             val action = MenuFragDirections.actionMenuFragToSupportPriceCounterFrag()
-            Navigation.findNavController(it).navigate(action)
-        }
-    }
-
-    private fun addLogcatOptionListener() {
-        this.binding.linearLayoutLogcat.setOnClickListener {
-            val action = MenuFragDirections.actionMenuFragToLogcatFrag()
             Navigation.findNavController(it).navigate(action)
         }
     }
