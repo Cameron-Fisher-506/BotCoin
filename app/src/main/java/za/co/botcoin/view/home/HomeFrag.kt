@@ -15,6 +15,8 @@ class HomeFrag : Fragment(R.layout.home_fragment) {
     private lateinit var binding: HomeFragmentBinding
     private lateinit var tickersViewModel: TickersViewModel
 
+    private val handler = Handler()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = HomeFragmentBinding.bind(view)
@@ -23,7 +25,6 @@ class HomeFrag : Fragment(R.layout.home_fragment) {
         attachTickerObserver()
 
         if (GeneralUtils.isApiKeySet(context)) {
-            val handler = Handler()
             val delay: Long = 100000L
             handler.postDelayed(object : Runnable {
                 override fun run() {
@@ -38,7 +39,7 @@ class HomeFrag : Fragment(R.layout.home_fragment) {
     }
 
     private fun attachTickerObserver() {
-        tickersViewModel.fetchTickers(true)
+        tickersViewModel.fetchTickers()
         this.tickersViewModel.tickersLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
@@ -70,5 +71,10 @@ class HomeFrag : Fragment(R.layout.home_fragment) {
     private fun displayErrorTextView() {
         this.binding.linearLayoutXrpZar.visibility = View.GONE
         this.binding.errorTextView.visibility = View.VISIBLE
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeMessages(0)
     }
 }

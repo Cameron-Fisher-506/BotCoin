@@ -37,6 +37,8 @@ class Trade() : BaseModel() {
     companion object {
         const val BUY_TYPE = "BUY"
         const val SELL_TYPE = "SELL"
+        const val ASK_TYPE = "ASK"
+        const val BID_TYPE = "BID"
     }
 
     init {

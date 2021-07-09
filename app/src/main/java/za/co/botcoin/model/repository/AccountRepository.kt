@@ -22,10 +22,7 @@ class AccountRepository(private val application: Application) {
     private val balanceDao: IBalanceDao = BotCoinDatabase.getDatabase(application).balanceDao()
     private val orderDao: IOrderDao = BotCoinDatabase.getDatabase(application).orderDao()
     private val postOrderDao: IPostOrderDao = BotCoinDatabase.getDatabase(application).postOrderDao()
-
-    private val updateLiveData by lazy { MutableLiveData<Boolean>() }
-    private val mustFetchOrdersLiveData by lazy { MutableLiveData<Boolean>() }
-    private val mustPostOrderLiveData by lazy { MutableLiveData<Boolean>() }
+    private val tickerDao: ITickerDao = BotCoinDatabase.getDatabase(application).tickerDao()
 
     init {
        CoroutineScope(Dispatchers.IO).launch {
@@ -33,51 +30,48 @@ class AccountRepository(private val application: Application) {
        }
     }
 
-    fun fetchTrades(update: Boolean, pair: String, sortDescending: Boolean) : LiveData<Resource<List<Trade>>> {
-        updateLiveData.value = update
-        return Transformations.switchMap(updateLiveData) {
-            DataAccessStrategyUtils.synchronizedCache(
-                    application,
-                    { BotCoinDatabase.getResource { tradeDao.getAll() } },
-                    { botCoinService.getTrades("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}", pair, sortDescending) },
-                    { it.trades?.let { trades -> tradeDao.upsert(trades, tradeDao) } }
-            )
-        }
+    suspend fun fetchTickers(): Resource<List<Ticker>> {
+        return DataAccessStrategyUtils.synchronizedCache(
+                application,
+                { BotCoinDatabase.getResource { tickerDao.getAll() } },
+                { botCoinService.getTickers("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}") },
+                { it.tickers?.let { tickers -> tickerDao.upsert(tickers, tickerDao) } }
+        )
     }
 
-    fun fetchBalances(update: Boolean): LiveData<Resource<List<Balance>>> {
-        updateLiveData.value = update
-        return Transformations.switchMap(updateLiveData) {
-            DataAccessStrategyUtils.synchronizedCache(
-                    application,
-                    { BotCoinDatabase.getResource { balanceDao.getAll() } },
-                    { botCoinService.getBalances("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}") },
-                    { it.balance?.let { balance -> balanceDao.upsert(balance, balanceDao) } }
-            )
-        }
+    suspend fun fetchTrades(pair: String, sortDescending: Boolean) : Resource<List<Trade>> {
+        return DataAccessStrategyUtils.synchronizedCache(
+                application,
+                { BotCoinDatabase.getResource { tradeDao.getAllDesc() } },
+                { botCoinService.getTrades("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}", pair, sortDescending) },
+                { it.trades?.let { trades -> tradeDao.upsert(trades, tradeDao) } }
+        )
     }
 
-    fun fetchOrders(mustFetchOrders: Boolean): LiveData<Resource<List<Order>>> {
-        mustFetchOrdersLiveData.value = mustFetchOrders
-        return Transformations.switchMap(mustFetchOrdersLiveData) {
-            DataAccessStrategyUtils.synchronizedCache(
-                    application,
-                    { BotCoinDatabase.getResource { orderDao.getAll() } },
-                    { botCoinService.getOrders("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}") },
-                    { it.orders?.let { orders -> orderDao.upsert(orders, orderDao) } }
-            )
-        }
+    suspend fun fetchBalances(): Resource<List<Balance>> {
+        return DataAccessStrategyUtils.synchronizedCache(
+                application,
+                { BotCoinDatabase.getResource { balanceDao.getAll() } },
+                { botCoinService.getBalances("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}") },
+                { it.balance?.let { balance -> balanceDao.upsert(balance, balanceDao) } }
+        )
     }
 
-    fun postOrder(mustPostOrder: Boolean, pair: String, type: String, volume: String, price: String): LiveData<Resource<List<PostOrder>>> {
-        mustPostOrderLiveData.value = mustPostOrder
-        return Transformations.switchMap(mustPostOrderLiveData) {
-            DataAccessStrategyUtils.synchronizedCache(
-                    application,
-                    { BotCoinDatabase.getResource { postOrderDao.getAll() } },
-                    { botCoinService.postOrder("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}", pair, type, volume, price) },
-                    { postOrderDao.upsert(it, postOrderDao) }
-            )
-        }
+    suspend fun fetchOrders(): Resource<List<Order>> {
+        return DataAccessStrategyUtils.synchronizedCache(
+                application,
+                { BotCoinDatabase.getResource { orderDao.getAll() } },
+                { botCoinService.getOrders("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}") },
+                { it.orders?.let { orders -> orderDao.upsert(orders, orderDao) } }
+        )
+    }
+
+    suspend fun postOrder(pair: String, type: String, volume: String, price: String): Resource<List<PostOrder>> {
+        return DataAccessStrategyUtils.synchronizedCache(
+                application,
+                { BotCoinDatabase.getResource { postOrderDao.getAll() } },
+                { botCoinService.postOrder("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}", pair, type, volume, price) },
+                { postOrderDao.upsert(it, postOrderDao) }
+        )
     }
 }

@@ -38,7 +38,7 @@ class SendFrag : Fragment(R.layout.send_fragment) {
             val destinationTag = this.binding.edTxtTag.text.toString()
             if (amount.isNotBlank() && address.isNotBlank()) {
                 if (amount != "0") {
-                    this.withdrawalViewModel.send(true, amount, asset, address, destinationTag)
+                    this.withdrawalViewModel.send(amount, asset, address, destinationTag)
                     attachSendObserver(amount, asset, address)
                 } else {
                     createAlertDialog(context, "Invalid amount entered!", "Please note that you cannot send 0 $asset.", false)!!.show()
