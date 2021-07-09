@@ -4,7 +4,6 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
 object MathUtils {
-    @JvmStatic
     fun precision(value: Double?): Double? {
         var toReturn: Double? = null
         if (value != null) {
@@ -17,7 +16,6 @@ object MathUtils {
         return toReturn
     }
 
-    @JvmStatic
     fun percentage(value: Double?, percentage: Int?): Double? {
         var toReturn: Double? = null
         if (value != null && percentage != null) {

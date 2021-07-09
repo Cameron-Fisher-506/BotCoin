@@ -16,7 +16,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object GeneralUtils {
-    @JvmStatic
     fun getCurrentDateTime(): String {
         var toReturn = ""
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH-mm-ss", Locale.ENGLISH)
@@ -32,7 +31,6 @@ object GeneralUtils {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
-    @JvmStatic
     fun buildPostOrder(pair: String, type: String, volume: String, price: String?): String? {
         var toReturn: String? = null
         if (price != null) {
@@ -45,7 +43,6 @@ object GeneralUtils {
         return toReturn
     }
 
-    @JvmStatic
     fun buildListTrades(pair: String, sortDesc: Boolean): String {
         var toReturn: String? = null
         toReturn = ("?"
@@ -54,7 +51,6 @@ object GeneralUtils {
         return toReturn
     }
 
-    @JvmStatic
     fun buildSend(amount: String, currency: String, address: String, tag: String?): String {
         return if (tag != null) {
             ("?"
@@ -71,7 +67,6 @@ object GeneralUtils {
         }
     }
 
-    @JvmStatic
     fun buildWithdrawal(amount: String, beneficiaryId: String): String {
         return  ("?"
                 + "type=ZAR_EFT"
@@ -79,7 +74,6 @@ object GeneralUtils {
                 + "&" + "beneficiary_id=" + beneficiaryId)
     }
 
-    @JvmStatic
     fun getAuth(keyId: String, secretKey: String): String {
         try {
             val auth = "$keyId:$secretKey"
@@ -93,7 +87,6 @@ object GeneralUtils {
         return ""
     }
 
-    @JvmStatic
     fun isApiKeySet(context: Context?): Boolean {
         var toReturn = true
         val jsonObjectLunoApiKey = context?.let { SharedPreferencesUtils[it, SharedPreferencesUtils.LUNO_API_PREF] }
@@ -113,7 +106,6 @@ object GeneralUtils {
         return toReturn
     }
 
-    @JvmStatic
     fun createAlertDialog(context: Context?, title: String?, message: String?, isPrompt: Boolean): AlertDialog? {
         var toReturn: AlertDialog? = null
         val builder = AlertDialog.Builder(context)
@@ -134,7 +126,6 @@ object GeneralUtils {
         return toReturn
     }
 
-    @JvmStatic
     fun createQRCode(codeContent: String?, width: Int, height: Int): Bitmap? {
         var toReturn: Bitmap? = null
         try {
@@ -152,32 +143,5 @@ object GeneralUtils {
                     "CreatedTime: ${getCurrentDateTime()}")
         }
         return toReturn
-    }
-
-    fun runAutoTrade(context: Context) {
-        /*if (isApiKeySet(context)) {
-            val jsonObjectAutoTrade = SharedPreferencesUtils.get(context, SharedPreferencesUtils.AUTO_TRADE_PREF)
-            if (jsonObjectAutoTrade != null && jsonObjectAutoTrade.has("isAutoTrade")) {
-                try {
-                    val isAutoTrade = jsonObjectAutoTrade.getBoolean("isAutoTrade")
-                    if (isAutoTrade) {
-                        if (Build.VERSION.SDK_INT >= 26) {
-                            context.startForegroundService(Intent(context, BotService::class.java))
-                        } else {
-                            context.startService(Intent(context, BotService::class.java))
-                        }
-                    } else {
-                        context.stopService(Intent(context, BotService::class.java))
-                    }
-                } catch (e: Exception) {
-                    Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
-                            "Method: MainActivity - runAutoTrade " +
-                            "CreatedTime: ${getCurrentDateTime()}")
-                }
-            }
-        } else {
-            createAlertDialog(context, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)!!.show()
-            context.stopService(Intent(context, BotService::class.java))
-        }*/
     }
 }
