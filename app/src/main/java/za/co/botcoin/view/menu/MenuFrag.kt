@@ -16,7 +16,6 @@ class MenuFrag : Fragment(R.layout.menu_fragment) {
         this.binding = MenuFragmentBinding.bind(view)
 
         addLunoApiOptionListener()
-        addSupportResistanceListener()
         addDonateListener()
         addPullOutPriceOptionListener()
         addSetSupportPriceCounterOptionListener()
@@ -47,13 +46,6 @@ class MenuFrag : Fragment(R.layout.menu_fragment) {
     private fun addLunoApiOptionListener() {
         this.binding.linearLayoutLunoApiOption.setOnClickListener {
             val action = MenuFragDirections.actionMenuFragToLunoApiFrag()
-            Navigation.findNavController(it).navigate(action)
-        }
-    }
-
-    private fun addSupportResistanceListener() {
-        this.binding.linearLayoutSupportResistanceOption.setOnClickListener {
-            val action = MenuFragDirections.actionMenuFragToSupportResistanceFrag()
             Navigation.findNavController(it).navigate(action)
         }
     }
