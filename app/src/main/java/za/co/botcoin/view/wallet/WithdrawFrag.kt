@@ -7,18 +7,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import org.json.JSONObject
 import za.co.botcoin.R
 import za.co.botcoin.databinding.WithdrawFragmentBinding
 import za.co.botcoin.enum.Status
-import za.co.botcoin.utils.*
-import za.co.botcoin.utils.GeneralUtils.buildWithdrawal
 import za.co.botcoin.utils.GeneralUtils.createAlertDialog
-import za.co.botcoin.utils.GeneralUtils.getAuth
 import za.co.botcoin.utils.GeneralUtils.isApiKeySet
 
 class WithdrawFrag : Fragment(R.layout.withdraw_fragment) {

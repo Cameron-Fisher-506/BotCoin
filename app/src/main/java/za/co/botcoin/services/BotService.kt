@@ -481,9 +481,7 @@ class BotService : Service() {
             val prices = StringBuilder()
             tradePrices.map {
                 prices.append("[${it.price}, ${it.counter}]")
-                if (maxCounter == it.counter && toReturn > it.price) {
-                    toReturn = it.price
-                }
+                if (maxCounter == it.counter && toReturn > it.price) { toReturn = it.price }
             }
             Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - getLowestPriceWithCounter " + "Prices: $prices" + "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
         }

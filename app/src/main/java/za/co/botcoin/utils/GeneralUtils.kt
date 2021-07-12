@@ -24,51 +24,8 @@ object GeneralUtils {
         return toReturn
     }
 
-    fun makeToast(context: Context?, message: String?) {
+    fun makeToast(context: Context?, message: String) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-    }
-
-    fun buildPostOrder(pair: String, type: String, volume: String, price: String?): String? {
-        var toReturn: String? = null
-        if (price != null) {
-            toReturn = ("?"
-                    + "pair=" + pair
-                    + "&" + "type=" + type
-                    + "&" + "volume=" + volume
-                    + "&" + "price=" + price)
-        }
-        return toReturn
-    }
-
-    fun buildListTrades(pair: String, sortDesc: Boolean): String {
-        var toReturn: String? = null
-        toReturn = ("?"
-                + "pair=" + pair
-                + "&" + "sort_desc=" + sortDesc)
-        return toReturn
-    }
-
-    fun buildSend(amount: String, currency: String, address: String, tag: String?): String {
-        return if (tag != null) {
-            ("?"
-                    + "amount=" + amount
-                    + "&" + "currency=" + currency
-                    + "&" + "address=" + address
-                    + "&" + "has_destination_tag=true"
-                    + "&" + "destination_tag=" + tag)
-        } else {
-            ("?"
-                    + "amount=" + amount
-                    + "&" + "currency=" + currency
-                    + "&" + "address=" + address)
-        }
-    }
-
-    fun buildWithdrawal(amount: String, beneficiaryId: String): String {
-        return  ("?"
-                + "type=ZAR_EFT"
-                + "&" + "amount=" + amount
-                + "&" + "beneficiary_id=" + beneficiaryId)
     }
 
     fun getAuth(keyId: String, secretKey: String): String {
@@ -95,8 +52,7 @@ object GeneralUtils {
         return true
     }
 
-    fun createAlertDialog(context: Context?, title: String?, message: String?, isPrompt: Boolean): AlertDialog? {
-        var toReturn: AlertDialog? = null
+    fun createAlertDialog(context: Context?, title: String, message: String, isPrompt: Boolean): AlertDialog {
         val builder = AlertDialog.Builder(context)
 
         builder.setTitle(title)
@@ -110,9 +66,8 @@ object GeneralUtils {
             builder.setCancelable(false)
             builder.setPositiveButton("Okay") { dialog, _ -> dialog.cancel() }
         }
-        toReturn = builder.create()
 
-        return toReturn
+        return builder.create()
     }
 
     fun createQRCode(codeContent: String?, width: Int, height: Int): Bitmap? {
