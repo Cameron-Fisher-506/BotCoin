@@ -63,7 +63,6 @@ class ReceiveFrag : Fragment(R.layout.receive_fragment) {
     private fun hideAllViews() {
         this.binding.copyButton.visibility = View.GONE
         this.binding.addressEditText.visibility = View.GONE
-        this.binding.qrAddressImageView.visibility = View.GONE
         this.binding.donateTextView.visibility = View.GONE
         this.binding.errorTextView.visibility = View.GONE
         this.binding.progressBar.visibility = View.GONE
@@ -73,7 +72,6 @@ class ReceiveFrag : Fragment(R.layout.receive_fragment) {
         hideAllViews()
         this.binding.copyButton.visibility = View.VISIBLE
         this.binding.addressEditText.visibility = View.VISIBLE
-        this.binding.qrAddressImageView.visibility = View.VISIBLE
         this.binding.donateTextView.visibility = View.VISIBLE
     }
 

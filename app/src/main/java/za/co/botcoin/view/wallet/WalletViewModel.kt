@@ -14,6 +14,8 @@ class WalletViewModel(application: Application) : AndroidViewModel(application) 
     lateinit var balancesLiveData: LiveData<Resource<List<Balance>>>
 
     fun fetchBalances() {
-        balancesLiveData = liveData { emit(accountRepository.fetchBalances()) }
+        balancesLiveData = liveData {
+            emit(Resource.loading())
+            emit(accountRepository.fetchBalances()) }
     }
 }

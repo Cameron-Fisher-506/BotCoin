@@ -129,7 +129,6 @@ class DonateFrag : Fragment(R.layout.donate_fragment) {
         this.binding.amountEditText.visibility = View.GONE
         this.binding.tagEditText.visibility = View.GONE
         this.binding.donateTextView.visibility = View.GONE
-        this.binding.qrAddressImageView.visibility = View.GONE
         this.binding.errorTextView.visibility = View.GONE
         this.binding.progressBar.visibility = View.GONE
     }
@@ -143,7 +142,6 @@ class DonateFrag : Fragment(R.layout.donate_fragment) {
         this.binding.amountEditText.visibility = View.VISIBLE
         this.binding.tagEditText.visibility = View.VISIBLE
         this.binding.donateTextView.visibility = View.VISIBLE
-        this.binding.qrAddressImageView.visibility = View.VISIBLE
     }
 
     private fun displayErrorTextView() {
