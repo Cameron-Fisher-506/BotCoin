@@ -16,15 +16,15 @@ class LunoApiFrag : Fragment(R.layout.luno_api_fragment) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = LunoApiFragmentBinding.bind(view)
 
-        ConstantUtils.USER_KEY_ID?.let { this.binding.edTxtKeyID.setText(it) }
-        ConstantUtils.USER_SECRET_KEY?.let { this.binding.edTxtSecretKey.setText(it) }
+        ConstantUtils.USER_KEY_ID?.let { this.binding.keyIdEditText.setText(it) }
+        ConstantUtils.USER_SECRET_KEY?.let { this.binding.secretKeyEditText.setText(it) }
         setBtnSaveListener()
     }
 
     private fun setBtnSaveListener() {
-        this.binding.btnSave.setOnClickListener {
-            val keyID = this.binding.edTxtKeyID.text.toString()
-            val secretKey = this.binding.edTxtSecretKey.text.toString()
+        this.binding.saveButton.setOnClickListener {
+            val keyID = this.binding.keyIdEditText.text.toString()
+            val secretKey = this.binding.secretKeyEditText.text.toString()
 
             if (keyID.isNotBlank() && secretKey.isNotBlank()) {
                 ConstantUtils.USER_KEY_ID = keyID

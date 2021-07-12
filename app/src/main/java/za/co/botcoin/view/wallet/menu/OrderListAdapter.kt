@@ -21,19 +21,19 @@ class OrderListAdapter(private val ordersList: ArrayList<Order>) : RecyclerView.
     override fun getItemCount(): Int = ordersList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.txtPair.text = ordersList[position].pair
-        holder.binding.txtCompletedTime.text = ordersList[position].completedTime
-        holder.binding.txtCreatedTime.text = ordersList[position].createdTime
-        holder.binding.txtLimitPrice.text = ordersList[position].limitPrice
-        holder.binding.txtState.text = ordersList[position].state
-        holder.binding.txtLimitVolume.text = ordersList[position].limitVolume
-        if (holder.binding.txtState.text.toString() == "COMPLETE") {
-            holder.binding.btnCancel.visibility = View.INVISIBLE
+        holder.binding.pairTextView.text = ordersList[position].pair
+        holder.binding.completedTimeTextView.text = ordersList[position].completedTime
+        holder.binding.createdTimeTextView.text = ordersList[position].createdTime
+        holder.binding.limitPriceTextView.text = ordersList[position].limitPrice
+        holder.binding.stateTextView.text = ordersList[position].state
+        holder.binding.limitVolumeTextView.text = ordersList[position].limitVolume
+        if (holder.binding.stateTextView.text.toString() == "COMPLETE") {
+            holder.binding.cancelButton.visibility = View.INVISIBLE
         } else {
-            holder.binding.btnCancel.visibility = View.VISIBLE
+            holder.binding.cancelButton.visibility = View.VISIBLE
         }
 
-        holder.binding.btnCancel.setOnClickListener {
+        holder.binding.cancelButton.setOnClickListener {
             GeneralUtils.createAlertDialog(it.context, "Cancel Order", "Are you sure you would like to cancel your order?", true)?.show()
             //this.withdrawalViewModel.stopOrder(true, orderId)
         }

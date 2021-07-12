@@ -42,8 +42,8 @@ class ReceiveFrag : Fragment(R.layout.receive_fragment) {
                     displayReceiveOptions()
                     val data = it.data
                     if(!data.isNullOrEmpty()) {
-                        this.binding.edTxtAddress.setText(data.first().address)
-                        this.binding.imgQRAddress.setImageBitmap(createQRCode(data.first().qrCodeUri, this.binding.imgQRAddress.width, this.binding.imgQRAddress.height))
+                        this.binding.addressEditText.setText(data.first().address)
+                        this.binding.qrAddressImageView.setImageBitmap(createQRCode(data.first().qrCodeUri, this.binding.qrAddressImageView.width, this.binding.qrAddressImageView.height))
 
                         addBtnCopyListener()
                     } else {
@@ -57,24 +57,24 @@ class ReceiveFrag : Fragment(R.layout.receive_fragment) {
     }
 
     private fun addBtnCopyListener() {
-        this.binding.btnCopy.setOnClickListener { context?.let { context -> copyToClipBoard(context, this.binding.edTxtAddress.text.toString()) } }
+        this.binding.copyButton.setOnClickListener { context?.let { context -> copyToClipBoard(context, this.binding.addressEditText.text.toString()) } }
     }
 
     private fun hideAllViews() {
-        this.binding.btnCopy.visibility = View.GONE
-        this.binding.edTxtAddress.visibility = View.GONE
-        this.binding.imgQRAddress.visibility = View.GONE
-        this.binding.txtDonate.visibility = View.GONE
+        this.binding.copyButton.visibility = View.GONE
+        this.binding.addressEditText.visibility = View.GONE
+        this.binding.qrAddressImageView.visibility = View.GONE
+        this.binding.donateTextView.visibility = View.GONE
         this.binding.errorTextView.visibility = View.GONE
         this.binding.progressBar.visibility = View.GONE
     }
 
     private fun displayReceiveOptions() {
         hideAllViews()
-        this.binding.btnCopy.visibility = View.VISIBLE
-        this.binding.edTxtAddress.visibility = View.VISIBLE
-        this.binding.imgQRAddress.visibility = View.VISIBLE
-        this.binding.txtDonate.visibility = View.VISIBLE
+        this.binding.copyButton.visibility = View.VISIBLE
+        this.binding.addressEditText.visibility = View.VISIBLE
+        this.binding.qrAddressImageView.visibility = View.VISIBLE
+        this.binding.donateTextView.visibility = View.VISIBLE
     }
 
     private fun displayErrorTextView() {

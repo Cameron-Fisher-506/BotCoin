@@ -42,15 +42,15 @@ class PrivacyPolicyFrag : Fragment(R.layout.privacy_policy_fragment) {
         
     </p>"""
 
-        this.binding.txtPrivacyPolicy.movementMethod = ScrollingMovementMethod()
-        this.binding.txtPrivacyPolicy.text = Html.fromHtml(privacyPolicy)
+        this.binding.privacyPolicyTextView.movementMethod = ScrollingMovementMethod()
+        this.binding.privacyPolicyTextView.text = Html.fromHtml(privacyPolicy)
 
-        this.binding.btnExit.setOnClickListener {
+        this.binding.exitButton.setOnClickListener {
             activity!!.finishAffinity()
             exitProcess(0)
         }
 
-        this.binding.btnAccept.setOnClickListener {
+        this.binding.acceptButton.setOnClickListener {
             context?.let { it1 -> SharedPrefsUtils.save(it1, SharedPrefsUtils.PRIVACY_POLICY_ACCEPTANCE, "true") }
             context!!.startActivity(Intent(activity, MainActivity::class.java))
         }

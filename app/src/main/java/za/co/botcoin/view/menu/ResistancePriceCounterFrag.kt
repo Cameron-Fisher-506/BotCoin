@@ -37,7 +37,7 @@ class ResistancePriceCounterFrag : Fragment(R.layout.resistance_price_counter_fr
     }
 
     private fun setBtnSaveListener() {
-        this.binding.btnSave.setOnClickListener {
+        this.binding.saveButton.setOnClickListener {
             ConstantUtils.supportPriceCounter = this.binding.spinner.selectedItem.toString().toInt()
             saveUserResistancePriceCounter(this.binding.spinner.selectedItemPosition)
             GeneralUtils.makeToast(context, "Saved!")
@@ -45,7 +45,7 @@ class ResistancePriceCounterFrag : Fragment(R.layout.resistance_price_counter_fr
     }
 
     private fun setImgBtnResistancePriceCounterListener() {
-        this.binding.imgBtnResistancePriceCounter.setOnClickListener {
+        this.binding.resistancePriceCounterImageButon.setOnClickListener {
             GeneralUtils.createAlertDialog(context, "Resistance Price Counter", """
          BotCoin uses the Resistance Price Counter, to sell at solid resistance price
          

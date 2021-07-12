@@ -49,8 +49,8 @@ class HomeFrag : Fragment(R.layout.home_fragment) {
 
                         data.map { ticker ->
                             if (ticker.pair == ConstantUtils.PAIR_XRPZAR) {
-                                this.binding.txtXrpZar.setText(R.string.XRPZAR)
-                                this.binding.txtXrpZar.append(ticker.lastTrade)
+                                this.binding.xrpZarTextView.setText(R.string.XRPZAR)
+                                this.binding.xrpZarTextView.append(ticker.lastTrade)
                             }
                         }
                     } else {
@@ -64,12 +64,12 @@ class HomeFrag : Fragment(R.layout.home_fragment) {
     }
 
     private fun displayLinearLayout() {
-        this.binding.linearLayoutXrpZar.visibility = View.VISIBLE
+        this.binding.xrpZarLinearLayoutCompat.visibility = View.VISIBLE
         this.binding.errorTextView.visibility = View.GONE
     }
 
     private fun displayErrorTextView() {
-        this.binding.linearLayoutXrpZar.visibility = View.GONE
+        this.binding.xrpZarLinearLayoutCompat.visibility = View.GONE
         this.binding.errorTextView.visibility = View.VISIBLE
     }
 
