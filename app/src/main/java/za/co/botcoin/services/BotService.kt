@@ -325,8 +325,6 @@ class BotService : Service() {
 
     private fun calcAmountXrpToBuy(zarBalance: Double, supportPrice: Double): Int = (zarBalance / supportPrice).toInt()
 
-    private fun calcAmountXrpToSell(xrpBalance: Double): Int = xrpBalance.toInt()
-
     private fun ask(isRestrict: Boolean, currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance) {
         var placeSellOrder = false
         var newSellPrice: String? = null
@@ -380,7 +378,7 @@ class BotService : Service() {
                 newXrpBalance -= 0.1;
                 getBotCoinAccountDetails();
             }*/
-            val amountXrpToSell = calcAmountXrpToSell(xrpBalance.balance.toDouble()).toString()
+            val amountXrpToSell = (xrpBalance.balance.toDouble()).toInt().toString()
             var postOrder: String? = null
 
             val newSellPriceTemp = newSellPrice
@@ -429,7 +427,7 @@ class BotService : Service() {
     }
 
     private fun getMaxCounter(tradePrices: ArrayList<TradePrice>): Int {
-        var toReturn = 0
+        var toReturn: Int = 0
         if (tradePrices.isNotEmpty()) {
             toReturn = tradePrices.first().counter
             tradePrices.map { if (toReturn < it.counter) { toReturn = it.counter } }
