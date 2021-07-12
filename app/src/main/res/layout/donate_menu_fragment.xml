@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutDonateBtcOption"
+        android:id="@+id/donateBtcOptionLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,7 +16,7 @@
 
 
         <ImageView
-            android:id="@+id/imgBtc"
+            android:id="@+id/btcImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:contentDescription="@string/DummyText"
@@ -32,7 +32,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtDonateBtc"
+                android:id="@+id/donateBtcTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
@@ -54,19 +54,19 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <View
-        android:id="@+id/horizontalDonateBtc"
+        android:id="@+id/donateBtcDividerView"
         style="@style/CommonHorizontalDivider"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutDonateBtcOption"
+        app:layout_constraintEnd_toEndOf="@+id/donateBtcOptionLinearLayoutCompat"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/linearLayoutDonateBtcOption"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutDonateBtcOption" />
+        app:layout_constraintStart_toStartOf="@+id/donateBtcOptionLinearLayoutCompat"
+        app:layout_constraintTop_toBottomOf="@+id/donateBtcOptionLinearLayoutCompat" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutDonateXrpOption"
+        android:id="@+id/donateXrpOptionLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutDonateBtcOption">
+        app:layout_constraintTop_toBottomOf="@+id/donateBtcOptionLinearLayoutCompat">
 
 
         <ImageView
@@ -108,23 +108,23 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <View
-        android:id="@+id/horizontalDonateXrp"
+        android:id="@+id/donateXrpDividerView"
         style="@style/CommonHorizontalDivider"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutDonateXrpOption"
+        app:layout_constraintEnd_toEndOf="@+id/donateXrpOptionLinearLayoutCompat"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/linearLayoutDonateXrpOption"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutDonateXrpOption" />
+        app:layout_constraintStart_toStartOf="@+id/donateXrpOptionLinearLayoutCompat"
+        app:layout_constraintTop_toBottomOf="@+id/donateXrpOptionLinearLayoutCompat" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutDonateEthOption"
+        android:id="@+id/donateEthOptionLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutDonateXrpOption">
+        app:layout_constraintTop_toBottomOf="@+id/donateXrpOptionLinearLayoutCompat">
 
 
         <ImageView
-            android:id="@+id/imgDonateEth"
+            android:id="@+id/donateEthImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:contentDescription="@string/DummyText"
@@ -140,7 +140,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtDonateEth"
+                android:id="@+id/donateEthTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
@@ -162,23 +162,23 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <View
-        android:id="@+id/horizontalDonateEth"
+        android:id="@+id/donateEthDividerView"
         style="@style/CommonHorizontalDivider"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutDonateEthOption"
+        app:layout_constraintEnd_toEndOf="@+id/donateEthOptionLinearLayout"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/linearLayoutDonateEthOption"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutDonateEthOption" />
+        app:layout_constraintStart_toStartOf="@+id/donateEthOptionLinearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/donateEthOptionLinearLayout" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutDonateLtcOption"
+        android:id="@+id/donateLtcOptionLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutDonateEthOption">
+        app:layout_constraintTop_toBottomOf="@+id/donateEthOptionLinearLayout">
 
 
         <ImageView
-            android:id="@+id/imgDonateLtc"
+            android:id="@+id/donateLtcImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:contentDescription="@string/DummyText"
@@ -194,7 +194,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtDonateLtc"
+                android:id="@+id/donateLtcTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
@@ -216,11 +216,11 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <View
-        android:id="@+id/horizontalDonateLtc"
+        android:id="@+id/donateLtcDividerView"
         style="@style/CommonHorizontalDivider"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutDonateLtcOption"
+        app:layout_constraintEnd_toEndOf="@+id/donateLtcOptionLinearLayout"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/linearLayoutDonateLtcOption"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutDonateLtcOption" />
+        app:layout_constraintStart_toStartOf="@+id/donateLtcOptionLinearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/donateLtcOptionLinearLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

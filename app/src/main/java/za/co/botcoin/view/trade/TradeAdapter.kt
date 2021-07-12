@@ -32,11 +32,11 @@ class TradeAdapter(var context: Context, var trades: ArrayList<Trade>) : Recycle
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         trade = trades[position]
-        holder.binding.btnTrade.text = trade?.type
-        holder.binding.txtAmount.setText(trade?.volume)
-        holder.binding.txtPrice.setText(trade?.price)
+        holder.binding.tradeButton.text = trade?.type
+        holder.binding.amountEditText.setText(trade?.volume)
+        holder.binding.priceEditText.setText(trade?.price)
 
-        holder.binding.btnTrade.setOnClickListener {
+        holder.binding.tradeButton.setOnClickListener {
             //get balance
         }
     }

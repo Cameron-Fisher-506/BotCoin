@@ -7,7 +7,7 @@
     android:background="@color/darkblue">
 
     <TextView
-        android:id="@+id/txtDisclaimerPolicy"
+        android:id="@+id/disclaimerPolicyTextView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="20dp"
@@ -21,10 +21,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/btnAccept"/>
+        app:layout_constraintBottom_toTopOf="@+id/acceptButton"/>
 
     <Button
-        android:id="@+id/btnAccept"
+        android:id="@+id/acceptButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
@@ -36,10 +36,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/verticalDivider"/>
+        app:layout_constraintEnd_toStartOf="@id/acceptExitDividerView"/>
 
     <View
-        android:id="@+id/verticalDivider"
+        android:id="@+id/acceptExitDividerView"
         style="@style/CommonVerticalDivider"
         android:paddingTop="20dp"
         android:layout_height="10dp"
@@ -50,7 +50,7 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <Button
-        android:id="@+id/btnExit"
+        android:id="@+id/exitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Exit"
@@ -63,6 +63,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/verticalDivider" />
+        app:layout_constraintStart_toEndOf="@+id/acceptExitDividerView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

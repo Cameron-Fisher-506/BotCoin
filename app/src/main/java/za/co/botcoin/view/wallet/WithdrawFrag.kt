@@ -35,9 +35,9 @@ class WithdrawFrag : Fragment(R.layout.withdraw_fragment) {
     }
 
     private fun addWithdrawListener() {
-        this.binding.btnWithdraw.setOnClickListener {
-            val amount: String = this.binding.edTxtAmount.text.toString()
-            val beneficiaryId: String = this.binding.edTxtAmount.text.toString()
+        this.binding.withdrawButton.setOnClickListener {
+            val amount: String = this.binding.amountEditText.text.toString()
+            val beneficiaryId: String = this.binding.amountEditText.text.toString()
 
             if (amount.isNotBlank() && amount != "0" && beneficiaryId.isNotBlank()) {
                 if (isApiKeySet(context)) {
@@ -75,20 +75,20 @@ class WithdrawFrag : Fragment(R.layout.withdraw_fragment) {
     }
 
     private fun hideAllViews() {
-        this.binding.btnWithdraw.visibility = View.GONE
-        this.binding.edTxtAmount.visibility = View.GONE
-        this.binding.edTxtBeneficiaryId.visibility = View.GONE
-        this.binding.txtWithdraw.visibility = View.GONE
+        this.binding.withdrawButton.visibility = View.GONE
+        this.binding.amountEditText.visibility = View.GONE
+        this.binding.beneficiaryIdEditText.visibility = View.GONE
+        this.binding.withdrawTextView.visibility = View.GONE
         this.binding.errorTextView.visibility = View.GONE
         this.binding.progressBar.visibility = View.GONE
     }
 
     private fun displayWithdrawOptions() {
         hideAllViews()
-        this.binding.btnWithdraw.visibility = View.VISIBLE
-        this.binding.edTxtAmount.visibility = View.VISIBLE
-        this.binding.edTxtBeneficiaryId.visibility = View.VISIBLE
-        this.binding.txtWithdraw.visibility = View.VISIBLE
+        this.binding.withdrawButton.visibility = View.VISIBLE
+        this.binding.amountEditText.visibility = View.VISIBLE
+        this.binding.beneficiaryIdEditText.visibility = View.VISIBLE
+        this.binding.withdrawTextView.visibility = View.VISIBLE
     }
 
     private fun displayErrorTextView() {

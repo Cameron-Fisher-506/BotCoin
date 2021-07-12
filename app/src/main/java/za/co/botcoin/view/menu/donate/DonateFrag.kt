@@ -50,14 +50,14 @@ class DonateFrag : Fragment(R.layout.donate_fragment) {
                     displayDonateOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
-                        this.binding.edTxtAddress.setText(data.first().address)
+                        this.binding.addressEditText.setText(data.first().address)
                         /*if (tagValue != null) {
                             this.binding.edTxtTag.setText(data.first().)
                         } else {
                             this.binding.edTxtTag.visibility = View.INVISIBLE
                             this.binding.btnCopyTag.visibility = View.INVISIBLE
                         }*/
-                        this.binding.imgQRAddress.setImageBitmap(GeneralUtils.createQRCode(data.first().qrCodeUri, this.binding.imgQRAddress.width, this.binding.imgQRAddress.height))
+                        this.binding.qrAddressImageView.setImageBitmap(GeneralUtils.createQRCode(data.first().qrCodeUri, this.binding.qrAddressImageView.width, this.binding.qrAddressImageView.height))
                     } else {
                         displayErrorTextView()
                     }
@@ -96,18 +96,18 @@ class DonateFrag : Fragment(R.layout.donate_fragment) {
     }
 
     private fun addBtnCopyListener() {
-        this.binding.btnCopy.setOnClickListener { activity?.let { context -> ClipBoardUtils.copyToClipBoard(context, this.binding.edTxtAddress.text.toString()) } }
+        this.binding.copyButton.setOnClickListener { activity?.let { context -> ClipBoardUtils.copyToClipBoard(context, this.binding.addressEditText.text.toString()) } }
     }
 
     private fun addBtnCopyTagListener() {
-        this.binding.btnCopyTag.setOnClickListener { activity?.let { context -> ClipBoardUtils.copyToClipBoard(context, this.binding.edTxtTag.text.toString()) } }
+        this.binding.copyTagButton.setOnClickListener { activity?.let { context -> ClipBoardUtils.copyToClipBoard(context, this.binding.tagEditText.text.toString()) } }
     }
 
     private fun addBtnDonateListener() {
-        this.binding.btnDonate.setOnClickListener {
-            val amount: String = this.binding.edTxtAmount.text.toString()
-            val address: String = this.binding.edTxtAddress.text.toString()
-            val destinationTag: String = this.binding.edTxtTag.text.toString()
+        this.binding.donateButton.setOnClickListener {
+            val amount: String = this.binding.amountEditText.text.toString()
+            val address: String = this.binding.addressEditText.text.toString()
+            val destinationTag: String = this.binding.tagEditText.text.toString()
             if (amount.isNotBlank()) {
                 if (amount != "0") {
                     this.donateViewModel.send(amount, asset, address, destinationTag)
@@ -122,28 +122,28 @@ class DonateFrag : Fragment(R.layout.donate_fragment) {
     }
 
     private fun hideAllViews() {
-        this.binding.btnCopy.visibility = View.GONE
-        this.binding.btnCopyTag.visibility = View.GONE
-        this.binding.btnDonate.visibility = View.GONE
-        this.binding.edTxtAddress.visibility = View.GONE
-        this.binding.edTxtAmount.visibility = View.GONE
-        this.binding.edTxtTag.visibility = View.GONE
-        this.binding.txtDonate.visibility = View.GONE
-        this.binding.imgQRAddress.visibility = View.GONE
+        this.binding.copyButton.visibility = View.GONE
+        this.binding.copyTagButton.visibility = View.GONE
+        this.binding.donateButton.visibility = View.GONE
+        this.binding.addressEditText.visibility = View.GONE
+        this.binding.amountEditText.visibility = View.GONE
+        this.binding.tagEditText.visibility = View.GONE
+        this.binding.donateTextView.visibility = View.GONE
+        this.binding.qrAddressImageView.visibility = View.GONE
         this.binding.errorTextView.visibility = View.GONE
         this.binding.progressBar.visibility = View.GONE
     }
 
     private fun displayDonateOptions() {
         hideAllViews()
-        this.binding.btnCopy.visibility = View.VISIBLE
-        this.binding.btnCopyTag.visibility = View.VISIBLE
-        this.binding.btnDonate.visibility = View.VISIBLE
-        this.binding.edTxtAddress.visibility = View.VISIBLE
-        this.binding.edTxtAmount.visibility = View.VISIBLE
-        this.binding.edTxtTag.visibility = View.VISIBLE
-        this.binding.txtDonate.visibility = View.VISIBLE
-        this.binding.imgQRAddress.visibility = View.VISIBLE
+        this.binding.copyButton.visibility = View.VISIBLE
+        this.binding.copyTagButton.visibility = View.VISIBLE
+        this.binding.donateButton.visibility = View.VISIBLE
+        this.binding.addressEditText.visibility = View.VISIBLE
+        this.binding.amountEditText.visibility = View.VISIBLE
+        this.binding.tagEditText.visibility = View.VISIBLE
+        this.binding.donateTextView.visibility = View.VISIBLE
+        this.binding.qrAddressImageView.visibility = View.VISIBLE
     }
 
     private fun displayErrorTextView() {

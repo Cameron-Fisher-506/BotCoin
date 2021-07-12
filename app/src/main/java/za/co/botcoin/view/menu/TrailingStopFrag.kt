@@ -37,7 +37,7 @@ class TrailingStopFrag : Fragment(R.layout.set_pullout_price_fragment) {
     }
 
     private fun setBtnSaveListener() {
-        this.binding.btnSave.setOnClickListener {
+        this.binding.saveButton.setOnClickListener {
             ConstantUtils.trailingStop = this.binding.spinner.selectedItem.toString().replace("%", "").toInt()
             saveUserPullOutBidPrice(this.binding.spinner.selectedItemPosition + 1)
             GeneralUtils.makeToast(context, "Saved!")
@@ -45,7 +45,7 @@ class TrailingStopFrag : Fragment(R.layout.set_pullout_price_fragment) {
     }
 
     private fun setBtnUseDefaultListener() {
-        this.binding.btnUseDefault.setOnClickListener {
+        this.binding.useDefaultButton.setOnClickListener {
             ConstantUtils.trailingStop = 1
             context?.let { SharedPrefsUtils.save(it, SharedPrefsUtils.TRAILING_STOP, ConstantUtils.trailingStop.toString()) }
             this.binding.spinner.setSelection(0)
@@ -54,7 +54,7 @@ class TrailingStopFrag : Fragment(R.layout.set_pullout_price_fragment) {
     }
 
     private fun setImgBtnTrailingStopListener() {
-        this.binding.imgBtnTrailingStop.setOnClickListener {
+        this.binding.trailingStopImageButton.setOnClickListener {
             GeneralUtils.createAlertDialog(context, "Trailing Stop", """
      BotCoin uses the trailing stop percentage, to pullout of a trade if the market is in a downtrend.
      

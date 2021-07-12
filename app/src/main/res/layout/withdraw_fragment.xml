@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/txtWithdraw"
+        android:id="@+id/withdrawTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -23,7 +23,7 @@
 
 
     <EditText
-        android:id="@+id/edTxtAmount"
+        android:id="@+id/amountEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -33,10 +33,10 @@
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtWithdraw" />
+        app:layout_constraintTop_toBottomOf="@+id/withdrawTextView" />
 
     <EditText
-        android:id="@+id/edTxtBeneficiaryId"
+        android:id="@+id/beneficiaryIdEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -46,10 +46,10 @@
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edTxtAmount" />
+        app:layout_constraintTop_toBottomOf="@+id/amountEditText" />
 
     <Button
-        android:id="@+id/btnWithdraw"
+        android:id="@+id/withdrawButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -62,7 +62,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edTxtBeneficiaryId"
+        app:layout_constraintTop_toBottomOf="@+id/beneficiaryIdEditText"
         app:layout_constraintVertical_bias="0.004" />
 
     <TextView

@@ -50,14 +50,14 @@ class AutoTradeFragment : Fragment(R.layout.auto_trade_fragment) {
             setSwitchAutoTrade()
         } else {
             stopBotService()
-            this.binding.switchAutoTrade.isChecked = false
+            this.binding.autoTradeSwitch.isChecked = false
             GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
 
             val action = AutoTradeFragmentDirections.actionAutoTradeFragmentToLunoApiFrag()
             Navigation.findNavController(view).navigate(action)
         }
 
-        this.binding.switchAutoTrade.setOnCheckedChangeListener { _, isChecked ->
+        this.binding.autoTradeSwitch.setOnCheckedChangeListener { _, isChecked ->
             context?.let { SharedPrefsUtils.save(it, SharedPrefsUtils.AUTO_TRADE_PREF, isChecked.toString()) }
             if (isChecked) {
                 //start service
@@ -83,6 +83,6 @@ class AutoTradeFragment : Fragment(R.layout.auto_trade_fragment) {
 
     private fun setSwitchAutoTrade() {
         val isAutoTrade = context?.let { SharedPrefsUtils[it, SharedPrefsUtils.AUTO_TRADE_PREF] }
-        this.binding.switchAutoTrade.isChecked = isAutoTrade != null
+        this.binding.autoTradeSwitch.isChecked = isAutoTrade != null
     }
 }

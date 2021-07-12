@@ -32,7 +32,7 @@ class SupportPriceCounterFrag : Fragment(R.layout.support_price_counter_fragment
     }
 
     private fun setBtnSaveListener() {
-        this.binding.btnSave.setOnClickListener {
+        this.binding.saveButton.setOnClickListener {
             ConstantUtils.supportPriceCounter = this.binding.spinner.selectedItem.toString().toInt()
             saveUserSupportPriceCounter(this.binding.spinner.selectedItemPosition)
             GeneralUtils.makeToast(context, "Saved!")
@@ -40,7 +40,7 @@ class SupportPriceCounterFrag : Fragment(R.layout.support_price_counter_fragment
     }
 
     private fun setImgBtnSupportPriceCounterListener() {
-        this.binding.imgBtnSupportPriceCounter.setOnClickListener {
+        this.binding.supportPriceCounterImageButton.setOnClickListener {
             GeneralUtils.createAlertDialog(context, "Support Price Counter", """
      BotCoin uses the Support Price Counter, to buy at solid support price
      

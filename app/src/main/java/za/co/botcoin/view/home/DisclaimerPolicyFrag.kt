@@ -44,15 +44,15 @@ class DisclaimerPolicyFrag : Fragment(R.layout.disclaimer_policy_fragment) {
                 "        This policy is effective as of 25 November 2020.<br><br>" +
                 "    </p>"
 
-        this.binding.txtDisclaimerPolicy.movementMethod = ScrollingMovementMethod()
-        this.binding.txtDisclaimerPolicy.text = Html.fromHtml(privacyPolicy)
+        this.binding.disclaimerPolicyTextView.movementMethod = ScrollingMovementMethod()
+        this.binding.disclaimerPolicyTextView.text = Html.fromHtml(privacyPolicy)
 
-        this.binding.btnExit.setOnClickListener {
+        this.binding.exitButton.setOnClickListener {
             activity!!.finishAffinity()
             exitProcess(0)
         }
 
-        this.binding.btnAccept.setOnClickListener {
+        this.binding.acceptButton.setOnClickListener {
             try {
                 context?.let { it1 -> SharedPrefsUtils.save(it1, SharedPrefsUtils.DISCLAIMER_ACCEPTANCE, "true") }
                 context?.startActivity(Intent(activity, MainActivity::class.java))
