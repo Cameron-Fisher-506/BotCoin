@@ -5,17 +5,17 @@ import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import za.co.botcoin.R
-import za.co.botcoin.databinding.SetPulloutPriceFragmentBinding
+import za.co.botcoin.databinding.TrailingStopFragmentBinding
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.SharedPrefsUtils
 
-class TrailingStopFrag : Fragment(R.layout.set_pullout_price_fragment) {
-    private lateinit var binding: SetPulloutPriceFragmentBinding
+class TrailingStopFrag : Fragment(R.layout.trailing_stop_fragment) {
+    private lateinit var binding: TrailingStopFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.binding = SetPulloutPriceFragmentBinding.bind(view)
+        this.binding = TrailingStopFragmentBinding.bind(view)
         wireUI()
         setBtnSaveListener()
         setImgBtnTrailingStopListener()
