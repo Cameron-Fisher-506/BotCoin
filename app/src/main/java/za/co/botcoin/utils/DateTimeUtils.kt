@@ -36,7 +36,7 @@ object DateTimeUtils {
             println("Error: ${e.message} " +
                     "Method: parseDateTime " +
                     "Data: $dateTime " +
-                    "Date: ${GeneralUtils.getCurrentDateTime()}")
+                    "Date: ${getCurrentDateTime()}")
         }
         return toReturn
     }

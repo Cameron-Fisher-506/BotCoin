@@ -13,17 +13,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object GeneralUtils {
-    fun getCurrentDateTime(): String {
-        var toReturn = ""
-        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH-mm-ss", Locale.ENGLISH)
-        var now = Date()
-        val calendar = Calendar.getInstance()
-        calendar.time = now
-        now = calendar.time
-        toReturn = simpleDateFormat.format(now)
-        return toReturn
-    }
-
     fun makeToast(context: Context?, message: String) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
@@ -36,7 +25,7 @@ object GeneralUtils {
         } catch (e: Exception) {
             Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                     "Method: getAuth " +
-                    "CreatedTime: ${getCurrentDateTime()}")
+                    "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
         }
         return ""
     }
@@ -84,7 +73,7 @@ object GeneralUtils {
         } catch (e: Exception) {
             Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
                     "Method: GeneralUtils - createBitmap " +
-                    "CreatedTime: ${getCurrentDateTime()}")
+                    "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
         }
         return toReturn
     }

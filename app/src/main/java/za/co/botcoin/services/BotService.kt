@@ -16,10 +16,7 @@ import za.co.botcoin.model.models.Trade
 import za.co.botcoin.model.models.TradePrice
 import za.co.botcoin.model.repository.AccountRepository
 import za.co.botcoin.model.repository.WithdrawalRepository
-import za.co.botcoin.utils.ConstantUtils
-import za.co.botcoin.utils.GeneralUtils
-import za.co.botcoin.utils.MathUtils
-import za.co.botcoin.utils.SharedPrefsUtils
+import za.co.botcoin.utils.*
 import java.util.*
 
 class BotService : Service() {
@@ -288,7 +285,7 @@ class BotService : Service() {
                         "supportPrice: $supportPrice " +
                         "lastTradeType: ${lastTrade.type} " +
                         "currentPrice: $currentPrice " +
-                        "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+                        "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
                 val amountXrpToBuy = calcAmountXrpToBuy(zarBalance.balance.toDouble(), supportPriceTemp.toDouble()).toString()
 
                 attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "BID", amountXrpToBuy, supportPriceTemp)
@@ -303,7 +300,7 @@ class BotService : Service() {
                         "supportPrice: $supportPrice " +
                         "lastTradeType: ${lastTrade.type} " +
                         "currentPrice: $currentPrice " +
-                        "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+                        "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
             }
         } else {
             if (supportPriceTemp != null) {
@@ -333,7 +330,7 @@ class BotService : Service() {
                         "lastTradeType: $lastTrade.type " +
                         "lastPurchasePrice: ${lastTrade.price} " +
                         "currentPrice: $currentPrice " +
-                        "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+                        "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
             }
         } else {
             if (resistancePriceTemp != null) {
@@ -386,7 +383,7 @@ class BotService : Service() {
                     resistancePrices.clear()
                 }
                 else -> {
-                    Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - ask \npostOrder: null \nCreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+                    Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - ask \npostOrder: null \nCreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
                 }
             }
         }
@@ -395,7 +392,7 @@ class BotService : Service() {
                 "lastTradeType: ${lastTrade.type} " +
                 "lastPurchasePrice: ${lastTrade.price} " +
                 "currentPrice: $currentPrice " +
-                "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+                "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
     }
 
     private fun getNumberOfPricesCounterMoreThanN(tradePrices: List<TradePrice>, lastTrade: Trade): Int {
@@ -483,7 +480,7 @@ class BotService : Service() {
                 prices.append("[${it.price}, ${it.counter}]")
                 if (maxCounter == it.counter && toReturn > it.price) { toReturn = it.price }
             }
-            Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - getLowestPriceWithCounter " + "Prices: $prices" + "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+            Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - getLowestPriceWithCounter " + "Prices: $prices" + "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
         }
         return toReturn
     }
@@ -493,7 +490,7 @@ class BotService : Service() {
         if (tradePrices.isNotEmpty()) {
             toReturn = tradePrices.first().price
             tradePrices.map { if (maxCounter == it.counter && toReturn < it.price) { toReturn = it.price } }
-            Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - getHighestPriceWithCounter " + "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+            Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - getHighestPriceWithCounter " + "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
         }
         return toReturn
     }
@@ -502,7 +499,7 @@ class BotService : Service() {
         if (supportPrices.isNotEmpty()) {
             val prices = StringBuilder()
             supportPrices.map { prices.append("[${it.price}, ${it.counter}]") }
-            Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - setSupportPrice " + "SupportPrices: $prices " + "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+            Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - setSupportPrice " + "SupportPrices: $prices " + "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
         }
 
         //Get the number of prices counter more than 2
@@ -526,7 +523,7 @@ class BotService : Service() {
         if (resistancePrices.isNotEmpty()) {
             val prices = StringBuilder()
             resistancePrices.map { prices.append("[${it.price}, ${it.counter}]") }
-            Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - setResistancePrice " + "ResistancePrices: $prices " + "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+            Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - setResistancePrice " + "ResistancePrices: $prices " + "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
         }
 
         //Get the number of prices counter more N
