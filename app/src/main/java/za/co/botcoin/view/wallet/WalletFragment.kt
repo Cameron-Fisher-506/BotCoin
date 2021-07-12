@@ -13,7 +13,7 @@ import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.*
 import za.co.botcoin.view.home.MainActivity
 
-class WalletFrag : Fragment(R.layout.wallet_fragment) {
+class WalletFragment : Fragment(R.layout.wallet_fragment) {
     private lateinit var binding: WalletFragmentBinding
     private lateinit var walletViewModel: WalletViewModel
 

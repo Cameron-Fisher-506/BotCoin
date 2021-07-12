@@ -9,7 +9,7 @@ import za.co.botcoin.databinding.DonateMenuFragmentBinding
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.view.menu.donate.DonateFrag
 
-class DonateMenuFrag : Fragment(R.layout.donate_menu_fragment) {
+class DonateMenuFragment : Fragment(R.layout.donate_menu_fragment) {
     private lateinit var binding: DonateMenuFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -10,7 +10,7 @@ import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.SharedPrefsUtils
 
-class SupportPriceCounterFrag : Fragment(R.layout.support_price_counter_fragment) {
+class SupportPriceCounterFragment : Fragment(R.layout.support_price_counter_fragment) {
     private lateinit var binding: SupportPriceCounterFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

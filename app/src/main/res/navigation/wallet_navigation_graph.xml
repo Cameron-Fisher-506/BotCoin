@@ -4,7 +4,7 @@
 
     <fragment
         android:id="@+id/walletFrag"
-        android:name="za.co.botcoin.view.wallet.WalletFrag"
+        android:name="za.co.botcoin.view.wallet.WalletFragment"
         android:label="Wallet" >
         <action
             android:id="@+id/action_walletFrag_to_walletMenuFrag"
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/walletMenuFrag"
-        android:name="za.co.botcoin.view.wallet.WalletMenuFrag"
+        android:name="za.co.botcoin.view.wallet.WalletMenuFragment"
         android:label="Wallet Menu" >
         <action
             android:id="@+id/action_walletMenuFrag_to_ordersFrag"
@@ -32,11 +32,11 @@
     </fragment>
     <fragment
         android:id="@+id/withdrawFrag"
-        android:name="za.co.botcoin.view.wallet.WithdrawFrag"
+        android:name="za.co.botcoin.view.wallet.WithdrawFragment"
         android:label="Withdraw" />
     <fragment
         android:id="@+id/ordersFrag"
-        android:name="za.co.botcoin.view.wallet.menu.OrdersFrag"
+        android:name="za.co.botcoin.view.wallet.menu.OrdersFragment"
         android:label="Orders" >
         <argument
             android:name="asset"
@@ -44,7 +44,7 @@
     </fragment>
     <fragment
         android:id="@+id/receiveFrag"
-        android:name="za.co.botcoin.view.wallet.menu.ReceiveFrag"
+        android:name="za.co.botcoin.view.wallet.menu.ReceiveFragment"
         android:label="Receive" >
         <argument
             android:name="asset"
@@ -55,13 +55,13 @@
     </fragment>
     <fragment
         android:id="@+id/sendFrag"
-        android:name="za.co.botcoin.view.wallet.menu.SendFrag"
+        android:name="za.co.botcoin.view.wallet.menu.SendFragment"
         android:label="Send" >
         <argument android:name="asset"
             app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/lunoApiFrag"
-        android:name="za.co.botcoin.view.menu.LunoApiFrag"
+        android:name="za.co.botcoin.view.menu.LunoApiFragment"
         android:label="LunoApiFrag" />
 </navigation>

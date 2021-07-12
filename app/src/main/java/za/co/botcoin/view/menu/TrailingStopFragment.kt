@@ -10,7 +10,7 @@ import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.SharedPrefsUtils
 
-class TrailingStopFrag : Fragment(R.layout.trailing_stop_fragment) {
+class TrailingStopFragment : Fragment(R.layout.trailing_stop_fragment) {
     private lateinit var binding: TrailingStopFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

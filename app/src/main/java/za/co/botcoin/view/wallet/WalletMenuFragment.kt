@@ -7,7 +7,7 @@ import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.WalletMenuFragmentBinding
 
-class WalletMenuFrag : Fragment(R.layout.wallet_menu_fragment) {
+class WalletMenuFragment : Fragment(R.layout.wallet_menu_fragment) {
     private lateinit var binding: WalletMenuFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

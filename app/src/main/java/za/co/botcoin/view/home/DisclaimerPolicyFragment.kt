@@ -15,7 +15,7 @@ import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.SharedPrefsUtils
 import kotlin.system.exitProcess
 
-class DisclaimerPolicyFrag : Fragment(R.layout.disclaimer_policy_fragment) {
+class DisclaimerPolicyFragment : Fragment(R.layout.disclaimer_policy_fragment) {
     private lateinit var binding: DisclaimerPolicyFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

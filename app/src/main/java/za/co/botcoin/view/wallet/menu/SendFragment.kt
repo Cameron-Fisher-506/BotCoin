@@ -16,7 +16,7 @@ import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.GeneralUtils.createAlertDialog
 import za.co.botcoin.view.wallet.WithdrawalViewModel
 
-class SendFrag : Fragment(R.layout.send_fragment) {
+class SendFragment : Fragment(R.layout.send_fragment) {
     private lateinit var binding: SendFragmentBinding
     private lateinit var withdrawalViewModel: WithdrawalViewModel
 

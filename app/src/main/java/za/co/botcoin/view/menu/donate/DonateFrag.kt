@@ -7,17 +7,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
-import org.json.JSONObject
 import za.co.botcoin.R
 import za.co.botcoin.databinding.DonateFragmentBinding
 import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.*
-import za.co.botcoin.view.menu.LunoApiFrag
 
 class DonateFrag : Fragment(R.layout.donate_fragment) {
     private lateinit var binding: DonateFragmentBinding

@@ -4,7 +4,7 @@
 
     <fragment
         android:id="@+id/menuFrag"
-        android:name="za.co.botcoin.view.menu.MenuFrag"
+        android:name="za.co.botcoin.view.menu.MenuFragment"
         android:label="Menu" >
         <action
             android:id="@+id/action_menuFrag_to_lunoApiFrag"
@@ -27,27 +27,27 @@
     </fragment>
     <fragment
         android:id="@+id/lunoApiFrag"
-        android:name="za.co.botcoin.view.menu.LunoApiFrag"
+        android:name="za.co.botcoin.view.menu.LunoApiFragment"
         android:label="Luno Api" />
     <fragment
         android:id="@+id/notificationsFrag"
-        android:name="za.co.botcoin.view.menu.NotificationsFrag"
+        android:name="za.co.botcoin.view.menu.NotificationsFragment"
         android:label="Notifications" />
     <fragment
         android:id="@+id/supportPriceCounterFrag"
-        android:name="za.co.botcoin.view.menu.SupportPriceCounterFrag"
+        android:name="za.co.botcoin.view.menu.SupportPriceCounterFragment"
         android:label="Support Price Counter" />
     <fragment
         android:id="@+id/trailingStopFrag"
-        android:name="za.co.botcoin.view.menu.TrailingStopFrag"
+        android:name="za.co.botcoin.view.menu.TrailingStopFragment"
         android:label="Trailing Stop" />
     <fragment
         android:id="@+id/resistancePriceCounterFrag"
-        android:name="za.co.botcoin.view.menu.ResistancePriceCounterFrag"
+        android:name="za.co.botcoin.view.menu.ResistancePriceCounterFragment"
         android:label="Resistance Price Counter" />
     <fragment
         android:id="@+id/donateMenuFrag"
-        android:name="za.co.botcoin.view.menu.DonateMenuFrag"
+        android:name="za.co.botcoin.view.menu.DonateMenuFragment"
         android:label="Donate Menu" >
         <action
             android:id="@+id/action_donateMenuFrag_to_donateFrag2"

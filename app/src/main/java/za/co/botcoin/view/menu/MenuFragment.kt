@@ -8,7 +8,7 @@ import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.MenuFragmentBinding
 
-class MenuFrag : Fragment(R.layout.menu_fragment) {
+class MenuFragment : Fragment(R.layout.menu_fragment) {
     private lateinit var binding: MenuFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

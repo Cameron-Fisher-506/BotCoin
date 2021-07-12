@@ -17,7 +17,7 @@ import za.co.botcoin.enum.Status
 import za.co.botcoin.view.wallet.WithdrawalViewModel
 import java.util.*
 
-class OrdersFrag : Fragment(R.layout.orders_fragment) {
+class OrdersFragment : Fragment(R.layout.orders_fragment) {
     private lateinit var binding: OrdersFragmentBinding
     private lateinit var withdrawalViewModel: WithdrawalViewModel
     private lateinit var orderListAdapter: OrderListAdapter
