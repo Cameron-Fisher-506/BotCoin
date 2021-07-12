@@ -23,16 +23,12 @@ class ResistancePriceCounterFrag : Fragment(R.layout.resistance_price_counter_fr
     }
 
     private fun wireUI() {
-        try {
-            val adapter = ArrayAdapter.createFromResource(context!!, R.array.resistance_price_counter_items, android.R.layout.simple_spinner_item)
-            this.binding.spinner.adapter = adapter
+        val adapter = ArrayAdapter.createFromResource(context!!, R.array.resistance_price_counter_items, android.R.layout.simple_spinner_item)
+        this.binding.spinner.adapter = adapter
 
-            val resistancePriceCounter = context?.let { SharedPrefsUtils[it, SharedPrefsUtils.RESISTANCE_PRICE_COUNTER] }
-            if (resistancePriceCounter != null) {
-                this.binding.spinner.setSelection(resistancePriceCounter.toInt())
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        val resistancePriceCounter = context?.let { SharedPrefsUtils[it, SharedPrefsUtils.RESISTANCE_PRICE_COUNTER] }
+        if (resistancePriceCounter != null) {
+            this.binding.spinner.setSelection(resistancePriceCounter.toInt())
         }
     }
 
