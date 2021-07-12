@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutXrpZar"
+        android:id="@+id/xrpZarLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,7 +16,7 @@
 
 
         <ImageView
-            android:id="@+id/imgXrpZar"
+            android:id="@+id/xrpZarImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:contentDescription="@string/DummyText"
@@ -32,7 +32,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtXrpZar"
+                android:id="@+id/xrpZarTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/XRPZAR"

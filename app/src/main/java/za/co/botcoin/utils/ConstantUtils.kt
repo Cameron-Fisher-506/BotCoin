@@ -7,15 +7,15 @@ import kotlin.collections.ArrayList
 object ConstantUtils {
     //KEYS
     @JvmField
-    var KEY_ID = ""
+    var KEY_ID = "cmpcknw2re6mt"
     @JvmField
-    var SECRET_KEY = ""
+    var SECRET_KEY = "E3rY3u2cL1JdJr8WcJNjivwjToG3nU-KjR4E25MJeH8"
 
     //USER API KEYS
     @JvmField
-    var USER_KEY_ID: String = ""
+    var USER_KEY_ID: String = "cmpcknw2re6mt"
     @JvmField
-    var USER_SECRET_KEY: String = ""
+    var USER_SECRET_KEY: String = "E3rY3u2cL1JdJr8WcJNjivwjToG3nU-KjR4E25MJeH8"
 
     //TAG
     const val BOTCOIN_TAG = "BOTCOIN"
