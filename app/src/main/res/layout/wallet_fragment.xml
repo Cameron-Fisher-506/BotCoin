@@ -6,9 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutZar"
+        android:id="@+id/zarLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,7 +17,7 @@
 
 
         <ImageView
-            android:id="@+id/imgZar"
+            android:id="@+id/zarImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -34,7 +33,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtZar"
+                android:id="@+id/zarTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/ZAR"
@@ -57,23 +56,23 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <View
-        android:id="@+id/horizontalLineZar"
+        android:id="@+id/zarDividerView"
         style="@style/CommonHorizontalDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutZar" />
+        app:layout_constraintTop_toBottomOf="@+id/zarLinearLayoutCompat" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutXrp"
+        android:id="@+id/xrpLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linearLayoutZar">
+        app:layout_constraintTop_toBottomOf="@id/zarLinearLayoutCompat">
 
         <ImageView
-            android:id="@+id/imgXrp"
+            android:id="@+id/xrpImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -89,7 +88,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtXrp"
+                android:id="@+id/xrpTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/XRP"
@@ -111,11 +110,11 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <View
-        android:id="@+id/horizontalLineXrp"
+        android:id="@+id/xrpDividerView"
         style="@style/CommonHorizontalDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutXrp" />
+        app:layout_constraintTop_toBottomOf="@+id/xrpLinearLayoutCompat" />
 
     <TextView
         android:id="@+id/errorTextView"
