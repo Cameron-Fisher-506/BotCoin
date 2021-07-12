@@ -1,67 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/menu_navigation_graph"
-    app:startDestination="@id/menuFrag">
+    app:startDestination="@id/menuFragment">
 
     <fragment
-        android:id="@+id/menuFrag"
+        android:id="@+id/menuFragment"
         android:name="za.co.botcoin.view.menu.MenuFragment"
         android:label="Menu" >
         <action
-            android:id="@+id/action_menuFrag_to_lunoApiFrag"
-            app:destination="@id/lunoApiFrag" />
+            android:id="@+id/action_menuFragment_to_lunoApiFragment"
+            app:destination="@id/lunoApiFragment" />
         <action
-            android:id="@+id/action_menuFrag_to_notificationsFrag"
-            app:destination="@id/notificationsFrag" />
+            android:id="@+id/action_menuFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
         <action
-            android:id="@+id/action_menuFrag_to_supportPriceCounterFrag"
-            app:destination="@id/supportPriceCounterFrag" />
+            android:id="@+id/action_menuFragment_to_supportPriceCounterFragment"
+            app:destination="@id/supportPriceCounterFragment" />
         <action
-            android:id="@+id/action_menuFrag_to_trailingStopFrag"
-            app:destination="@id/trailingStopFrag" />
+            android:id="@+id/action_menuFragment_to_trailingStopFragment"
+            app:destination="@id/trailingStopFragment" />
         <action
-            android:id="@+id/action_menuFrag_to_resistancePriceCounterFrag"
-            app:destination="@id/resistancePriceCounterFrag" />
+            android:id="@+id/action_menuFragment_to_resistancePriceCounterFragment"
+            app:destination="@id/resistancePriceCounterFragment" />
         <action
-            android:id="@+id/action_menuFrag_to_donateMenuFrag"
-            app:destination="@id/donateMenuFrag" />
+            android:id="@+id/action_menuFragment_to_donateMenuFragment"
+            app:destination="@id/donateMenuFragment" />
     </fragment>
     <fragment
-        android:id="@+id/lunoApiFrag"
+        android:id="@+id/lunoApiFragment"
         android:name="za.co.botcoin.view.menu.LunoApiFragment"
         android:label="Luno Api" />
     <fragment
-        android:id="@+id/notificationsFrag"
+        android:id="@+id/notificationsFragment"
         android:name="za.co.botcoin.view.menu.NotificationsFragment"
         android:label="Notifications" />
     <fragment
-        android:id="@+id/supportPriceCounterFrag"
+        android:id="@+id/supportPriceCounterFragment"
         android:name="za.co.botcoin.view.menu.SupportPriceCounterFragment"
         android:label="Support Price Counter" />
     <fragment
-        android:id="@+id/trailingStopFrag"
+        android:id="@+id/trailingStopFragment"
         android:name="za.co.botcoin.view.menu.TrailingStopFragment"
         android:label="Trailing Stop" />
     <fragment
-        android:id="@+id/resistancePriceCounterFrag"
+        android:id="@+id/resistancePriceCounterFragment"
         android:name="za.co.botcoin.view.menu.ResistancePriceCounterFragment"
         android:label="Resistance Price Counter" />
     <fragment
-        android:id="@+id/donateMenuFrag"
+        android:id="@+id/donateMenuFragment"
         android:name="za.co.botcoin.view.menu.DonateMenuFragment"
         android:label="Donate Menu" >
         <action
-            android:id="@+id/action_donateMenuFrag_to_donateFrag2"
-            app:destination="@id/donateFrag" />
+            android:id="@+id/action_donateMenuFragment_to_donateFragment"
+            app:destination="@id/donateFragment" />
     </fragment>
     <fragment
-        android:id="@+id/donateFrag"
-        android:name="za.co.botcoin.view.menu.donate.DonateFrag"
+        android:id="@+id/donateFragment"
+        android:name="za.co.botcoin.view.menu.donate.DonateFragment"
         android:label="Donate" >
         <argument
             android:name="asset"
             app:argType="string" />
         <action
             android:id="@+id/action_donateFrag_to_lunoApiFrag2"
-            app:destination="@id/lunoApiFrag" />
+            app:destination="@id/lunoApiFragment" />
     </fragment>
 </navigation>

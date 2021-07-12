@@ -30,7 +30,7 @@ class ReceiveFragment : Fragment(R.layout.receive_fragment) {
         } else {
             createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)!!.show()
 
-            val action = ReceiveFragDirections.actionReceiveFragToLunoApiFrag()
+            val action = ReceiveFragmentDirections.actionReceiveFragmentToLunoApiFragment()
             Navigation.findNavController(view).navigate(action)
         }
     }

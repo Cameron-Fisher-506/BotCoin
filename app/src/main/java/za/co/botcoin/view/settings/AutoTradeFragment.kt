@@ -53,7 +53,7 @@ class AutoTradeFragment : Fragment(R.layout.auto_trade_fragment) {
             this.binding.autoTradeSwitch.isChecked = false
             GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
 
-            val action = AutoTradeFragmentDirections.actionAutoTradeFragmentToLunoApiFrag()
+            val action = AutoTradeFragmentDirections.actionAutoTradeFragmentToLunoApiFragment()
             Navigation.findNavController(view).navigate(action)
         }
 

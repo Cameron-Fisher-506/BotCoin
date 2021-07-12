@@ -83,14 +83,14 @@ class WalletFragment : Fragment(R.layout.wallet_fragment) {
 
     private fun addZarOptionListener() {
         this.binding.zarLinearLayoutCompat.setOnClickListener {
-            val action = WalletFragDirections.actionWalletFragToWithdrawFrag()
+            val action = WalletFragmentDirections.actionWalletFragmentToWithdrawFragment()
             Navigation.findNavController(it).navigate(action)
         }
     }
 
     private fun addXrpOptionListener() {
         this.binding.xrpLinearLayoutCompat.setOnClickListener {
-            val action = WalletFragDirections.actionWalletFragToWalletMenuFrag(ConstantUtils.XRP)
+            val action = WalletFragmentDirections.actionWalletFragmentToWalletMenuFragment(ConstantUtils.XRP)
             Navigation.findNavController(it).navigate(action)
         }
     }

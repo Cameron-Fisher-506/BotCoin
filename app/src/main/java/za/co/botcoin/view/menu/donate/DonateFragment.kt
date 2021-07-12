@@ -16,7 +16,7 @@ import za.co.botcoin.databinding.DonateFragmentBinding
 import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.*
 
-class DonateFrag : Fragment(R.layout.donate_fragment) {
+class DonateFragment : Fragment(R.layout.donate_fragment) {
     private lateinit var binding: DonateFragmentBinding
     private lateinit var donateViewModel: DonateViewModel
 
@@ -35,7 +35,7 @@ class DonateFrag : Fragment(R.layout.donate_fragment) {
             attachReceiveObserver()
         } else {
             GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
-            val action = DonateFragDirections.actionDonateFragToLunoApiFrag2()
+            val action = DonateFragmentDirections.actionDonateFragToLunoApiFrag2()
             Navigation.findNavController(view).navigate(action)
         }
     }

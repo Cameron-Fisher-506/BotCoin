@@ -2,29 +2,29 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_navigation_graph"
-    app:startDestination="@id/homeFrag">
+    app:startDestination="@id/homeFragment">
     <fragment
-        android:id="@+id/homeFrag"
+        android:id="@+id/homeFragment"
         android:name="za.co.botcoin.view.home.HomeFragment"
         android:label="Home" >
         <action
-            android:id="@+id/action_homeFrag_to_privacyPolicyFrag"
-            app:destination="@id/privacyPolicyFrag" />
+            android:id="@+id/action_homeFragment_to_privacyPolicyFragment"
+            app:destination="@id/privacyPolicyFragment" />
     </fragment>
     <fragment
-        android:id="@+id/privacyPolicyFrag"
+        android:id="@+id/privacyPolicyFragment"
         android:name="za.co.botcoin.view.home.PrivacyPolicyFragment"
         android:label="Privacy Policy" >
         <action
-            android:id="@+id/action_privacyPolicyFrag_to_disclaimerPolicyFrag"
-            app:destination="@id/disclaimerPolicyFrag" />
+            android:id="@+id/action_privacyPolicyFragment_to_disclaimerPolicyFragment"
+            app:destination="@id/disclaimerPolicyFragment" />
     </fragment>
     <fragment
-        android:id="@+id/disclaimerPolicyFrag"
+        android:id="@+id/disclaimerPolicyFragment"
         android:name="za.co.botcoin.view.home.DisclaimerPolicyFragment"
         android:label="Disclaimer Policy" >
         <action
-            android:id="@+id/action_disclaimerPolicyFrag_to_homeFrag"
-            app:destination="@id/homeFrag" />
+            android:id="@+id/action_disclaimerPolicyFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>
