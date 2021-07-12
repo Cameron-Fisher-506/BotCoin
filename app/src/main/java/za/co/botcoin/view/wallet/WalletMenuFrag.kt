@@ -22,14 +22,14 @@ class WalletMenuFrag : Fragment(R.layout.wallet_menu_fragment) {
     }
 
     private fun addSendListener(asset: String) {
-        this.binding.linearLayoutSendOption.setOnClickListener {
+        this.binding.sendOptionLinearLayoutCompat.setOnClickListener {
             val action = WalletMenuFragDirections.actionWalletMenuFragToSendFrag(asset)
             Navigation.findNavController(it).navigate(action)
         }
     }
 
     private fun addReceiveListener(asset: String) {
-        this.binding.linearLayoutReceiveOption.setOnClickListener {
+        this.binding.receiveOptionLinearLayoutCompat.setOnClickListener {
             val action = WalletMenuFragDirections.actionWalletMenuFragToReceiveFrag(asset)
             Navigation.findNavController(it).navigate(action)
         }

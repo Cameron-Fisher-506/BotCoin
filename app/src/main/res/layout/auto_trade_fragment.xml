@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/txtInstructions"
+        android:id="@+id/instructionsTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Switch
-        android:id="@+id/switchAutoTrade"
+        android:id="@+id/autoTradeSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -32,5 +32,5 @@
         android:track="@drawable/track1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtInstructions" />
+        app:layout_constraintTop_toBottomOf="@+id/instructionsTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,10 +32,10 @@ class SendFrag : Fragment(R.layout.send_fragment) {
     }
 
     private fun addBtnSend(asset: String) {
-        this.binding.btnSend.setOnClickListener {
-            val amount = this.binding.edTxtAmount.text.toString()
-            val address = this.binding.edTxtAddress.text.toString()
-            val destinationTag = this.binding.edTxtTag.text.toString()
+        this.binding.sendButton.setOnClickListener {
+            val amount = this.binding.amountEditText.text.toString()
+            val address = this.binding.addressEditText.text.toString()
+            val destinationTag = this.binding.tagEditText.text.toString()
             if (amount.isNotBlank() && address.isNotBlank()) {
                 if (amount != "0") {
                     this.withdrawalViewModel.send(amount, asset, address, destinationTag)
@@ -71,11 +71,11 @@ class SendFrag : Fragment(R.layout.send_fragment) {
     }
 
     private fun hideAllViews() {
-        this.binding.txtSend.visibility = View.GONE
-        this.binding.btnSend.visibility = View.GONE
-        this.binding.edTxtAddress.visibility = View.GONE
-        this.binding.edTxtAmount.visibility = View.GONE
-        this.binding.edTxtTag.visibility = View.GONE
+        this.binding.sendTextView.visibility = View.GONE
+        this.binding.sendButton.visibility = View.GONE
+        this.binding.addressEditText.visibility = View.GONE
+        this.binding.amountEditText.visibility = View.GONE
+        this.binding.tagEditText.visibility = View.GONE
         this.binding.progressBar.visibility = View.GONE
     }
 
@@ -86,11 +86,11 @@ class SendFrag : Fragment(R.layout.send_fragment) {
 
     private fun displaySendOptions() {
         hideAllViews()
-        this.binding.txtSend.visibility = View.VISIBLE
-        this.binding.btnSend.visibility = View.VISIBLE
-        this.binding.edTxtAddress.visibility = View.VISIBLE
-        this.binding.edTxtAmount.visibility = View.VISIBLE
-        this.binding.edTxtTag.visibility = View.VISIBLE
+        this.binding.sendTextView.visibility = View.VISIBLE
+        this.binding.sendButton.visibility = View.VISIBLE
+        this.binding.addressEditText.visibility = View.VISIBLE
+        this.binding.amountEditText.visibility = View.VISIBLE
+        this.binding.tagEditText.visibility = View.VISIBLE
     }
 
     private fun notify(title: String?, message: String?) {

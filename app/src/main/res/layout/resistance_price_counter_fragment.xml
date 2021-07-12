@@ -8,7 +8,7 @@
 
 
     <TextView
-        android:id="@+id/txtResistancePriceCounter"
+        android:id="@+id/resistancePriceCounterTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imgBtnResistancePriceCounter"
+        android:id="@+id/resistancePriceCounterImageButon"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="3dp"
@@ -31,7 +31,7 @@
         android:src="@drawable/ic_info_black_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.021"
-        app:layout_constraintStart_toEndOf="@+id/txtResistancePriceCounter"
+        app:layout_constraintStart_toEndOf="@+id/resistancePriceCounterTextView"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -45,11 +45,11 @@
         android:layout_marginBottom="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgBtnResistancePriceCounter" />
+        app:layout_constraintTop_toBottomOf="@+id/resistancePriceCounterImageButon" />
 
 
     <Button
-        android:id="@+id/btnSave"
+        android:id="@+id/saveButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"

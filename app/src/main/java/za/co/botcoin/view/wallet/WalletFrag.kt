@@ -43,9 +43,9 @@ class WalletFrag : Fragment(R.layout.wallet_fragment) {
 
                         data.map { balance ->
                             if (balance.asset == ConstantUtils.XRP) {
-                                this.binding.txtXrp.append(balance.balance)
+                                this.binding.xrpTextView.append(balance.balance)
                             } else if (balance.asset == ConstantUtils.ZAR) {
-                                this.binding.txtZar.append(balance.balance)
+                                this.binding.zarTextView.append(balance.balance)
                             }
                         }
                     } else {
@@ -60,8 +60,8 @@ class WalletFrag : Fragment(R.layout.wallet_fragment) {
 
     private fun displayLinearLayouts() {
         hideAllView()
-        this.binding.linearLayoutZar.visibility = View.VISIBLE
-        this.binding.linearLayoutXrp.visibility = View.VISIBLE
+        this.binding.zarLinearLayoutCompat.visibility = View.VISIBLE
+        this.binding.xrpLinearLayoutCompat.visibility = View.VISIBLE
     }
 
     private fun displayErrorTextView() {
@@ -75,21 +75,21 @@ class WalletFrag : Fragment(R.layout.wallet_fragment) {
     }
 
     private fun hideAllView() {
-        this.binding.linearLayoutZar.visibility = View.GONE
-        this.binding.linearLayoutXrp.visibility = View.GONE
+        this.binding.zarLinearLayoutCompat.visibility = View.GONE
+        this.binding.xrpLinearLayoutCompat.visibility = View.GONE
         this.binding.errorTextView.visibility = View.GONE
         this.binding.progressBar.visibility = View.GONE
     }
 
     private fun addZarOptionListener() {
-        this.binding.linearLayoutZar.setOnClickListener {
+        this.binding.zarLinearLayoutCompat.setOnClickListener {
             val action = WalletFragDirections.actionWalletFragToWithdrawFrag()
             Navigation.findNavController(it).navigate(action)
         }
     }
 
     private fun addXrpOptionListener() {
-        this.binding.linearLayoutXrp.setOnClickListener {
+        this.binding.xrpLinearLayoutCompat.setOnClickListener {
             val action = WalletFragDirections.actionWalletFragToWalletMenuFrag(ConstantUtils.XRP)
             Navigation.findNavController(it).navigate(action)
         }

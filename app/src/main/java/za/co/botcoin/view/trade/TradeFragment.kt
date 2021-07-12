@@ -29,7 +29,7 @@ class TradeFragment : Fragment(R.layout.trade_option_fragment) {
     }
 
     private fun addTabBotMenuListener() {
-        this.binding.tabBotMenu.addOnTabSelectedListener(object : OnTabSelectedListener {
+        this.binding.tabBotTabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 when (tab.position) {
                     0 ->                         //BUY

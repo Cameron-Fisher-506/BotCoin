@@ -50,29 +50,21 @@ class AutoTradeFragment : Fragment(R.layout.auto_trade_fragment) {
             setSwitchAutoTrade()
         } else {
             stopBotService()
-            this.binding.switchAutoTrade.isChecked = false
+            this.binding.autoTradeSwitch.isChecked = false
             GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
 
             val action = AutoTradeFragmentDirections.actionAutoTradeFragmentToLunoApiFrag()
             Navigation.findNavController(view).navigate(action)
         }
 
-        this.binding.switchAutoTrade.setOnCheckedChangeListener { _, isChecked ->
-            try {
-                val jsonObjectAutoTade = JSONObject()
-                jsonObjectAutoTade.put("isAutoTrade", isChecked)
-                context?.let { SharedPreferencesUtils.save(it, SharedPreferencesUtils.AUTO_TRADE_PREF, jsonObjectAutoTade) }
-                if (isChecked) {
-                    //start service
-                    startBotService()
-                } else {
-                    //stop service
-                    stopBotService()
-                }
-            } catch (e: Exception) {
-                Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
-                        "Method: AutoTradeFrag - onCreateView " +
-                        "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
+        this.binding.autoTradeSwitch.setOnCheckedChangeListener { _, isChecked ->
+            context?.let { SharedPrefsUtils.save(it, SharedPrefsUtils.AUTO_TRADE_PREF, isChecked.toString()) }
+            if (isChecked) {
+                //start service
+                startBotService()
+            } else {
+                //stop service
+                stopBotService()
             }
         }
     }
@@ -90,18 +82,7 @@ class AutoTradeFragment : Fragment(R.layout.auto_trade_fragment) {
     }
 
     private fun setSwitchAutoTrade() {
-        val jsonObjectAutoTrade = context?.let { SharedPreferencesUtils.get(it, SharedPreferencesUtils.AUTO_TRADE_PREF) }
-        if (jsonObjectAutoTrade != null && jsonObjectAutoTrade.has("isAutoTrade")) {
-            try {
-                val isAutoTrade = jsonObjectAutoTrade.getBoolean("isAutoTrade")
-                this.binding.switchAutoTrade.isChecked = isAutoTrade
-            } catch (e: Exception) {
-                Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
-                        "Method: AutoTradeFrag - setSwitchAutoTrade " +
-                        "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
-            }
-        } else {
-            this.binding.switchAutoTrade.isChecked = false
-        }
+        val isAutoTrade = context?.let { SharedPrefsUtils[it, SharedPrefsUtils.AUTO_TRADE_PREF] }
+        this.binding.autoTradeSwitch.isChecked = isAutoTrade != null
     }
 }

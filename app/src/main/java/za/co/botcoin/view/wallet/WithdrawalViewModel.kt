@@ -28,11 +28,17 @@ class WithdrawalViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun receive(asset: String) {
-        receiveLiveData = liveData { emit(withdrawalRepository.receive(asset)) }
+        receiveLiveData = liveData {
+            emit(Resource.loading())
+            emit(withdrawalRepository.receive(asset))
+        }
     }
 
     fun fetchOrders() {
-        ordersLiveData = liveData { emit(accountRepository.fetchOrders()) }
+        ordersLiveData = liveData {
+            emit(Resource.loading())
+            emit(accountRepository.fetchOrders())
+        }
     }
 
     fun stopOrder(orderId: String) {

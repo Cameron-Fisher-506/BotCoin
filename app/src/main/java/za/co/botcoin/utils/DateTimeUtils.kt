@@ -8,10 +8,7 @@ object DateTimeUtils {
     const val DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss"
     const val ONE_MINUTE = 1
 
-    fun getCurrentDateTime(format: String = DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS): String {
-        val simpleDateFormat = SimpleDateFormat(format, Locale.ENGLISH)
-        return simpleDateFormat.format(Date())
-    }
+    fun getCurrentDateTime(format: String = DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS): String = SimpleDateFormat(format, Locale.ENGLISH).format(Date())
 
     private fun differenceInTime(oldDateTime: String, currentDateTime: String): Long {
         var toReturn: Long = 0L
@@ -30,16 +27,12 @@ object DateTimeUtils {
     fun differenceInMinutes(oldDateTime: String, currentDateTime: String) = TimeUnit.MILLISECONDS.toMinutes(differenceInTime(oldDateTime, currentDateTime))
 
     fun getCurrentDateTime(): String {
-        var toReturn = ""
-
         val simpleDateFormat = SimpleDateFormat(DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS, Locale.ENGLISH)
         var now = Date()
         val calendar = Calendar.getInstance()
         calendar.time = now
         now = calendar.time
-        toReturn = simpleDateFormat.format(now)
-
-        return toReturn
+        return simpleDateFormat.format(now)
     }
 
     private fun parseDateTime(dateTime: String): Date? {
@@ -57,11 +50,9 @@ object DateTimeUtils {
     }
 
     fun getDifferenceDateTimeInMin(dateTime: String): Long {
-        var toReturn: Long = 0
         val parseDateTime = parseDateTime(dateTime)
         val currentDateTime = parseDateTime(getCurrentDateTime())
         val difference = currentDateTime!!.time - parseDateTime!!.time
-        toReturn = difference / (60 * 1000)
-        return toReturn
+        return  difference / (60 * 1000)
     }
 }

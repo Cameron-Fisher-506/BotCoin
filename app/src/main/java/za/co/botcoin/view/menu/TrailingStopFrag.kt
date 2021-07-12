@@ -1,16 +1,14 @@
 package za.co.botcoin.view.menu
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
-import org.json.JSONObject
 import za.co.botcoin.R
 import za.co.botcoin.databinding.SetPulloutPriceFragmentBinding
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
-import za.co.botcoin.utils.SharedPreferencesUtils
+import za.co.botcoin.utils.SharedPrefsUtils
 
 class TrailingStopFrag : Fragment(R.layout.set_pullout_price_fragment) {
     private lateinit var binding: SetPulloutPriceFragmentBinding
@@ -26,15 +24,12 @@ class TrailingStopFrag : Fragment(R.layout.set_pullout_price_fragment) {
 
     private fun wireUI() {
         try {
-            val jsonObject = context?.let { SharedPreferencesUtils.get(it, SharedPreferencesUtils.PULLOUT_BID_PRICE_USER) }
-            var itemPosition: Int? = null
-            if (jsonObject != null && jsonObject.has("itemPosition")) {
-                itemPosition = jsonObject.getInt("itemPosition")
-            }
             val adapter = ArrayAdapter.createFromResource(context!!, R.array.trailing_stop_items, android.R.layout.simple_spinner_item)
             this.binding.spinner.adapter = adapter
-            if (itemPosition != null) {
-                this.binding.spinner.setSelection(itemPosition)
+
+            val trailingStop = context?.let { SharedPrefsUtils[it, SharedPrefsUtils.TRAILING_STOP] }
+            if (trailingStop != null) {
+                this.binding.spinner.setSelection(if (trailingStop.toInt() > 0) trailingStop.toInt()-1 else 0)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -42,39 +37,24 @@ class TrailingStopFrag : Fragment(R.layout.set_pullout_price_fragment) {
     }
 
     private fun setBtnSaveListener() {
-        this.binding.btnSave.setOnClickListener {
+        this.binding.saveButton.setOnClickListener {
             ConstantUtils.trailingStop = this.binding.spinner.selectedItem.toString().replace("%", "").toInt()
-            saveUserPullOutBidPrice(this.binding.spinner.selectedItemPosition)
+            saveUserPullOutBidPrice(this.binding.spinner.selectedItemPosition + 1)
             GeneralUtils.makeToast(context, "Saved!")
         }
     }
 
     private fun setBtnUseDefaultListener() {
-        this.binding.btnUseDefault.setOnClickListener {
-            try {
-                context?.let {
-                    if (SharedPreferencesUtils.get(it, SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT) != null) {
-                        val jsonObject = SharedPreferencesUtils.get(it, SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT)
-                        if (jsonObject != null && jsonObject.has(SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT)) {
-                            ConstantUtils.trailingStop = jsonObject.getInt(SharedPreferencesUtils.PULLOUT_BID_PRICE_DEFAULT)
-                            GeneralUtils.makeToast(it, "Default value set!")
-                        } else {
-                            GeneralUtils.makeToast(it, "Default value not found!")
-                        }
-                    } else {
-                        GeneralUtils.makeToast(it, "Default value not found!")
-                    }
-                }
-            } catch (e: Exception) {
-                Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
-                        "Method: MainActivity - saveDefaultPullOutBidPrice " +
-                        "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
-            }
+        this.binding.useDefaultButton.setOnClickListener {
+            ConstantUtils.trailingStop = 1
+            context?.let { SharedPrefsUtils.save(it, SharedPrefsUtils.TRAILING_STOP, ConstantUtils.trailingStop.toString()) }
+            this.binding.spinner.setSelection(0)
+            GeneralUtils.makeToast(context, "Default value set!")
         }
     }
 
     private fun setImgBtnTrailingStopListener() {
-        this.binding.imgBtnTrailingStop.setOnClickListener {
+        this.binding.trailingStopImageButton.setOnClickListener {
             GeneralUtils.createAlertDialog(context, "Trailing Stop", """
      BotCoin uses the trailing stop percentage, to pullout of a trade if the market is in a downtrend.
      
@@ -88,16 +68,7 @@ class TrailingStopFrag : Fragment(R.layout.set_pullout_price_fragment) {
         }
     }
 
-    private fun saveUserPullOutBidPrice(itemPosition: Int) {
-        try {
-            val jsonObject = JSONObject()
-            jsonObject.put(SharedPreferencesUtils.PULLOUT_BID_PRICE_USER, ConstantUtils.trailingStop)
-            jsonObject.put("itemPosition", itemPosition)
-            context?.let { SharedPreferencesUtils.save(it, SharedPreferencesUtils.PULLOUT_BID_PRICE_USER, jsonObject) }
-        } catch (e: Exception) {
-            Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
-                    "Method: MainActivity - saveDefaultPullOutBidPrice " +
-                    "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
-        }
+    private fun saveUserPullOutBidPrice(trailingStop: Int) {
+        context?.let { SharedPrefsUtils.save(it, SharedPrefsUtils.TRAILING_STOP, trailingStop.toString()) }
     }
 }

@@ -4,15 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.text.method.ScrollingMovementMethod
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import org.json.JSONObject
 import za.co.botcoin.R
 import za.co.botcoin.databinding.PrivacyPolicyFragmentBinding
-import za.co.botcoin.utils.ConstantUtils
-import za.co.botcoin.utils.GeneralUtils
-import za.co.botcoin.utils.SharedPreferencesUtils
+import za.co.botcoin.utils.SharedPrefsUtils
 import kotlin.system.exitProcess
 
 class PrivacyPolicyFrag : Fragment(R.layout.privacy_policy_fragment) {
@@ -46,26 +42,17 @@ class PrivacyPolicyFrag : Fragment(R.layout.privacy_policy_fragment) {
         
     </p>"""
 
-        this.binding.txtPrivacyPolicy.movementMethod = ScrollingMovementMethod()
-        this.binding.txtPrivacyPolicy.text = Html.fromHtml(privacyPolicy)
+        this.binding.privacyPolicyTextView.movementMethod = ScrollingMovementMethod()
+        this.binding.privacyPolicyTextView.text = Html.fromHtml(privacyPolicy)
 
-        this.binding.btnExit.setOnClickListener {
+        this.binding.exitButton.setOnClickListener {
             activity!!.finishAffinity()
             exitProcess(0)
         }
 
-        this.binding.btnAccept.setOnClickListener {
-            try {
-                val jsonObject = JSONObject()
-                jsonObject.put("isAccepted", true)
-                context?.let { it1 -> SharedPreferencesUtils.save(it1, SharedPreferencesUtils.PRIVACY_POLICY_ACCEPTANCE, jsonObject) }
-                context!!.startActivity(Intent(activity, MainActivity::class.java))
-            } catch (e: Exception) {
-                Log.d(ConstantUtils.BOTCOIN_TAG, "Class: PrivacyPolicyFrag" +
-                        "Method: onCreateView" +
-                        "Error: ${e.message}" +
-                        "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
-            }
+        this.binding.acceptButton.setOnClickListener {
+            context?.let { it1 -> SharedPrefsUtils.save(it1, SharedPrefsUtils.PRIVACY_POLICY_ACCEPTANCE, "true") }
+            context!!.startActivity(Intent(activity, MainActivity::class.java))
         }
     }
 }

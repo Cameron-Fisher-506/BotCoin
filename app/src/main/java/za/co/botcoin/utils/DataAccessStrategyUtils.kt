@@ -1,8 +1,6 @@
 package za.co.botcoin.utils
 
 import android.content.Context
-import androidx.lifecycle.liveData
-import kotlinx.coroutines.*
 import za.co.botcoin.enum.Status
 
 object DataAccessStrategyUtils {
@@ -38,7 +36,7 @@ object DataAccessStrategyUtils {
 
             if (mustUpdate) {
                 val response = wsCall.invoke()
-                SharedPrefsUtils.save(context, SharedPrefsUtils.LAST_REQUEST_TIME)
+                SharedPrefsUtils.save(context, SharedPrefsUtils.LAST_REQUEST_TIME, DateTimeUtils.getCurrentDateTime(DateTimeUtils.DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS))
                 toReturn = when (response.status) {
                     Status.SUCCESS -> {
                         response.data?.let { saveCall(it) }
@@ -50,7 +48,7 @@ object DataAccessStrategyUtils {
             }
         } else {
             val response = wsCall.invoke()
-            SharedPrefsUtils.save(context, SharedPrefsUtils.LAST_REQUEST_TIME)
+            SharedPrefsUtils.save(context, SharedPrefsUtils.LAST_REQUEST_TIME, DateTimeUtils.getCurrentDateTime(DateTimeUtils.DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS))
             toReturn = when (response.status) {
                 Status.SUCCESS -> {
                     response.data?.let { saveCall(it) }

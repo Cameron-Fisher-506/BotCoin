@@ -23,28 +23,28 @@ class DonateMenuFrag : Fragment(R.layout.donate_menu_fragment) {
     }
 
     private fun addDonateBtcOptionListener() {
-        this.binding.linearLayoutDonateBtcOption.setOnClickListener {
+        this.binding.donateBtcOptionLinearLayoutCompat.setOnClickListener {
             val action = DonateMenuFragDirections.actionDonateMenuFragToDonateFrag2(ConstantUtils.BTC)
             Navigation.findNavController(it).navigate(action)
         }
     }
 
     private fun addDonateXrpOptionListener() {
-        this.binding.linearLayoutDonateXrpOption.setOnClickListener {
+        this.binding.donateXrpOptionLinearLayoutCompat.setOnClickListener {
             val action = DonateMenuFragDirections.actionDonateMenuFragToDonateFrag2(ConstantUtils.XRP)
             Navigation.findNavController(it).navigate(action)
         }
     }
 
     private fun addDonateEthOptionListener() {
-        this.binding.linearLayoutDonateEthOption.setOnClickListener {
+        this.binding.donateEthOptionLinearLayout.setOnClickListener {
             val action = DonateMenuFragDirections.actionDonateMenuFragToDonateFrag2(ConstantUtils.ETH)
             Navigation.findNavController(it).navigate(action)
         }
     }
 
     private fun addDonateLtcOptionListener() {
-        this.binding.linearLayoutDonateLtcOption.setOnClickListener {
+        this.binding.donateLtcOptionLinearLayout.setOnClickListener {
             val action = DonateMenuFragDirections.actionDonateMenuFragToDonateFrag2(ConstantUtils.LTC)
             Navigation.findNavController(it).navigate(action)
         }

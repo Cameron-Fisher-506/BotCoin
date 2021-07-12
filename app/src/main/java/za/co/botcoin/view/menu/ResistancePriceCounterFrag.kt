@@ -1,16 +1,14 @@
 package za.co.botcoin.view.menu
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
-import org.json.JSONObject
 import za.co.botcoin.R
 import za.co.botcoin.databinding.ResistancePriceCounterFragmentBinding
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
-import za.co.botcoin.utils.SharedPreferencesUtils
+import za.co.botcoin.utils.SharedPrefsUtils
 
 class ResistancePriceCounterFrag : Fragment(R.layout.resistance_price_counter_fragment) {
     private lateinit var binding: ResistancePriceCounterFragmentBinding
@@ -26,17 +24,12 @@ class ResistancePriceCounterFrag : Fragment(R.layout.resistance_price_counter_fr
 
     private fun wireUI() {
         try {
-            val jsonObject = context?.let { SharedPreferencesUtils.get(it, SharedPreferencesUtils.RESISTANCE_PRICE_COUNTER) }
-            var itemPosition: Int? = null
-
-            if (jsonObject != null && jsonObject.has("itemPosition")) {
-                itemPosition = jsonObject.getInt("itemPosition")
-            }
-
             val adapter = ArrayAdapter.createFromResource(context!!, R.array.resistance_price_counter_items, android.R.layout.simple_spinner_item)
             this.binding.spinner.adapter = adapter
-            if (itemPosition != null) {
-                this.binding.spinner.setSelection(itemPosition)
+
+            val resistancePriceCounter = context?.let { SharedPrefsUtils[it, SharedPrefsUtils.RESISTANCE_PRICE_COUNTER] }
+            if (resistancePriceCounter != null) {
+                this.binding.spinner.setSelection(resistancePriceCounter.toInt())
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -44,7 +37,7 @@ class ResistancePriceCounterFrag : Fragment(R.layout.resistance_price_counter_fr
     }
 
     private fun setBtnSaveListener() {
-        this.binding.btnSave.setOnClickListener {
+        this.binding.saveButton.setOnClickListener {
             ConstantUtils.supportPriceCounter = this.binding.spinner.selectedItem.toString().toInt()
             saveUserResistancePriceCounter(this.binding.spinner.selectedItemPosition)
             GeneralUtils.makeToast(context, "Saved!")
@@ -52,7 +45,7 @@ class ResistancePriceCounterFrag : Fragment(R.layout.resistance_price_counter_fr
     }
 
     private fun setImgBtnResistancePriceCounterListener() {
-        this.binding.imgBtnResistancePriceCounter.setOnClickListener {
+        this.binding.resistancePriceCounterImageButon.setOnClickListener {
             GeneralUtils.createAlertDialog(context, "Resistance Price Counter", """
          BotCoin uses the Resistance Price Counter, to sell at solid resistance price
          
@@ -64,15 +57,6 @@ class ResistancePriceCounterFrag : Fragment(R.layout.resistance_price_counter_fr
     }
 
     private fun saveUserResistancePriceCounter(itemPosition: Int) {
-        try {
-            val jsonObject = JSONObject()
-            jsonObject.put(SharedPreferencesUtils.RESISTANCE_PRICE_COUNTER, ConstantUtils.resistancePriceCounter)
-            jsonObject.put("itemPosition", itemPosition)
-            context?.let { SharedPreferencesUtils.save(it, SharedPreferencesUtils.RESISTANCE_PRICE_COUNTER, jsonObject) }
-        } catch (e: Exception) {
-            Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
-                    "Method: MainActivity - saveUserResistancePriceCounter " +
-                    "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
-        }
+        context?.let { SharedPrefsUtils.save(it, SharedPrefsUtils.RESISTANCE_PRICE_COUNTER, itemPosition.toString()) }
     }
 }

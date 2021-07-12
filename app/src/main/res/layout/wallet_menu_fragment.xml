@@ -6,14 +6,13 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutSendOption"
+        android:id="@+id/sendOptionLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <ImageView
             android:id="@+id/imgSend"
@@ -54,21 +53,20 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <View
-        android:id="@+id/horizontalSend"
+        android:id="@+id/sendDividerView"
         style="@style/CommonHorizontalDivider"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutSendOption"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/linearLayoutSendOption"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSendOption" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sendOptionLinearLayoutCompat" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutReceiveOption"
+        android:id="@+id/receiveOptionLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSendOption">
+        app:layout_constraintTop_toBottomOf="@+id/sendOptionLinearLayoutCompat">
 
 
         <ImageView
@@ -112,10 +110,9 @@
     <View
         android:id="@+id/horizontalReceive"
         style="@style/CommonHorizontalDivider"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutReceiveOption"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/linearLayoutReceiveOption"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutReceiveOption" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/receiveOptionLinearLayoutCompat" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linearLayoutOrdersOption"
@@ -124,7 +121,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutReceiveOption">
+        app:layout_constraintTop_toBottomOf="@+id/receiveOptionLinearLayoutCompat">
 
 
         <ImageView
@@ -168,10 +165,8 @@
     <View
         android:id="@+id/horizontalOrders"
         style="@style/CommonHorizontalDivider"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutReceiveOption"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/linearLayoutReceiveOption"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutReceiveOption" />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/receiveOptionLinearLayoutCompat" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

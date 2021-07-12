@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/txtLunoApi"
+        android:id="@+id/lunoApiTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/luno_api_description"
@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txtKeyID"
+        android:id="@+id/keyIdTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -33,10 +33,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtLunoApi" />
+        app:layout_constraintTop_toBottomOf="@+id/lunoApiTextView" />
 
     <EditText
-        android:id="@+id/edTxtKeyID"
+        android:id="@+id/keyIdEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -47,10 +47,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtKeyID" />
+        app:layout_constraintTop_toBottomOf="@+id/keyIdTextView" />
 
     <TextView
-        android:id="@+id/txtSecretKey"
+        android:id="@+id/secretKeyTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -61,10 +61,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edTxtKeyID" />
+        app:layout_constraintTop_toBottomOf="@+id/keyIdEditText" />
 
     <EditText
-        android:id="@+id/edTxtSecretKey"
+        android:id="@+id/secretKeyEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
@@ -74,11 +74,11 @@
         android:hint="@string/luno_api_secret_key"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtSecretKey" />
+        app:layout_constraintTop_toBottomOf="@+id/secretKeyTextView" />
 
 
     <Button
-        android:id="@+id/btnSave"
+        android:id="@+id/saveButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -89,7 +89,7 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edTxtSecretKey" />
+        app:layout_constraintTop_toBottomOf="@+id/secretKeyEditText" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
