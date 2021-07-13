@@ -327,7 +327,7 @@ class BotService : Service() {
                 placeSellOrder = true
                 Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - ask " +
                         "resistancePrice: $resistancePrice " +
-                        "lastTradeType: $lastTrade.type " +
+                        "lastTradeType: ${lastTrade.type} " +
                         "lastPurchasePrice: ${lastTrade.price} " +
                         "currentPrice: $currentPrice " +
                         "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
