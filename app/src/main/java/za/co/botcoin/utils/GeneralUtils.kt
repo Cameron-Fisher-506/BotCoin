@@ -62,21 +62,14 @@ object GeneralUtils {
         return builder.create()
     }
 
-    fun createQRCode(codeContent: String?, width: Int, height: Int): Bitmap? {
-        var toReturn: Bitmap? = null
-        try {
-            val qrCodeWriter = QRCodeWriter()
-            val bitMatrix = qrCodeWriter.encode(codeContent, BarcodeFormat.QR_CODE, width, height)
-            toReturn = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
-            for (x in 0 until width) {
-                for (y in 0 until height) {
-                    toReturn.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
-                }
+    fun createQRCode(codeContent: String, width: Int, height: Int): Bitmap {
+        val qrCodeWriter = QRCodeWriter()
+        val bitMatrix = qrCodeWriter.encode(codeContent, BarcodeFormat.QR_CODE, width, height)
+        val toReturn: Bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+        for (x in 0 until width) {
+            for (y in 0 until height) {
+                toReturn.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
             }
-        } catch (e: Exception) {
-            Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
-                    "Method: GeneralUtils - createBitmap " +
-                    "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
         }
         return toReturn
     }
