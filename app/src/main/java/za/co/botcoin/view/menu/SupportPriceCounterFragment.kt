@@ -47,7 +47,7 @@ class SupportPriceCounterFragment : Fragment(R.layout.support_price_counter_frag
      E.g.
      Support Price Counter: 5
      BotCoin keeps track of the number of hits each price gets. The lowest price with the highest number of hits > 5 will be set as the support price.
-     """.trimIndent(), false)?.show()
+     """.trimIndent(), false).show()
         }
     }
 

@@ -34,7 +34,7 @@ class DonateFragment : Fragment(R.layout.donate_fragment) {
             this.donateViewModel.receive(asset)
             attachReceiveObserver()
         } else {
-            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
+            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
             val action = DonateFragmentDirections.actionDonateFragToLunoApiFrag2()
             Navigation.findNavController(view).navigate(action)
         }
@@ -110,10 +110,10 @@ class DonateFragment : Fragment(R.layout.donate_fragment) {
                     this.donateViewModel.send(amount, asset, address, destinationTag)
                     attachSendObserver(amount, asset, address)
                 } else {
-                    GeneralUtils.createAlertDialog(context, "Invalid amount entered!", "Please note that you cannot donate 0 $asset.", false)?.show()
+                    GeneralUtils.createAlertDialog(context, "Invalid amount entered!", "Please note that you cannot donate 0 $asset.", false).show()
                 }
             } else {
-                GeneralUtils.createAlertDialog(context, "No amount entered!", "Please enter the amount of $asset You would like to donate.", false)?.show()
+                GeneralUtils.createAlertDialog(context, "No amount entered!", "Please enter the amount of $asset You would like to donate.", false).show()
             }
         }
     }

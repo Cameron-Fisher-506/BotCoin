@@ -41,10 +41,10 @@ class SendFragment : Fragment(R.layout.send_fragment) {
                     this.withdrawalViewModel.send(amount, asset, address, destinationTag)
                     attachSendObserver(amount, asset, address)
                 } else {
-                    createAlertDialog(context, "Invalid amount entered!", "Please note that you cannot send 0 $asset.", false)!!.show()
+                    createAlertDialog(context, "Invalid amount entered!", "Please note that you cannot send 0 $asset.", false).show()
                 }
             } else {
-                createAlertDialog(context, "Send", "Please enter the amount of $asset You would like to send. Please enter a valid recipient account address and tag.", false)!!.show()
+                createAlertDialog(context, "Send", "Please enter the amount of $asset You would like to send. Please enter a valid recipient account address and tag.", false).show()
             }
         }
     }

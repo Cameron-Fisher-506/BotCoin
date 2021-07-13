@@ -48,7 +48,7 @@ class ResistancePriceCounterFragment : Fragment(R.layout.resistance_price_counte
          E.g.
          Resistance Price Counter: 5
          BotCoin keeps track of the number of hits each price gets. The highest price with the highest number of hits > 5 will be set as the resistance price.
-         """.trimIndent(), false)?.show()
+         """.trimIndent(), false).show()
         }
     }
 

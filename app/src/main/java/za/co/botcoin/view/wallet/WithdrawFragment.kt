@@ -39,10 +39,10 @@ class WithdrawFragment : Fragment(R.layout.withdraw_fragment) {
                     this.withdrawalViewModel.withdrawal("ZAR_EFT", amount, beneficiaryId)
                     attachWithdrawalObserver()
                 } else {
-                    createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)!!.show()
+                    createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
                 }
             } else {
-                createAlertDialog(activity, "Withdrawal", "Please provide an amount more than 0 and a valid beneficiary ID!", false)!!.show()
+                createAlertDialog(activity, "Withdrawal", "Please provide an amount more than 0 and a valid beneficiary ID!", false).show()
             }
         }
     }

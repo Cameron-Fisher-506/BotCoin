@@ -34,7 +34,7 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
             }, delay)
 
         } else {
-            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
+            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
         }
     }
 

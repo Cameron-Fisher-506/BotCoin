@@ -36,7 +36,7 @@ class LunoApiFragment : Fragment(R.layout.luno_api_fragment) {
                 }
                 GeneralUtils.makeToast(activity, "API Key Saved!")
             } else {
-                GeneralUtils.createAlertDialog(activity, "Luno API Credentials (Luno API)", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
+                GeneralUtils.createAlertDialog(activity, "Luno API Credentials (Luno API)", "Please set your Luno API credentials in order to use BotCoin!", false).show()
             }
         }
     }

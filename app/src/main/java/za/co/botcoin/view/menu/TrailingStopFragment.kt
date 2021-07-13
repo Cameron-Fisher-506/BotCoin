@@ -42,7 +42,7 @@ class TrailingStopFragment : Fragment(R.layout.trailing_stop_fragment) {
 
     private fun setBtnUseDefaultListener() {
         this.binding.useDefaultButton.setOnClickListener {
-            ConstantUtils.trailingStop = 1
+            ConstantUtils.trailingStop = 10
             context?.let { SharedPrefsUtils.save(it, SharedPrefsUtils.TRAILING_STOP, ConstantUtils.trailingStop.toString()) }
             this.binding.spinner.setSelection(0)
             GeneralUtils.makeToast(context, "Default value set!")
@@ -52,15 +52,15 @@ class TrailingStopFragment : Fragment(R.layout.trailing_stop_fragment) {
     private fun setImgBtnTrailingStopListener() {
         this.binding.trailingStopImageButton.setOnClickListener {
             GeneralUtils.createAlertDialog(context, "Trailing Stop", """
-     BotCoin uses the trailing stop percentage, to pullout of a trade if the market is in a downtrend.
-     
-     E.g.
-     Trailing stop: 10%
-     Current price: 100
-     Sell order: 90
-     
-     In the above scenario BotCoin will create a sell order if the price drops 10% below than last highest resistance price.
-     """.trimIndent(), false)?.show()
+         BotCoin uses the trailing stop percentage, to pullout of a trade if the market is in a downtrend.
+         
+         E.g.
+         Trailing stop: 10%
+         Current price: 100
+         Sell order: 90
+         
+         In the above scenario BotCoin will create a sell order if the price drops 10% below than last highest resistance price.
+         """.trimIndent(), false).show()
         }
     }
 
