@@ -57,11 +57,11 @@ class ReceiveFragment : Fragment(R.layout.receive_fragment) {
     }
 
     private fun addBtnCopyListener() {
-        this.binding.copyButton.setOnClickListener { context?.let { context -> copyToClipBoard(context, this.binding.addressEditText.text.toString()) } }
+        this.binding.copyImageButton.setOnClickListener { context?.let { context -> copyToClipBoard(context, this.binding.addressEditText.text.toString()) } }
     }
 
     private fun hideAllViews() {
-        this.binding.copyButton.visibility = View.GONE
+        this.binding.copyImageButton.visibility = View.GONE
         this.binding.addressEditText.visibility = View.GONE
         this.binding.donateTextView.visibility = View.GONE
         this.binding.errorTextView.visibility = View.GONE
@@ -70,7 +70,7 @@ class ReceiveFragment : Fragment(R.layout.receive_fragment) {
 
     private fun displayReceiveOptions() {
         hideAllViews()
-        this.binding.copyButton.visibility = View.VISIBLE
+        this.binding.copyImageButton.visibility = View.VISIBLE
         this.binding.addressEditText.visibility = View.VISIBLE
         this.binding.donateTextView.visibility = View.VISIBLE
     }

@@ -36,31 +36,27 @@
 
     <EditText
         android:id="@+id/addressEditText"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_margin="20dp"
         android:enabled="false"
         android:hint="@string/address"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/btnCopy"
+        app:layout_constraintEnd_toStartOf="@+id/copyImageButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/qrAddressImageView" />
 
-    <Button
-        android:id="@+id/copyButton"
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/copyImageButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
-        android:background="@color/lunoBlue"
-        android:text="@string/copy"
-        android:textColor="@color/white"
+        android:background="@drawable/ic_baseline_content_copy_24"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintTop_toBottomOf="@+id/addressEditText" />
+        app:layout_constraintStart_toEndOf="@id/addressEditText"
+        app:layout_constraintTop_toBottomOf="@+id/qrAddressImageView" />
 
     <TextView
         android:id="@+id/errorTextView"

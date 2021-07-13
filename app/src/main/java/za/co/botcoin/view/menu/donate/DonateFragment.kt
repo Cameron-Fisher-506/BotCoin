@@ -93,11 +93,11 @@ class DonateFragment : Fragment(R.layout.donate_fragment) {
     }
 
     private fun addBtnCopyListener() {
-        this.binding.copyButton.setOnClickListener { activity?.let { context -> ClipBoardUtils.copyToClipBoard(context, this.binding.addressEditText.text.toString()) } }
+        this.binding.copyImageButton.setOnClickListener { activity?.let { context -> ClipBoardUtils.copyToClipBoard(context, this.binding.addressEditText.text.toString()) } }
     }
 
     private fun addBtnCopyTagListener() {
-        this.binding.copyTagButton.setOnClickListener { activity?.let { context -> ClipBoardUtils.copyToClipBoard(context, this.binding.tagEditText.text.toString()) } }
+        this.binding.copyTagImageButton.setOnClickListener { activity?.let { context -> ClipBoardUtils.copyToClipBoard(context, this.binding.tagEditText.text.toString()) } }
     }
 
     private fun addBtnDonateListener() {
@@ -119,8 +119,8 @@ class DonateFragment : Fragment(R.layout.donate_fragment) {
     }
 
     private fun hideAllViews() {
-        this.binding.copyButton.visibility = View.GONE
-        this.binding.copyTagButton.visibility = View.GONE
+        this.binding.copyImageButton.visibility = View.GONE
+        this.binding.copyTagImageButton.visibility = View.GONE
         this.binding.donateButton.visibility = View.GONE
         this.binding.addressEditText.visibility = View.GONE
         this.binding.amountEditText.visibility = View.GONE
@@ -132,8 +132,8 @@ class DonateFragment : Fragment(R.layout.donate_fragment) {
 
     private fun displayDonateOptions() {
         hideAllViews()
-        this.binding.copyButton.visibility = View.VISIBLE
-        this.binding.copyTagButton.visibility = View.VISIBLE
+        this.binding.copyImageButton.visibility = View.VISIBLE
+        this.binding.copyTagImageButton.visibility = View.VISIBLE
         this.binding.donateButton.visibility = View.VISIBLE
         this.binding.addressEditText.visibility = View.VISIBLE
         this.binding.amountEditText.visibility = View.VISIBLE
