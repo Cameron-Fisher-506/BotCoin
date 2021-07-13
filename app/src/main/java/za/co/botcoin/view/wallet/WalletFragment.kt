@@ -52,8 +52,12 @@ class WalletFragment : Fragment(R.layout.wallet_fragment) {
                         displayErrorTextView()
                     }
                 }
-                Status.ERROR -> { displayErrorTextView() }
-                Status.LOADING -> { displayProgressBar() }
+                Status.ERROR -> {
+                    displayErrorTextView()
+                }
+                Status.LOADING -> {
+                    displayProgressBar()
+                }
             }
         })
     }

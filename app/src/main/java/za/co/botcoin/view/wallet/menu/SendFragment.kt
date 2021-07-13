@@ -55,8 +55,8 @@ class SendFragment : Fragment(R.layout.send_fragment) {
                 Status.SUCCESS -> {
                     displaySendOptions()
                     val data = it.data
-                    if(!data.isNullOrEmpty()) {
-                        data.map { response -> if (response.success) notify("Sent $amount $asset to $address.", response.withdrawalId) else notify("Send failed.", "")}
+                    if (!data.isNullOrEmpty()) {
+                        data.map { response -> if (response.success) notify("Sent $amount $asset to $address.", response.withdrawalId) else notify("Send failed.", "") }
                     } else {
                         notify("Send failed.", "")
                     }
@@ -65,7 +65,9 @@ class SendFragment : Fragment(R.layout.send_fragment) {
                     displaySendOptions()
                     notify("Send failed.", "")
                 }
-                Status.LOADING -> { displayProgressBar() }
+                Status.LOADING -> {
+                    displayProgressBar()
+                }
             }
         })
     }

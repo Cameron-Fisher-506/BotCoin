@@ -59,8 +59,12 @@ class DonateFragment : Fragment(R.layout.donate_fragment) {
                         displayErrorTextView()
                     }
                 }
-                Status.ERROR -> { displayErrorTextView() }
-                Status.LOADING -> { displayProgressBar() }
+                Status.ERROR -> {
+                    displayErrorTextView()
+                }
+                Status.LOADING -> {
+                    displayProgressBar()
+                }
             }
         })
     }
@@ -71,8 +75,8 @@ class DonateFragment : Fragment(R.layout.donate_fragment) {
                 Status.SUCCESS -> {
                     displayDonateOptions()
                     val data = it.data
-                    if(!data.isNullOrEmpty()) {
-                        data.map { response -> if (response.success) notify("Sent $amount $asset to $address.", response.withdrawalId) else notify("Send failed.", "")}
+                    if (!data.isNullOrEmpty()) {
+                        data.map { response -> if (response.success) notify("Sent $amount $asset to $address.", response.withdrawalId) else notify("Send failed.", "") }
                     } else {
                         notify("Send failed.", "")
                     }
@@ -81,7 +85,9 @@ class DonateFragment : Fragment(R.layout.donate_fragment) {
                     displayDonateOptions()
                     notify("Send failed.", "")
                 }
-                Status.LOADING -> { displayProgressBar() }
+                Status.LOADING -> {
+                    displayProgressBar()
+                }
             }
         })
     }

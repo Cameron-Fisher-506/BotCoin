@@ -54,7 +54,7 @@ class WithdrawFragment : Fragment(R.layout.withdraw_fragment) {
                     displayWithdrawOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
-                        data.map { withdrawal ->  notify("Withdrew " + withdrawal.amount + " Rands.", "") }
+                        data.map { withdrawal -> notify("Withdrew " + withdrawal.amount + " Rands.", "") }
                     } else {
                         notify("Withdrawal Failed", "")
                     }
@@ -64,7 +64,9 @@ class WithdrawFragment : Fragment(R.layout.withdraw_fragment) {
                     displayWithdrawOptions()
                     notify("Withdrawal Failed", "")
                 }
-                Status.LOADING -> { displayProgressBar() }
+                Status.LOADING -> {
+                    displayProgressBar()
+                }
             }
         })
     }
