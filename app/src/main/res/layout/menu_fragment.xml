@@ -2,8 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linearLayoutLunoApiOption"
@@ -14,15 +15,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <ImageView
             android:id="@+id/imgApi"
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:contentDescription="@string/DummyText"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
+            android:contentDescription="@string/DummyText"
             android:src="@drawable/api" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -35,21 +35,22 @@
                 android:id="@+id/txtLunoApi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:text="@string/luno_api"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+
         <ImageView
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:contentDescription="@string/DummyText"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_keyboard_arrow_right_black_24dp" />
+            android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:contentDescription="@string/DummyText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -74,10 +75,10 @@
             android:id="@+id/imgDonate"
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:contentDescription="@string/DummyText"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
+            android:contentDescription="@string/DummyText"
             android:src="@drawable/ic_send_black_24dp" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -90,21 +91,22 @@
                 android:id="@+id/txtDonate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:text="@string/donate"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+
         <ImageView
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:contentDescription="@string/DummyText"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_keyboard_arrow_right_black_24dp" />
+            android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:contentDescription="@string/DummyText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -129,10 +131,10 @@
             android:id="@+id/imgNotifications"
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:contentDescription="@string/DummyText"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
+            android:contentDescription="@string/DummyText"
             android:src="@drawable/ic_notifications_black_24dp" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -145,21 +147,22 @@
                 android:id="@+id/txtNotifications"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:text="@string/notifications"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+
         <ImageView
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:contentDescription="@string/DummyText"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_keyboard_arrow_right_black_24dp" />
+            android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:contentDescription="@string/DummyText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -184,10 +187,10 @@
             android:id="@+id/imgTrailingStop"
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:contentDescription="@string/DummyText"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
+            android:contentDescription="@string/DummyText"
             android:src="@drawable/ic_money_off_black_24dp" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -200,21 +203,22 @@
                 android:id="@+id/txtTrailingStop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:text="@string/trailing_stop"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+
         <ImageView
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:contentDescription="@string/DummyText"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_keyboard_arrow_right_black_24dp" />
+            android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:contentDescription="@string/DummyText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -240,10 +244,10 @@
             android:id="@+id/imgSetSupportPriceCounter"
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:contentDescription="@string/DummyText"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
+            android:contentDescription="@string/DummyText"
             android:src="@drawable/ic_show_chart_black_24dp" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -256,21 +260,22 @@
                 android:id="@+id/txtSetSupportPriceCounter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:text="@string/support_price_counter"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+
         <ImageView
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:contentDescription="@string/DummyText"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_keyboard_arrow_right_black_24dp" />
+            android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:contentDescription="@string/DummyText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -295,10 +300,10 @@
             android:id="@+id/imgSetResistancePriceCounter"
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:contentDescription="@string/DummyText"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
+            android:contentDescription="@string/DummyText"
             android:src="@drawable/ic_show_chart_black_24dp" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -311,21 +316,22 @@
                 android:id="@+id/txtSetResistancePriceCounter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:text="@string/resistance_price_counter"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+
         <ImageView
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:contentDescription="@string/DummyText"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_keyboard_arrow_right_black_24dp" />
+            android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:contentDescription="@string/DummyText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
