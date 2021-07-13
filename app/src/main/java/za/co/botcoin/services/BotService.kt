@@ -354,13 +354,7 @@ class BotService : Service() {
             }
         }
         if (placeSellOrder) {
-            /*if (newXrpBalance >= ConstantUtils.SERVICE_FEE_MIN_BALANCE)
-            {
-                newXrpBalance -= 0.1;
-                getBotCoinAccountDetails();
-            }*/
             val amountXrpToSell = (xrpBalance.balance.toDouble()).toInt().toString()
-            var postOrder: String? = null
 
             val newSellPriceTemp = newSellPrice
             val newResistancePriceTemp = newResistancePrice
