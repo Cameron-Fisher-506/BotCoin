@@ -25,9 +25,9 @@ class AccountRepository(private val application: Application) {
     private val tickerDao: ITickerDao = BotCoinDatabase.getDatabase(application).tickerDao()
 
     init {
-       CoroutineScope(Dispatchers.IO).launch {
-           accountDao.insert(Account(1, "Luno Account"))
-       }
+        CoroutineScope(Dispatchers.IO).launch {
+            accountDao.insert(Account(1, "Luno Account"))
+        }
     }
 
     suspend fun fetchTickers(): Resource<List<Ticker>> {
@@ -39,7 +39,7 @@ class AccountRepository(private val application: Application) {
         )
     }
 
-    suspend fun fetchTrades(pair: String, sortDescending: Boolean) : Resource<List<Trade>> {
+    suspend fun fetchTrades(pair: String, sortDescending: Boolean): Resource<List<Trade>> {
         return DataAccessStrategyUtils.synchronizedCache(
                 application,
                 { BotCoinDatabase.getResource { tradeDao.getAllDesc() } },

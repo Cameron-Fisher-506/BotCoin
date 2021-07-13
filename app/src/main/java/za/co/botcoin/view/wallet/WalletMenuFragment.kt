@@ -37,7 +37,7 @@ class WalletMenuFragment : Fragment(R.layout.wallet_menu_fragment) {
 
     private fun addOrdersListener(asset: String) {
         this.binding.linearLayoutOrdersOption.setOnClickListener {
-           val action = WalletMenuFragmentDirections.actionWalletMenuFragmentToOrdersFragment(asset)
+            val action = WalletMenuFragmentDirections.actionWalletMenuFragmentToOrdersFragment(asset)
             Navigation.findNavController(it).navigate(action)
         }
     }

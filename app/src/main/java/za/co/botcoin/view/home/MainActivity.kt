@@ -90,7 +90,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUserPulloutBidPrice() {
         val trailingStop = SharedPrefsUtils[applicationContext, SharedPrefsUtils.TRAILING_STOP]
-        if (trailingStop != null) { ConstantUtils.trailingStop = trailingStop.toInt() }
+        if (trailingStop != null) {
+            ConstantUtils.trailingStop = trailingStop.toInt()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -106,7 +108,8 @@ class MainActivity : AppCompatActivity() {
                 //auto trade
                 startActivity(Intent(this, AutoTradeActivity::class.java))
             }
-            else -> { }
+            else -> {
+            }
         }
         return super.onOptionsItemSelected(item)
     }

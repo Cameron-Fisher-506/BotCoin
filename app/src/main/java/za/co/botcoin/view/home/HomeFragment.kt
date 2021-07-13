@@ -57,8 +57,11 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
                         displayErrorTextView()
                     }
                 }
-                Status.ERROR -> { displayErrorTextView() }
-                Status.LOADING -> { }
+                Status.ERROR -> {
+                    displayErrorTextView()
+                }
+                Status.LOADING -> {
+                }
             }
         });
     }

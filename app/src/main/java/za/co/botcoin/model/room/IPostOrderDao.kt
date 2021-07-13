@@ -5,7 +5,7 @@ import androidx.room.Query
 import za.co.botcoin.model.models.PostOrder
 
 @Dao
-interface IPostOrderDao: IBaseDao<PostOrder>{
+interface IPostOrderDao : IBaseDao<PostOrder> {
     @Query("SELECT * FROM postorder")
     suspend fun getAll(): List<PostOrder>
 }

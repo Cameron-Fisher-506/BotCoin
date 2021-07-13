@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/menu_navigation_graph"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/menu_navigation_graph"
     app:startDestination="@id/menuFragment">
 
     <fragment
         android:id="@+id/menuFragment"
         android:name="za.co.botcoin.view.menu.MenuFragment"
-        android:label="Menu" >
+        android:label="Menu">
         <action
             android:id="@+id/action_menuFragment_to_lunoApiFragment"
             app:destination="@id/lunoApiFragment" />
@@ -48,7 +50,7 @@
     <fragment
         android:id="@+id/donateMenuFragment"
         android:name="za.co.botcoin.view.menu.DonateMenuFragment"
-        android:label="Donate Menu" >
+        android:label="Donate Menu">
         <action
             android:id="@+id/action_donateMenuFragment_to_donateFragment"
             app:destination="@id/donateFragment" />
@@ -56,7 +58,7 @@
     <fragment
         android:id="@+id/donateFragment"
         android:name="za.co.botcoin.view.menu.donate.DonateFragment"
-        android:label="Donate" >
+        android:label="Donate">
         <argument
             android:name="asset"
             app:argType="string" />

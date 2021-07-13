@@ -23,7 +23,7 @@ class TradeFragment : Fragment(R.layout.trade_option_fragment) {
 
         trades.add(Trade(Trade.BUY_TYPE, "0", ConstantUtils.SUPPORT_PRICE ?: ""))
         trades.add(Trade(Trade.SELL_TYPE, "0", ConstantUtils.RESISTANCE_PRICE ?: ""))
-        tradeAdapter = TradeAdapter(context!!,trades)
+        tradeAdapter = TradeAdapter(context!!, trades)
         this.binding.botPager.adapter = tradeAdapter
         addTabBotMenuListener()
     }

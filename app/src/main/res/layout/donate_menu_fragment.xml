@@ -2,8 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/donateBtcOptionLinearLayoutCompat"
@@ -14,15 +15,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <ImageView
             android:id="@+id/btcImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:contentDescription="@string/DummyText"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
+            android:contentDescription="@string/DummyText"
             android:src="@drawable/btc" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -35,21 +35,22 @@
                 android:id="@+id/donateBtcTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:text="@string/btc"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+
         <ImageView
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:contentDescription="@string/DummyText"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_keyboard_arrow_right_black_24dp" />
+            android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:contentDescription="@string/DummyText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -73,10 +74,10 @@
             android:id="@+id/imgXrp"
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:contentDescription="@string/DummyText"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
+            android:contentDescription="@string/DummyText"
             android:src="@drawable/xrp" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -89,21 +90,22 @@
                 android:id="@+id/txtDonateXrp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:text="@string/xrp"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+
         <ImageView
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:contentDescription="@string/DummyText"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_keyboard_arrow_right_black_24dp" />
+            android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:contentDescription="@string/DummyText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -127,10 +129,10 @@
             android:id="@+id/donateEthImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:contentDescription="@string/DummyText"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
+            android:contentDescription="@string/DummyText"
             android:src="@drawable/etc" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -143,21 +145,22 @@
                 android:id="@+id/donateEthTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:text="@string/eth"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+
         <ImageView
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:contentDescription="@string/DummyText"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_keyboard_arrow_right_black_24dp" />
+            android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:contentDescription="@string/DummyText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -181,10 +184,10 @@
             android:id="@+id/donateLtcImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:contentDescription="@string/DummyText"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
+            android:contentDescription="@string/DummyText"
             android:src="@drawable/ltc" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -197,21 +200,22 @@
                 android:id="@+id/donateLtcTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:text="@string/ltc"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+
         <ImageView
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:contentDescription="@string/DummyText"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_keyboard_arrow_right_black_24dp" />
+            android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:contentDescription="@string/DummyText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
