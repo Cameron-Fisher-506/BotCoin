@@ -1,8 +1,12 @@
 package za.co.botcoin.view.home
 
+import android.app.NotificationManager
+import android.app.Service
+import android.content.Context.NOTIFICATION_SERVICE
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import za.co.botcoin.R
@@ -20,7 +24,6 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = HomeFragmentBinding.bind(view)
-
         this.tickersViewModel = ViewModelProviders.of(this).get(TickersViewModel::class.java)
         attachTickerObserver()
 

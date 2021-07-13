@@ -68,35 +68,4 @@ class TradeAdapter(var context: Context, var trades: ArrayList<Trade>) : Recycle
         //val postOrder = buildPostOrder(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell, java.lang.Double.toString(currentPrice!!))
         //WSCallsUtils.post(this, REQ_CODE_SELL, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_POSTORDER + postOrder, "", getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY))
     }
-
-    fun notify(title: String?, message: String?) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val intent = Intent()
-            val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
-            val notification = Notification.Builder(context)
-                    .setTicker(title)
-                    .setContentTitle(title)
-                    .setContentText(message)
-                    .setSmallIcon(R.drawable.botcoin)
-                    .addAction(R.drawable.luno_icon, "Action 1", pendingIntent)
-                    .setContentIntent(pendingIntent).notification
-            notification.flags = Notification.FLAG_AUTO_CANCEL
-            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.notify(0, notification)
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val intent = Intent()
-            val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
-            val notification = Notification.Builder(context)
-                    .setContentTitle(title)
-                    .setContentText(message)
-                    .setSmallIcon(R.drawable.botcoin)
-                    .setContentIntent(pendingIntent)
-                    .setDefaults(Notification.DEFAULT_SOUND or Notification.DEFAULT_LIGHTS or Notification.DEFAULT_VIBRATE)
-                    .setAutoCancel(true)
-                    .build()
-            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.notify(0, notification)
-        }
-    }
 }
