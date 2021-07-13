@@ -10,7 +10,7 @@ import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.SharedPrefsUtils
 
-class SupportPriceCounterFrag : Fragment(R.layout.support_price_counter_fragment) {
+class SupportPriceCounterFragment : Fragment(R.layout.support_price_counter_fragment) {
     private lateinit var binding: SupportPriceCounterFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,7 +47,7 @@ class SupportPriceCounterFrag : Fragment(R.layout.support_price_counter_fragment
      E.g.
      Support Price Counter: 5
      BotCoin keeps track of the number of hits each price gets. The lowest price with the highest number of hits > 5 will be set as the support price.
-     """.trimIndent(), false)?.show()
+     """.trimIndent(), false).show()
         }
     }
 

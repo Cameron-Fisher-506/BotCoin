@@ -9,7 +9,7 @@ import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.SharedPrefsUtils
 
-class LunoApiFrag : Fragment(R.layout.luno_api_fragment) {
+class LunoApiFragment : Fragment(R.layout.luno_api_fragment) {
     private lateinit var binding: LunoApiFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,7 +36,7 @@ class LunoApiFrag : Fragment(R.layout.luno_api_fragment) {
                 }
                 GeneralUtils.makeToast(activity, "API Key Saved!")
             } else {
-                GeneralUtils.createAlertDialog(activity, "Luno API Credentials (Luno API)", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
+                GeneralUtils.createAlertDialog(activity, "Luno API Credentials (Luno API)", "Please set your Luno API credentials in order to use BotCoin!", false).show()
             }
         }
     }

@@ -1,5 +1,6 @@
 package za.co.botcoin.utils
 
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -26,33 +27,30 @@ object DateTimeUtils {
 
     fun differenceInMinutes(oldDateTime: String, currentDateTime: String) = TimeUnit.MILLISECONDS.toMinutes(differenceInTime(oldDateTime, currentDateTime))
 
-    fun getCurrentDateTime(): String {
-        val simpleDateFormat = SimpleDateFormat(DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS, Locale.ENGLISH)
-        var now = Date()
-        val calendar = Calendar.getInstance()
-        calendar.time = now
-        now = calendar.time
-        return simpleDateFormat.format(now)
-    }
-
     private fun parseDateTime(dateTime: String): Date? {
         var toReturn: Date? = null
         try {
             val sdfDate = SimpleDateFormat(DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS, Locale.ENGLISH)
             toReturn = sdfDate.parse(dateTime)
-        } catch (e: Exception) {
+        } catch (e: ParseException) {
             println("Error: ${e.message} " +
                     "Method: parseDateTime " +
                     "Data: $dateTime " +
-                    "Date: ${GeneralUtils.getCurrentDateTime()}")
+                    "Date: ${getCurrentDateTime()}")
         }
         return toReturn
     }
 
     fun getDifferenceDateTimeInMin(dateTime: String): Long {
+        var toReturn: Long = 0L
+
         val parseDateTime = parseDateTime(dateTime)
         val currentDateTime = parseDateTime(getCurrentDateTime())
-        val difference = currentDateTime!!.time - parseDateTime!!.time
-        return  difference / (60 * 1000)
+        if (parseDateTime != null && currentDateTime != null) {
+            val difference = currentDateTime.time - parseDateTime.time
+            toReturn = difference / (60 * 1000)
+        }
+
+        return toReturn
     }
 }

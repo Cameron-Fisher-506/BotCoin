@@ -11,7 +11,7 @@ import za.co.botcoin.databinding.PrivacyPolicyFragmentBinding
 import za.co.botcoin.utils.SharedPrefsUtils
 import kotlin.system.exitProcess
 
-class PrivacyPolicyFrag : Fragment(R.layout.privacy_policy_fragment) {
+class PrivacyPolicyFragment : Fragment(R.layout.privacy_policy_fragment) {
     private lateinit var binding: PrivacyPolicyFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

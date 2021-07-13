@@ -44,16 +44,16 @@ class AutoTradeFragment : Fragment(R.layout.auto_trade_fragment) {
                     This policy is effective as of 25 November 2020.
                     
                     
-                    """.trimIndent(), false)?.show()
+                    """.trimIndent(), false).show()
 
         if (GeneralUtils.isApiKeySet(context)) {
             setSwitchAutoTrade()
         } else {
             stopBotService()
             this.binding.autoTradeSwitch.isChecked = false
-            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
+            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
 
-            val action = AutoTradeFragmentDirections.actionAutoTradeFragmentToLunoApiFrag()
+            val action = AutoTradeFragmentDirections.actionAutoTradeFragmentToLunoApiFragment()
             Navigation.findNavController(view).navigate(action)
         }
 

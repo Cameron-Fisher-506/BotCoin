@@ -1,4 +1,4 @@
-package za.co.botcoin.view.wallet.menu
+package za.co.botcoin.view.wallet
 
 import android.app.Notification
 import android.app.NotificationManager
@@ -10,68 +10,59 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
 import za.co.botcoin.R
-import za.co.botcoin.databinding.OrdersFragmentBinding
+import za.co.botcoin.databinding.WithdrawFragmentBinding
 import za.co.botcoin.enum.Status
-import za.co.botcoin.view.wallet.WithdrawalViewModel
-import java.util.*
+import za.co.botcoin.utils.GeneralUtils.createAlertDialog
+import za.co.botcoin.utils.GeneralUtils.isApiKeySet
 
-class OrdersFrag : Fragment(R.layout.orders_fragment) {
-    private lateinit var binding: OrdersFragmentBinding
+class WithdrawFragment : Fragment(R.layout.withdraw_fragment) {
+    private lateinit var binding: WithdrawFragmentBinding
     private lateinit var withdrawalViewModel: WithdrawalViewModel
-    private lateinit var orderListAdapter: OrderListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.binding = OrdersFragmentBinding.bind(view)
+        this.binding = WithdrawFragmentBinding.bind(view)
 
         this.withdrawalViewModel = ViewModelProviders.of(this).get(WithdrawalViewModel::class.java)
-        wireUI()
 
-        this.withdrawalViewModel.fetchOrders()
-        attachOrdersObserver()
+        addWithdrawListener()
     }
 
-    private fun wireUI() {
-        this.orderListAdapter = OrderListAdapter(arrayListOf())
-        this.binding.ordersRecyclerView.layoutManager = GridLayoutManager(context, 1)
-        this.binding.ordersRecyclerView.adapter = orderListAdapter
-    }
+    private fun addWithdrawListener() {
+        this.binding.withdrawButton.setOnClickListener {
+            val amount: String = this.binding.amountEditText.text.toString()
+            val beneficiaryId: String = this.binding.amountEditText.text.toString()
 
-    private fun attachOrdersObserver() {
-        this.withdrawalViewModel.ordersLiveData.observe(viewLifecycleOwner, {
-            when (it.status) {
-                Status.SUCCESS -> {
-                    displayOrdersRecyclerView()
-                    val data = it.data
-                    if (!data.isNullOrEmpty()) {
-                        orderListAdapter.updateOrderList(data)
-                    } else {
-                        displayErrorTextView()
-                    }
+            if (amount.isNotBlank() && amount != "0" && beneficiaryId.isNotBlank()) {
+                if (isApiKeySet(context)) {
+                    this.withdrawalViewModel.withdrawal("ZAR_EFT", amount, beneficiaryId)
+                    attachWithdrawalObserver()
+                } else {
+                    createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
                 }
-                Status.ERROR -> { displayErrorTextView() }
-                Status.LOADING -> { displayProgressBar() }
+            } else {
+                createAlertDialog(activity, "Withdrawal", "Please provide an amount more than 0 and a valid beneficiary ID!", false).show()
             }
-        })
+        }
     }
 
-    private fun attachStopOrderObserver() {
-        this.withdrawalViewModel.stopOrderLiveData.observe(viewLifecycleOwner, {
+    private fun attachWithdrawalObserver() {
+        this.withdrawalViewModel.withdrawalLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
-                    displayOrdersRecyclerView()
+                    displayWithdrawOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
-                        if (data.first().success) notify("Order Cancellation", "Order cancelled successfully.") else notify("Order Cancellation", "Order cancellation failed.")
+                        data.map { withdrawal ->  notify("Withdrew " + withdrawal.amount + " Rands.", "") }
                     } else {
-                        notify("Order Cancellation", "Order cancellation failed.")
+                        notify("Withdrawal Failed", "")
                     }
+
                 }
                 Status.ERROR -> {
-                    displayOrdersRecyclerView()
-                    notify("Order Cancellation", "Order cancellation failed.")
+                    displayWithdrawOptions()
+                    notify("Withdrawal Failed", "")
                 }
                 Status.LOADING -> { displayProgressBar() }
             }
@@ -79,14 +70,20 @@ class OrdersFrag : Fragment(R.layout.orders_fragment) {
     }
 
     private fun hideAllViews() {
-        this.binding.ordersRecyclerView.visibility = View.GONE
+        this.binding.withdrawButton.visibility = View.GONE
+        this.binding.amountEditText.visibility = View.GONE
+        this.binding.beneficiaryIdEditText.visibility = View.GONE
+        this.binding.withdrawTextView.visibility = View.GONE
         this.binding.errorTextView.visibility = View.GONE
         this.binding.progressBar.visibility = View.GONE
     }
 
-    private fun displayOrdersRecyclerView() {
+    private fun displayWithdrawOptions() {
         hideAllViews()
-        this.binding.ordersRecyclerView.visibility = View.VISIBLE
+        this.binding.withdrawButton.visibility = View.VISIBLE
+        this.binding.amountEditText.visibility = View.VISIBLE
+        this.binding.beneficiaryIdEditText.visibility = View.VISIBLE
+        this.binding.withdrawTextView.visibility = View.VISIBLE
     }
 
     private fun displayErrorTextView() {

@@ -14,7 +14,7 @@ import za.co.botcoin.utils.GeneralUtils.createQRCode
 import za.co.botcoin.utils.GeneralUtils.isApiKeySet
 import za.co.botcoin.view.wallet.WithdrawalViewModel
 
-class ReceiveFrag : Fragment(R.layout.receive_fragment) {
+class ReceiveFragment : Fragment(R.layout.receive_fragment) {
     private lateinit var binding: ReceiveFragmentBinding
     private lateinit var withdrawalViewModel: WithdrawalViewModel
 
@@ -28,9 +28,9 @@ class ReceiveFrag : Fragment(R.layout.receive_fragment) {
             this.withdrawalViewModel.receive(arguments?.getString("asset") ?: "")
             attachReceiveObserver()
         } else {
-            createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)!!.show()
+            createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
 
-            val action = ReceiveFragDirections.actionReceiveFragToLunoApiFrag()
+            val action = ReceiveFragmentDirections.actionReceiveFragmentToLunoApiFragment()
             Navigation.findNavController(view).navigate(action)
         }
     }
@@ -57,11 +57,11 @@ class ReceiveFrag : Fragment(R.layout.receive_fragment) {
     }
 
     private fun addBtnCopyListener() {
-        this.binding.copyButton.setOnClickListener { context?.let { context -> copyToClipBoard(context, this.binding.addressEditText.text.toString()) } }
+        this.binding.copyImageButton.setOnClickListener { context?.let { context -> copyToClipBoard(context, this.binding.addressEditText.text.toString()) } }
     }
 
     private fun hideAllViews() {
-        this.binding.copyButton.visibility = View.GONE
+        this.binding.copyImageButton.visibility = View.GONE
         this.binding.addressEditText.visibility = View.GONE
         this.binding.donateTextView.visibility = View.GONE
         this.binding.errorTextView.visibility = View.GONE
@@ -70,7 +70,7 @@ class ReceiveFrag : Fragment(R.layout.receive_fragment) {
 
     private fun displayReceiveOptions() {
         hideAllViews()
-        this.binding.copyButton.visibility = View.VISIBLE
+        this.binding.copyImageButton.visibility = View.VISIBLE
         this.binding.addressEditText.visibility = View.VISIBLE
         this.binding.donateTextView.visibility = View.VISIBLE
     }

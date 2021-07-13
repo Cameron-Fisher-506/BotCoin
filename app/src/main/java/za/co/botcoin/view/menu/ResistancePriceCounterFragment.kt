@@ -10,7 +10,7 @@ import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.SharedPrefsUtils
 
-class ResistancePriceCounterFrag : Fragment(R.layout.resistance_price_counter_fragment) {
+class ResistancePriceCounterFragment : Fragment(R.layout.resistance_price_counter_fragment) {
     private lateinit var binding: ResistancePriceCounterFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -23,16 +23,12 @@ class ResistancePriceCounterFrag : Fragment(R.layout.resistance_price_counter_fr
     }
 
     private fun wireUI() {
-        try {
-            val adapter = ArrayAdapter.createFromResource(context!!, R.array.resistance_price_counter_items, android.R.layout.simple_spinner_item)
-            this.binding.spinner.adapter = adapter
+        val adapter = ArrayAdapter.createFromResource(context!!, R.array.resistance_price_counter_items, android.R.layout.simple_spinner_item)
+        this.binding.spinner.adapter = adapter
 
-            val resistancePriceCounter = context?.let { SharedPrefsUtils[it, SharedPrefsUtils.RESISTANCE_PRICE_COUNTER] }
-            if (resistancePriceCounter != null) {
-                this.binding.spinner.setSelection(resistancePriceCounter.toInt())
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        val resistancePriceCounter = context?.let { SharedPrefsUtils[it, SharedPrefsUtils.RESISTANCE_PRICE_COUNTER] }
+        if (resistancePriceCounter != null) {
+            this.binding.spinner.setSelection(resistancePriceCounter.toInt())
         }
     }
 
@@ -52,7 +48,7 @@ class ResistancePriceCounterFrag : Fragment(R.layout.resistance_price_counter_fr
          E.g.
          Resistance Price Counter: 5
          BotCoin keeps track of the number of hits each price gets. The highest price with the highest number of hits > 5 will be set as the resistance price.
-         """.trimIndent(), false)?.show()
+         """.trimIndent(), false).show()
         }
     }
 

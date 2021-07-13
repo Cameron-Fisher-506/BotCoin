@@ -10,60 +10,68 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 import za.co.botcoin.R
-import za.co.botcoin.databinding.SendFragmentBinding
+import za.co.botcoin.databinding.OrdersFragmentBinding
 import za.co.botcoin.enum.Status
-import za.co.botcoin.utils.GeneralUtils.createAlertDialog
 import za.co.botcoin.view.wallet.WithdrawalViewModel
+import java.util.*
 
-class SendFrag : Fragment(R.layout.send_fragment) {
-    private lateinit var binding: SendFragmentBinding
+class OrdersFragment : Fragment(R.layout.orders_fragment) {
+    private lateinit var binding: OrdersFragmentBinding
     private lateinit var withdrawalViewModel: WithdrawalViewModel
+    private lateinit var orderListAdapter: OrderListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.binding = SendFragmentBinding.bind(view)
+        this.binding = OrdersFragmentBinding.bind(view)
 
         this.withdrawalViewModel = ViewModelProviders.of(this).get(WithdrawalViewModel::class.java)
+        wireUI()
 
-        arguments?.let {
-            addBtnSend(it.getString("asset") ?: "")
-        }
+        this.withdrawalViewModel.fetchOrders()
+        attachOrdersObserver()
     }
 
-    private fun addBtnSend(asset: String) {
-        this.binding.sendButton.setOnClickListener {
-            val amount = this.binding.amountEditText.text.toString()
-            val address = this.binding.addressEditText.text.toString()
-            val destinationTag = this.binding.tagEditText.text.toString()
-            if (amount.isNotBlank() && address.isNotBlank()) {
-                if (amount != "0") {
-                    this.withdrawalViewModel.send(amount, asset, address, destinationTag)
-                    attachSendObserver(amount, asset, address)
-                } else {
-                    createAlertDialog(context, "Invalid amount entered!", "Please note that you cannot send 0 $asset.", false)!!.show()
-                }
-            } else {
-                createAlertDialog(context, "Send", "Please enter the amount of $asset You would like to send. Please enter a valid recipient account address and tag.", false)!!.show()
-            }
-        }
+    private fun wireUI() {
+        this.orderListAdapter = OrderListAdapter(arrayListOf())
+        this.binding.ordersRecyclerView.layoutManager = GridLayoutManager(context, 1)
+        this.binding.ordersRecyclerView.adapter = orderListAdapter
     }
 
-    private fun attachSendObserver(amount: String, asset: String, address: String) {
-        this.withdrawalViewModel.sendLiveData.observe(viewLifecycleOwner, {
+    private fun attachOrdersObserver() {
+        this.withdrawalViewModel.ordersLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
-                    displaySendOptions()
+                    displayOrdersRecyclerView()
                     val data = it.data
-                    if(!data.isNullOrEmpty()) {
-                        data.map { response -> if (response.success) notify("Sent $amount $asset to $address.", response.withdrawalId) else notify("Send failed.", "")}
+                    if (!data.isNullOrEmpty()) {
+                        orderListAdapter.updateOrderList(data)
                     } else {
-                        notify("Send failed.", "")
+                        displayErrorTextView()
+                    }
+                }
+                Status.ERROR -> { displayErrorTextView() }
+                Status.LOADING -> { displayProgressBar() }
+            }
+        })
+    }
+
+    private fun attachStopOrderObserver() {
+        this.withdrawalViewModel.stopOrderLiveData.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    displayOrdersRecyclerView()
+                    val data = it.data
+                    if (!data.isNullOrEmpty()) {
+                        if (data.first().success) notify("Order Cancellation", "Order cancelled successfully.") else notify("Order Cancellation", "Order cancellation failed.")
+                    } else {
+                        notify("Order Cancellation", "Order cancellation failed.")
                     }
                 }
                 Status.ERROR -> {
-                    displaySendOptions()
-                    notify("Send failed.", "")
+                    displayOrdersRecyclerView()
+                    notify("Order Cancellation", "Order cancellation failed.")
                 }
                 Status.LOADING -> { displayProgressBar() }
             }
@@ -71,26 +79,24 @@ class SendFrag : Fragment(R.layout.send_fragment) {
     }
 
     private fun hideAllViews() {
-        this.binding.sendTextView.visibility = View.GONE
-        this.binding.sendButton.visibility = View.GONE
-        this.binding.addressEditText.visibility = View.GONE
-        this.binding.amountEditText.visibility = View.GONE
-        this.binding.tagEditText.visibility = View.GONE
+        this.binding.ordersRecyclerView.visibility = View.GONE
+        this.binding.errorTextView.visibility = View.GONE
         this.binding.progressBar.visibility = View.GONE
+    }
+
+    private fun displayOrdersRecyclerView() {
+        hideAllViews()
+        this.binding.ordersRecyclerView.visibility = View.VISIBLE
+    }
+
+    private fun displayErrorTextView() {
+        hideAllViews()
+        this.binding.errorTextView.visibility = View.VISIBLE
     }
 
     private fun displayProgressBar() {
         hideAllViews()
         this.binding.progressBar.visibility = View.VISIBLE
-    }
-
-    private fun displaySendOptions() {
-        hideAllViews()
-        this.binding.sendTextView.visibility = View.VISIBLE
-        this.binding.sendButton.visibility = View.VISIBLE
-        this.binding.addressEditText.visibility = View.VISIBLE
-        this.binding.amountEditText.visibility = View.VISIBLE
-        this.binding.tagEditText.visibility = View.VISIBLE
     }
 
     private fun notify(title: String?, message: String?) {

@@ -11,7 +11,7 @@ import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.*
 import java.util.*
 
-class HomeFrag : Fragment(R.layout.home_fragment) {
+class HomeFragment : Fragment(R.layout.home_fragment) {
     private lateinit var binding: HomeFragmentBinding
     private lateinit var tickersViewModel: TickersViewModel
 
@@ -34,7 +34,7 @@ class HomeFrag : Fragment(R.layout.home_fragment) {
             }, delay)
 
         } else {
-            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
+            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
         }
     }
 
