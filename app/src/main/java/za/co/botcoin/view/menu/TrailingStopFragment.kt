@@ -28,7 +28,7 @@ class TrailingStopFragment : Fragment(R.layout.trailing_stop_fragment) {
 
         val trailingStop = context?.let { SharedPrefsUtils[it, SharedPrefsUtils.TRAILING_STOP] }
         if (trailingStop != null) {
-            this.binding.spinner.setSelection(if (trailingStop.toInt() > 0) trailingStop.toInt()-1 else 0)
+            this.binding.spinner.setSelection(if (trailingStop.toInt() > 0) trailingStop.toInt() - 1 else 0)
         }
     }
 

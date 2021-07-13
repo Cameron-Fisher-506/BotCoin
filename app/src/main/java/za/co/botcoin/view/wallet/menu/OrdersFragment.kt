@@ -51,8 +51,12 @@ class OrdersFragment : Fragment(R.layout.orders_fragment) {
                         displayErrorTextView()
                     }
                 }
-                Status.ERROR -> { displayErrorTextView() }
-                Status.LOADING -> { displayProgressBar() }
+                Status.ERROR -> {
+                    displayErrorTextView()
+                }
+                Status.LOADING -> {
+                    displayProgressBar()
+                }
             }
         })
     }
@@ -73,7 +77,9 @@ class OrdersFragment : Fragment(R.layout.orders_fragment) {
                     displayOrdersRecyclerView()
                     notify("Order Cancellation", "Order cancellation failed.")
                 }
-                Status.LOADING -> { displayProgressBar() }
+                Status.LOADING -> {
+                    displayProgressBar()
+                }
             }
         })
     }

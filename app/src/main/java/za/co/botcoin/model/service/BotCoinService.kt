@@ -3,7 +3,7 @@ package za.co.botcoin.model.service
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class BotCoinService: BaseService() {
+class BotCoinService : BaseService() {
     private lateinit var api: IBotCoinApi
 
     companion object {
@@ -26,7 +26,7 @@ class BotCoinService: BaseService() {
 
     suspend fun send(auth: String, amount: String, currency: String, address: String, destinationTag: String) = getResource { api.send(auth, amount, currency, address, destinationTag = destinationTag) }
 
-    suspend fun send(auth: String, amount: String, currency: String, address: String) = getResource { api.send(auth, amount, currency,address) }
+    suspend fun send(auth: String, amount: String, currency: String, address: String) = getResource { api.send(auth, amount, currency, address) }
 
     suspend fun receive(auth: String, asset: String) = getResource { api.receive(auth, asset) }
 

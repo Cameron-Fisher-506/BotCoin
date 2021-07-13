@@ -22,7 +22,7 @@ abstract class BotCoinDatabase : RoomDatabase() {
     abstract fun orderDao(): IOrderDao
     abstract fun stopOrderDao(): IStopOrderDao
     abstract fun tradeDao(): ITradeDao
-    abstract  fun postOrderDao(): IPostOrderDao
+    abstract fun postOrderDao(): IPostOrderDao
 
     companion object {
         @Volatile
@@ -31,7 +31,7 @@ abstract class BotCoinDatabase : RoomDatabase() {
         fun getDatabase(context: Context): BotCoinDatabase {
             val tempInstance = INSTANCE
 
-            if(tempInstance != null) {
+            if (tempInstance != null) {
                 return tempInstance
             } else {
                 synchronized(this) {
@@ -55,7 +55,7 @@ abstract class BotCoinDatabase : RoomDatabase() {
 
         suspend inline fun <T> getResource(crossinline daoCall: suspend () -> T?): Resource<T> {
             try {
-                val response  = daoCall.invoke()
+                val response = daoCall.invoke()
                 if (response != null) {
                     return Resource.success(response)
                 }

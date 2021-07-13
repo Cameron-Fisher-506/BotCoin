@@ -5,7 +5,7 @@ import androidx.room.Query
 import za.co.botcoin.model.models.Ticker
 
 @Dao
-interface ITickerDao: IBaseDao<Ticker> {
+interface ITickerDao : IBaseDao<Ticker> {
     @Query("SELECT * FROM ticker")
     suspend fun getAll(): List<Ticker>
 }
