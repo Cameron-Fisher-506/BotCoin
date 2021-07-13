@@ -28,7 +28,9 @@ object SharedPrefsUtils {
             val sharedPreferences: SharedPreferences = context.getSharedPreferences(sharedPrefName, 0)
             if (sharedPreferences.contains(sharedPrefName)) {
                 val value = sharedPreferences.getString(sharedPrefName, "DEFAULT")
-                if (!value.isNullOrBlank()) { toReturn = value }
+                if (!value.isNullOrBlank()) {
+                    toReturn = value
+                }
             }
         } catch (e: Exception) {
             Log.e("SharedPrefsUtils", "Error: ${e.message} " +
