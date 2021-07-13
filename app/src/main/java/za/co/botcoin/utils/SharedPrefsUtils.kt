@@ -8,7 +8,6 @@ object SharedPrefsUtils {
     const val LUNO_API_KEY_ID: String = "LUNO_API_KEY_ID"
     const val LUNO_API_SECRET_KEY: String = "LUNO_API_SECRET_KEY"
     const val AUTO_TRADE_PREF: String = "AUTO_TRADE"
-    const val SUPPORT_RESISTANCE_PREF: String = "SUPPORT_RESISTANCE"
     const val TRAILING_STOP: String = "TRAILING_STOP"
     const val PRIVACY_POLICY_ACCEPTANCE: String = "PRIVACY_POLICY_ACCEPTANCE"
     const val DISCLAIMER_ACCEPTANCE: String = "DISCLAIMER_ACCEPTANCE"

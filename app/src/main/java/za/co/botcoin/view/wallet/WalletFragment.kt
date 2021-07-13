@@ -13,7 +13,7 @@ import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.*
 import za.co.botcoin.view.home.MainActivity
 
-class WalletFrag : Fragment(R.layout.wallet_fragment) {
+class WalletFragment : Fragment(R.layout.wallet_fragment) {
     private lateinit var binding: WalletFragmentBinding
     private lateinit var walletViewModel: WalletViewModel
 
@@ -28,7 +28,7 @@ class WalletFrag : Fragment(R.layout.wallet_fragment) {
         if (GeneralUtils.isApiKeySet(context)) {
             attachBalanceObserver()
         } else {
-            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
+            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
         }
     }
 
@@ -83,14 +83,14 @@ class WalletFrag : Fragment(R.layout.wallet_fragment) {
 
     private fun addZarOptionListener() {
         this.binding.zarLinearLayoutCompat.setOnClickListener {
-            val action = WalletFragDirections.actionWalletFragToWithdrawFrag()
+            val action = WalletFragmentDirections.actionWalletFragmentToWithdrawFragment()
             Navigation.findNavController(it).navigate(action)
         }
     }
 
     private fun addXrpOptionListener() {
         this.binding.xrpLinearLayoutCompat.setOnClickListener {
-            val action = WalletFragDirections.actionWalletFragToWalletMenuFrag(ConstantUtils.XRP)
+            val action = WalletFragmentDirections.actionWalletFragmentToWalletMenuFragment(ConstantUtils.XRP)
             Navigation.findNavController(it).navigate(action)
         }
     }

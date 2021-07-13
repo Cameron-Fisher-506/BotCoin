@@ -8,7 +8,7 @@ import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.MenuFragmentBinding
 
-class MenuFrag : Fragment(R.layout.menu_fragment) {
+class MenuFragment : Fragment(R.layout.menu_fragment) {
     private lateinit var binding: MenuFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -24,35 +24,35 @@ class MenuFrag : Fragment(R.layout.menu_fragment) {
 
     private fun addSetResistancePriceCounterOptionListener() {
         this.binding.linearLayoutSetResistancePriceCounter.setOnClickListener {
-            val action = MenuFragDirections.actionMenuFragToResistancePriceCounterFrag()
+            val action = MenuFragmentDirections.actionMenuFragmentToResistancePriceCounterFragment()
             Navigation.findNavController(it).navigate(action)
         }
     }
 
     private fun addSetSupportPriceCounterOptionListener() {
         this.binding.linearLayoutSetSupportPriceCounter.setOnClickListener {
-            val action = MenuFragDirections.actionMenuFragToSupportPriceCounterFrag()
+            val action = MenuFragmentDirections.actionMenuFragmentToSupportPriceCounterFragment()
             Navigation.findNavController(it).navigate(action)
         }
     }
 
     private fun addPullOutPriceOptionListener() {
         this.binding.linearLayoutTrailingStop.setOnClickListener {
-            val action = MenuFragDirections.actionMenuFragToTrailingStopFrag()
+            val action = MenuFragmentDirections.actionMenuFragmentToTrailingStopFragment()
             Navigation.findNavController(it).navigate(action)
         }
     }
 
     private fun addLunoApiOptionListener() {
         this.binding.linearLayoutLunoApiOption.setOnClickListener {
-            val action = MenuFragDirections.actionMenuFragToLunoApiFrag()
+            val action = MenuFragmentDirections.actionMenuFragmentToLunoApiFragment()
             Navigation.findNavController(it).navigate(action)
         }
     }
 
     private fun addDonateListener() {
         this.binding.linearLayoutDonateOption.setOnClickListener {
-            val action = MenuFragDirections.actionMenuFragToDonateMenuFrag()
+            val action = MenuFragmentDirections.actionMenuFragmentToDonateMenuFragment()
             Navigation.findNavController(it).navigate(action)
         }
     }

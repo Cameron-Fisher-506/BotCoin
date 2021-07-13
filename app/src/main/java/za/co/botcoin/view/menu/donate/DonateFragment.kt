@@ -7,19 +7,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
-import org.json.JSONObject
 import za.co.botcoin.R
 import za.co.botcoin.databinding.DonateFragmentBinding
 import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.*
-import za.co.botcoin.view.menu.LunoApiFrag
 
-class DonateFrag : Fragment(R.layout.donate_fragment) {
+class DonateFragment : Fragment(R.layout.donate_fragment) {
     private lateinit var binding: DonateFragmentBinding
     private lateinit var donateViewModel: DonateViewModel
 
@@ -37,8 +34,8 @@ class DonateFrag : Fragment(R.layout.donate_fragment) {
             this.donateViewModel.receive(asset)
             attachReceiveObserver()
         } else {
-            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)?.show()
-            val action = DonateFragDirections.actionDonateFragToLunoApiFrag2()
+            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
+            val action = DonateFragmentDirections.actionDonateFragToLunoApiFrag2()
             Navigation.findNavController(view).navigate(action)
         }
     }
@@ -96,11 +93,11 @@ class DonateFrag : Fragment(R.layout.donate_fragment) {
     }
 
     private fun addBtnCopyListener() {
-        this.binding.copyButton.setOnClickListener { activity?.let { context -> ClipBoardUtils.copyToClipBoard(context, this.binding.addressEditText.text.toString()) } }
+        this.binding.copyImageButton.setOnClickListener { activity?.let { context -> ClipBoardUtils.copyToClipBoard(context, this.binding.addressEditText.text.toString()) } }
     }
 
     private fun addBtnCopyTagListener() {
-        this.binding.copyTagButton.setOnClickListener { activity?.let { context -> ClipBoardUtils.copyToClipBoard(context, this.binding.tagEditText.text.toString()) } }
+        this.binding.copyTagImageButton.setOnClickListener { activity?.let { context -> ClipBoardUtils.copyToClipBoard(context, this.binding.tagEditText.text.toString()) } }
     }
 
     private fun addBtnDonateListener() {
@@ -113,17 +110,17 @@ class DonateFrag : Fragment(R.layout.donate_fragment) {
                     this.donateViewModel.send(amount, asset, address, destinationTag)
                     attachSendObserver(amount, asset, address)
                 } else {
-                    GeneralUtils.createAlertDialog(context, "Invalid amount entered!", "Please note that you cannot donate 0 $asset.", false)?.show()
+                    GeneralUtils.createAlertDialog(context, "Invalid amount entered!", "Please note that you cannot donate 0 $asset.", false).show()
                 }
             } else {
-                GeneralUtils.createAlertDialog(context, "No amount entered!", "Please enter the amount of $asset You would like to donate.", false)?.show()
+                GeneralUtils.createAlertDialog(context, "No amount entered!", "Please enter the amount of $asset You would like to donate.", false).show()
             }
         }
     }
 
     private fun hideAllViews() {
-        this.binding.copyButton.visibility = View.GONE
-        this.binding.copyTagButton.visibility = View.GONE
+        this.binding.copyImageButton.visibility = View.GONE
+        this.binding.copyTagImageButton.visibility = View.GONE
         this.binding.donateButton.visibility = View.GONE
         this.binding.addressEditText.visibility = View.GONE
         this.binding.amountEditText.visibility = View.GONE
@@ -135,8 +132,8 @@ class DonateFrag : Fragment(R.layout.donate_fragment) {
 
     private fun displayDonateOptions() {
         hideAllViews()
-        this.binding.copyButton.visibility = View.VISIBLE
-        this.binding.copyTagButton.visibility = View.VISIBLE
+        this.binding.copyImageButton.visibility = View.VISIBLE
+        this.binding.copyTagImageButton.visibility = View.VISIBLE
         this.binding.donateButton.visibility = View.VISIBLE
         this.binding.addressEditText.visibility = View.VISIBLE
         this.binding.amountEditText.visibility = View.VISIBLE

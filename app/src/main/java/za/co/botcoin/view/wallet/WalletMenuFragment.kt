@@ -7,7 +7,7 @@ import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.WalletMenuFragmentBinding
 
-class WalletMenuFrag : Fragment(R.layout.wallet_menu_fragment) {
+class WalletMenuFragment : Fragment(R.layout.wallet_menu_fragment) {
     private lateinit var binding: WalletMenuFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -23,21 +23,21 @@ class WalletMenuFrag : Fragment(R.layout.wallet_menu_fragment) {
 
     private fun addSendListener(asset: String) {
         this.binding.sendOptionLinearLayoutCompat.setOnClickListener {
-            val action = WalletMenuFragDirections.actionWalletMenuFragToSendFrag(asset)
+            val action = WalletMenuFragmentDirections.actionWalletMenuFragmentToSendFragment(asset)
             Navigation.findNavController(it).navigate(action)
         }
     }
 
     private fun addReceiveListener(asset: String) {
         this.binding.receiveOptionLinearLayoutCompat.setOnClickListener {
-            val action = WalletMenuFragDirections.actionWalletMenuFragToReceiveFrag(asset)
+            val action = WalletMenuFragmentDirections.actionWalletMenuFragmentToReceiveFragment(asset)
             Navigation.findNavController(it).navigate(action)
         }
     }
 
     private fun addOrdersListener(asset: String) {
         this.binding.linearLayoutOrdersOption.setOnClickListener {
-           val action = WalletMenuFragDirections.actionWalletMenuFragToOrdersFrag(asset)
+           val action = WalletMenuFragmentDirections.actionWalletMenuFragmentToOrdersFragment(asset)
             Navigation.findNavController(it).navigate(action)
         }
     }

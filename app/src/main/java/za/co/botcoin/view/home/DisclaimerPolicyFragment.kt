@@ -15,7 +15,7 @@ import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.SharedPrefsUtils
 import kotlin.system.exitProcess
 
-class DisclaimerPolicyFrag : Fragment(R.layout.disclaimer_policy_fragment) {
+class DisclaimerPolicyFragment : Fragment(R.layout.disclaimer_policy_fragment) {
     private lateinit var binding: DisclaimerPolicyFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,15 +53,8 @@ class DisclaimerPolicyFrag : Fragment(R.layout.disclaimer_policy_fragment) {
         }
 
         this.binding.acceptButton.setOnClickListener {
-            try {
-                context?.let { it1 -> SharedPrefsUtils.save(it1, SharedPrefsUtils.DISCLAIMER_ACCEPTANCE, "true") }
-                context?.startActivity(Intent(activity, MainActivity::class.java))
-            } catch (e: Exception) {
-                Log.d(ConstantUtils.BOTCOIN_TAG, "Class: DisclaimerPolicyFrag " +
-                        "Method: onCreateView " +
-                        "Error: ${e.message} " +
-                        "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
-            }
+            context?.let { it1 -> SharedPrefsUtils.save(it1, SharedPrefsUtils.DISCLAIMER_ACCEPTANCE, "true") }
+            context?.startActivity(Intent(activity, MainActivity::class.java))
         }
     }
 }

@@ -1,4 +1,4 @@
-package za.co.botcoin.view.wallet
+package za.co.botcoin.view.wallet.menu
 
 import android.app.Notification
 import android.app.NotificationManager
@@ -7,67 +7,63 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import org.json.JSONObject
 import za.co.botcoin.R
-import za.co.botcoin.databinding.WithdrawFragmentBinding
+import za.co.botcoin.databinding.SendFragmentBinding
 import za.co.botcoin.enum.Status
-import za.co.botcoin.utils.*
-import za.co.botcoin.utils.GeneralUtils.buildWithdrawal
 import za.co.botcoin.utils.GeneralUtils.createAlertDialog
-import za.co.botcoin.utils.GeneralUtils.getAuth
-import za.co.botcoin.utils.GeneralUtils.isApiKeySet
+import za.co.botcoin.view.wallet.WithdrawalViewModel
 
-class WithdrawFrag : Fragment(R.layout.withdraw_fragment) {
-    private lateinit var binding: WithdrawFragmentBinding
+class SendFragment : Fragment(R.layout.send_fragment) {
+    private lateinit var binding: SendFragmentBinding
     private lateinit var withdrawalViewModel: WithdrawalViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.binding = WithdrawFragmentBinding.bind(view)
+        this.binding = SendFragmentBinding.bind(view)
 
         this.withdrawalViewModel = ViewModelProviders.of(this).get(WithdrawalViewModel::class.java)
 
-        addWithdrawListener()
+        arguments?.let {
+            addBtnSend(it.getString("asset") ?: "")
+        }
     }
 
-    private fun addWithdrawListener() {
-        this.binding.withdrawButton.setOnClickListener {
-            val amount: String = this.binding.amountEditText.text.toString()
-            val beneficiaryId: String = this.binding.amountEditText.text.toString()
-
-            if (amount.isNotBlank() && amount != "0" && beneficiaryId.isNotBlank()) {
-                if (isApiKeySet(context)) {
-                    this.withdrawalViewModel.withdrawal("ZAR_EFT", amount, beneficiaryId)
-                    attachWithdrawalObserver()
+    private fun addBtnSend(asset: String) {
+        this.binding.sendButton.setOnClickListener {
+            val amount = this.binding.amountEditText.text.toString()
+            val address = this.binding.addressEditText.text.toString()
+            val destinationTag = this.binding.tagEditText.text.toString()
+            if (amount.isNotBlank() && address.isNotBlank()) {
+                if (amount != "0") {
+                    this.withdrawalViewModel.send(amount, asset, address, destinationTag)
+                    attachSendObserver(amount, asset, address)
                 } else {
-                    createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false)!!.show()
+                    createAlertDialog(context, "Invalid amount entered!", "Please note that you cannot send 0 $asset.", false).show()
                 }
             } else {
-                createAlertDialog(activity, "Withdrawal", "Please provide an amount more than 0 and a valid beneficiary ID!", false)!!.show()
+                createAlertDialog(context, "Send", "Please enter the amount of $asset You would like to send. Please enter a valid recipient account address and tag.", false).show()
             }
         }
     }
 
-    private fun attachWithdrawalObserver() {
-        this.withdrawalViewModel.withdrawalLiveData.observe(viewLifecycleOwner, {
+    private fun attachSendObserver(amount: String, asset: String, address: String) {
+        this.withdrawalViewModel.sendLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
-                    displayWithdrawOptions()
+                    displaySendOptions()
                     val data = it.data
-                    if (!data.isNullOrEmpty()) {
-                        data.map { withdrawal ->  notify("Withdrew " + withdrawal.amount + " Rands.", "") }
+                    if(!data.isNullOrEmpty()) {
+                        data.map { response -> if (response.success) notify("Sent $amount $asset to $address.", response.withdrawalId) else notify("Send failed.", "")}
                     } else {
-                        notify("Withdrawal Failed", "")
+                        notify("Send failed.", "")
                     }
-
                 }
                 Status.ERROR -> {
-                    displayWithdrawOptions()
-                    notify("Withdrawal Failed", "")
+                    displaySendOptions()
+                    notify("Send failed.", "")
                 }
                 Status.LOADING -> { displayProgressBar() }
             }
@@ -75,30 +71,26 @@ class WithdrawFrag : Fragment(R.layout.withdraw_fragment) {
     }
 
     private fun hideAllViews() {
-        this.binding.withdrawButton.visibility = View.GONE
+        this.binding.sendTextView.visibility = View.GONE
+        this.binding.sendButton.visibility = View.GONE
+        this.binding.addressEditText.visibility = View.GONE
         this.binding.amountEditText.visibility = View.GONE
-        this.binding.beneficiaryIdEditText.visibility = View.GONE
-        this.binding.withdrawTextView.visibility = View.GONE
-        this.binding.errorTextView.visibility = View.GONE
+        this.binding.tagEditText.visibility = View.GONE
         this.binding.progressBar.visibility = View.GONE
-    }
-
-    private fun displayWithdrawOptions() {
-        hideAllViews()
-        this.binding.withdrawButton.visibility = View.VISIBLE
-        this.binding.amountEditText.visibility = View.VISIBLE
-        this.binding.beneficiaryIdEditText.visibility = View.VISIBLE
-        this.binding.withdrawTextView.visibility = View.VISIBLE
-    }
-
-    private fun displayErrorTextView() {
-        hideAllViews()
-        this.binding.errorTextView.visibility = View.VISIBLE
     }
 
     private fun displayProgressBar() {
         hideAllViews()
         this.binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun displaySendOptions() {
+        hideAllViews()
+        this.binding.sendTextView.visibility = View.VISIBLE
+        this.binding.sendButton.visibility = View.VISIBLE
+        this.binding.addressEditText.visibility = View.VISIBLE
+        this.binding.amountEditText.visibility = View.VISIBLE
+        this.binding.tagEditText.visibility = View.VISIBLE
     }
 
     private fun notify(title: String?, message: String?) {

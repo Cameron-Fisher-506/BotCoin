@@ -7,9 +7,8 @@ import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.DonateMenuFragmentBinding
 import za.co.botcoin.utils.ConstantUtils
-import za.co.botcoin.view.menu.donate.DonateFrag
 
-class DonateMenuFrag : Fragment(R.layout.donate_menu_fragment) {
+class DonateMenuFragment : Fragment(R.layout.donate_menu_fragment) {
     private lateinit var binding: DonateMenuFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -24,28 +23,28 @@ class DonateMenuFrag : Fragment(R.layout.donate_menu_fragment) {
 
     private fun addDonateBtcOptionListener() {
         this.binding.donateBtcOptionLinearLayoutCompat.setOnClickListener {
-            val action = DonateMenuFragDirections.actionDonateMenuFragToDonateFrag2(ConstantUtils.BTC)
+            val action = DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment(ConstantUtils.BTC)
             Navigation.findNavController(it).navigate(action)
         }
     }
 
     private fun addDonateXrpOptionListener() {
         this.binding.donateXrpOptionLinearLayoutCompat.setOnClickListener {
-            val action = DonateMenuFragDirections.actionDonateMenuFragToDonateFrag2(ConstantUtils.XRP)
+            val action = DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment(ConstantUtils.XRP)
             Navigation.findNavController(it).navigate(action)
         }
     }
 
     private fun addDonateEthOptionListener() {
         this.binding.donateEthOptionLinearLayout.setOnClickListener {
-            val action = DonateMenuFragDirections.actionDonateMenuFragToDonateFrag2(ConstantUtils.ETH)
+            val action = DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment(ConstantUtils.ETH)
             Navigation.findNavController(it).navigate(action)
         }
     }
 
     private fun addDonateLtcOptionListener() {
         this.binding.donateLtcOptionLinearLayout.setOnClickListener {
-            val action = DonateMenuFragDirections.actionDonateMenuFragToDonateFrag2(ConstantUtils.LTC)
+            val action = DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment(ConstantUtils.LTC)
             Navigation.findNavController(it).navigate(action)
         }
     }

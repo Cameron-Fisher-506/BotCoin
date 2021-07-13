@@ -34,7 +34,7 @@ class OrderListAdapter(private val ordersList: ArrayList<Order>) : RecyclerView.
         }
 
         holder.binding.cancelButton.setOnClickListener {
-            GeneralUtils.createAlertDialog(it.context, "Cancel Order", "Are you sure you would like to cancel your order?", true)?.show()
+            GeneralUtils.createAlertDialog(it.context, "Cancel Order", "Are you sure you would like to cancel your order?", true).show()
             //this.withdrawalViewModel.stopOrder(true, orderId)
         }
     }
