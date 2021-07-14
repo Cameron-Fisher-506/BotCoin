@@ -396,8 +396,6 @@ class BotService : Service() {
 
     private fun modifyResistancePrices(resistancePrices: ArrayList<TradePrice>, currentPrice: Double) {
         addPriceToList(resistancePrices, currentPrice, true)
-
-        //check if the current price increases above the temp support price
         if (resistancePrices.isNotEmpty()) {
             resistancePrices.map {
                 if (currentPrice < it.price) { it.isIncreased = false }
