@@ -39,7 +39,7 @@ class BotService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        if (Build.VERSION.SDK_INT >= 26) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val CHANNEL_ID = "BotCoin"
             val channel = NotificationChannel(CHANNEL_ID,
                     "BotCoin",
@@ -218,36 +218,6 @@ class BotService : Service() {
         }
     }
 
-    private fun attachReceiveObserver() = CoroutineScope(Dispatchers.IO).launch {
-        val resource = withdrawalRepository.receive(ConstantUtils.XRP)
-        when (resource.status) {
-            Status.SUCCESS -> {
-                val data = resource.data
-                if (!data.isNullOrEmpty()) {
-                    /*val address_meta = jsonObject.getJSONArray("address_meta")
-                    var address: String? = null
-                    var tag: String? = null
-                    if (data.first().address_meta != null && address_meta.length() > 0) {
-                        for (i in 0 until address_meta.length()) {
-                            val jsonObjectAddressMeta = address_meta.getJSONObject(i)
-                            if (jsonObjectAddressMeta.getString("label") == "Address") {
-                                address = jsonObjectAddressMeta.getString("value")
-                            }
-                            if (jsonObjectAddressMeta.getString("label") == "XRP Tag") {
-                                tag = jsonObjectAddressMeta.getString("value")
-                            }
-                        }
-                    }
-                    if (address != null && tag != null) {
-                        attachSendObserver(address, tag)
-                    }*/
-                }
-            }
-            Status.ERROR -> { }
-            Status.LOADING -> { }
-        }
-    }
-
     private fun attachPostOrderObserver(pair: String, type: String, volume: String, price: String) = CoroutineScope(Dispatchers.IO).launch {
         val resource = accountRepository.postOrder(pair, type, volume, price)
         when (resource.status) {
@@ -256,23 +226,6 @@ class BotService : Service() {
                 if (!data.isNullOrEmpty()) { } else { }
             }
             Status.ERROR -> { }
-            Status.LOADING -> { }
-        }
-    }
-
-
-    private fun attachSendObserver(amount: String, currency: String, address: String, destinationTag: String) = CoroutineScope(Dispatchers.IO).launch {
-        val resource = withdrawalRepository.send(amount, currency, address, destinationTag)
-        when (resource.status) {
-            Status.SUCCESS -> {
-                val data = resource.data
-                if (!data.isNullOrEmpty()) {
-                    data.map { send -> if (send.success) GeneralUtils.notify(this@BotService,"Sent $amount $currency to $address.", send.withdrawalId) else GeneralUtils.notify(this@BotService,"Send failed.", "") }
-                } else {
-                    GeneralUtils.notify(this@BotService,"Send failed.", "")
-                }
-            }
-            Status.ERROR -> { GeneralUtils.notify(this@BotService,"Send failed.", "") }
             Status.LOADING -> { }
         }
     }
@@ -537,8 +490,6 @@ class BotService : Service() {
         modifyResistancePrices(resistancePrices, currentPrice)
     }
 
-    private fun getDifferenceBetweenPrices(priceA: Double, priceB: Double): Double = priceA - priceB
-
     private fun pullOutOfAsk(currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance, lastAskOrder: Order) {
         if (lastAskOrder.limitPrice.isNotBlank()) {
             val percentage = MathUtils.percentage(lastAskOrder.limitPrice.toDouble(), ConstantUtils.trailingStop)
@@ -566,9 +517,7 @@ class BotService : Service() {
         }
     }
 
-    override fun onBind(intent: Intent): IBinder? {
-        return null
-    }
+    override fun onBind(intent: Intent): IBinder? = null
 
     override fun onDestroy() {
         super.onDestroy()
