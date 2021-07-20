@@ -20,10 +20,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.settings.AutoTradeActivity"/>
+        <activity android:name="za.co.botcoin.view.settings.AutoTradeActivity"/>
         <activity android:name="za.co.botcoin.view.trade.TradeActivity"/>
-        <activity android:name=".view.wallet.WalletActivity"/>
-        <activity android:name=".view.menu.MenuActivity"/>
+        <activity android:name="za.co.botcoin.view.wallet.WalletActivity"/>
+        <activity android:name="za.co.botcoin.view.menu.MenuActivity"/>
 
         <service android:name="za.co.botcoin.services.BotService"/>
     </application>

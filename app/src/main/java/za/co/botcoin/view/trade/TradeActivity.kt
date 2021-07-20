@@ -8,7 +8,6 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import za.co.botcoin.view.home.MainActivity
 import za.co.botcoin.R
-import za.co.botcoin.databinding.MenuActivityBinding
 import za.co.botcoin.databinding.TradeActivityBinding
 import za.co.botcoin.view.menu.MenuActivity
 import za.co.botcoin.view.wallet.WalletActivity

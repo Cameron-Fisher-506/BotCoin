@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModelProviders
 import za.co.botcoin.R
 import za.co.botcoin.databinding.HomeFragmentBinding
 import za.co.botcoin.enum.Status
-import za.co.botcoin.utils.*
-import java.util.*
+import za.co.botcoin.utils.ConstantUtils
+import za.co.botcoin.utils.GeneralUtils
 
 class HomeFragment : Fragment(R.layout.home_fragment) {
     private lateinit var binding: HomeFragmentBinding
@@ -20,7 +20,6 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = HomeFragmentBinding.bind(view)
-
         this.tickersViewModel = ViewModelProviders.of(this).get(TickersViewModel::class.java)
         attachTickerObserver()
 

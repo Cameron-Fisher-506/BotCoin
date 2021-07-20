@@ -1,17 +1,14 @@
 package za.co.botcoin.view.wallet
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
-import org.json.JSONObject
 import za.co.botcoin.R
 import za.co.botcoin.databinding.WalletFragmentBinding
 import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.*
-import za.co.botcoin.view.home.MainActivity
 
 class WalletFragment : Fragment(R.layout.wallet_fragment) {
     private lateinit var binding: WalletFragmentBinding

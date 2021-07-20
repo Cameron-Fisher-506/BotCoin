@@ -1,11 +1,5 @@
 package za.co.botcoin.view.wallet.menu
 
-import android.app.Notification
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -13,6 +7,7 @@ import androidx.lifecycle.ViewModelProviders
 import za.co.botcoin.R
 import za.co.botcoin.databinding.SendFragmentBinding
 import za.co.botcoin.enum.Status
+import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.GeneralUtils.createAlertDialog
 import za.co.botcoin.view.wallet.WithdrawalViewModel
 
@@ -56,14 +51,14 @@ class SendFragment : Fragment(R.layout.send_fragment) {
                     displaySendOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
-                        data.map { response -> if (response.success) notify("Sent $amount $asset to $address.", response.withdrawalId) else notify("Send failed.", "") }
+                        data.map { response -> if (response.success) GeneralUtils.notify(context,"Sent $amount $asset to $address.", response.withdrawalId) else GeneralUtils.notify(context,"Send failed.", "") }
                     } else {
-                        notify("Send failed.", "")
+                        GeneralUtils.notify(context,"Send failed.", "")
                     }
                 }
                 Status.ERROR -> {
                     displaySendOptions()
-                    notify("Send failed.", "")
+                    GeneralUtils.notify(context,"Send failed.", "")
                 }
                 Status.LOADING -> {
                     displayProgressBar()
@@ -93,36 +88,5 @@ class SendFragment : Fragment(R.layout.send_fragment) {
         this.binding.addressEditText.visibility = View.VISIBLE
         this.binding.amountEditText.visibility = View.VISIBLE
         this.binding.tagEditText.visibility = View.VISIBLE
-    }
-
-    private fun notify(title: String?, message: String?) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val intent = Intent()
-            val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
-            val notification = Notification.Builder(context)
-                    .setTicker(title)
-                    .setContentTitle(title)
-                    .setContentText(message)
-                    .setSmallIcon(R.drawable.botcoin)
-                    .addAction(R.drawable.luno_icon, "Action 1", pendingIntent)
-                    .setContentIntent(pendingIntent).notification
-            notification.flags = Notification.FLAG_AUTO_CANCEL
-            val notificationManager = context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.notify(0, notification)
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val intent = Intent()
-            val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
-            val notification = Notification.Builder(context)
-                    .setContentTitle(title)
-                    .setContentText(message)
-                    .setSmallIcon(R.drawable.botcoin)
-                    .setContentIntent(pendingIntent)
-                    .setDefaults(Notification.DEFAULT_SOUND or Notification.DEFAULT_LIGHTS or Notification.DEFAULT_VIBRATE)
-                    .setAutoCancel(true)
-                    .build()
-            val notificationManager = context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.notify(0, notification)
-        }
     }
 }

@@ -3,11 +3,9 @@ package za.co.botcoin.view.settings
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import org.json.JSONObject
 import za.co.botcoin.R
 import za.co.botcoin.databinding.AutoTradeFragmentBinding
 import za.co.botcoin.services.BotService

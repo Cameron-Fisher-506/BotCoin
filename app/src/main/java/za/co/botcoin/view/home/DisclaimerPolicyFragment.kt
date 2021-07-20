@@ -4,14 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.text.method.ScrollingMovementMethod
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import org.json.JSONObject
 import za.co.botcoin.R
 import za.co.botcoin.databinding.DisclaimerPolicyFragmentBinding
-import za.co.botcoin.utils.ConstantUtils
-import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.SharedPrefsUtils
 import kotlin.system.exitProcess
 
