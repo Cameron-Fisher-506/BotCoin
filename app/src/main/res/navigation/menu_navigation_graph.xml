@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/menuFragment"
-        android:name="za.co.botcoin.view.menu.MenuFragment"
+        android:name="za.co.ticker.view.menu.MenuFragment"
         android:label="Menu">
         <action
             android:id="@+id/action_menuFragment_to_lunoApiFragment"
@@ -29,27 +29,27 @@
     </fragment>
     <fragment
         android:id="@+id/lunoApiFragment"
-        android:name="za.co.botcoin.view.menu.LunoApiFragment"
+        android:name="za.co.ticker.view.menu.LunoApiFragment"
         android:label="Luno Api" />
     <fragment
         android:id="@+id/notificationsFragment"
-        android:name="za.co.botcoin.view.menu.NotificationsFragment"
+        android:name="za.co.ticker.view.menu.NotificationsFragment"
         android:label="Notifications" />
     <fragment
         android:id="@+id/supportPriceCounterFragment"
-        android:name="za.co.botcoin.view.menu.SupportPriceCounterFragment"
+        android:name="za.co.ticker.view.menu.SupportPriceCounterFragment"
         android:label="Support Price Counter" />
     <fragment
         android:id="@+id/trailingStopFragment"
-        android:name="za.co.botcoin.view.menu.TrailingStopFragment"
+        android:name="za.co.ticker.view.menu.TrailingStopFragment"
         android:label="Trailing Stop" />
     <fragment
         android:id="@+id/resistancePriceCounterFragment"
-        android:name="za.co.botcoin.view.menu.ResistancePriceCounterFragment"
+        android:name="za.co.ticker.view.menu.ResistancePriceCounterFragment"
         android:label="Resistance Price Counter" />
     <fragment
         android:id="@+id/donateMenuFragment"
-        android:name="za.co.botcoin.view.menu.DonateMenuFragment"
+        android:name="za.co.ticker.view.menu.DonateMenuFragment"
         android:label="Donate Menu">
         <action
             android:id="@+id/action_donateMenuFragment_to_donateFragment"
@@ -57,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/donateFragment"
-        android:name="za.co.botcoin.view.menu.donate.DonateFragment"
+        android:name="za.co.ticker.view.menu.donate.DonateFragment"
         android:label="Donate">
         <argument
             android:name="asset"

@@ -6,6 +6,6 @@
 
     <fragment
         android:id="@+id/tradeFragment"
-        android:name="za.co.botcoin.view.trade.TradeFragment"
+        android:name="za.co.ticker.view.trade.TradeFragment"
         android:label="Trade" />
 </navigation>
