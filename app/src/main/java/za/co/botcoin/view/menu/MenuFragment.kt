@@ -1,7 +1,6 @@
 package za.co.botcoin.view.menu
 
 import android.os.Bundle
-import android.view.Menu
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation

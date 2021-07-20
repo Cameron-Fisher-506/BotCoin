@@ -17,6 +17,7 @@ import za.co.botcoin.model.models.TradePrice
 import za.co.botcoin.model.repository.AccountRepository
 import za.co.botcoin.model.repository.WithdrawalRepository
 import za.co.botcoin.utils.*
+import za.co.botcoin.utils.GeneralUtils
 import java.util.*
 
 class BotService : Service() {
@@ -39,7 +40,7 @@ class BotService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        if (Build.VERSION.SDK_INT >= 26) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val CHANNEL_ID = "BotCoin"
             val channel = NotificationChannel(CHANNEL_ID,
                     "BotCoin",
@@ -53,7 +54,7 @@ class BotService : Service() {
                     .build()
             startForeground(1, notification)
         } else {
-            notify("BotCoin", "BotCoin is auto trading!")
+            GeneralUtils.notify(this,"BotCoin", "BotCoin is auto trading!")
         }
 
         //initialise values
@@ -199,7 +200,7 @@ class BotService : Service() {
                 val data = resource.data
                 if (!data.isNullOrEmpty()) {
                     if (data.first().success) {
-                        notify("Order Cancellation", "Order cancelled successfully.")
+                        GeneralUtils.notify(this@BotService,"Order Cancellation", "Order cancelled successfully.")
 
                         val newResistancePrice = pullOutOfAskPrice
                         if (newResistancePrice != null) {
@@ -210,40 +211,10 @@ class BotService : Service() {
                         //lastAskOrder = null
                         //lastBidOrder = null
                         pullOutOfAskPrice = null
-                    } else { notify("Order Cancellation", "Order cancellation failed.") }
-                } else { notify("Order Cancellation", "Order cancellation failed.") }
+                    } else { GeneralUtils.notify(this@BotService,"Order Cancellation", "Order cancellation failed.") }
+                } else { GeneralUtils.notify(this@BotService,"Order Cancellation", "Order cancellation failed.") }
             }
-            Status.ERROR -> { notify("Order Cancellation", "Order cancellation failed.") }
-            Status.LOADING -> { }
-        }
-    }
-
-    private fun attachReceiveObserver() = CoroutineScope(Dispatchers.IO).launch {
-        val resource = withdrawalRepository.receive(ConstantUtils.XRP)
-        when (resource.status) {
-            Status.SUCCESS -> {
-                val data = resource.data
-                if (!data.isNullOrEmpty()) {
-                    /*val address_meta = jsonObject.getJSONArray("address_meta")
-                    var address: String? = null
-                    var tag: String? = null
-                    if (data.first().address_meta != null && address_meta.length() > 0) {
-                        for (i in 0 until address_meta.length()) {
-                            val jsonObjectAddressMeta = address_meta.getJSONObject(i)
-                            if (jsonObjectAddressMeta.getString("label") == "Address") {
-                                address = jsonObjectAddressMeta.getString("value")
-                            }
-                            if (jsonObjectAddressMeta.getString("label") == "XRP Tag") {
-                                tag = jsonObjectAddressMeta.getString("value")
-                            }
-                        }
-                    }
-                    if (address != null && tag != null) {
-                        attachSendObserver(address, tag)
-                    }*/
-                }
-            }
-            Status.ERROR -> { }
+            Status.ERROR -> { GeneralUtils.notify(this@BotService,"Order Cancellation", "Order cancellation failed.") }
             Status.LOADING -> { }
         }
     }
@@ -260,23 +231,6 @@ class BotService : Service() {
         }
     }
 
-
-    private fun attachSendObserver(amount: String, currency: String, address: String, destinationTag: String) = CoroutineScope(Dispatchers.IO).launch {
-        val resource = withdrawalRepository.send(amount, currency, address, destinationTag)
-        when (resource.status) {
-            Status.SUCCESS -> {
-                val data = resource.data
-                if (!data.isNullOrEmpty()) {
-                    data.map { send -> if (send.success) notify("Sent $amount $currency to $address.", send.withdrawalId) else notify("Send failed.", "") }
-                } else {
-                    notify("Send failed.", "")
-                }
-            }
-            Status.ERROR -> { notify("Send failed.", "") }
-            Status.LOADING -> { }
-        }
-    }
-
     private fun bid(isRestrict: Boolean, currentPrice: Double, lastTrade: Trade, zarBalance: Balance) {
         val supportPriceTemp = supportPrice
         if (isRestrict) {
@@ -289,7 +243,7 @@ class BotService : Service() {
                 val amountXrpToBuy = calcAmountXrpToBuy(zarBalance.balance.toDouble(), supportPriceTemp.toDouble()).toString()
 
                 attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "BID", amountXrpToBuy, supportPriceTemp)
-                notify("Auto Trade", "New buy order has been placed.")
+                GeneralUtils.notify(this,"Auto Trade", "New buy order has been placed.")
                 //empty the the trade price list
                 supportPrice = null
                 supportPrices.clear()
@@ -307,7 +261,7 @@ class BotService : Service() {
                 val percentage = MathUtils.percentage(supportPriceTemp.toDouble(), ConstantUtils.trailingStop)
                 val result = MathUtils.precision(supportPriceTemp.toDouble() + MathUtils.precision(percentage))
                 if (currentPrice >= result) {
-                    notify("bid isRestrict: false - (bid reset support: $supportPrice)", "$currentPrice >= $result")
+                    GeneralUtils.notify(this,"bid isRestrict: false - (bid reset support: $supportPrice)", "$currentPrice >= $result")
                     supportPrice = null
                 }
             }
@@ -327,7 +281,7 @@ class BotService : Service() {
                 placeSellOrder = true
                 Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - ask " +
                         "resistancePrice: $resistancePrice " +
-                        "lastTradeType: $lastTrade.type " +
+                        "lastTradeType: ${lastTrade.type} " +
                         "lastPurchasePrice: ${lastTrade.price} " +
                         "currentPrice: $currentPrice " +
                         "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
@@ -339,7 +293,7 @@ class BotService : Service() {
                 if (currentPrice <= result) {
                     newResistancePrice = result.toString()
                     placeSellOrder = true
-                    notify("ask - (ResistancePrice: $resistancePrice)", "$currentPrice <= $result")
+                    GeneralUtils.notify(this,"ask - (ResistancePrice: $resistancePrice)", "$currentPrice <= $result")
                     ConstantUtils.supportPriceCounter = 9
                 }
             } else if (lastTrade.price.toDouble() != 0.0 && lastTrade.type != Trade.ASK_TYPE) {
@@ -348,26 +302,20 @@ class BotService : Service() {
                 if (currentPrice <= result) {
                     newSellPrice = result.toString()
                     placeSellOrder = true
-                    notify("ask - (LastPurchasePrice: ${lastTrade.price.toDouble()})", "$currentPrice <= $result")
+                    GeneralUtils.notify(this,"ask - (LastPurchasePrice: ${lastTrade.price.toDouble()})", "$currentPrice <= $result")
                     ConstantUtils.supportPriceCounter = 9
                 }
             }
         }
         if (placeSellOrder) {
-            /*if (newXrpBalance >= ConstantUtils.SERVICE_FEE_MIN_BALANCE)
-            {
-                newXrpBalance -= 0.1;
-                getBotCoinAccountDetails();
-            }*/
             val amountXrpToSell = (xrpBalance.balance.toDouble()).toInt().toString()
-            var postOrder: String? = null
 
             val newSellPriceTemp = newSellPrice
             val newResistancePriceTemp = newResistancePrice
             when {
                 newResistancePriceTemp != null -> {
                     attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell, newResistancePriceTemp)
-                    notify("Auto Trade", "New sell order has been placed.")
+                    GeneralUtils.notify(this,"Auto Trade", "New sell order has been placed.")
 
                     //empty the the trade price list
                     resistancePrice = null
@@ -376,14 +324,14 @@ class BotService : Service() {
 
                 newSellPriceTemp != null -> {
                     attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell, newSellPriceTemp)
-                    notify("Auto Trade", "New sell order has been placed.")
+                    GeneralUtils.notify(this,"Auto Trade", "New sell order has been placed.")
 
                     //empty the the trade price list
                     resistancePrice = null
                     resistancePrices.clear()
                 }
                 else -> {
-                    Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - ask \npostOrder: null \nCreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
+                    Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - ask postOrder: null CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
                 }
             }
         }
@@ -449,8 +397,6 @@ class BotService : Service() {
 
     private fun modifyResistancePrices(resistancePrices: ArrayList<TradePrice>, currentPrice: Double) {
         addPriceToList(resistancePrices, currentPrice, true)
-
-        //check if the current price increases above the temp support price
         if (resistancePrices.isNotEmpty()) {
             resistancePrices.map {
                 if (currentPrice < it.price) { it.isIncreased = false }
@@ -543,8 +489,6 @@ class BotService : Service() {
         modifyResistancePrices(resistancePrices, currentPrice)
     }
 
-    private fun getDifferenceBetweenPrices(priceA: Double, priceB: Double): Double = priceA - priceB
-
     private fun pullOutOfAsk(currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance, lastAskOrder: Order) {
         if (lastAskOrder.limitPrice.isNotBlank()) {
             val percentage = MathUtils.percentage(lastAskOrder.limitPrice.toDouble(), ConstantUtils.trailingStop)
@@ -552,7 +496,7 @@ class BotService : Service() {
             if (currentPrice <= result) {
                 attachStopOrderObserver(lastAskOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance)
                 pullOutOfAskPrice = result
-                notify("pullOutOfAsk - (LastAskOrder: " + lastAskOrder.limitPrice + ")", "$currentPrice <= $result")
+                GeneralUtils.notify(this,"pullOutOfAsk - (LastAskOrder: " + lastAskOrder.limitPrice + ")", "$currentPrice <= $result")
             }
         } else {
             ask(false, currentPrice, lastTrade, xrpBalance, zarBalance)
@@ -565,66 +509,18 @@ class BotService : Service() {
             val result = MathUtils.precision(lastBidOrder.limitPrice.toDouble() + MathUtils.precision(percentage))
             if (currentPrice >= result) {
                 attachStopOrderObserver(lastBidOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance)
-                notify("pullOutOfBidCancel - (LastBidOrder: " + lastBidOrder.limitPrice + ")", "$currentPrice >= $result")
+                GeneralUtils.notify(this, "pullOutOfBidCancel - (LastBidOrder: " + lastBidOrder.limitPrice + ")", "$currentPrice >= $result")
             }
         } else if (supportPrice != null) {
             bid(false, currentPrice, lastTrade, zarBalance)
         }
     }
 
-    override fun onBind(intent: Intent): IBinder? {
-        return null
-    }
+    override fun onBind(intent: Intent): IBinder? = null
 
     override fun onDestroy() {
         super.onDestroy()
         this.timer.cancel()
         this.timer.purge()
-    }
-
-    private fun notify(title: String?, message: String?) {
-        if (Build.VERSION.SDK_INT >= 26) {
-            val CHANNEL_ID = "BotCoin"
-            val channel = NotificationChannel(CHANNEL_ID,
-                    "BotCoin",
-                    NotificationManager.IMPORTANCE_DEFAULT)
-            (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(channel)
-            val notification = Notification.Builder(applicationContext)
-                    .setContentTitle(title)
-                    .setContentText(message)
-                    .setSmallIcon(R.mipmap.botcoin)
-                    .setChannelId(CHANNEL_ID)
-                    .build()
-            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.notify(0, notification)
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val intent = Intent()
-            val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
-            val notification = Notification.Builder(this)
-                    .setTicker(title)
-                    .setContentTitle(title)
-                    .setContentText(message)
-                    .setSmallIcon(R.drawable.botcoin)
-                    .addAction(R.drawable.luno_icon, "Action 1", pendingIntent)
-                    .setContentIntent(pendingIntent).notification
-            notification.flags = Notification.FLAG_AUTO_CANCEL
-            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.notify(0, notification)
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val intent = Intent()
-            val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
-            val notification = Notification.Builder(this)
-                    .setContentTitle(title)
-                    .setContentText(message)
-                    .setSmallIcon(R.drawable.botcoin)
-                    .setContentIntent(pendingIntent)
-                    .setDefaults(Notification.DEFAULT_SOUND or Notification.DEFAULT_LIGHTS or Notification.DEFAULT_VIBRATE)
-                    .setAutoCancel(true)
-                    .build()
-            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.notify(0, notification)
-        }
     }
 }

@@ -6,7 +6,6 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
 import za.co.botcoin.model.models.*
-import za.co.botcoin.utils.Resource
 
 interface IBotCoinApi {
     @GET("tickers")
