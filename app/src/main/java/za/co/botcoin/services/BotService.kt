@@ -41,20 +41,20 @@ class BotService : Service() {
     override fun onCreate() {
         super.onCreate()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val CHANNEL_ID = "Ticker"
+            val CHANNEL_ID = "BotCoin"
             val channel = NotificationChannel(CHANNEL_ID,
-                    "Ticker",
+                    "BotCoin",
                     NotificationManager.IMPORTANCE_DEFAULT)
             (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(channel)
             val notification = Notification.Builder(applicationContext)
-                    .setContentTitle("Ticker")
-                    .setContentText("Ticker is auto trading!")
-                    .setSmallIcon(R.drawable.ic_baseline_data_exploration_24)
+                    .setContentTitle("BotCoin")
+                    .setContentText("BotCoin is auto trading!")
+                    .setSmallIcon(R.mipmap.botcoin)
                     .setChannelId(CHANNEL_ID)
                     .build()
             startForeground(1, notification)
         } else {
-            GeneralUtils.notify(this,"Ticker", "Ticker is auto trading!")
+            GeneralUtils.notify(this,"BotCoin", "BotCoin is auto trading!")
         }
 
         //initialise values

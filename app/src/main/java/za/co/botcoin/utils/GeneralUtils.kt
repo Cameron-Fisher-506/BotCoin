@@ -76,12 +76,12 @@ object GeneralUtils {
         context?.let {
             val notificationManager = it.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val CHANNEL_ID = "Ticker"
-                notificationManager.createNotificationChannel(NotificationChannel(CHANNEL_ID, "Ticker", NotificationManager.IMPORTANCE_DEFAULT))
+                val CHANNEL_ID = "BotCoin"
+                notificationManager.createNotificationChannel(NotificationChannel(CHANNEL_ID, "BotCoin", NotificationManager.IMPORTANCE_DEFAULT))
                 val notification = Notification.Builder(it)
                         .setContentTitle(title)
                         .setContentText(message)
-                        .setSmallIcon(R.drawable.ic_baseline_data_exploration_24)
+                        .setSmallIcon(R.mipmap.botcoin)
                         .setChannelId(CHANNEL_ID)
                         .build()
                 notificationManager.notify(0, notification)
