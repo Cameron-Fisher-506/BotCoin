@@ -6,7 +6,7 @@
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/homeFragment"
-        android:name="za.co.ticker.view.home.HomeFragment"
+        android:name="za.co.botcoin.view.home.HomeFragment"
         android:label="Home">
         <action
             android:id="@+id/action_homeFragment_to_privacyPolicyFragment"
@@ -14,7 +14,7 @@
     </fragment>
     <fragment
         android:id="@+id/privacyPolicyFragment"
-        android:name="za.co.ticker.view.home.PrivacyPolicyFragment"
+        android:name="za.co.botcoin.view.home.PrivacyPolicyFragment"
         android:label="Privacy Policy">
         <action
             android:id="@+id/action_privacyPolicyFragment_to_disclaimerPolicyFragment"
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/disclaimerPolicyFragment"
-        android:name="za.co.ticker.view.home.DisclaimerPolicyFragment"
+        android:name="za.co.botcoin.view.home.DisclaimerPolicyFragment"
         android:label="Disclaimer Policy">
         <action
             android:id="@+id/action_disclaimerPolicyFragment_to_homeFragment"

@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/walletFragment"
-        android:name="za.co.ticker.view.wallet.WalletFragment"
+        android:name="za.co.botcoin.view.wallet.WalletFragment"
         android:label="Wallet">
         <action
             android:id="@+id/action_walletFragment_to_walletMenuFragment"
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/walletMenuFragment"
-        android:name="za.co.ticker.view.wallet.WalletMenuFragment"
+        android:name="za.co.botcoin.view.wallet.WalletMenuFragment"
         android:label="Wallet Menu">
         <action
             android:id="@+id/action_walletMenuFragment_to_ordersFragment"
@@ -34,11 +34,11 @@
     </fragment>
     <fragment
         android:id="@+id/withdrawFragment"
-        android:name="za.co.ticker.view.wallet.WithdrawFragment"
+        android:name="za.co.botcoin.view.wallet.WithdrawFragment"
         android:label="Withdraw" />
     <fragment
         android:id="@+id/ordersFragment"
-        android:name="za.co.ticker.view.wallet.menu.OrdersFragment"
+        android:name="za.co.botcoin.view.wallet.menu.OrdersFragment"
         android:label="Orders">
         <argument
             android:name="asset"
@@ -46,7 +46,7 @@
     </fragment>
     <fragment
         android:id="@+id/receiveFragment"
-        android:name="za.co.ticker.view.wallet.menu.ReceiveFragment"
+        android:name="za.co.botcoin.view.wallet.menu.ReceiveFragment"
         android:label="Receive">
         <argument
             android:name="asset"
@@ -57,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/sendFragment"
-        android:name="za.co.ticker.view.wallet.menu.SendFragment"
+        android:name="za.co.botcoin.view.wallet.menu.SendFragment"
         android:label="Send">
         <argument
             android:name="asset"
@@ -65,6 +65,6 @@
     </fragment>
     <fragment
         android:id="@+id/lunoApiFragment"
-        android:name="za.co.ticker.view.menu.LunoApiFragment"
+        android:name="za.co.botcoin.view.menu.LunoApiFragment"
         android:label="Luno Api" />
 </navigation>
