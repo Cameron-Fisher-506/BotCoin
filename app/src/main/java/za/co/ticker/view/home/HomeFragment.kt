@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModelProviders
 import za.co.ticker.R
 import za.co.ticker.databinding.HomeFragmentBinding
 import za.co.ticker.enum.Status
-import za.co.ticker.utils.*
-import java.util.*
+import za.co.ticker.utils.ConstantUtils
+import za.co.ticker.utils.GeneralUtils
 
 class HomeFragment : Fragment(R.layout.home_fragment) {
     private lateinit var binding: HomeFragmentBinding
