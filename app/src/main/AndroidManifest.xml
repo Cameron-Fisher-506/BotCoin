@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_baseline_data_exploration_24"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BotCoin">
+        android:theme="@style/Theme.Ticker">
         <activity android:name=".view.home.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
