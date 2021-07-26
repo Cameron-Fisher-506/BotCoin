@@ -29,8 +29,6 @@ class DonateFragment : Fragment(R.layout.donate_fragment) {
             attachReceiveObserver()
         } else {
             GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
-            val action = DonateFragmentDirections.actionDonateFragToLunoApiFrag2()
-            Navigation.findNavController(view).navigate(action)
         }
     }
 
