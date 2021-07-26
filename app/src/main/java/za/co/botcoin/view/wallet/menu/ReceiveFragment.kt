@@ -9,6 +9,7 @@ import za.co.botcoin.R
 import za.co.botcoin.databinding.ReceiveFragmentBinding
 import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.ClipBoardUtils.copyToClipBoard
+import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils.createAlertDialog
 import za.co.botcoin.utils.GeneralUtils.createQRCode
 import za.co.botcoin.utils.GeneralUtils.isApiKeySet
@@ -25,7 +26,7 @@ class ReceiveFragment : Fragment(R.layout.receive_fragment) {
         this.withdrawalViewModel = ViewModelProviders.of(this).get(WithdrawalViewModel::class.java)
 
         if (isApiKeySet(context)) {
-            this.withdrawalViewModel.receive(arguments?.getString("asset") ?: "")
+            this.withdrawalViewModel.receive(arguments?.getString("asset") ?: "", ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)
             attachReceiveObserver()
         } else {
             createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()

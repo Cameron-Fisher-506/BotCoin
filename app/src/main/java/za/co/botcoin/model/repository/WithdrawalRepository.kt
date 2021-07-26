@@ -37,11 +37,11 @@ class WithdrawalRepository(private val application: Application) {
         )
     }
 
-    suspend fun receive(asset: String): Resource<List<Receive>> {
+    suspend fun receive(asset: String, keyId: String, secretKey: String): Resource<List<Receive>> {
         return DataAccessStrategyUtils.synchronizedCache(
                 application,
                 { BotCoinDatabase.getResource { receiveDao.getAll() } },
-                { botCoinService.receive("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}", asset) },
+                { botCoinService.receive("Basic ${GeneralUtils.getAuth(keyId, secretKey)}", asset) },
                 { receiveDao.upsert(it, receiveDao) }
         )
     }
