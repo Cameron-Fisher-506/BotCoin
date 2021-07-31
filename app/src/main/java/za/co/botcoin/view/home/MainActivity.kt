@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
 
         wireUI()
         attachNavController()
-        //displayPrivacyPolicy()
     }
 
     private fun attachNavController() {
@@ -49,49 +48,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu -> startActivity(Intent(this, MenuActivity::class.java))
             }
             true
-        }
-    }
-
-    /*private fun displayPrivacyPolicy() {
-        try {
-            var jsonObject = SharedPreferencesUtils.get(this, SharedPreferencesUtils.PRIVACY_POLICY_ACCEPTANCE)
-            if (jsonObject == null) {
-
-                return
-            }
-            jsonObject = SharedPreferencesUtils.get(this, SharedPreferencesUtils.DISCLAIMER_ACCEPTANCE)
-            if (jsonObject == null) {
-                setNavIcons(true, false, false, false)
-                this.binding.navContainer.btnHome.isClickable = false
-                this.binding.navContainer.btnBot.isClickable = false
-                this.binding.navContainer.btnWallet.isClickable = false
-                this.binding.navContainer.btnMenu.isClickable = false
-                val disclaimerPolicyFrag = DisclaimerPolicyFrag()
-                FragmentUtils.startFragment(supportFragmentManager, disclaimerPolicyFrag, R.id.fragContainer, supportActionBar, "Disclaimer Policy", true, false, true, null)
-                return
-            }
-
-            //Pull-out bid price
-            saveDefaultPullOutBidPrice()
-            setUserPulloutBidPrice()
-            val homeFrag = HomeFrag()
-            FragmentUtils.startFragment(supportFragmentManager, homeFrag, R.id.fragContainer, supportActionBar, "Home", true, false, true, null)
-
-
-            //set to home initially
-            setNavIcons(true, false, false, false)
-            GeneralUtils.runAutoTrade(applicationContext)
-        } catch (e: Exception) {
-            Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
-                    "Method: MainActivity - displayPrivacyPolicy " +
-                    "CreatedTime: ${GeneralUtils.getCurrentDateTime()}")
-        }
-    }*/
-
-    private fun setUserPulloutBidPrice() {
-        val trailingStop = SharedPrefsUtils[applicationContext, SharedPrefsUtils.TRAILING_STOP]
-        if (trailingStop != null) {
-            ConstantUtils.trailingStop = trailingStop.toInt()
         }
     }
 

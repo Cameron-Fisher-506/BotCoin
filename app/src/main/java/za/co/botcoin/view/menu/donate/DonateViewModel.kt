@@ -15,10 +15,10 @@ class DonateViewModel(application: Application) : AndroidViewModel(application) 
     lateinit var receiveLiveData: LiveData<Resource<List<Receive>>>
     lateinit var sendLiveData: LiveData<Resource<List<Send>>>
 
-    fun receive(asset: String) {
+    fun receive(asset: String, keyId: String, secretKey: String) {
         receiveLiveData = liveData {
             emit(Resource.loading())
-            emit(withdrawalRepository.receive(asset))
+            emit(withdrawalRepository.receive(asset, keyId, secretKey))
         }
     }
 
