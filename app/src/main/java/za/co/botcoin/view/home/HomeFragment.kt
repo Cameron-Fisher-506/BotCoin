@@ -80,14 +80,22 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
             val action = HomeFragmentDirections.actionHomeFragmentToPrivacyPolicyFragment()
             Navigation.findNavController(view).navigate(action)
         } else {
-            setUserPulloutBidPrice()
+            setUserTrailingStartPrice()
+            setUserTrailingStopPrice()
             //GeneralUtils.runAutoTrade(requireContext())
         }
     }
 
-    private fun setUserPulloutBidPrice() {
+    private fun setUserTrailingStartPrice() {
+        val trailingStart = SharedPrefsUtils[requireContext(), SharedPrefsUtils.TRAILING_START]
+        if (!trailingStart.isNullOrBlank()) {
+            ConstantUtils.trailingStart = trailingStart.toInt()
+        }
+    }
+
+    private fun setUserTrailingStopPrice() {
         val trailingStop = SharedPrefsUtils[requireContext(), SharedPrefsUtils.TRAILING_STOP]
-        if (trailingStop != null) {
+        if (!trailingStop.isNullOrBlank()) {
             ConstantUtils.trailingStop = trailingStop.toInt()
         }
     }

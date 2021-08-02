@@ -23,12 +23,14 @@ class TrailingStopFragment : Fragment(R.layout.trailing_stop_fragment) {
     }
 
     private fun wireUI() {
-        val adapter = ArrayAdapter.createFromResource(context!!, R.array.trailing_stop_items, android.R.layout.simple_spinner_item)
+        val adapter = ArrayAdapter.createFromResource(requireContext(), R.array.trailing_items, android.R.layout.simple_spinner_item)
         this.binding.spinner.adapter = adapter
 
-        val trailingStop = context?.let { SharedPrefsUtils[it, SharedPrefsUtils.TRAILING_STOP] }
-        if (trailingStop != null) {
+        val trailingStop = SharedPrefsUtils[requireContext(), SharedPrefsUtils.TRAILING_STOP]
+        if (!trailingStop.isNullOrBlank()) {
             this.binding.spinner.setSelection(if (trailingStop.toInt() > 0) trailingStop.toInt() - 1 else 0)
+        } else {
+            this.binding.spinner.setSelection(if (ConstantUtils.trailingStop > 0) ConstantUtils.trailingStop - 1 else 0)
         }
     }
 
@@ -43,7 +45,7 @@ class TrailingStopFragment : Fragment(R.layout.trailing_stop_fragment) {
     private fun setBtnUseDefaultListener() {
         this.binding.useDefaultButton.setOnClickListener {
             ConstantUtils.trailingStop = 10
-            context?.let { SharedPrefsUtils.save(it, SharedPrefsUtils.TRAILING_STOP, ConstantUtils.trailingStop.toString()) }
+            SharedPrefsUtils.save(requireContext(), SharedPrefsUtils.TRAILING_STOP, ConstantUtils.trailingStop.toString())
             this.binding.spinner.setSelection(0)
             GeneralUtils.makeToast(context, "Default value set!")
         }
@@ -65,6 +67,6 @@ class TrailingStopFragment : Fragment(R.layout.trailing_stop_fragment) {
     }
 
     private fun saveUserPullOutBidPrice(trailingStop: Int) {
-        context?.let { SharedPrefsUtils.save(it, SharedPrefsUtils.TRAILING_STOP, trailingStop.toString()) }
+        SharedPrefsUtils.save(requireContext(), SharedPrefsUtils.TRAILING_STOP, trailingStop.toString())
     }
 }

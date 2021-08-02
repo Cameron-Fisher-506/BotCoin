@@ -29,6 +29,7 @@
     <string name="luno_api">Luno API</string>
     <string name="donate">Donate</string>
     <string name="notifications">Notifications</string>
+    <string name="trailing_start">Trailing Start</string>
     <string name="trailing_stop">Trailing Stop</string>
     <string name="logcat">Logcat</string>
     <string name="support_price_counter">Set Support Price Counter</string>
@@ -102,7 +103,7 @@
     <string name="wallet">Wallet</string>
     <string name="menu">Menu</string>
 
-    <string-array name="trailing_stop_items">
+    <string-array name="trailing_items">
         <item>1%</item>
         <item>2%</item>
         <item>3%</item>
