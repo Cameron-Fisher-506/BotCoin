@@ -153,9 +153,8 @@ class BotService : Service() {
                     }
 
                     if (useTrailingStart) {
-                        val lowestSupportPriceHit: Double = getLowestPrice(supportPrices)
-                        val percentage = MathUtils.percentage(lowestSupportPriceHit, ConstantUtils.trailingStart)
-                        val result = MathUtils.precision(lowestSupportPriceHit + MathUtils.precision(percentage))
+                        val percentage = MathUtils.percentage(getLowestPrice(supportPrices), ConstantUtils.trailingStart)
+                        val result = MathUtils.precision(getLowestPrice(supportPrices) + MathUtils.precision(percentage))
                         if (result < currentPrice) { supportPrice = result.toString() }
                     }
 
