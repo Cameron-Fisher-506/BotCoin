@@ -243,7 +243,7 @@ class BotService : Service() {
     private fun bid(isRestrict: Boolean, currentPrice: Double, lastTrade: Trade, zarBalance: Balance) {
         val supportPriceTemp = supportPrice
         if (isRestrict) {
-            if (supportPriceTemp != null && lastTrade.type != Trade.BID_TYPE && supportPriceTemp.toDouble() < currentPrice) {
+            if (!supportPriceTemp.isNullOrBlank() && lastTrade.type != Trade.BID_TYPE && supportPriceTemp.toDouble() < currentPrice) {
                 Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - bid " +
                         "supportPrice: $supportPrice " +
                         "lastTradeType: ${lastTrade.type} " +
@@ -266,7 +266,7 @@ class BotService : Service() {
                         "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
             }
         } else {
-            if (supportPriceTemp != null) {
+            if (!supportPriceTemp.isNullOrBlank()) {
                 val percentage = MathUtils.percentage(supportPriceTemp.toDouble(), ConstantUtils.trailingStop)
                 val result = MathUtils.precision(supportPriceTemp.toDouble() + MathUtils.precision(percentage))
                 if (currentPrice >= result) {
@@ -286,7 +286,7 @@ class BotService : Service() {
 
         val resistancePriceTemp = resistancePrice
         if (isRestrict) {
-            if (resistancePriceTemp != null && lastTrade.type == Trade.BID_TYPE && resistancePriceTemp.toDouble() > lastTrade.price.toDouble() && resistancePriceTemp.toDouble() > currentPrice) {
+            if (!resistancePriceTemp.isNullOrBlank() && lastTrade.type == Trade.BID_TYPE && resistancePriceTemp.toDouble() > lastTrade.price.toDouble() && resistancePriceTemp.toDouble() > currentPrice) {
                 placeSellOrder = true
                 Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - ask " +
                         "resistancePrice: $resistancePrice " +
@@ -296,7 +296,7 @@ class BotService : Service() {
                         "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
             }
         } else {
-            if (resistancePriceTemp != null) {
+            if (!resistancePriceTemp.isNullOrBlank()) {
                 val percentage = MathUtils.percentage(resistancePriceTemp.toDouble(), ConstantUtils.trailingStop)
                 val result = MathUtils.precision(resistancePriceTemp.toDouble() - MathUtils.precision(percentage))
                 if (currentPrice <= result) {
@@ -322,7 +322,7 @@ class BotService : Service() {
             val newSellPriceTemp = newSellPrice
             val newResistancePriceTemp = newResistancePrice
             when {
-                newResistancePriceTemp != null -> {
+                !newResistancePriceTemp.isNullOrBlank() -> {
                     attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell, newResistancePriceTemp)
                     GeneralUtils.notify(this,"Auto Trade", "New sell order has been placed.")
 
@@ -331,7 +331,7 @@ class BotService : Service() {
                     resistancePrices.clear()
                 }
 
-                newSellPriceTemp != null -> {
+                !newSellPriceTemp.isNullOrBlank() -> {
                     attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell, newSellPriceTemp)
                     GeneralUtils.notify(this,"Auto Trade", "New sell order has been placed.")
 
@@ -352,7 +352,7 @@ class BotService : Service() {
                 "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
     }
 
-    private fun getNumberOfPricesCounterMoreThanN(tradePrices: List<TradePrice>, lastTrade: Trade, currentPrice: Double? = null, zarBalance: Balance? = null): Int {
+    private fun getNumberOfPricesCounterMoreThanN(tradePrices: List<TradePrice>, lastTrade: Trade): Int {
         var toReturn = 0
         tradePrices.map {
             when (lastTrade.type) {
@@ -533,7 +533,7 @@ class BotService : Service() {
                 attachStopOrderObserver(lastBidOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance)
                 GeneralUtils.notify(this, "pullOutOfBidCancel - (LastBidOrder: " + lastBidOrder.limitPrice + ")", "$currentPrice >= $result")
             }
-        } else if (supportPrice != null) {
+        } else if (!supportPrice.isNullOrBlank()) {
             bid(false, currentPrice, lastTrade, zarBalance)
         }
     }
