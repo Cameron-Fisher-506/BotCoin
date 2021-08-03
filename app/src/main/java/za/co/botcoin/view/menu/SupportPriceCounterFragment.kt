@@ -44,7 +44,7 @@ class SupportPriceCounterFragment : Fragment(R.layout.support_price_counter_frag
     private fun setImgBtnSupportPriceCounterListener() {
         this.binding.supportPriceCounterImageButton.setOnClickListener {
             GeneralUtils.createAlertDialog(context, "Support Price Counter", """
-     BotCoin uses the Support Price Counter, to buy at solid support price
+     BotCoin uses the Support Price Counter, to buy at a solid support price
      
      E.g.
      Support Price Counter: 5

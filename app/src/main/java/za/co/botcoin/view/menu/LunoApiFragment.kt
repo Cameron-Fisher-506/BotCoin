@@ -16,8 +16,8 @@ class LunoApiFragment : Fragment(R.layout.luno_api_fragment) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = LunoApiFragmentBinding.bind(view)
 
-        ConstantUtils.USER_KEY_ID?.let { this.binding.keyIdEditText.setText(it) }
-        ConstantUtils.USER_SECRET_KEY?.let { this.binding.secretKeyEditText.setText(it) }
+        this.binding.keyIdEditText.setText(ConstantUtils.USER_KEY_ID)
+        this.binding.secretKeyEditText.setText(ConstantUtils.USER_SECRET_KEY)
         setBtnSaveListener()
     }
 
@@ -30,10 +30,8 @@ class LunoApiFragment : Fragment(R.layout.luno_api_fragment) {
                 ConstantUtils.USER_KEY_ID = keyID
                 ConstantUtils.USER_SECRET_KEY = secretKey
 
-                context?.let { context ->
-                    SharedPrefsUtils.save(context, SharedPrefsUtils.LUNO_API_KEY_ID, keyID)
-                    SharedPrefsUtils.save(context, SharedPrefsUtils.LUNO_API_SECRET_KEY, secretKey)
-                }
+                SharedPrefsUtils.save(requireContext(), SharedPrefsUtils.LUNO_API_KEY_ID, keyID)
+                SharedPrefsUtils.save(requireContext(), SharedPrefsUtils.LUNO_API_SECRET_KEY, secretKey)
                 GeneralUtils.makeToast(activity, "API Key Saved!")
             } else {
                 GeneralUtils.createAlertDialog(activity, "Luno API Credentials (Luno API)", "Please set your Luno API credentials in order to use BotCoin!", false).show()

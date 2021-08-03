@@ -61,8 +61,8 @@ class TrailingStartFragment : Fragment(R.layout.trailing_start_fragment) {
          Current price: R100
          Buy order: R109.99
          
-         In the above scenario BotCoin will create a buy order if the price increases 10% above the last lowest support price.
-         BotCoin will always place a buy order R0.1 less than the current price.
+         In the above scenario, BotCoin will create a buy order if the price increases 10% above the last lowest support price.
+         BotCoin will always place a buy order of R0.1 less than the current price.
          """.trimIndent(), false).show()
         }
     }
