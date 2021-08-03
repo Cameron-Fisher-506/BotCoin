@@ -29,13 +29,11 @@ class BotService : Service() {
     private var resistancePrice: String? = null
 
     //Support and Resistance Prices
-    var supportPrices: ArrayList<TradePrice> = ArrayList()
-    var resistancePrices: ArrayList<TradePrice> = ArrayList()
+    private var supportPrices: ArrayList<TradePrice> = ArrayList()
+    private var resistancePrices: ArrayList<TradePrice> = ArrayList()
 
     //flags
     private var useTrailingStart: Boolean = false
-
-    private var pullOutOfAskPrice: Double? = null
 
     private lateinit var timer: Timer
     private lateinit var timerTask: TimerTask
@@ -201,7 +199,7 @@ class BotService : Service() {
     }
 
 
-    private fun attachStopOrderObserver(orderId: String, currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance) = CoroutineScope(Dispatchers.IO).launch {
+    private fun attachStopOrderObserver(orderId: String, currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance, trailingStopPrice: Double = 0.0) = CoroutineScope(Dispatchers.IO).launch {
         val resource = withdrawalRepository.stopOrder(orderId)
         when (resource.status) {
             Status.SUCCESS -> {
@@ -210,15 +208,11 @@ class BotService : Service() {
                     if (data.first().success) {
                         GeneralUtils.notify(this@BotService,"Order Cancellation", "Order cancelled successfully.")
 
-                        val newResistancePrice = pullOutOfAskPrice
-                        if (newResistancePrice != null) {
+                        if (trailingStopPrice != 0.0) {
                             //place new sell order at trailing price
-                            resistancePrice = newResistancePrice.toString()
+                            resistancePrice = trailingStopPrice.toString()
                             ask(false, currentPrice, lastTrade, xrpBalance, zarBalance)
                         }
-                        //lastAskOrder = null
-                        //lastBidOrder = null
-                        pullOutOfAskPrice = null
                     } else { GeneralUtils.notify(this@BotService,"Order Cancellation", "Order cancellation failed.") }
                 } else { GeneralUtils.notify(this@BotService,"Order Cancellation", "Order cancellation failed.") }
             }
@@ -515,8 +509,7 @@ class BotService : Service() {
             val percentage = MathUtils.percentage(lastAskOrder.limitPrice.toDouble(), ConstantUtils.trailingStop)
             val result = MathUtils.precision(lastAskOrder.limitPrice.toDouble() - MathUtils.precision(percentage))
             if (currentPrice <= result) {
-                attachStopOrderObserver(lastAskOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance)
-                pullOutOfAskPrice = result
+                attachStopOrderObserver(lastAskOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance, result)
                 GeneralUtils.notify(this,"pullOutOfAsk - (LastAskOrder: " + lastAskOrder.limitPrice + ")", "$currentPrice <= $result")
             }
         } else {
