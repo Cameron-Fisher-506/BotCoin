@@ -239,7 +239,7 @@ class BotService : Service() {
                         "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
             }
         } else {
-            if (supportPrice.isNotBlank()) {
+            if (supportPrice.isNotBlank() && supportPrice != "0.0") {
                 val percentage = MathUtils.percentage(supportPrice.toDouble(), ConstantUtils.trailingStop)
                 val result = MathUtils.precision(supportPrice.toDouble() + MathUtils.precision(percentage))
                 if (currentPrice >= result) {
@@ -488,7 +488,7 @@ class BotService : Service() {
                 attachStopOrderObserver(lastBidOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance)
                 GeneralUtils.notify(this, "pullOutOfBidCancel - (LastBidOrder: " + lastBidOrder.limitPrice + ")", "$currentPrice >= $result")
             }
-        } else if (supportPrice.isNotBlank()) {
+        } else if (supportPrice.isNotBlank() && supportPrice != "0.0") {
             bid(false, currentPrice, lastTrade, zarBalance)
         }
     }
