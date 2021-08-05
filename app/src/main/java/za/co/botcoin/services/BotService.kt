@@ -274,6 +274,7 @@ class BotService : Service() {
                 if (currentPrice <= result) {
                     newResistancePrice = result.toString()
                     placeSellOrder = true
+                    useTrailingStart = true
                     GeneralUtils.notify(this,"ask - (ResistancePrice: $resistancePrice)", "$currentPrice <= $result")
                 }
             } else if (lastTrade.price.toDouble() != 0.0 && lastTrade.type != Trade.ASK_TYPE) {
@@ -282,11 +283,10 @@ class BotService : Service() {
                 if (currentPrice <= result) {
                     newSellPrice = result.toString()
                     placeSellOrder = true
+                    useTrailingStart = true
                     GeneralUtils.notify(this,"ask - (LastPurchasePrice: ${lastTrade.price.toDouble()})", "$currentPrice <= $result")
                 }
             }
-
-            useTrailingStart = true
         }
         if (placeSellOrder) {
             val amountXrpToSell = (xrpBalance.balance.toDouble()).toInt().toString()
@@ -436,13 +436,13 @@ class BotService : Service() {
             Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - setSupportPrice " + "SupportPrices: $prices " + "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
         }
 
-        if (getNumberOfPricesCounterMoreThanN(supportPrices, lastTrade) == 1) {
-            supportPrice = getPriceEqualCounter(supportPrices, getMaxCounter(supportPrices)).toString()
-        } else if (getNumberOfPricesCounterMoreThanN(supportPrices, lastTrade) > 1) {
+        supportPrice = if (getNumberOfPricesCounterMoreThanN(supportPrices, lastTrade) == 1) {
+            getPriceEqualCounter(supportPrices, getMaxCounter(supportPrices)).toString()
+        } else {
             if (getNumberOfPricesThatHaveCounter(supportPrices, getMaxCounter(supportPrices)) == 1) {
-                supportPrice = getPriceEqualCounter(supportPrices, getMaxCounter(supportPrices)).toString()
-            } else if (getNumberOfPricesThatHaveCounter(supportPrices, getMaxCounter(supportPrices)) > 1) {
-                supportPrice = (getLowestPriceWithCounter(supportPrices, getMaxCounter(supportPrices))).toString()
+                getPriceEqualCounter(supportPrices, getMaxCounter(supportPrices)).toString()
+            } else {
+                getLowestPriceWithCounter(supportPrices, getMaxCounter(supportPrices)).toString()
             }
         }
         modifySupportPrices(supportPrices, currentPrice)
@@ -455,13 +455,13 @@ class BotService : Service() {
             Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - setResistancePrice " + "ResistancePrices: $prices " + "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
         }
 
-        if (getNumberOfPricesCounterMoreThanN(resistancePrices, lastTrade) == 1) {
-            resistancePrice = getPriceEqualCounter(resistancePrices, getMaxCounter(resistancePrices)).toString()
-        } else if (getNumberOfPricesCounterMoreThanN(resistancePrices, lastTrade) > 1) {
+        resistancePrice = if (getNumberOfPricesCounterMoreThanN(resistancePrices, lastTrade) == 1) {
+            getPriceEqualCounter(resistancePrices, getMaxCounter(resistancePrices)).toString()
+        } else {
             if (getNumberOfPricesThatHaveCounter(resistancePrices, getMaxCounter(resistancePrices)) == 1) {
-                resistancePrice = getPriceEqualCounter(resistancePrices, getMaxCounter(resistancePrices)).toString()
-            } else if (getNumberOfPricesThatHaveCounter(resistancePrices, getMaxCounter(resistancePrices)) > 1) {
-                resistancePrice = (getHighestPriceWithCounter(resistancePrices, getMaxCounter(resistancePrices))).toString()
+                getPriceEqualCounter(resistancePrices, getMaxCounter(resistancePrices)).toString()
+            } else {
+                getHighestPriceWithCounter(resistancePrices, getMaxCounter(resistancePrices)).toString()
             }
         }
         modifyResistancePrices(resistancePrices, currentPrice)
