@@ -18,6 +18,9 @@
             android:id="@+id/action_menuFragment_to_supportPriceCounterFragment"
             app:destination="@id/supportPriceCounterFragment" />
         <action
+            android:id="@+id/action_menuFragment_to_trailingStartFragment"
+            app:destination="@id/trailingStartFragment" />
+        <action
             android:id="@+id/action_menuFragment_to_trailingStopFragment"
             app:destination="@id/trailingStopFragment" />
         <action
@@ -39,6 +42,10 @@
         android:id="@+id/supportPriceCounterFragment"
         android:name="za.co.botcoin.view.menu.SupportPriceCounterFragment"
         android:label="Support Price Counter" />
+    <fragment
+        android:id="@+id/trailingStartFragment"
+        android:name="za.co.botcoin.view.menu.TrailingStartFragment"
+        android:label="Trailing Start" />
     <fragment
         android:id="@+id/trailingStopFragment"
         android:name="za.co.botcoin.view.menu.TrailingStopFragment"
@@ -62,8 +69,5 @@
         <argument
             android:name="asset"
             app:argType="string" />
-        <action
-            android:id="@+id/action_donateFrag_to_lunoApiFrag2"
-            app:destination="@id/lunoApiFragment" />
     </fragment>
 </navigation>

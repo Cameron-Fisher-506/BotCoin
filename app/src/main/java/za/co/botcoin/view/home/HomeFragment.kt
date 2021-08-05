@@ -5,11 +5,12 @@ import android.os.Handler
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.HomeFragmentBinding
 import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.ConstantUtils
-import za.co.botcoin.utils.GeneralUtils
+import za.co.botcoin.utils.SharedPrefsUtils
 
 class HomeFragment : Fragment(R.layout.home_fragment) {
     private lateinit var binding: HomeFragmentBinding
@@ -20,21 +21,19 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = HomeFragmentBinding.bind(view)
+
         this.tickersViewModel = ViewModelProviders.of(this).get(TickersViewModel::class.java)
+
         attachTickerObserver()
+        displayPrivacyPolicy(view)
 
-        if (GeneralUtils.isApiKeySet(context)) {
-            val delay: Long = 100000L
-            handler.postDelayed(object : Runnable {
-                override fun run() {
-                    attachTickerObserver()
-                    handler.postDelayed(this, delay)
-                }
-            }, delay)
-
-        } else {
-            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
-        }
+        val delay: Long = 100000L
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                attachTickerObserver()
+                handler.postDelayed(this, delay)
+            }
+        }, delay)
     }
 
     private fun attachTickerObserver() {
@@ -73,6 +72,32 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
     private fun displayErrorTextView() {
         this.binding.xrpZarLinearLayoutCompat.visibility = View.GONE
         this.binding.errorTextView.visibility = View.VISIBLE
+    }
+
+    private fun displayPrivacyPolicy(view: View) {
+        val privacyPolicyAcceptance = SharedPrefsUtils[requireContext(), SharedPrefsUtils.PRIVACY_POLICY_ACCEPTANCE]
+        if (privacyPolicyAcceptance == null) {
+            val action = HomeFragmentDirections.actionHomeFragmentToPrivacyPolicyFragment()
+            Navigation.findNavController(view).navigate(action)
+        } else {
+            setUserTrailingStartPrice()
+            setUserTrailingStopPrice()
+            //GeneralUtils.runAutoTrade(requireContext())
+        }
+    }
+
+    private fun setUserTrailingStartPrice() {
+        val trailingStart = SharedPrefsUtils[requireContext(), SharedPrefsUtils.TRAILING_START]
+        if (!trailingStart.isNullOrBlank()) {
+            ConstantUtils.trailingStart = trailingStart.toInt()
+        }
+    }
+
+    private fun setUserTrailingStopPrice() {
+        val trailingStop = SharedPrefsUtils[requireContext(), SharedPrefsUtils.TRAILING_STOP]
+        if (!trailingStop.isNullOrBlank()) {
+            ConstantUtils.trailingStop = trailingStop.toInt()
+        }
     }
 
     override fun onDestroy() {

@@ -16,7 +16,8 @@ class MenuFragment : Fragment(R.layout.menu_fragment) {
 
         addLunoApiOptionListener()
         addDonateListener()
-        addPullOutPriceOptionListener()
+        addTrailingStartOptionListener()
+        addTrailingStopOptionListener()
         addSetSupportPriceCounterOptionListener()
         addSetResistancePriceCounterOptionListener()
     }
@@ -35,7 +36,14 @@ class MenuFragment : Fragment(R.layout.menu_fragment) {
         }
     }
 
-    private fun addPullOutPriceOptionListener() {
+    private fun addTrailingStartOptionListener() {
+        this.binding.linearLayoutTrailingStart.setOnClickListener {
+            val action = MenuFragmentDirections.actionMenuFragmentToTrailingStartFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
+    }
+
+    private fun addTrailingStopOptionListener() {
         this.binding.linearLayoutTrailingStop.setOnClickListener {
             val action = MenuFragmentDirections.actionMenuFragmentToTrailingStopFragment()
             Navigation.findNavController(it).navigate(action)

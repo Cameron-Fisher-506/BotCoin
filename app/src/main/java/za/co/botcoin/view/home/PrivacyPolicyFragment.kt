@@ -1,11 +1,11 @@
 package za.co.botcoin.view.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.text.method.ScrollingMovementMethod
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.PrivacyPolicyFragmentBinding
 import za.co.botcoin.utils.SharedPrefsUtils
@@ -51,8 +51,9 @@ class PrivacyPolicyFragment : Fragment(R.layout.privacy_policy_fragment) {
         }
 
         this.binding.acceptButton.setOnClickListener {
-            context?.let { it1 -> SharedPrefsUtils.save(it1, SharedPrefsUtils.PRIVACY_POLICY_ACCEPTANCE, "true") }
-            context!!.startActivity(Intent(activity, MainActivity::class.java))
+            SharedPrefsUtils.save(requireContext(), SharedPrefsUtils.PRIVACY_POLICY_ACCEPTANCE, "true")
+            val action = PrivacyPolicyFragmentDirections.actionPrivacyPolicyFragmentToDisclaimerPolicyFragment()
+            Navigation.findNavController(view).navigate(action)
         }
     }
 }

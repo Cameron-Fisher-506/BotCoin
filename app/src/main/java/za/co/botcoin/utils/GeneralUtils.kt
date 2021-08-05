@@ -12,6 +12,7 @@ import android.widget.Toast
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import za.co.botcoin.R
+import za.co.botcoin.services.BotService
 
 object GeneralUtils {
     fun makeToast(context: Context?, message: String) {
@@ -39,7 +40,7 @@ object GeneralUtils {
             ConstantUtils.USER_SECRET_KEY = lunoApiSecretKey
             return true
         }
-        return true
+        return false
     }
 
     fun createAlertDialog(context: Context?, title: String, message: String, isPrompt: Boolean): AlertDialog {
@@ -96,6 +97,23 @@ object GeneralUtils {
                         .build()
                 notificationManager.notify(0, notification)
             }
+        }
+    }
+
+    fun runAutoTrade(context: Context) {
+        if (isApiKeySet(context)) {
+            val isAutoTrade = SharedPrefsUtils[context, SharedPrefsUtils.AUTO_TRADE_PREF]
+            if (!isAutoTrade.isNullOrBlank() && isAutoTrade.toBoolean()) {
+                if (Build.VERSION.SDK_INT >= 26) {
+                    context.startForegroundService(Intent(context, BotService::class.java))
+                } else {
+                    context.startService(Intent(context, BotService::class.java))
+                }
+            } else {
+                context.stopService(Intent(context, BotService::class.java))
+            }
+        } else {
+            context.stopService(Intent(context, BotService::class.java))
         }
     }
 }

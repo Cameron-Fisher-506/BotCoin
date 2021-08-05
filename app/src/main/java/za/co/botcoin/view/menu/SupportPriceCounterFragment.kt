@@ -22,12 +22,14 @@ class SupportPriceCounterFragment : Fragment(R.layout.support_price_counter_frag
     }
 
     private fun wireUI() {
-        val adapter = context?.let { ArrayAdapter.createFromResource(it, R.array.support_price_counter_items, android.R.layout.simple_spinner_item) }
+        val adapter = ArrayAdapter.createFromResource(requireContext(), R.array.support_price_counter_items, android.R.layout.simple_spinner_item)
         this.binding.spinner.adapter = adapter
 
-        val supportPriceCounter = context?.let { SharedPrefsUtils[it, SharedPrefsUtils.SUPPORT_PRICE_COUNTER] }
-        if (supportPriceCounter != null) {
+        val supportPriceCounter = SharedPrefsUtils[requireContext(), SharedPrefsUtils.SUPPORT_PRICE_COUNTER]
+        if (!supportPriceCounter.isNullOrBlank()) {
             this.binding.spinner.setSelection(supportPriceCounter.toInt())
+        } else {
+            this.binding.spinner.setSelection(if (ConstantUtils.supportPriceCounter > 0) ConstantUtils.supportPriceCounter - 1 else 0)
         }
     }
 
@@ -42,7 +44,7 @@ class SupportPriceCounterFragment : Fragment(R.layout.support_price_counter_frag
     private fun setImgBtnSupportPriceCounterListener() {
         this.binding.supportPriceCounterImageButton.setOnClickListener {
             GeneralUtils.createAlertDialog(context, "Support Price Counter", """
-     BotCoin uses the Support Price Counter, to buy at solid support price
+     BotCoin uses the Support Price Counter, to buy at a solid support price
      
      E.g.
      Support Price Counter: 5
@@ -52,6 +54,6 @@ class SupportPriceCounterFragment : Fragment(R.layout.support_price_counter_frag
     }
 
     private fun saveUserSupportPriceCounter(itemPosition: Int) {
-        context?.let { SharedPrefsUtils.save(it, SharedPrefsUtils.SUPPORT_PRICE_COUNTER, itemPosition.toString()) }
+        SharedPrefsUtils.save(requireContext(), SharedPrefsUtils.SUPPORT_PRICE_COUNTER, itemPosition.toString())
     }
 }

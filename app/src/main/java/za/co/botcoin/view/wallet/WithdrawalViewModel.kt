@@ -8,6 +8,7 @@ import za.co.botcoin.model.models.*
 import za.co.botcoin.model.repository.AccountRepository
 import za.co.botcoin.model.repository.WithdrawalRepository
 import za.co.botcoin.utils.Resource
+import javax.crypto.SecretKey
 
 class WithdrawalViewModel(application: Application) : AndroidViewModel(application) {
     private val accountRepository: AccountRepository = AccountRepository(application)
@@ -27,10 +28,10 @@ class WithdrawalViewModel(application: Application) : AndroidViewModel(applicati
         sendLiveData = liveData { emit(withdrawalRepository.send(amount, currency, address, destinationTag)) }
     }
 
-    fun receive(asset: String) {
+    fun receive(asset: String, keyId: String, secretKey: String) {
         receiveLiveData = liveData {
             emit(Resource.loading())
-            emit(withdrawalRepository.receive(asset))
+            emit(withdrawalRepository.receive(asset, keyId, secretKey))
         }
     }
 

@@ -24,14 +24,8 @@ class DonateFragment : Fragment(R.layout.donate_fragment) {
         asset = arguments?.getString("asset") ?: ""
 
         wireUI()
-        if (GeneralUtils.isApiKeySet(context)) {
-            this.donateViewModel.receive(asset)
-            attachReceiveObserver()
-        } else {
-            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
-            val action = DonateFragmentDirections.actionDonateFragToLunoApiFrag2()
-            Navigation.findNavController(view).navigate(action)
-        }
+        this.donateViewModel.receive(asset, ConstantUtils.KEY_ID, ConstantUtils.SECRET_KEY)
+        attachReceiveObserver()
     }
 
     private fun attachReceiveObserver() {
@@ -102,18 +96,22 @@ class DonateFragment : Fragment(R.layout.donate_fragment) {
 
     private fun addBtnDonateListener() {
         this.binding.donateButton.setOnClickListener {
-            val amount: String = this.binding.amountEditText.text.toString()
-            val address: String = this.binding.addressEditText.text.toString()
-            val destinationTag: String = this.binding.tagEditText.text.toString()
-            if (amount.isNotBlank()) {
-                if (amount != "0") {
-                    this.donateViewModel.send(amount, asset, address, destinationTag)
-                    attachSendObserver(amount, asset, address)
+            if (GeneralUtils.isApiKeySet(context)) {
+                val amount: String = this.binding.amountEditText.text.toString()
+                val address: String = this.binding.addressEditText.text.toString()
+                val destinationTag: String = this.binding.tagEditText.text.toString()
+                if (amount.isNotBlank()) {
+                    if (amount != "0") {
+                        this.donateViewModel.send(amount, asset, address, destinationTag)
+                        attachSendObserver(amount, asset, address)
+                    } else {
+                        GeneralUtils.createAlertDialog(context, "Invalid amount entered!", "Please note that you cannot donate 0 $asset.", false).show()
+                    }
                 } else {
-                    GeneralUtils.createAlertDialog(context, "Invalid amount entered!", "Please note that you cannot donate 0 $asset.", false).show()
+                    GeneralUtils.createAlertDialog(context, "No amount entered!", "Please enter the amount of $asset You would like to donate.", false).show()
                 }
             } else {
-                GeneralUtils.createAlertDialog(context, "No amount entered!", "Please enter the amount of $asset You would like to donate.", false).show()
+                GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
             }
         }
     }

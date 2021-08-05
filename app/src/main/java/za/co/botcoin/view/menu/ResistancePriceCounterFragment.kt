@@ -23,12 +23,14 @@ class ResistancePriceCounterFragment : Fragment(R.layout.resistance_price_counte
     }
 
     private fun wireUI() {
-        val adapter = ArrayAdapter.createFromResource(context!!, R.array.resistance_price_counter_items, android.R.layout.simple_spinner_item)
+        val adapter = ArrayAdapter.createFromResource(requireContext(), R.array.resistance_price_counter_items, android.R.layout.simple_spinner_item)
         this.binding.spinner.adapter = adapter
 
-        val resistancePriceCounter = context?.let { SharedPrefsUtils[it, SharedPrefsUtils.RESISTANCE_PRICE_COUNTER] }
-        if (resistancePriceCounter != null) {
+        val resistancePriceCounter = SharedPrefsUtils[requireContext(), SharedPrefsUtils.RESISTANCE_PRICE_COUNTER]
+        if (!resistancePriceCounter.isNullOrBlank()) {
             this.binding.spinner.setSelection(resistancePriceCounter.toInt())
+        } else {
+            this.binding.spinner.setSelection(if (ConstantUtils.resistancePriceCounter > 0) ConstantUtils.resistancePriceCounter - 1 else 0)
         }
     }
 
@@ -53,6 +55,6 @@ class ResistancePriceCounterFragment : Fragment(R.layout.resistance_price_counte
     }
 
     private fun saveUserResistancePriceCounter(itemPosition: Int) {
-        context?.let { SharedPrefsUtils.save(it, SharedPrefsUtils.RESISTANCE_PRICE_COUNTER, itemPosition.toString()) }
+        SharedPrefsUtils.save(requireContext(), SharedPrefsUtils.RESISTANCE_PRICE_COUNTER, itemPosition.toString())
     }
 }
