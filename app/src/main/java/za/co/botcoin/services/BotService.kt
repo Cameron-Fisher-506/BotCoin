@@ -355,8 +355,10 @@ class BotService : Service() {
         return toReturn
     }
 
-    private fun modifySupportPrices(supportPrices: ArrayList<TradePrice>, currentPrice: Double) {
-        addPriceToList(supportPrices, currentPrice, false)
+    private fun modifySupportPrices(supportPrices: ArrayList<TradePrice>, currentPrice: Double, lastTrade: Trade) {
+        if (lastTrade.type == Trade.ASK_TYPE) {
+            addPriceToList(supportPrices, currentPrice, false)
+        }
 
         if (supportPrices.isNotEmpty()) {
             supportPrices.map {
@@ -369,8 +371,11 @@ class BotService : Service() {
         }
     }
 
-    private fun modifyResistancePrices(resistancePrices: ArrayList<TradePrice>, currentPrice: Double) {
-        addPriceToList(resistancePrices, currentPrice, true)
+    private fun modifyResistancePrices(resistancePrices: ArrayList<TradePrice>, currentPrice: Double, lastTrade: Trade) {
+        if (lastTrade.type == Trade.BID_TYPE && currentPrice > lastTrade.price.toDouble()) {
+            addPriceToList(resistancePrices, currentPrice, true)
+        }
+
         if (resistancePrices.isNotEmpty()) {
             resistancePrices.map {
                 if (currentPrice < it.price) { it.isIncreased = false }
@@ -441,7 +446,7 @@ class BotService : Service() {
                 getLowestPriceWithCounter(supportPrices, getMaxCounter(supportPrices)).toString()
             }
         }
-        modifySupportPrices(supportPrices, currentPrice)
+        modifySupportPrices(supportPrices, currentPrice, lastTrade)
     }
 
     private fun setResistancePrice(currentPrice: Double, lastTrade: Trade) {
@@ -460,7 +465,7 @@ class BotService : Service() {
                 getHighestPriceWithCounter(resistancePrices, getMaxCounter(resistancePrices)).toString()
             }
         }
-        modifyResistancePrices(resistancePrices, currentPrice)
+        modifyResistancePrices(resistancePrices, currentPrice, lastTrade)
     }
 
     private fun pullOutOfAsk(currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance, lastAskOrder: Order) {
