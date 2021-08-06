@@ -383,12 +383,8 @@ class BotService : Service() {
     }
 
     private fun addPriceToList(tradePrices: ArrayList<TradePrice>, currentPrice: Double, isIncreased: Boolean) {
-        if (tradePrices.isNotEmpty()) {
-            tradePrices.map { if (currentPrice == it.price) { return } }
-            tradePrices.add(TradePrice(currentPrice, isIncreased))
-        } else {
-            tradePrices.add(TradePrice(currentPrice, isIncreased))
-        }
+        if (tradePrices.isNotEmpty()) { tradePrices.map { if (currentPrice == it.price) { return } } }
+        tradePrices.add(TradePrice(currentPrice, isIncreased))
     }
 
     private fun getLowestPriceWithCounter(tradePrices: List<TradePrice>, maxCounter: Int): Double {
