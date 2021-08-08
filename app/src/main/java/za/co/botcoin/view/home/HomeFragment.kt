@@ -82,6 +82,8 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
         } else {
             setUserTrailingStartPrice()
             setUserTrailingStopPrice()
+            setSupportPriceCounter()
+            setResistancePriceCounter()
             //GeneralUtils.runAutoTrade(requireContext())
         }
     }
@@ -97,6 +99,20 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
         val trailingStop = SharedPrefsUtils[requireContext(), SharedPrefsUtils.TRAILING_STOP]
         if (!trailingStop.isNullOrBlank()) {
             ConstantUtils.trailingStop = trailingStop.toInt()
+        }
+    }
+
+    private fun setSupportPriceCounter() {
+        val supportPriceCounter = SharedPrefsUtils[requireContext(), SharedPrefsUtils.SUPPORT_PRICE_COUNTER]
+        if (!supportPriceCounter.isNullOrBlank()) {
+            ConstantUtils.supportPriceCounter = supportPriceCounter.toInt()
+        }
+    }
+
+    private fun setResistancePriceCounter() {
+        val resistancePriceCounter = SharedPrefsUtils[requireContext(), SharedPrefsUtils.RESISTANCE_PRICE_COUNTER]
+        if (!resistancePriceCounter.isNullOrBlank()) {
+            ConstantUtils.resistancePriceCounter = resistancePriceCounter.toInt()
         }
     }
 

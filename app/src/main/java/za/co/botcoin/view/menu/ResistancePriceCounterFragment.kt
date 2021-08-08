@@ -36,7 +36,7 @@ class ResistancePriceCounterFragment : Fragment(R.layout.resistance_price_counte
 
     private fun setBtnSaveListener() {
         this.binding.saveButton.setOnClickListener {
-            ConstantUtils.supportPriceCounter = this.binding.spinner.selectedItem.toString().toInt()
+            ConstantUtils.resistancePriceCounter = this.binding.spinner.selectedItem.toString().toInt()
             saveUserResistancePriceCounter(this.binding.spinner.selectedItemPosition)
             GeneralUtils.makeToast(context, "Saved!")
         }
