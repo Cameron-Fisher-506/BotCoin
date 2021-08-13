@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import za.co.botcoin.databinding.OrderListItemBinding
 import za.co.botcoin.model.models.Order
+import za.co.botcoin.utils.DateTimeUtils
 import za.co.botcoin.utils.GeneralUtils
 
 class OrderListAdapter(private val ordersList: ArrayList<Order>) : RecyclerView.Adapter<OrderListAdapter.ViewHolder>() {
@@ -21,6 +22,7 @@ class OrderListAdapter(private val ordersList: ArrayList<Order>) : RecyclerView.
     override fun getItemCount(): Int = ordersList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.binding.typeTextView.text = ordersList[position].type
         holder.binding.pairTextView.text = ordersList[position].pair
         holder.binding.completedTimeTextView.text = ordersList[position].completedTime
         holder.binding.createdTimeTextView.text = ordersList[position].createdTime

@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import za.co.botcoin.R
 import za.co.botcoin.enum.Status
+import za.co.botcoin.enum.Trend
 import za.co.botcoin.model.models.Balance
 import za.co.botcoin.model.models.Order
 import za.co.botcoin.model.models.Trade
@@ -19,6 +20,7 @@ import za.co.botcoin.model.repository.WithdrawalRepository
 import za.co.botcoin.utils.*
 import za.co.botcoin.utils.GeneralUtils
 import java.util.*
+import kotlin.collections.ArrayList
 
 class BotService : Service() {
     private lateinit var accountRepository: AccountRepository
@@ -29,6 +31,7 @@ class BotService : Service() {
     private var supportPrices: ArrayList<TradePrice> = ArrayList()
     private var resistancePrices: ArrayList<TradePrice> = ArrayList()
     private var useTrailingStart: Boolean = false
+    private val smartTrendDetectors: ArrayList<Double> = ArrayList()
 
     private lateinit var timer: Timer
     private lateinit var timerTask: TimerTask
@@ -86,6 +89,14 @@ class BotService : Service() {
                 if (!data.isNullOrEmpty()) {
                     data.map { ticker ->
                         if (ticker.pair == ConstantUtils.PAIR_XRPZAR) {
+                            when (getSmartTrendDetector(ticker.lastTrade.toDouble())) {
+                                Trend.UPWARD -> useTrailingStart = false
+                                Trend.STABLE -> useTrailingStart = false
+                                Trend.DOWNWARD -> {
+                                    supportPrice = ""
+                                    useTrailingStart = true
+                                }
+                            }
                             attachTradesObserver(ticker.lastTrade.toDouble())
                         }
                     }
@@ -148,7 +159,10 @@ class BotService : Service() {
                     if (useTrailingStart) {
                         val percentage = MathUtils.percentage(getLowestPrice(supportPrices), ConstantUtils.trailingStart)
                         val result = MathUtils.precision(getLowestPrice(supportPrices) + MathUtils.precision(percentage))
-                        if (result < currentPrice) { supportPrice = result.toString() }
+                        if (result < currentPrice) {
+                            supportPrice = result.toString()
+                            useTrailingStart = false
+                        }
                     }
 
                     bid(true, currentPrice, lastTrade, zarBalance)
@@ -250,6 +264,9 @@ class BotService : Service() {
 
                 supportPrice = ""
                 supportPrices.clear()
+                resistancePrice = ""
+                resistancePrices.clear()
+
                 val supportPriceCounter = SharedPrefsUtils[applicationContext, SharedPrefsUtils.SUPPORT_PRICE_COUNTER]
                 if (!supportPriceCounter.isNullOrBlank()) ConstantUtils.supportPriceCounter = supportPriceCounter.toInt() else ConstantUtils.supportPriceCounter = 4
             } else {
@@ -283,6 +300,8 @@ class BotService : Service() {
                 val amountXrpToSell = (xrpBalance.balance.toDouble()).toInt().toString()
                 attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell, resistancePrice)
                 GeneralUtils.notify(this, "Auto Trade", "New buy order has been placed.")
+                supportPrice = ""
+                supportPrices.clear()
                 resistancePrice = ""
                 resistancePrices.clear()
             }
@@ -314,6 +333,8 @@ class BotService : Service() {
                     attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell, newResistancePrice)
                     GeneralUtils.notify(this, "Auto Trade", "New sell order has been placed.")
 
+                    supportPrice = ""
+                    supportPrices.clear()
                     resistancePrice = ""
                     resistancePrices.clear()
                 }
@@ -322,6 +343,8 @@ class BotService : Service() {
                     attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell, newSellPrice)
                     GeneralUtils.notify(this, "Auto Trade", "New sell order has been placed.")
 
+                    supportPrice = ""
+                    supportPrices.clear()
                     resistancePrice = ""
                     resistancePrices.clear()
                 }
@@ -443,7 +466,11 @@ class BotService : Service() {
         var toReturn: Double = 0.0
         if (tradePrices.isNotEmpty()) {
             toReturn = tradePrices.first().price
-            tradePrices.map { if (maxCounter == it.counter && toReturn < it.price) { toReturn = it.price } }
+            tradePrices.map {
+                if (maxCounter == it.counter && toReturn < it.price) {
+                    toReturn = it.price
+                }
+            }
             Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - getHighestPriceWithCounter " + "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
         }
         return toReturn
@@ -510,6 +537,29 @@ class BotService : Service() {
             }
         } else if (supportPrice.isNotBlank() && supportPrice != "0.0") {
             bid(false, currentPrice, lastTrade, zarBalance)
+        }
+    }
+
+    private fun getSmartTrendDetector(currentPrice: Double): Trend {
+        if (this.smartTrendDetectors.size >= 100) {
+            this.smartTrendDetectors.removeFirst()
+            this.smartTrendDetectors.add(currentPrice)
+        } else {
+            this.smartTrendDetectors.add(currentPrice)
+        }
+
+        var counter: Double = 0.0
+        for (i in 0 until this.smartTrendDetectors.size-1) {
+            if (this.smartTrendDetectors[i+1] > this.smartTrendDetectors[i]) {
+                counter++
+            }
+        }
+
+        val percentage = (counter/this.smartTrendDetectors.size) * 100
+        return when {
+            percentage >= 70.0 -> Trend.UPWARD
+            percentage in 40.0..60.0 -> Trend.STABLE
+            else -> Trend.DOWNWARD
         }
     }
 

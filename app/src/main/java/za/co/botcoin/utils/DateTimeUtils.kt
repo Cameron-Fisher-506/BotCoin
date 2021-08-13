@@ -1,5 +1,6 @@
 package za.co.botcoin.utils
 
+import java.lang.NumberFormatException
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -23,6 +24,12 @@ object DateTimeUtils {
         }
 
         return toReturn
+    }
+
+    fun convertLongToTime(time: Long): String {
+        val date = Date(time)
+        val format = SimpleDateFormat(DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS, Locale.ENGLISH)
+        return format.format(date)
     }
 
     fun differenceInMinutes(oldDateTime: String, currentDateTime: String) = TimeUnit.MILLISECONDS.toMinutes(differenceInTime(oldDateTime, currentDateTime))
