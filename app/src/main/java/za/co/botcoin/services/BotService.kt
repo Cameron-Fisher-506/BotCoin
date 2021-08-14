@@ -111,12 +111,13 @@ class BotService : Service() {
                 var lastTrade: Trade = Trade()
                 if (!data.isNullOrEmpty()) {
                     lastTrade = data.first()
-                    if (lastTrade.type == Trade.BID_TYPE && marketTrend == Trend.UPWARD) {
-                        if (currentPrice > lastTrade.price.toDouble()) {
-                            setResistancePrice(currentPrice, lastTrade)
+                    when {
+                        lastTrade.type == Trade.BID_TYPE && marketTrend == Trend.UPWARD -> {
+                            if (currentPrice > lastTrade.price.toDouble()) {
+                                setResistancePrice(currentPrice, lastTrade)
+                            }
                         }
-                    } else {
-                        setSupportPrice(currentPrice, lastTrade)
+                        lastTrade.type == Trade.ASK_TYPE && marketTrend == Trend.DOWNWARD -> setSupportPrice(currentPrice, lastTrade)
                     }
                 } else {
                     lastTrade.type = Trade.ASK_TYPE
