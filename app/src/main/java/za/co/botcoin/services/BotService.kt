@@ -302,39 +302,30 @@ class BotService : Service() {
             }
         } else {
             if (resistancePrice.isNotBlank() && resistancePrice != "0.0") {
-                /*val percentage = MathUtils.percentage(resistancePrice.toDouble(), ConstantUtils.trailingStop)
+                val percentage = MathUtils.percentage(resistancePrice.toDouble(), ConstantUtils.trailingStop)
                 val result = MathUtils.precision(resistancePrice.toDouble() - MathUtils.precision(percentage))
+                newResistancePrice = result.toString()
                 if (currentPrice <= result) {
                     newResistancePrice = result.toString()
                     placeSellOrder = true
-                    useTrailingStart = true
+                    //useTrailingStart = true
                     GeneralUtils.notify(this, "ask - (ResistancePrice: $resistancePrice)", "$currentPrice <= $result")
-                }*/
-                placeSellOrder = true
-                GeneralUtils.notify(this, "ask - (LastPurchasePrice: ${lastTrade.price.toDouble()})", "$currentPrice <= ${lastTrade.price}")
+                }
             } else if (lastTrade.price.toDouble() != 0.0 && lastTrade.type != Trade.ASK_TYPE) {
-                /*val percentage = MathUtils.percentage(lastTrade.price.toDouble(), ConstantUtils.trailingStop)
+                val percentage = MathUtils.percentage(lastTrade.price.toDouble(), ConstantUtils.trailingStop)
                 val result = MathUtils.precision(lastTrade.price.toDouble() - MathUtils.precision(percentage))
+                newSellPrice = result.toString()
                 if (currentPrice <= result) {
                     newSellPrice = result.toString()
                     placeSellOrder = true
-                    useTrailingStart = true
+                    //useTrailingStart = true
                     GeneralUtils.notify(this, "ask - (LastPurchasePrice: ${lastTrade.price.toDouble()})", "$currentPrice <= $result")
-                }*/
-                placeSellOrder = true
-                GeneralUtils.notify(this, "ask - (LastPurchasePrice: ${lastTrade.price.toDouble()})", "$currentPrice <= ${lastTrade.price}")
+                }
             }
         }
         if (placeSellOrder) {
             val amountXrpToSell = (xrpBalance.balance.toDouble()).toInt().toString()
-            attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell, newResistancePrice)
-            GeneralUtils.notify(this, "Auto Trade", "New sell order has been placed.")
-
-            supportPrice = ""
-            supportPrices.clear()
-            resistancePrice = ""
-            resistancePrices.clear()
-            /*when {
+            when {
                 newResistancePrice.isNotBlank() && newResistancePrice != "0.0" -> {
                     attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell, newResistancePrice)
                     GeneralUtils.notify(this, "Auto Trade", "New sell order has been placed.")
@@ -357,7 +348,7 @@ class BotService : Service() {
                 else -> {
                     Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - ask postOrder: null CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
                 }
-            }*/
+            }
         }
         Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - ask " +
                 "resistancePrice: $resistancePrice " +
