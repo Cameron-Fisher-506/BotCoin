@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit
 object DateTimeUtils {
     const val DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss"
     const val ONE_MINUTE = 1
+    const val FIVE_MINUTES = 5
 
     fun getCurrentDateTime(format: String = DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS): String = SimpleDateFormat(format, Locale.ENGLISH).format(Date())
 

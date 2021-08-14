@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../Library/Android/sdk/platforms/android-30/data/res/layout/simple_spinner_item.xml" value="0.20364583333333333" />
         <entry key="app/src/main/res/layout/menu_fragment.xml" value="0.20364583333333333" />
         <entry key="app/src/main/res/layout/smart_trend_detector.xml" value="0.20364583333333333" />
+        <entry key="app/src/main/res/layout/smart_trend_detector_fragment.xml" value="0.335" />
         <entry key="app/src/main/res/layout/trailing_start_fragment.xml" value="0.20364583333333333" />
       </map>
     </option>
