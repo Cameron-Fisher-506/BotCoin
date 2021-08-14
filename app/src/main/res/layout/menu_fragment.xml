@@ -349,7 +349,7 @@
         app:layout_constraintEnd_toEndOf="@+id/linearLayoutLunoApiOption"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/linearLayoutLunoApiOption"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSetSupportPriceCounter">
+        app:layout_constraintTop_toBottomOf="@+id/horizontalSetSupportPriceCounter">
 
 
         <ImageView
@@ -397,5 +397,60 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutSetSupportPriceCounter" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutSetSmartTrendDetectorMargin"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSetResistancePriceCounter">
+
+
+        <ImageView
+            android:id="@+id/imgSetSmartTrendDetectorMargin"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:contentDescription="@string/DummyText"
+            android:src="@drawable/ic_show_chart_black_24dp" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/txtSetSmartTrendDetectorMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/smart_trend_detector_margin"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:contentDescription="@string/DummyText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:id="@+id/horizontalSetSmartTrendMargin"
+        style="@style/CommonHorizontalDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSetSmartTrendDetectorMargin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_menuFragment_to_donateMenuFragment"
             app:destination="@id/donateMenuFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_smartTrendDetectorFragment"
+            app:destination="@id/smartTrendDetectorFragment" />
     </fragment>
     <fragment
         android:id="@+id/lunoApiFragment"
@@ -70,4 +73,8 @@
             android:name="asset"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/smartTrendDetectorFragment"
+        android:name="za.co.botcoin.view.menu.SmartTrendDetectorFragment"
+        android:label="SmartTrendDetectorFragment" />
 </navigation>

@@ -84,6 +84,7 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
             setUserTrailingStopPrice()
             setSupportPriceCounter()
             setResistancePriceCounter()
+            setSmartTrendDetectorMargin()
             //GeneralUtils.runAutoTrade(requireContext())
         }
     }
@@ -113,6 +114,13 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
         val resistancePriceCounter = SharedPrefsUtils[requireContext(), SharedPrefsUtils.RESISTANCE_PRICE_COUNTER]
         if (!resistancePriceCounter.isNullOrBlank()) {
             ConstantUtils.resistancePriceCounter = resistancePriceCounter.toInt()
+        }
+    }
+
+    private fun setSmartTrendDetectorMargin() {
+        val smartTrendDetectorMargin = SharedPrefsUtils[requireContext(), SharedPrefsUtils.SMART_TREND_DETECTOR]
+        if (!smartTrendDetectorMargin.isNullOrBlank()) {
+            ConstantUtils.smartTrendDetectorMargin = smartTrendDetectorMargin.toInt()
         }
     }
 
