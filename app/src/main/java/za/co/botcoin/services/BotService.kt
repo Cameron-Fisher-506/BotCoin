@@ -193,14 +193,8 @@ class BotService : Service() {
                     pullOutOfBid(currentPrice, lastTrade, xrpBalance, zarBalance, lastBidOrder)
                 } else {
                     if (marketTrend == Trend.DOWNWARD) {
-                        when {
-                            lastAskOrder.completedTime.isNotBlank() && DateTimeUtils.differenceInMinutes(lastAskOrder.completedTime, DateTimeUtils.getCurrentDateTime()) > DateTimeUtils.FIVE_MINUTES -> {
-                                pullOutOfAsk(currentPrice, lastTrade, xrpBalance, zarBalance, lastAskOrder)
-                            }
-                            lastBidOrder.completedTime.isNotBlank() && DateTimeUtils.differenceInMinutes(lastBidOrder.completedTime, DateTimeUtils.getCurrentDateTime()) > DateTimeUtils.FIVE_MINUTES -> {
-                                pullOutOfBid(currentPrice, lastTrade, xrpBalance, zarBalance, lastBidOrder)
-                            }
-                        }
+                        pullOutOfAsk(currentPrice, lastTrade, xrpBalance, zarBalance, lastAskOrder)
+                        pullOutOfBid(currentPrice, lastTrade, xrpBalance, zarBalance, lastBidOrder)
                     }
                 }
             }
@@ -549,8 +543,11 @@ class BotService : Service() {
                     GeneralUtils.notify(this, "pullOutOfAsk - (LastAskOrder: " + lastAskOrder.limitPrice + ")", "$currentPrice <= $result")
                 }
             } else {
-                attachStopOrderObserver(lastAskOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance, currentPrice + 0.1)
-                GeneralUtils.notify(this, "pullOutOfAsk - (LastAskOrder: " + lastAskOrder.limitPrice + ")", "$currentPrice <= ${currentPrice + 0.1}")
+                if (lastAskOrder.createdTime.isNotBlank() &&
+                    DateTimeUtils.differenceInMinutes(DateTimeUtils.convertLongToTime(lastAskOrder.createdTime.toLong()), DateTimeUtils.getCurrentDateTime()) > DateTimeUtils.FIVE_MINUTES) {
+                    attachStopOrderObserver(lastAskOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance, currentPrice + 0.1)
+                    GeneralUtils.notify(this, "pullOutOfAsk - (LastAskOrder: " + lastAskOrder.limitPrice + ")", "$currentPrice <= ${currentPrice + 0.1}")
+                }
             }
         } else {
             ask(false, currentPrice, lastTrade, xrpBalance, zarBalance)
@@ -567,8 +564,11 @@ class BotService : Service() {
                     GeneralUtils.notify(this, "pullOutOfBidCancel - (LastBidOrder: " + lastBidOrder.limitPrice + ")", "$currentPrice >= $result")
                 }
             } else {
-                attachStopOrderObserver(lastBidOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance)
-                GeneralUtils.notify(this, "pullOutOfBidCancel - (LastBidOrder: " + lastBidOrder.limitPrice + ")", "$currentPrice >= ${lastBidOrder.limitPrice}")
+                if (lastBidOrder.createdTime.isNotBlank() &&
+                    DateTimeUtils.differenceInMinutes(DateTimeUtils.convertLongToTime(lastBidOrder.createdTime.toLong()), DateTimeUtils.getCurrentDateTime()) > DateTimeUtils.FIVE_MINUTES) {
+                    attachStopOrderObserver(lastBidOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance)
+                    GeneralUtils.notify(this, "pullOutOfBidCancel - (LastBidOrder: " + lastBidOrder.limitPrice + ")", "$currentPrice >= ${lastBidOrder.limitPrice}")
+                }
             }
         } else if (supportPrice.isNotBlank() && supportPrice != "0.0") {
             bid(false, currentPrice, lastTrade, zarBalance)
