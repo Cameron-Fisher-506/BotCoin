@@ -319,7 +319,7 @@ class BotService : Service() {
                         GeneralUtils.notify(this, "ask - (ResistancePrice: $resistancePrice)", "$currentPrice <= $result")
                     }
                 } else {
-                    newResistancePrice = (resistancePrice.toDouble() + 0.1).toString()
+                    newResistancePrice = (resistancePrice.toDouble()).toString()
                     if (currentPrice < newResistancePrice.toDouble()) {
                         placeSellOrder = true
                         GeneralUtils.notify(this, "ask - (ResistancePrice: $resistancePrice)", "$currentPrice <= $newResistancePrice")
@@ -337,7 +337,7 @@ class BotService : Service() {
                         GeneralUtils.notify(this, "ask - (LastPurchasePrice: ${lastTrade.price.toDouble()})", "$currentPrice <= $result")
                     }
                 } else {
-                    newSellPrice = (lastTrade.price.toDouble() + 0.1).toString()
+                    newSellPrice = (currentPrice + 0.1).toString()
                     if (currentPrice < newSellPrice.toDouble()) {
                         placeSellOrder = true
                         GeneralUtils.notify(this, "ask - (LastPurchasePrice: ${lastTrade.price.toDouble()})", "$currentPrice <= $newSellPrice")
@@ -543,10 +543,11 @@ class BotService : Service() {
                     GeneralUtils.notify(this, "pullOutOfAsk - (LastAskOrder: " + lastAskOrder.limitPrice + ")", "$currentPrice <= $result")
                 }
             } else {
+                attachStopOrderObserver(lastAskOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance, currentPrice + 0.1)
+                GeneralUtils.notify(this, "pullOutOfAsk - (LastAskOrder: " + lastAskOrder.limitPrice + ")", "$currentPrice <= ${currentPrice + 0.1}")
                 if (lastAskOrder.createdTime.isNotBlank() &&
                     DateTimeUtils.differenceInMinutes(DateTimeUtils.convertLongToTime(lastAskOrder.createdTime.toLong()), DateTimeUtils.getCurrentDateTime()) > DateTimeUtils.FIVE_MINUTES) {
-                    attachStopOrderObserver(lastAskOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance, currentPrice + 0.1)
-                    GeneralUtils.notify(this, "pullOutOfAsk - (LastAskOrder: " + lastAskOrder.limitPrice + ")", "$currentPrice <= ${currentPrice + 0.1}")
+
                 }
             }
         } else {
