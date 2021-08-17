@@ -300,7 +300,7 @@ class BotService : Service() {
             if (resistancePrice.isNotBlank() && lastTrade.type == Trade.BID_TYPE && resistancePrice.toDouble() > lastTrade.price.toDouble() && resistancePrice.toDouble() > currentPrice) {
                 val amountXrpToSell = (xrpBalance.balance.toDouble()).toInt().toString()
                 attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell, resistancePrice)
-                GeneralUtils.notify(this, "Auto Trade", "New buy order has been placed.")
+                GeneralUtils.notify(this, "Auto Trade", "New sell order has been placed.")
                 supportPrice = ""
                 supportPrices.clear()
                 resistancePrice = ""
@@ -543,11 +543,10 @@ class BotService : Service() {
                     GeneralUtils.notify(this, "pullOutOfAsk - (LastAskOrder: " + lastAskOrder.limitPrice + ")", "$currentPrice <= $result")
                 }
             } else {
-                attachStopOrderObserver(lastAskOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance, currentPrice + 0.1)
-                GeneralUtils.notify(this, "pullOutOfAsk - (LastAskOrder: " + lastAskOrder.limitPrice + ")", "$currentPrice <= ${currentPrice + 0.1}")
                 if (lastAskOrder.createdTime.isNotBlank() &&
                     DateTimeUtils.differenceInMinutes(DateTimeUtils.convertLongToTime(lastAskOrder.createdTime.toLong()), DateTimeUtils.getCurrentDateTime()) > DateTimeUtils.FIVE_MINUTES) {
-
+                    attachStopOrderObserver(lastAskOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance, currentPrice + 0.1)
+                    GeneralUtils.notify(this, "pullOutOfAsk - (LastAskOrder: " + lastAskOrder.limitPrice + ")", "$currentPrice <= ${currentPrice + 0.1}")
                 }
             }
         } else {
