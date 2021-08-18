@@ -9,7 +9,10 @@ import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.HomeFragmentBinding
 import za.co.botcoin.enum.Status
+import za.co.botcoin.services.BotService
 import za.co.botcoin.utils.ConstantUtils
+import za.co.botcoin.utils.GeneralUtils
+import za.co.botcoin.utils.KioskUtils
 import za.co.botcoin.utils.SharedPrefsUtils
 
 class HomeFragment : Fragment(R.layout.home_fragment) {
@@ -31,6 +34,9 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
         handler.postDelayed(object : Runnable {
             override fun run() {
                 attachTickerObserver()
+                if(!KioskUtils.isMyServiceRunning(requireContext(), BotService::class.java.simpleName)) {
+                    GeneralUtils.runAutoTrade(requireContext())
+                }
                 handler.postDelayed(this, delay)
             }
         }, delay)
@@ -85,7 +91,6 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
             setSupportPriceCounter()
             setResistancePriceCounter()
             setSmartTrendDetectorMargin()
-            //GeneralUtils.runAutoTrade(requireContext())
         }
     }
 
