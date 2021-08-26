@@ -200,7 +200,7 @@ class BotService : Service() {
     }
 
 
-    private fun attachStopOrderObserver(orderId: String, currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance, trailingStopPrice: Double = 0.0) = CoroutineScope(Dispatchers
+    private fun attachStopOrderObserver(orderId: String, currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance) = CoroutineScope(Dispatchers
         .IO)
         .launch {
         val resource = withdrawalRepository.stopOrder(orderId)
@@ -210,11 +210,7 @@ class BotService : Service() {
                 if (!data.isNullOrEmpty()) {
                     if (data.first().success) {
                         GeneralUtils.notify(this@BotService, "Order Cancellation", "Order cancelled successfully.")
-
-                        if (trailingStopPrice != 0.0) {
-                            resistancePrice = trailingStopPrice.toString()
-                            ask(false, currentPrice, lastTrade, xrpBalance, zarBalance)
-                        }
+                        ask(false, currentPrice, lastTrade, xrpBalance, zarBalance)
                     } else {
                         GeneralUtils.notify(this@BotService, "Order Cancellation", "Order cancellation failed.")
                     }
@@ -301,15 +297,7 @@ class BotService : Service() {
                 resistancePrices.clear()
             }
         } else {
-            if (resistancePrice.isNotBlank() && resistancePrice != "0.0") {
-                val result = MathUtils.calcMarginPercentage(resistancePrice.toDouble(), lastTrade.volume.toDouble(), ConstantUtils.trailingStop)
-                if ((currentPrice * lastTrade.volume.toDouble()) <= result) {
-                    newResistancePrice = (currentPrice + 0.01).toString()
-                    placeSellOrder = true
-                    useTrailingStart = true
-                    GeneralUtils.notify(this, "ask - (ResistancePrice: $resistancePrice)", "${(currentPrice * lastTrade.volume.toDouble())} <= $result")
-                }
-            } else if (lastTrade.price.toDouble() != 0.0 && lastTrade.type == Trade.BID_TYPE) {
+            if (lastTrade.price.toDouble() != 0.0 && lastTrade.type == Trade.BID_TYPE) {
                 val result = MathUtils.calcMarginPercentage(lastTrade.price.toDouble(), lastTrade.volume.toDouble(), ConstantUtils.trailingStop)
                 if ((currentPrice * lastTrade.volume.toDouble()) <= result) {
                     newSellPrice = (currentPrice + 0.01).toString()
@@ -511,7 +499,7 @@ class BotService : Service() {
         if (lastAskOrder.limitPrice.isNotBlank()) {
             val result = MathUtils.calcMarginPercentage(lastAskOrder.limitPrice.toDouble(), lastAskOrder.limitVolume.toDouble(), ConstantUtils.trailingStop)
             if ((currentPrice * lastAskOrder.limitVolume.toDouble())  <= result) {
-                attachStopOrderObserver(lastAskOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance, result)
+                attachStopOrderObserver(lastAskOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance)
                 GeneralUtils.notify(this, "pullOutOfAsk - (LastAskOrder: " + lastAskOrder.limitPrice + ")", "${(currentPrice * lastAskOrder.limitVolume.toDouble())} <= $result")
             }
         } else {
