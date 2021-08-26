@@ -171,8 +171,7 @@ class BotService : Service() {
                 }
 
                 if (useTrailingStart) {
-                    val percentage = MathUtils.percentage(getLowestPrice(supportPrices), ConstantUtils.trailingStart)
-                    val result = MathUtils.precision(getLowestPrice(supportPrices) + MathUtils.precision(percentage))
+                    val result = MathUtils.calcMarginPercentage(getLowestPrice(supportPrices), ConstantUtils.trailingStart, false)
                     if (result < currentPrice) {
                         supportPrice = getLowestPrice(supportPrices).toString()
                         useTrailingStart = false
@@ -190,10 +189,8 @@ class BotService : Service() {
                     }
                 }
 
-                if (marketTrend == Trend.DOWNWARD) {
-                    pullOutOfAsk(currentPrice, lastTrade, xrpBalance, zarBalance, lastAskOrder)
-                    pullOutOfBid(currentPrice, lastTrade, xrpBalance, zarBalance, lastBidOrder)
-                }
+                pullOutOfAsk(currentPrice, lastTrade, xrpBalance, zarBalance, lastAskOrder)
+                pullOutOfBid(currentPrice, lastTrade, xrpBalance, zarBalance, lastBidOrder)
             }
             Status.ERROR -> {
             }
@@ -267,8 +264,7 @@ class BotService : Service() {
                 resistancePrice = ""
                 resistancePrices.clear()
 
-                val supportPriceCounter = SharedPrefsUtils[applicationContext, SharedPrefsUtils.SUPPORT_PRICE_COUNTER]
-                if (!supportPriceCounter.isNullOrBlank()) ConstantUtils.supportPriceCounter = supportPriceCounter.toInt() else ConstantUtils.supportPriceCounter = 4
+                ConstantUtils.supportPriceCounter = SharedPrefsUtils[applicationContext, SharedPrefsUtils.SUPPORT_PRICE_COUNTER]?.toInt() ?: 4
             } else {
                 Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - bid " +
                         "supportPrice: $supportPrice " +
@@ -278,8 +274,7 @@ class BotService : Service() {
             }
         } else {
             if (supportPrice.isNotBlank() && supportPrice != "0.0") {
-                val percentage = MathUtils.percentage(supportPrice.toDouble(), ConstantUtils.trailingStop)
-                val result = MathUtils.precision(supportPrice.toDouble() + MathUtils.precision(percentage))
+                val result = MathUtils.calcMarginPercentage(supportPrice.toDouble(), ConstantUtils.trailingStop, false)
                 if (currentPrice >= result) {
                     GeneralUtils.notify(this, "bid isRestrict: false - (bid reset support: $supportPrice)", "$currentPrice >= $result")
                     supportPrice = ""
@@ -307,17 +302,15 @@ class BotService : Service() {
             }
         } else {
             if (resistancePrice.isNotBlank() && resistancePrice != "0.0") {
-                val percentage = MathUtils.percentage(resistancePrice.toDouble() * lastTrade.volume.toDouble(), ConstantUtils.trailingStop)
-                val result = MathUtils.precision((resistancePrice.toDouble() * lastTrade.price.toDouble()) - MathUtils.precision(percentage))
+                val result = MathUtils.calcMarginPercentage(resistancePrice.toDouble(), lastTrade.volume.toDouble(), ConstantUtils.trailingStop)
                 if ((currentPrice * lastTrade.volume.toDouble()) <= result) {
                     newResistancePrice = (currentPrice + 0.01).toString()
                     placeSellOrder = true
                     useTrailingStart = true
                     GeneralUtils.notify(this, "ask - (ResistancePrice: $resistancePrice)", "${(currentPrice * lastTrade.volume.toDouble())} <= $result")
                 }
-            } else if (lastTrade.price.toDouble() != 0.0 && lastTrade.type != Trade.ASK_TYPE) {
-                val percentage = MathUtils.percentage(lastTrade.price.toDouble() * lastTrade.volume.toDouble(), ConstantUtils.trailingStop)
-                val result = MathUtils.precision((lastTrade.price.toDouble() * lastTrade.volume.toDouble()) - MathUtils.precision(percentage))
+            } else if (lastTrade.price.toDouble() != 0.0 && lastTrade.type == Trade.BID_TYPE) {
+                val result = MathUtils.calcMarginPercentage(lastTrade.price.toDouble(), lastTrade.volume.toDouble(), ConstantUtils.trailingStop)
                 if ((currentPrice * lastTrade.volume.toDouble()) <= result) {
                     newSellPrice = (currentPrice + 0.01).toString()
                     placeSellOrder = true
@@ -515,9 +508,8 @@ class BotService : Service() {
     }
 
     private fun pullOutOfAsk(currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance, lastAskOrder: Order) {
-        if (marketTrend == Trend.DOWNWARD && lastAskOrder.limitPrice.isNotBlank() && lastTrade.type == Trade.BID_TYPE && currentPrice < lastTrade.price.toDouble()) {
-            val percentage = MathUtils.percentage(lastAskOrder.limitPrice.toDouble() * lastAskOrder.limitVolume.toDouble(), ConstantUtils.trailingStop)
-            val result = MathUtils.precision((lastAskOrder.limitPrice.toDouble() * lastAskOrder.limitVolume.toDouble()) - MathUtils.precision(percentage))
+        if (lastAskOrder.limitPrice.isNotBlank()) {
+            val result = MathUtils.calcMarginPercentage(lastAskOrder.limitPrice.toDouble(), lastAskOrder.limitVolume.toDouble(), ConstantUtils.trailingStop)
             if ((currentPrice * lastAskOrder.limitVolume.toDouble())  <= result) {
                 attachStopOrderObserver(lastAskOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance, result)
                 GeneralUtils.notify(this, "pullOutOfAsk - (LastAskOrder: " + lastAskOrder.limitPrice + ")", "${(currentPrice * lastAskOrder.limitVolume.toDouble())} <= $result")
@@ -528,14 +520,13 @@ class BotService : Service() {
     }
 
     private fun pullOutOfBid(currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance, lastBidOrder: Order) {
-        if (marketTrend == Trend.DOWNWARD && lastBidOrder.limitPrice.isNotBlank() && currentPrice < lastBidOrder.limitPrice.toDouble()) {
-            val percentage = MathUtils.percentage(lastBidOrder.limitPrice.toDouble() * lastBidOrder.limitVolume.toDouble(), ConstantUtils.trailingStop)
-            val result = MathUtils.precision((lastBidOrder.limitPrice.toDouble() * lastBidOrder.limitVolume.toDouble()) + MathUtils.precision(percentage))
+        if (lastBidOrder.limitPrice.isNotBlank()) {
+            val result = MathUtils.calcMarginPercentage(lastBidOrder.limitPrice.toDouble(), lastBidOrder.limitVolume.toDouble(), ConstantUtils.trailingStop, false)
             if ((currentPrice * lastBidOrder.limitVolume.toDouble()) >= result) {
                 attachStopOrderObserver(lastBidOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance)
                 GeneralUtils.notify(this, "pullOutOfBidCancel - (LastBidOrder: " + lastBidOrder.limitPrice + ")", "${(currentPrice * lastBidOrder.limitVolume.toDouble())} >= $result")
             }
-        } else if (marketTrend == Trend.DOWNWARD && supportPrice.isNotBlank() && supportPrice != "0.0") {
+        } else {
             bid(false, currentPrice, lastTrade, zarBalance)
         }
     }
@@ -554,9 +545,7 @@ class BotService : Service() {
         var useMaxCurrentPrice: Boolean = false
         if (this.smartTrendDetectors.isNotEmpty()) {
             for (i in 0 until this.smartTrendDetectors.size-1) {
-                val smartTrendDetectorMargin = SharedPrefsUtils[applicationContext, SharedPrefsUtils.SMART_TREND_DETECTOR]
-                if (!smartTrendDetectorMargin.isNullOrBlank()) ConstantUtils.smartTrendDetectorMargin = smartTrendDetectorMargin.toInt() else ConstantUtils.smartTrendDetectorMargin = 5
-
+                ConstantUtils.smartTrendDetectorMargin = SharedPrefsUtils[applicationContext, SharedPrefsUtils.SMART_TREND_DETECTOR]?.toInt() ?: 5
                 if (!useMaxCurrentPrice) {
                     if (this.smartTrendDetectors[i+1] > this.smartTrendDetectors[i]) {
                         maxCurrentPrice = this.smartTrendDetectors[i+1]
