@@ -283,24 +283,15 @@ class BotService : Service() {
 
     private fun ask(isRestrict: Boolean, currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance) {
         var placeSellOrder = false
-        var newSellPrice: String = ""
-        var newResistancePrice: String = ""
-
         if (isRestrict) {
             if (resistancePrice.isNotBlank() && lastTrade.type == Trade.BID_TYPE && resistancePrice.toDouble() > lastTrade.price.toDouble() && resistancePrice.toDouble() > currentPrice) {
-                val amountXrpToSell = (xrpBalance.balance.toDouble()).toInt().toString()
-                attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell, resistancePrice)
-                GeneralUtils.notify(this, "Auto Trade", "New sell order has been placed.")
-                supportPrice = ""
-                supportPrices.clear()
-                resistancePrice = ""
-                resistancePrices.clear()
+                placeSellOrder = true
             }
         } else {
             if (lastTrade.price.toDouble() != 0.0 && lastTrade.type == Trade.BID_TYPE) {
                 val result = MathUtils.calcMarginPercentage(lastTrade.price.toDouble(), lastTrade.volume.toDouble(), ConstantUtils.trailingStop)
                 if ((currentPrice * lastTrade.volume.toDouble()) <= result) {
-                    newSellPrice = (currentPrice + 0.01).toString()
+                    resistancePrice = (currentPrice + 0.01).toString()
                     placeSellOrder = true
                     useTrailingStart = true
                     GeneralUtils.notify(this, "ask - (LastPurchasePrice: ${lastTrade.price.toDouble()})", "${(currentPrice * lastTrade.volume.toDouble())} <= $result")
@@ -309,30 +300,12 @@ class BotService : Service() {
         }
         if (placeSellOrder) {
             val amountXrpToSell = (xrpBalance.balance.toDouble()).toInt().toString()
-            when {
-                newResistancePrice.isNotBlank() && newResistancePrice != "0.0" -> {
-                    attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell, newResistancePrice)
-                    GeneralUtils.notify(this, "Auto Trade", "New sell order has been placed.")
-
-                    supportPrice = ""
-                    supportPrices.clear()
-                    resistancePrice = ""
-                    resistancePrices.clear()
-                }
-
-                newSellPrice.isNotBlank() && newSellPrice != "0.0" -> {
-                    attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell, newSellPrice)
-                    GeneralUtils.notify(this, "Auto Trade", "New sell order has been placed.")
-
-                    supportPrice = ""
-                    supportPrices.clear()
-                    resistancePrice = ""
-                    resistancePrices.clear()
-                }
-                else -> {
-                    Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - ask postOrder: null CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
-                }
-            }
+            attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell, resistancePrice)
+            GeneralUtils.notify(this, "Auto Trade", "New sell order has been placed.")
+            supportPrice = ""
+            supportPrices.clear()
+            resistancePrice = ""
+            resistancePrices.clear()
         }
         Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - ask " +
                 "resistancePrice: $resistancePrice " +
