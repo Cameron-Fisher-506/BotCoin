@@ -10,8 +10,6 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import za.co.botcoin.R
 import za.co.botcoin.databinding.ActivityMainBinding
-import za.co.botcoin.utils.ConstantUtils
-import za.co.botcoin.utils.SharedPrefsUtils
 import za.co.botcoin.view.menu.MenuActivity
 import za.co.botcoin.view.settings.AutoTradeActivity
 import za.co.botcoin.view.trade.TradeActivity

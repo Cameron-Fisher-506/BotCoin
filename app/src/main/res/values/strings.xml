@@ -34,6 +34,7 @@
     <string name="logcat">Logcat</string>
     <string name="support_price_counter">Set Support Price Counter</string>
     <string name="resistance_price_counter">Set Resistance Price Counter</string>
+    <string name="smart_trend_detector_margin">Set Smart Trend Detector Margin</string>
 
     //LUNO API
     <string name="luno_api_key_id">Key ID</string>

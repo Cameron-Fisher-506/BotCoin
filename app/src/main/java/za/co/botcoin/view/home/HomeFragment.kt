@@ -9,7 +9,10 @@ import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.HomeFragmentBinding
 import za.co.botcoin.enum.Status
+import za.co.botcoin.services.BotService
 import za.co.botcoin.utils.ConstantUtils
+import za.co.botcoin.utils.GeneralUtils
+import za.co.botcoin.utils.KioskUtils
 import za.co.botcoin.utils.SharedPrefsUtils
 
 class HomeFragment : Fragment(R.layout.home_fragment) {
@@ -31,6 +34,9 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
         handler.postDelayed(object : Runnable {
             override fun run() {
                 attachTickerObserver()
+                if(!KioskUtils.isMyServiceRunning(requireContext(), BotService::class.java.simpleName)) {
+                    GeneralUtils.runAutoTrade(requireContext())
+                }
                 handler.postDelayed(this, delay)
             }
         }, delay)
@@ -84,7 +90,7 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
             setUserTrailingStopPrice()
             setSupportPriceCounter()
             setResistancePriceCounter()
-            //GeneralUtils.runAutoTrade(requireContext())
+            setSmartTrendDetectorMargin()
         }
     }
 
@@ -113,6 +119,13 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
         val resistancePriceCounter = SharedPrefsUtils[requireContext(), SharedPrefsUtils.RESISTANCE_PRICE_COUNTER]
         if (!resistancePriceCounter.isNullOrBlank()) {
             ConstantUtils.resistancePriceCounter = resistancePriceCounter.toInt()
+        }
+    }
+
+    private fun setSmartTrendDetectorMargin() {
+        val smartTrendDetectorMargin = SharedPrefsUtils[requireContext(), SharedPrefsUtils.SMART_TREND_DETECTOR]
+        if (!smartTrendDetectorMargin.isNullOrBlank()) {
+            ConstantUtils.smartTrendDetectorMargin = smartTrendDetectorMargin.toInt()
         }
     }
 

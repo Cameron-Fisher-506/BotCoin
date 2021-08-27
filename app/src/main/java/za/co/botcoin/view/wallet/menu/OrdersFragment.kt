@@ -8,9 +8,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import za.co.botcoin.R
 import za.co.botcoin.databinding.OrdersFragmentBinding
 import za.co.botcoin.enum.Status
+import za.co.botcoin.model.models.Trade
+import za.co.botcoin.utils.DateTimeUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.view.wallet.WithdrawalViewModel
-import java.util.*
 
 class OrdersFragment : Fragment(R.layout.orders_fragment) {
     private lateinit var binding: OrdersFragmentBinding
@@ -41,7 +42,12 @@ class OrdersFragment : Fragment(R.layout.orders_fragment) {
                     displayOrdersRecyclerView()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
-                        orderListAdapter.updateOrderList(data)
+                        data.map { order ->
+                            order.completedTime = DateTimeUtils.convertLongToTime(order.completedTime.toLong())
+                            order.createdTime = DateTimeUtils.convertLongToTime(order.createdTime.toLong())
+                        }
+                        val sortedOrders = data.sortedByDescending { order -> order.createdTime }
+                        orderListAdapter.updateOrderList(sortedOrders)
                     } else {
                         displayErrorTextView()
                     }
