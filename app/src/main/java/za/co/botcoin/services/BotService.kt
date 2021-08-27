@@ -199,9 +199,7 @@ class BotService : Service() {
     }
 
 
-    private fun attachStopOrderObserver(orderId: String, currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance) = CoroutineScope(Dispatchers
-        .IO)
-        .launch {
+    private fun attachStopOrderObserver(orderId: String, currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance) = CoroutineScope(Dispatchers.IO).launch {
         val resource = withdrawalRepository.stopOrder(orderId)
         when (resource.status) {
             Status.SUCCESS -> {
