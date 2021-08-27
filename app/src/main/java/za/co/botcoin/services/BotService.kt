@@ -173,7 +173,6 @@ class BotService : Service() {
                 if (useTrailingStart) {
                     val result = MathUtils.calcMarginPercentage(getLowestPrice(supportPrices), ConstantUtils.trailingStart, false)
                     if (result < currentPrice) {
-                        supportPrice = getLowestPrice(supportPrices).toString()
                         useTrailingStart = false
                     }
                 }
