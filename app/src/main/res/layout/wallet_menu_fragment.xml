@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imgSend"
+            android:id="@+id/sendImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -31,14 +31,13 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtSend"
+                android:id="@+id/sendTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/send"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:textStyle="bold" />
-
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -69,9 +68,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sendOptionLinearLayoutCompat">
 
-
         <ImageView
-            android:id="@+id/imgReceive"
+            android:id="@+id/receiveImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -87,14 +85,13 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtReceive"
+                android:id="@+id/receiveTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/receive"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:textStyle="bold" />
-
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -110,14 +107,14 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <View
-        android:id="@+id/horizontalReceive"
+        android:id="@+id/receiveDividerView"
         style="@style/CommonHorizontalDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/receiveOptionLinearLayoutCompat" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutOrdersOption"
+        android:id="@+id/OrdersOptionLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -125,9 +122,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/receiveOptionLinearLayoutCompat">
 
-
         <ImageView
-            android:id="@+id/imgOrders"
+            android:id="@+id/ordersImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -143,14 +139,13 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtOrders"
+                android:id="@+id/ordersTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/orders"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:textStyle="bold" />
-
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -166,7 +161,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <View
-        android:id="@+id/horizontalOrders"
+        android:id="@+id/ordersDividerView"
         style="@style/CommonHorizontalDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
