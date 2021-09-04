@@ -37,4 +37,6 @@ class BotCoinService : BaseService() {
     suspend fun getTrades(auth: String, pair: String, sortDescending: Boolean) = getResource { api.getTrades(auth, pair, sortDescending) }
 
     suspend fun postOrder(auth: String, pair: String, type: String, volume: String, price: String) = getResource { api.postOrder(auth, pair, type, volume, price) }
+
+    suspend fun getCandles(auth: String, pair: String, since: String, duration: Int) = getResource { api.getCandles(auth, pair, since, duration) }
 }

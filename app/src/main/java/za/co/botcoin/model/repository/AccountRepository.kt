@@ -20,6 +20,7 @@ class AccountRepository(private val application: Application) {
     private val orderDao: IOrderDao = BotCoinDatabase.getDatabase(application).orderDao()
     private val postOrderDao: IPostOrderDao = BotCoinDatabase.getDatabase(application).postOrderDao()
     private val tickerDao: ITickerDao = BotCoinDatabase.getDatabase(application).tickerDao()
+    private val candleDao: ICandleDao = BotCoinDatabase.getDatabase(application).candleDao()
 
     init {
         CoroutineScope(Dispatchers.IO).launch {
@@ -69,6 +70,15 @@ class AccountRepository(private val application: Application) {
                 { BotCoinDatabase.getResource { postOrderDao.getAll() } },
                 { botCoinService.postOrder("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}", pair, type, volume, price) },
                 { postOrderDao.upsert(it, postOrderDao) }
+        )
+    }
+
+    suspend fun fetchCandles(pair: String, since: String, duration: Int): Resource<List<Candle>> {
+        return DataAccessStrategyUtils.synchronizedCache(
+            application,
+            { BotCoinDatabase.getResource { candleDao.getAll() } },
+            { botCoinService.getCandles("Basic ${GeneralUtils.getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)}", pair, since, duration) },
+            { it.candles?.let { candles -> candleDao.upsert(candles, candleDao) } }
         )
     }
 }

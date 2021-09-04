@@ -38,4 +38,7 @@ interface IBotCoinApi {
 
     @POST("postorder")
     suspend fun postOrder(@Header("Authorization") auth: String, @Query("pair") pair: String, @Query("type") type: String, @Query("volume") volume: String, @Query("price") price: String): Response<PostOrder>
+
+    @GET("candles")
+    suspend fun getCandles(@Header("Authorization") auth: String, @Query("pair") pair: String, @Query("since") since: String, @Query("duration") duration: Int): Response<AccountWithCandles>
 }
