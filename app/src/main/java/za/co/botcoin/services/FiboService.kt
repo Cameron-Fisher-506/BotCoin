@@ -138,6 +138,28 @@ class FiboService : Service() {
                     } else {
                         attachCandlesObserver(currentPrice, lastTrade, zarBalance, xrpBalance, ConstantUtils.PAIR_XRPZAR)
                     }
+
+                    if (simpleMovingAverage.sma.isNotEmpty()) {
+                        simpleMovingAverage.sma.map { sma ->
+                            when {
+                                currentPrice > sma -> marketTrend = Trend.UPWARD
+                                currentPrice < sma -> marketTrend = Trend.DOWNWARD
+                                else -> {
+                                    when {
+                                        marketTrend == Trend.UPWARD && currentPrice == sma -> {
+                                            marketTrend = Trend.DOWNWARD
+                                            ask(currentPrice, lastTrade, xrpBalance, currentPrice+0.01)
+                                        }
+                                        marketTrend == Trend.DOWNWARD && currentPrice == sma -> {
+                                            marketTrend = Trend.UPWARD
+                                            bid(currentPrice, lastTrade, zarBalance, currentPrice-0.01)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     attachOrdersObserver(currentPrice, lastTrade, xrpBalance, zarBalance)
                 }
             }
@@ -213,26 +235,6 @@ class FiboService : Service() {
         when (resource.status) {
             Status.SUCCESS -> {
                 simpleMovingAverage.calcSMA(resource.data?.reversed() ?: listOf())
-                if (simpleMovingAverage.sma.isNotEmpty()) {
-                    simpleMovingAverage.sma.map { sma ->
-                        when {
-                            currentPrice > sma -> marketTrend = Trend.UPWARD
-                            currentPrice < sma -> marketTrend = Trend.DOWNWARD
-                            else -> {
-                                when {
-                                    marketTrend == Trend.UPWARD && currentPrice == sma -> {
-                                        marketTrend = Trend.DOWNWARD
-                                        ask(currentPrice, lastTrade, xrpBalance, currentPrice+0.01)
-                                    }
-                                    marketTrend == Trend.DOWNWARD && currentPrice == sma -> {
-                                        marketTrend = Trend.UPWARD
-                                        bid(currentPrice, lastTrade, zarBalance, currentPrice-0.01)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
             }
             Status.ERROR -> {
             }
