@@ -13,18 +13,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import za.co.botcoin.R
 import za.co.botcoin.enum.Status
+import za.co.botcoin.enum.Trend
 import za.co.botcoin.model.models.Balance
+import za.co.botcoin.model.models.Candle
 import za.co.botcoin.model.models.Order
 import za.co.botcoin.model.models.Trade
 import za.co.botcoin.model.repository.AccountRepository
 import za.co.botcoin.model.repository.WithdrawalRepository
-import za.co.botcoin.utils.ConstantUtils
-import za.co.botcoin.utils.GeneralUtils
+import za.co.botcoin.utils.*
 import java.util.*
 
 class FiboService : Service() {
     private lateinit var accountRepository: AccountRepository
     private lateinit var withdrawalRepository: WithdrawalRepository
+    private val simpleMovingAverage: SimpleMovingAverage = SimpleMovingAverage(20)
+    private lateinit var marketTrend: Trend
 
     private lateinit var timer: Timer
     private lateinit var timerTask: TimerTask
@@ -79,7 +82,6 @@ class FiboService : Service() {
                 if (!data.isNullOrEmpty()) {
                     data.map { ticker ->
                         if (ticker.pair == ConstantUtils.PAIR_XRPZAR) {
-
                             attachTradesObserver(ticker.lastTrade.toDouble())
                         }
                     }
@@ -103,7 +105,6 @@ class FiboService : Service() {
                 } else {
                     lastTrade.type = Trade.ASK_TYPE
                     lastTrade.price = "0.0"
-
                 }
                 attachBalancesObserver(currentPrice, lastTrade)
             }
@@ -129,7 +130,14 @@ class FiboService : Service() {
                             zarBalance = balance
                         }
                     }
-
+                    if (simpleMovingAverage.dataSet.isNotEmpty()) {
+                        val lastCandleDate = DateTimeUtils.convertLongToTime(simpleMovingAverage.dataSet.last().timestamp.toLong(), DateTimeUtils.DASHED_PATTERN_YYYY_MM_DD)
+                        if (lastCandleDate != DateTimeUtils.getYesterdayDateTime(DateTimeUtils.DASHED_PATTERN_YYYY_MM_DD)) {
+                            attachCandlesObserver(currentPrice, lastTrade, zarBalance, xrpBalance, ConstantUtils.PAIR_XRPZAR)
+                        }
+                    } else {
+                        attachCandlesObserver(currentPrice, lastTrade, zarBalance, xrpBalance, ConstantUtils.PAIR_XRPZAR)
+                    }
                     attachOrdersObserver(currentPrice, lastTrade, xrpBalance, zarBalance)
                 }
             }
@@ -200,12 +208,54 @@ class FiboService : Service() {
         }
     }
 
-    private fun attachCandlesObserver(pair: String, since: String, duration: Int) = CoroutineScope(Dispatchers.IO).launch {
+    private fun attachCandlesObserver(currentPrice: Double, lastTrade: Trade, zarBalance: Balance, xrpBalance: Balance, pair: String, since: String = "1470810728478", duration: Int = 86400) = CoroutineScope(Dispatchers.IO).launch {
         val resource = accountRepository.fetchCandles(pair, since, duration)
         when (resource.status) {
-            Status.SUCCESS -> {}
-            Status.ERROR -> {}
-            Status.LOADING -> {}
+            Status.SUCCESS -> {
+                simpleMovingAverage.calcSMA(resource.data?.reversed() ?: listOf())
+                if (simpleMovingAverage.sma.isNotEmpty()) {
+                    simpleMovingAverage.sma.map { sma ->
+                        when {
+                            currentPrice > sma -> marketTrend = Trend.UPWARD
+                            currentPrice < sma -> marketTrend = Trend.DOWNWARD
+                            else -> {
+                                when {
+                                    marketTrend == Trend.UPWARD && currentPrice == sma -> {
+                                        marketTrend = Trend.DOWNWARD
+                                        ask(currentPrice, lastTrade, xrpBalance, currentPrice+0.01)
+                                    }
+                                    marketTrend == Trend.DOWNWARD && currentPrice == sma -> {
+                                        marketTrend = Trend.UPWARD
+                                        bid(currentPrice, lastTrade, zarBalance, currentPrice-0.01)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            Status.ERROR -> {
+            }
+            Status.LOADING -> {
+            }
+        }
+    }
+
+    private fun bid(currentPrice: Double, lastTrade: Trade, zarBalance: Balance, supportPrice: Double) {
+        if (supportPrice != 0.0 && lastTrade.type != Trade.BID_TYPE && supportPrice < currentPrice) {
+            val amountXrpToBuy = calcAmountXrpToBuy(zarBalance.balance.toDouble(), supportPrice).toString()
+            attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "BID", amountXrpToBuy, supportPrice.toString())
+            GeneralUtils.notify(this, "Auto Trade", "New buy order has been placed.")
+        }
+    }
+
+    private fun calcAmountXrpToBuy(zarBalance: Double, supportPrice: Double): Int = (zarBalance / supportPrice).toInt()
+
+    private fun ask(currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, resistancePrice: Double) {
+        if (resistancePrice != 0.0 && lastTrade.type == Trade.BID_TYPE && resistancePrice > lastTrade.price.toDouble() && resistancePrice > currentPrice) {
+            val amountXrpToSell = (xrpBalance.balance.toDouble()).toInt().toString()
+            attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell, resistancePrice.toString())
+            GeneralUtils.notify(this, "Auto Trade", "New sell order has been placed.")
         }
     }
 

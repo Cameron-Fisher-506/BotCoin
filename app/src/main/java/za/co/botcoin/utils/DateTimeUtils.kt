@@ -1,6 +1,5 @@
 package za.co.botcoin.utils
 
-import java.lang.NumberFormatException
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -8,6 +7,7 @@ import java.util.concurrent.TimeUnit
 
 object DateTimeUtils {
     const val DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss"
+    const val DASHED_PATTERN_YYYY_MM_DD = "yyyy-MM-dd"
     const val ONE_MINUTE = 1
     const val FIVE_MINUTES = 5
 
@@ -27,9 +27,9 @@ object DateTimeUtils {
         return toReturn
     }
 
-    fun convertLongToTime(time: Long): String {
+    fun convertLongToTime(time: Long, format: String = DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS): String {
         val date = Date(time)
-        val format = SimpleDateFormat(DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS, Locale.ENGLISH)
+        val format = SimpleDateFormat(format, Locale.ENGLISH)
         return format.format(date)
     }
 
@@ -47,6 +47,12 @@ object DateTimeUtils {
                     "Date: ${getCurrentDateTime()}")
         }
         return toReturn
+    }
+
+    fun getYesterdayDateTime(format: String = DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS): String {
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.add(Calendar.DATE, -1)
+        return SimpleDateFormat(format, Locale.ENGLISH).format(calendar.time)
     }
 
     fun getDifferenceDateTimeInMin(dateTime: String): Long {

@@ -7,7 +7,7 @@ class BotCoinService : BaseService() {
     private lateinit var api: IBotCoinApi
 
     companion object {
-        const val BASE_URL = "https://api.mybitx.com/api/1/"
+        const val BASE_URL = "https://api.mybitx.com/api/"
     }
 
     init {
