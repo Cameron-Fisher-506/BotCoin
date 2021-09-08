@@ -5,10 +5,10 @@ import java.util.*
 
 class SimpleMovingAverage(var period: Int) {
     val dataSet: Queue<Candle> = LinkedList()
-    val sma: Queue<Double> = LinkedList()
-    var sum: Double = 0.0
+    val averages: Queue<Double> = LinkedList()
+    private var sum: Double = 0.0
 
-    fun calcSMA(candles: List<Candle>) {
+    fun calculateSma(candles: List<Candle>) {
         if (candles.isNotEmpty()) {
             candles.map { candle -> addRemoveCandle(candle) }
         }
@@ -25,10 +25,21 @@ class SimpleMovingAverage(var period: Int) {
 
     private fun calculateAverage() {
         if (dataSet.isNotEmpty() && dataSet.size >= period) {
-            if (sma.isNotEmpty() && sma.size >= 20) {
-                sma.remove()
+            if (averages.isNotEmpty() && averages.size >= 20) {
+                averages.remove()
             }
-            sma.add(sum/period)
+            averages.add(sum/period)
         }
+    }
+
+    fun isPriceOnLine(currentPrice: Double): Boolean {
+        if (averages.isNotEmpty()) {
+            for (i in 0 until averages.size) {
+                if (currentPrice in averages.elementAt(i)..averages.elementAt(i+1)) {
+                    return true
+                }
+            }
+        }
+        return false
     }
 }

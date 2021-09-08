@@ -139,23 +139,23 @@ class FiboService : Service() {
                         attachCandlesObserver(currentPrice, lastTrade, zarBalance, xrpBalance, ConstantUtils.PAIR_XRPZAR)
                     }
 
-                    if (simpleMovingAverage.sma.isNotEmpty()) {
-                        simpleMovingAverage.sma.map { sma ->
-                            when {
-                                currentPrice > sma -> marketTrend = Trend.UPWARD
-                                currentPrice < sma -> marketTrend = Trend.DOWNWARD
-                                else -> {
-                                    when {
-                                        marketTrend == Trend.UPWARD && currentPrice == sma -> {
-                                            marketTrend = Trend.DOWNWARD
-                                            ask(currentPrice, lastTrade, xrpBalance, currentPrice+0.01)
-                                        }
-                                        marketTrend == Trend.DOWNWARD && currentPrice == sma -> {
-                                            marketTrend = Trend.UPWARD
-                                            bid(currentPrice, lastTrade, zarBalance, currentPrice-0.01)
-                                        }
-                                    }
-                                }
+                    if (!::marketTrend.isInitialized) {
+                        if (simpleMovingAverage.averages.isNotEmpty()) {
+                            marketTrend = if (currentPrice > simpleMovingAverage.averages.last()) {
+                                Trend.UPWARD
+                            } else {
+                                Trend.DOWNWARD
+                            }
+                        }
+                    } else {
+                        when {
+                            marketTrend == Trend.UPWARD && simpleMovingAverage.isPriceOnLine(currentPrice) && lastTrade.type == Trade.BID_TYPE -> {
+                                marketTrend = Trend.DOWNWARD
+                                ask(currentPrice, lastTrade, xrpBalance, currentPrice+0.01)
+                            }
+                            marketTrend == Trend.DOWNWARD && simpleMovingAverage.isPriceOnLine(currentPrice) && lastTrade.type == Trade.ASK_TYPE -> {
+                                marketTrend = Trend.UPWARD
+                                bid(currentPrice, lastTrade, zarBalance, currentPrice-0.01)
                             }
                         }
                     }
@@ -234,7 +234,7 @@ class FiboService : Service() {
         val resource = accountRepository.fetchCandles(pair, since, duration)
         when (resource.status) {
             Status.SUCCESS -> {
-                simpleMovingAverage.calcSMA(resource.data?.reversed() ?: listOf())
+                simpleMovingAverage.calculateSma(resource.data?.reversed() ?: listOf())
             }
             Status.ERROR -> {
             }
