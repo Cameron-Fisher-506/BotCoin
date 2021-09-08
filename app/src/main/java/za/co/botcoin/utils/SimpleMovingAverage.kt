@@ -46,4 +46,22 @@ class SimpleMovingAverage(var period: Int) {
         }
         return false
     }
+
+    fun isUpwardTrend(currentPrice: Double): Boolean {
+        if (averages.isNotEmpty()) {
+            if (currentPrice >= averages.last()) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun isDownwardTrend(currentPrice: Double): Boolean {
+        if (averages.isNotEmpty()) {
+            if (currentPrice <= averages.last()) {
+                return true
+            }
+        }
+        return false
+    }
 }

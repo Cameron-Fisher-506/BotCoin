@@ -27,7 +27,7 @@ class FiboService : Service() {
     private lateinit var accountRepository: AccountRepository
     private lateinit var withdrawalRepository: WithdrawalRepository
     private val simpleMovingAverage: SimpleMovingAverage = SimpleMovingAverage(20)
-    private lateinit var marketTrend: Trend
+    private var marketTrend: Trend = Trend.DOWNWARD
 
     private lateinit var timer: Timer
     private lateinit var timerTask: TimerTask
@@ -54,15 +54,16 @@ class FiboService : Service() {
         }
 
         init()
+        attachTickersObserver()
+        Log.d(ConstantUtils.BOTCOIN_TAG, "AUTO TRADE RUNNING...")
 
-        this.timerTask = object : TimerTask() {
+        /*this.timerTask = object : TimerTask() {
             override fun run() {
-                attachTickersObserver()
-                Log.d(ConstantUtils.BOTCOIN_TAG, "AUTO TRADE RUNNING...")
+
             }
         }
         this.timer = Timer()
-        this.timer.schedule(this.timerTask, 0, ConstantUtils.TICKER_RUN_TIME)
+        this.timer.schedule(this.timerTask, 0, ConstantUtils.TICKER_RUN_TIME)*/
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -137,27 +138,6 @@ class FiboService : Service() {
                         }
                     } else {
                         attachCandlesObserver(currentPrice, lastTrade, zarBalance, xrpBalance, ConstantUtils.PAIR_XRPZAR)
-                    }
-
-                    if (!::marketTrend.isInitialized) {
-                        if (simpleMovingAverage.averages.isNotEmpty()) {
-                            marketTrend = if (currentPrice > simpleMovingAverage.averages.last()) {
-                                Trend.UPWARD
-                            } else {
-                                Trend.DOWNWARD
-                            }
-                        }
-                    } else {
-                        when {
-                            marketTrend == Trend.UPWARD && simpleMovingAverage.isPriceOnLine(currentPrice) && lastTrade.type == Trade.BID_TYPE -> {
-                                marketTrend = Trend.DOWNWARD
-                                ask(currentPrice, lastTrade, xrpBalance, currentPrice+0.01)
-                            }
-                            marketTrend == Trend.DOWNWARD && simpleMovingAverage.isPriceOnLine(currentPrice) && lastTrade.type == Trade.ASK_TYPE -> {
-                                marketTrend = Trend.UPWARD
-                                bid(currentPrice, lastTrade, zarBalance, currentPrice-0.01)
-                            }
-                        }
                     }
 
                     attachOrdersObserver(currentPrice, lastTrade, xrpBalance, zarBalance)
@@ -235,6 +215,22 @@ class FiboService : Service() {
         when (resource.status) {
             Status.SUCCESS -> {
                 simpleMovingAverage.calculateSma(resource.data?.reversed() ?: listOf())
+                if (simpleMovingAverage.averages.isNotEmpty()) {
+                    marketTrend = when {
+                        marketTrend == Trend.DOWNWARD && simpleMovingAverage.isUpwardTrend(currentPrice) -> Trend.UPWARD
+                        marketTrend == Trend.UPWARD && simpleMovingAverage.isDownwardTrend(currentPrice) -> Trend.DOWNWARD
+                        else -> Trend.DOWNWARD
+                    }
+                }
+
+                when {
+                    marketTrend == Trend.UPWARD && simpleMovingAverage.isPriceOnLine(currentPrice) && lastTrade.type == Trade.BID_TYPE -> {
+                        ask(currentPrice, lastTrade, xrpBalance, currentPrice+0.01)
+                    }
+                    marketTrend == Trend.DOWNWARD && simpleMovingAverage.isPriceOnLine(currentPrice) && lastTrade.type == Trade.ASK_TYPE -> {
+                        bid(currentPrice, lastTrade, zarBalance, currentPrice-0.01)
+                    }
+                }
             }
             Status.ERROR -> {
             }
@@ -265,7 +261,8 @@ class FiboService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        this.timer.cancel()
-        this.timer.purge()
+
+        //this.timer.cancel()
+        //this.timer.purge()
     }
 }
