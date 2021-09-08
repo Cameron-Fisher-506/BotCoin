@@ -54,16 +54,15 @@ class FiboService : Service() {
         }
 
         init()
-        attachTickersObserver()
-        Log.d(ConstantUtils.BOTCOIN_TAG, "AUTO TRADE RUNNING...")
 
-        /*this.timerTask = object : TimerTask() {
+        this.timerTask = object : TimerTask() {
             override fun run() {
-
+                attachTickersObserver()
+                Log.d(ConstantUtils.BOTCOIN_TAG, "AUTO TRADE RUNNING...")
             }
         }
         this.timer = Timer()
-        this.timer.schedule(this.timerTask, 0, ConstantUtils.TICKER_RUN_TIME)*/
+        this.timer.schedule(this.timerTask, 0, ConstantUtils.TICKER_RUN_TIME)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
