@@ -34,8 +34,12 @@ class SimpleMovingAverage(var period: Int) {
 
     fun isPriceOnLine(currentPrice: Double): Boolean {
         if (averages.isNotEmpty()) {
-            for (i in 0 until averages.size) {
-                if (currentPrice in averages.elementAt(i)..averages.elementAt(i+1)) {
+            var m = 0.0
+            var c = 0.0
+            for (i in 0 until averages.size-1) {
+                m = StraightLineFormulaUtils.calculateGradient(i+1, i, averages.elementAt(i+1), averages.elementAt(i))
+                c = StraightLineFormulaUtils.calculateConstant(i+1, averages.elementAt(i+1), m)
+                if (StraightLineFormulaUtils.isPointOnLine(i, currentPrice, m, c)) {
                     return true
                 }
             }
