@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutLunoApiOption"
+        android:id="@+id/lunoApiOptionLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imgApi"
+            android:id="@+id/apiImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -32,7 +31,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtLunoApi"
+                android:id="@+id/lunoApiTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/luno_api"
@@ -55,24 +54,22 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <View
-        android:id="@+id/horizontalDividerLunoApi"
+        android:id="@+id/lunoApiDividerView"
         style="@style/CommonHorizontalDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutLunoApiOption" />
+        app:layout_constraintTop_toBottomOf="@+id/lunoApiOptionLinearLayoutCompat" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutDonateOption"
+        android:id="@+id/donateOptionLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutLunoApiOption"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/linearLayoutLunoApiOption"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutLunoApiOption">
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lunoApiOptionLinearLayoutCompat">
 
         <ImageView
-            android:id="@+id/imgDonate"
+            android:id="@+id/donateImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -88,7 +85,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtDonate"
+                android:id="@+id/donateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/donate"
@@ -111,24 +108,23 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <View
-        android:id="@+id/horizontalDonate"
+        android:id="@+id/donateDividerView"
         style="@style/CommonHorizontalDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutDonateOption" />
+        app:layout_constraintTop_toBottomOf="@+id/donateOptionLinearLayoutCompat" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutNotifications"
+        android:id="@+id/notificationsLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutLunoApiOption"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/linearLayoutLunoApiOption"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutDonateOption">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/donateOptionLinearLayoutCompat">
 
 
         <ImageView
-            android:id="@+id/imgNotifications"
+            android:id="@+id/notificationsImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -144,7 +140,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtNotifications"
+                android:id="@+id/notificationsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/notifications"
@@ -167,20 +163,19 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <View
-        android:id="@+id/horizontalNotifications"
+        android:id="@+id/notificationsDividerView"
         style="@style/CommonHorizontalDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutNotifications" />
+        app:layout_constraintTop_toBottomOf="@+id/notificationsLinearLayoutCompat" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutTrailingStart"
+        android:id="@+id/trailingStartLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutLunoApiOption"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/linearLayoutLunoApiOption"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutNotifications">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notificationsLinearLayoutCompat">
 
 
         <ImageView
@@ -227,20 +222,18 @@
         style="@style/CommonHorizontalDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTrailingStart" />
+        app:layout_constraintTop_toBottomOf="@+id/trailingStartLinearLayoutCompat" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutTrailingStop"
+        android:id="@+id/trailingStopLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutLunoApiOption"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/linearLayoutLunoApiOption"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTrailingStart">
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/trailingStartLinearLayoutCompat">
 
         <ImageView
-            android:id="@+id/imgTrailingStop"
+            android:id="@+id/trailingStopImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -256,14 +249,13 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtTrailingStop"
+                android:id="@+id/trailingStopTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/trailing_stop"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:textStyle="bold" />
-
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -283,21 +275,19 @@
         style="@style/CommonHorizontalDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTrailingStop" />
+        app:layout_constraintTop_toBottomOf="@+id/trailingStopLinearLayoutCompat" />
 
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutSetSupportPriceCounter"
+        android:id="@+id/setSupportPriceCounterLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutLunoApiOption"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/linearLayoutLunoApiOption"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTrailingStop">
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/trailingStopLinearLayoutCompat">
 
         <ImageView
-            android:id="@+id/imgSetSupportPriceCounter"
+            android:id="@+id/setSupportPriceCounterImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -313,7 +303,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtSetSupportPriceCounter"
+                android:id="@+id/setSupportPriceCounterTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/support_price_counter"
@@ -321,7 +311,6 @@
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
-
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <ImageView
@@ -336,24 +325,22 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <View
-        android:id="@+id/horizontalSetSupportPriceCounter"
+        android:id="@+id/setSupportPriceCounterDividerView"
         style="@style/CommonHorizontalDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSetSupportPriceCounter" />
+        app:layout_constraintTop_toBottomOf="@+id/setSupportPriceCounterLinearLayoutCompat" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutSetResistancePriceCounter"
+        android:id="@+id/setResistancePriceCounterLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutLunoApiOption"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/linearLayoutLunoApiOption"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSetSupportPriceCounter">
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setSupportPriceCounterLinearLayoutCompat">
 
         <ImageView
-            android:id="@+id/imgSetResistancePriceCounter"
+            android:id="@+id/setResistancePriceCounterImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -369,14 +356,13 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtSetResistancePriceCounter"
+                android:id="@+id/setResistancePriceCounterTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/resistance_price_counter"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:textStyle="bold" />
-
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -392,10 +378,63 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <View
-        android:id="@+id/horizontalSetResistancePriceCounter"
+        android:id="@+id/SetResistancePriceCounterDividerView"
         style="@style/CommonHorizontalDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSetSupportPriceCounter" />
+        app:layout_constraintTop_toBottomOf="@+id/setResistancePriceCounterLinearLayoutCompat" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/setSmartTrendDetectorMarginLinearLayoutCompat"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setResistancePriceCounterLinearLayoutCompat">
+
+        <ImageView
+            android:id="@+id/setSmartTrendDetectorMarginImageView"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:contentDescription="@string/DummyText"
+            android:src="@drawable/ic_show_chart_black_24dp" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/setSmartTrendDetectorMarginTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/smart_trend_detector_margin"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:contentDescription="@string/DummyText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:id="@+id/setSmartTrendMarginDividerView"
+        style="@style/CommonHorizontalDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setSmartTrendDetectorMarginLinearLayoutCompat" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

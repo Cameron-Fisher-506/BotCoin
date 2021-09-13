@@ -7,7 +7,7 @@ class BotCoinService : BaseService() {
     private lateinit var api: IBotCoinApi
 
     companion object {
-        const val BASE_URL = "https://api.mybitx.com/api/1/"
+        const val BASE_URL = "https://api.mybitx.com/api/"
     }
 
     init {
@@ -37,4 +37,6 @@ class BotCoinService : BaseService() {
     suspend fun getTrades(auth: String, pair: String, sortDescending: Boolean) = getResource { api.getTrades(auth, pair, sortDescending) }
 
     suspend fun postOrder(auth: String, pair: String, type: String, volume: String, price: String) = getResource { api.postOrder(auth, pair, type, volume, price) }
+
+    suspend fun getCandles(auth: String, pair: String, since: String, duration: Int) = getResource { api.getCandles(auth, pair, since, duration) }
 }

@@ -40,7 +40,6 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <ImageView

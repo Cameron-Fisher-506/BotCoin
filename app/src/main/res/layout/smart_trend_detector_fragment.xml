@@ -7,13 +7,13 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/trailingStartTextView"
+        android:id="@+id/smartTrendDetectorTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="20dp"
-        android:text="@string/trailing_start"
+        android:text="@string/smart_trend_detector"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -21,17 +21,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/trailingStartImageButton"
+        android:id="@+id/smartTrendDetectorImageButton"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="3dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="20dp"
-        android:contentDescription="@string/trailing_start"
+        android:contentDescription="@string/smart_trend_detector"
         android:src="@drawable/ic_info_black_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.021"
-        app:layout_constraintStart_toEndOf="@+id/trailingStartTextView"
+        app:layout_constraintStart_toEndOf="@+id/smartTrendDetectorTextView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
@@ -44,7 +44,7 @@
         android:layout_marginBottom="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trailingStartImageButton" />
+        app:layout_constraintTop_toBottomOf="@+id/smartTrendDetectorImageButton" />
 
     <Button
         android:id="@+id/saveButton"

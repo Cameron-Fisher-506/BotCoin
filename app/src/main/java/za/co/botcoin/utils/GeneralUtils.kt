@@ -12,7 +12,7 @@ import android.widget.Toast
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import za.co.botcoin.R
-import za.co.botcoin.services.BotService
+import za.co.botcoin.services.FiboService
 
 object GeneralUtils {
     fun makeToast(context: Context?, message: String) {
@@ -105,15 +105,15 @@ object GeneralUtils {
             val isAutoTrade = SharedPrefsUtils[context, SharedPrefsUtils.AUTO_TRADE_PREF]
             if (!isAutoTrade.isNullOrBlank() && isAutoTrade.toBoolean()) {
                 if (Build.VERSION.SDK_INT >= 26) {
-                    context.startForegroundService(Intent(context, BotService::class.java))
+                    context.startForegroundService(Intent(context, FiboService::class.java))
                 } else {
-                    context.startService(Intent(context, BotService::class.java))
+                    context.startService(Intent(context, FiboService::class.java))
                 }
             } else {
-                context.stopService(Intent(context, BotService::class.java))
+                context.stopService(Intent(context, FiboService::class.java))
             }
         } else {
-            context.stopService(Intent(context, BotService::class.java))
+            context.stopService(Intent(context, FiboService::class.java))
         }
     }
 }
