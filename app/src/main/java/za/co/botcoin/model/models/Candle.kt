@@ -4,9 +4,9 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(indices = [Index(value = ["id"], unique = true)])
+@Entity(indices = [Index(value = ["timestamp"], unique = true)])
 class Candle : BaseModel() {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     var id: Int = 0
     var close: String = ""
     var high: String = ""

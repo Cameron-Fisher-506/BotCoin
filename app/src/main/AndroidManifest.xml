@@ -26,6 +26,7 @@
         <activity android:name="za.co.botcoin.view.menu.MenuActivity"/>
 
         <service android:name="za.co.botcoin.services.BotService"/>
+        <service android:name="za.co.botcoin.services.FiboService"/>
     </application>
 
 </manifest>
