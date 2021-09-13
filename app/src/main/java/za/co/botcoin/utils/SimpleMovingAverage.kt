@@ -20,7 +20,7 @@ class SimpleMovingAverage(var period: Int) {
                 sum += candles.last().close.toDouble()
                 averages.add(sum/period)
                 averages.map { average ->
-                    Log.d("BOTCOIN", "average: $average")
+                    Log.d("BOTCOIN", "average: ${ MathUtils.precision(average) }")
                 }
 
             }
