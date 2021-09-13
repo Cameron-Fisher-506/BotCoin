@@ -182,13 +182,12 @@ class FiboService : Service() {
                     data.map { order ->
                         if (order.type == "ASK" && order.state == "PENDING") {
                             lastAskOrder = order
-                            trailingStop(currentPrice, lastTrade, xrpBalance, zarBalance, order)
                         } else if (order.type == "BID" && order.state == "PENDING") {
                             lastBidOrder = order
                         }
                     }
                 }
-
+                trailingStop(currentPrice, lastTrade, xrpBalance, zarBalance, lastAskOrder)
             }
             Status.ERROR -> {
             }
