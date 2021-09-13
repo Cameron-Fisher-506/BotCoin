@@ -9,6 +9,7 @@ import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.AutoTradeFragmentBinding
 import za.co.botcoin.services.BotService
+import za.co.botcoin.services.FiboService
 import za.co.botcoin.utils.*
 
 class AutoTradeFragment : Fragment(R.layout.auto_trade_fragment) {
@@ -69,14 +70,14 @@ class AutoTradeFragment : Fragment(R.layout.auto_trade_fragment) {
 
     private fun startBotService() {
         if (Build.VERSION.SDK_INT >= 26) {
-            activity?.startForegroundService(Intent(activity, BotService::class.java))
+            activity?.startForegroundService(Intent(activity, FiboService::class.java))
         } else {
-            activity?.startService(Intent(activity, BotService::class.java))
+            activity?.startService(Intent(activity, FiboService::class.java))
         }
     }
 
     private fun stopBotService() {
-        activity?.stopService(Intent(activity, BotService::class.java))
+        activity?.stopService(Intent(activity, FiboService::class.java))
     }
 
     private fun setSwitchAutoTrade() {

@@ -24,18 +24,18 @@ class TradeFragment : Fragment(R.layout.trade_option_fragment) {
         trades.add(Trade(Trade.BUY_TYPE, "0", ConstantUtils.SUPPORT_PRICE ?: ""))
         trades.add(Trade(Trade.SELL_TYPE, "0", ConstantUtils.RESISTANCE_PRICE ?: ""))
         tradeAdapter = TradeAdapter(requireContext(), trades)
-        this.binding.botPager.adapter = tradeAdapter
+        this.binding.tradeViewPager.adapter = tradeAdapter
         addTabBotMenuListener()
     }
 
     private fun addTabBotMenuListener() {
-        this.binding.tabBotTabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+        this.binding.tradeTabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 when (tab.position) {
                     0 ->                         //BUY
-                        binding.botPager.currentItem = 0
+                        binding.tradeViewPager.currentItem = 0
                     1 ->                         //SELL
-                        binding.botPager.currentItem = 1
+                        binding.tradeViewPager.currentItem = 1
                 }
             }
 

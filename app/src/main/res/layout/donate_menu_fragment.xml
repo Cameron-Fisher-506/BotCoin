@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -40,7 +39,6 @@
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
-
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <ImageView
@@ -57,9 +55,8 @@
     <View
         android:id="@+id/donateBtcDividerView"
         style="@style/CommonHorizontalDivider"
-        app:layout_constraintEnd_toEndOf="@+id/donateBtcOptionLinearLayoutCompat"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/donateBtcOptionLinearLayoutCompat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/donateBtcOptionLinearLayoutCompat" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -69,9 +66,8 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintTop_toBottomOf="@+id/donateBtcOptionLinearLayoutCompat">
 
-
         <ImageView
-            android:id="@+id/imgXrp"
+            android:id="@+id/xrpImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -87,14 +83,13 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtDonateXrp"
+                android:id="@+id/donateXrpTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/xrp"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:textStyle="bold" />
-
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -112,9 +107,8 @@
     <View
         android:id="@+id/donateXrpDividerView"
         style="@style/CommonHorizontalDivider"
-        app:layout_constraintEnd_toEndOf="@+id/donateXrpOptionLinearLayoutCompat"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/donateXrpOptionLinearLayoutCompat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/donateXrpOptionLinearLayoutCompat" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -123,7 +117,6 @@
         android:layout_height="50dp"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintTop_toBottomOf="@+id/donateXrpOptionLinearLayoutCompat">
-
 
         <ImageView
             android:id="@+id/donateEthImageView"
@@ -150,7 +143,6 @@
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
-
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <ImageView
@@ -167,9 +159,8 @@
     <View
         android:id="@+id/donateEthDividerView"
         style="@style/CommonHorizontalDivider"
-        app:layout_constraintEnd_toEndOf="@+id/donateEthOptionLinearLayout"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/donateEthOptionLinearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/donateEthOptionLinearLayout" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -178,7 +169,6 @@
         android:layout_height="50dp"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintTop_toBottomOf="@+id/donateEthOptionLinearLayout">
-
 
         <ImageView
             android:id="@+id/donateLtcImageView"
@@ -205,7 +195,6 @@
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
-
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <ImageView
@@ -222,9 +211,8 @@
     <View
         android:id="@+id/donateLtcDividerView"
         style="@style/CommonHorizontalDivider"
-        app:layout_constraintEnd_toEndOf="@+id/donateLtcOptionLinearLayout"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/donateLtcOptionLinearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/donateLtcOptionLinearLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

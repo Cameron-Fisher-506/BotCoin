@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutLunoApiOption"
+        android:id="@+id/lunoApiOptionLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imgApi"
+            android:id="@+id/apiImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -31,7 +31,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtLunoApi"
+                android:id="@+id/lunoApiTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/luno_api"
@@ -58,19 +58,18 @@
         style="@style/CommonHorizontalDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutLunoApiOption" />
+        app:layout_constraintTop_toBottomOf="@+id/lunoApiOptionLinearLayoutCompat" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutDonateOption"
+        android:id="@+id/donateOptionLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutLunoApiOption">
-
+        app:layout_constraintTop_toBottomOf="@+id/lunoApiOptionLinearLayoutCompat">
 
         <ImageView
-            android:id="@+id/imgDonate"
+            android:id="@+id/donateImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -86,7 +85,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtDonate"
+                android:id="@+id/donateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/donate"
@@ -113,19 +112,19 @@
         style="@style/CommonHorizontalDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutDonateOption" />
+        app:layout_constraintTop_toBottomOf="@+id/donateOptionLinearLayoutCompat" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutNotifications"
+        android:id="@+id/notificationsLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutDonateOption">
+        app:layout_constraintTop_toBottomOf="@+id/donateOptionLinearLayoutCompat">
 
 
         <ImageView
-            android:id="@+id/imgNotifications"
+            android:id="@+id/notificationsImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -141,7 +140,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtNotifications"
+                android:id="@+id/notificationsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/notifications"
@@ -168,15 +167,15 @@
         style="@style/CommonHorizontalDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutNotifications" />
+        app:layout_constraintTop_toBottomOf="@+id/notificationsLinearLayoutCompat" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutTrailingStart"
+        android:id="@+id/trailingStartLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutNotifications">
+        app:layout_constraintTop_toBottomOf="@+id/notificationsLinearLayoutCompat">
 
 
         <ImageView
@@ -223,18 +222,18 @@
         style="@style/CommonHorizontalDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTrailingStart" />
+        app:layout_constraintTop_toBottomOf="@+id/trailingStartLinearLayoutCompat" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutTrailingStop"
+        android:id="@+id/trailingStopLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trailingStartDividerView">
+        app:layout_constraintTop_toBottomOf="@+id/trailingStartLinearLayoutCompat">
 
         <ImageView
-            android:id="@+id/imgTrailingStop"
+            android:id="@+id/trailingStopImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -250,7 +249,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtTrailingStop"
+                android:id="@+id/trailingStopTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/trailing_stop"
@@ -276,19 +275,19 @@
         style="@style/CommonHorizontalDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTrailingStop" />
+        app:layout_constraintTop_toBottomOf="@+id/trailingStopLinearLayoutCompat" />
 
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutSetSupportPriceCounter"
+        android:id="@+id/setSupportPriceCounterLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTrailingStop">
+        app:layout_constraintTop_toBottomOf="@+id/trailingStopLinearLayoutCompat">
 
         <ImageView
-            android:id="@+id/imgSetSupportPriceCounter"
+            android:id="@+id/setSupportPriceCounterImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -304,7 +303,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtSetSupportPriceCounter"
+                android:id="@+id/setSupportPriceCounterTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/support_price_counter"
@@ -330,18 +329,18 @@
         style="@style/CommonHorizontalDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSetSupportPriceCounter" />
+        app:layout_constraintTop_toBottomOf="@+id/setSupportPriceCounterLinearLayoutCompat" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutSetResistancePriceCounter"
+        android:id="@+id/setResistancePriceCounterLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSetSupportPriceCounter">
+        app:layout_constraintTop_toBottomOf="@+id/setSupportPriceCounterLinearLayoutCompat">
 
         <ImageView
-            android:id="@+id/imgSetResistancePriceCounter"
+            android:id="@+id/setResistancePriceCounterImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -357,7 +356,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtSetResistancePriceCounter"
+                android:id="@+id/setResistancePriceCounterTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/resistance_price_counter"
@@ -383,18 +382,18 @@
         style="@style/CommonHorizontalDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSetResistancePriceCounter" />
+        app:layout_constraintTop_toBottomOf="@+id/setResistancePriceCounterLinearLayoutCompat" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutSetSmartTrendDetectorMargin"
+        android:id="@+id/setSmartTrendDetectorMarginLinearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSetResistancePriceCounter">
+        app:layout_constraintTop_toBottomOf="@+id/setResistancePriceCounterLinearLayoutCompat">
 
         <ImageView
-            android:id="@+id/imgSetSmartTrendDetectorMargin"
+            android:id="@+id/setSmartTrendDetectorMarginImageView"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -410,7 +409,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/txtSetSmartTrendDetectorMargin"
+                android:id="@+id/setSmartTrendDetectorMarginTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/smart_trend_detector_margin"
@@ -436,6 +435,6 @@
         style="@style/CommonHorizontalDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSetSmartTrendDetectorMargin" />
+        app:layout_constraintTop_toBottomOf="@+id/setSmartTrendDetectorMarginLinearLayoutCompat" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
