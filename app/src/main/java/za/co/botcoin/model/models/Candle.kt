@@ -6,11 +6,12 @@ import androidx.room.PrimaryKey
 
 @Entity(indices = [Index(value = ["timestamp"], unique = true)])
 class Candle : BaseModel() {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
     var close: String = ""
     var high: String = ""
     var low: String = ""
     var open: String = ""
-    @PrimaryKey
     var timestamp: String = ""
     var volume: String = ""
     var accountId: Int = 1

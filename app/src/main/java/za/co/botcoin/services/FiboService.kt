@@ -15,20 +15,22 @@ import za.co.botcoin.R
 import za.co.botcoin.enum.Status
 import za.co.botcoin.enum.Trend
 import za.co.botcoin.model.models.Balance
-import za.co.botcoin.model.models.Candle
 import za.co.botcoin.model.models.Order
 import za.co.botcoin.model.models.Trade
 import za.co.botcoin.model.repository.AccountRepository
 import za.co.botcoin.model.repository.WithdrawalRepository
-import za.co.botcoin.utils.*
+import za.co.botcoin.utils.ConstantUtils
+import za.co.botcoin.utils.DateTimeUtils.getUnixTimestampToPreviousMidnight
+import za.co.botcoin.utils.GeneralUtils
+import za.co.botcoin.utils.MathUtils
+import za.co.botcoin.utils.SimpleMovingAverage
 import java.util.*
 
 class FiboService : Service() {
     private lateinit var accountRepository: AccountRepository
     private lateinit var withdrawalRepository: WithdrawalRepository
     private val simpleMovingAverage: SimpleMovingAverage = SimpleMovingAverage(20)
-    private var marketTrend: Trend = Trend.DOWNWARD
-
+    private lateinit var marketTrend: Trend
     private lateinit var timer: Timer
     private lateinit var timerTask: TimerTask
 
@@ -130,13 +132,33 @@ class FiboService : Service() {
                             zarBalance = balance
                         }
                     }
-                    if (simpleMovingAverage.dataSet.isNotEmpty()) {
-                        val lastCandleDate = DateTimeUtils.convertLongToTime(simpleMovingAverage.dataSet.last().timestamp.toLong(), DateTimeUtils.DASHED_PATTERN_YYYY_MM_DD)
-                        if (lastCandleDate != DateTimeUtils.getYesterdayDateTime(DateTimeUtils.DASHED_PATTERN_YYYY_MM_DD)) {
-                            attachCandlesObserver(currentPrice, lastTrade, zarBalance, xrpBalance, ConstantUtils.PAIR_XRPZAR)
+                    attachCandlesObserver(currentPrice, lastTrade, zarBalance, xrpBalance, ConstantUtils.PAIR_XRPZAR)
+
+                    if (!::marketTrend.isInitialized) {
+                        if (simpleMovingAverage.averages.isNotEmpty() && simpleMovingAverage.averages.size >= 20) {
+                            marketTrend = when {
+                                simpleMovingAverage.isPriceAboveLine(currentPrice) -> Trend.UPWARD
+                                !simpleMovingAverage.isPriceAboveLine(currentPrice) -> Trend.DOWNWARD
+                                else -> Trend.DOWNWARD
+                            }
                         }
                     } else {
-                        attachCandlesObserver(currentPrice, lastTrade, zarBalance, xrpBalance, ConstantUtils.PAIR_XRPZAR)
+                        if (simpleMovingAverage.averages.isNotEmpty() && simpleMovingAverage.averages.size >= 20) {
+                            marketTrend = when {
+                                simpleMovingAverage.isPriceAboveLine(currentPrice) -> Trend.UPWARD
+                                !simpleMovingAverage.isPriceAboveLine(currentPrice) -> Trend.DOWNWARD
+                                else -> Trend.DOWNWARD
+                            }
+                            Log.d("BOTCOIN", "Market trend: $marketTrend")
+                            when {
+                                marketTrend == Trend.UPWARD && simpleMovingAverage.isPriceOnLine(currentPrice) && lastTrade.type == Trade.BID_TYPE -> {
+                                    ask(currentPrice, lastTrade, xrpBalance, currentPrice+0.01)
+                                }
+                                marketTrend == Trend.DOWNWARD && simpleMovingAverage.isPriceOnLine(currentPrice) && lastTrade.type == Trade.ASK_TYPE -> {
+                                    bid(currentPrice, lastTrade, zarBalance, currentPrice-0.01)
+                                }
+                            }
+                        }
                     }
 
                     attachOrdersObserver(currentPrice, lastTrade, xrpBalance, zarBalance)
@@ -160,6 +182,7 @@ class FiboService : Service() {
                     data.map { order ->
                         if (order.type == "ASK" && order.state == "PENDING") {
                             lastAskOrder = order
+                            trailingStop(currentPrice, lastTrade, xrpBalance, zarBalance, order)
                         } else if (order.type == "BID" && order.state == "PENDING") {
                             lastBidOrder = order
                         }
@@ -209,27 +232,11 @@ class FiboService : Service() {
         }
     }
 
-    private fun attachCandlesObserver(currentPrice: Double, lastTrade: Trade, zarBalance: Balance, xrpBalance: Balance, pair: String, since: String = "1470810728478", duration: Int = 86400) = CoroutineScope(Dispatchers.IO).launch {
+    private fun attachCandlesObserver(currentPrice: Double, lastTrade: Trade, zarBalance: Balance, xrpBalance: Balance, pair: String, since: String = getUnixTimestampToPreviousMidnight().toString(), duration: Int = 300) = CoroutineScope(Dispatchers.IO).launch {
         val resource = accountRepository.fetchCandles(pair, since, duration)
         when (resource.status) {
             Status.SUCCESS -> {
                 simpleMovingAverage.calculateSma(resource.data?.reversed() ?: listOf())
-                if (simpleMovingAverage.averages.isNotEmpty()) {
-                    marketTrend = when {
-                        marketTrend == Trend.DOWNWARD && simpleMovingAverage.isUpwardTrend(currentPrice) -> Trend.UPWARD
-                        marketTrend == Trend.UPWARD && simpleMovingAverage.isDownwardTrend(currentPrice) -> Trend.DOWNWARD
-                        else -> Trend.DOWNWARD
-                    }
-                }
-
-                when {
-                    marketTrend == Trend.UPWARD && simpleMovingAverage.isPriceOnLine(currentPrice) && lastTrade.type == Trade.BID_TYPE -> {
-                        ask(currentPrice, lastTrade, xrpBalance, currentPrice+0.01)
-                    }
-                    marketTrend == Trend.DOWNWARD && simpleMovingAverage.isPriceOnLine(currentPrice) && lastTrade.type == Trade.ASK_TYPE -> {
-                        bid(currentPrice, lastTrade, zarBalance, currentPrice-0.01)
-                    }
-                }
             }
             Status.ERROR -> {
             }
@@ -256,12 +263,22 @@ class FiboService : Service() {
         }
     }
 
+    private fun trailingStop(currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance, lastAskOrder: Order) {
+        if (lastAskOrder.limitPrice.isNotBlank()) {
+            val result = MathUtils.calcMarginPercentage(lastAskOrder.limitPrice.toDouble(), lastAskOrder.limitVolume.toDouble(), ConstantUtils.trailingStop)
+            if ((currentPrice * lastAskOrder.limitVolume.toDouble())  <= result) {
+                attachStopOrderObserver(lastAskOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance)
+                GeneralUtils.notify(this, "pullOutOfAsk - (LastAskOrder: " + lastAskOrder.limitPrice + ")", "${(currentPrice * lastAskOrder.limitVolume.toDouble())} <= $result")
+            }
+        }
+    }
+
     override fun onBind(intent: Intent): IBinder? = null
 
     override fun onDestroy() {
         super.onDestroy()
 
-        //this.timer.cancel()
-        //this.timer.purge()
+        this.timer.cancel()
+        this.timer.purge()
     }
 }

@@ -31,4 +31,6 @@ object MathUtils {
             precision(price + precision(percentage))
         }
     }
+
+    fun reverse(number: Double): Double = number * -1
 }

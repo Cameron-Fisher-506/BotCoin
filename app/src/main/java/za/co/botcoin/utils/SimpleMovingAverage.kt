@@ -1,34 +1,36 @@
 package za.co.botcoin.utils
 
+import android.util.Log
 import za.co.botcoin.model.models.Candle
 import java.util.*
 
 class SimpleMovingAverage(var period: Int) {
-    val dataSet: Queue<Candle> = LinkedList()
+    private val dataSet: Queue<Candle> = LinkedList()
     val averages: Queue<Double> = LinkedList()
     private var sum: Double = 0.0
 
     fun calculateSma(candles: List<Candle>) {
-        if (candles.isNotEmpty()) {
-            candles.map { candle -> addRemoveCandle(candle) }
-        }
-    }
-
-    private fun addRemoveCandle(candle: Candle) {
         if (dataSet.isNotEmpty() && dataSet.size >= period) {
-            sum -= dataSet.remove().close.toDouble()
-        }
-        dataSet.add(candle)
-        sum += candle.close.toDouble()
-        calculateAverage()
-    }
+            val candleExists = dataSet.last().timestamp == candles.last().timestamp
+            if (!candleExists) {
+                sum -= dataSet.remove().close.toDouble()
+                if (averages.isNotEmpty() && averages.size >= period) { averages.remove() }
 
-    private fun calculateAverage() {
-        if (dataSet.isNotEmpty() && dataSet.size >= period) {
-            if (averages.isNotEmpty() && averages.size >= 20) {
-                averages.remove()
+                dataSet.add(candles.last())
+                sum += candles.last().close.toDouble()
+                averages.add(sum/period)
+                averages.map { average ->
+                    Log.d("BOTCOIN", "average: $average")
+                }
+
             }
-            averages.add(sum/period)
+        } else {
+            if (candles.isNotEmpty()) {
+                candles.map { candle ->
+                    dataSet.add(candle)
+                    sum += candle.close.toDouble()
+                }
+            }
         }
     }
 
@@ -37,9 +39,9 @@ class SimpleMovingAverage(var period: Int) {
             var m = 0.0
             var c = 0.0
             for (i in 0 until averages.size-1) {
-                m = StraightLineFormulaUtils.calculateGradient(i+1, i, averages.elementAt(i+1), averages.elementAt(i))
-                c = StraightLineFormulaUtils.calculateConstant(i+1, averages.elementAt(i+1), m)
-                if (StraightLineFormulaUtils.isPointOnLine(i, currentPrice, m, c)) {
+                m = StraightLineFormulaUtils.calculateGradient((i+1).toDouble(), i.toDouble(), averages.elementAt(i+1), averages.elementAt(i))
+                c = StraightLineFormulaUtils.calculateConstant((i+1).toDouble(), averages.elementAt(i+1), m)
+                if (StraightLineFormulaUtils.isPointOnLine(i.toDouble(), currentPrice, m, c)) {
                     return true
                 }
             }
@@ -47,21 +49,13 @@ class SimpleMovingAverage(var period: Int) {
         return false
     }
 
-    fun isUpwardTrend(currentPrice: Double): Boolean {
-        if (averages.isNotEmpty()) {
-            if (currentPrice >= averages.last()) {
-                return true
+    fun isPriceAboveLine(currentPrice: Double): Boolean {
+        var toReturn: Boolean = false
+        if (averages.isNotEmpty() && averages.size >= 20) {
+            for (i in 0 until averages.size-1) {
+                toReturn = currentPrice > averages.elementAt(i)
             }
         }
-        return false
-    }
-
-    fun isDownwardTrend(currentPrice: Double): Boolean {
-        if (averages.isNotEmpty()) {
-            if (currentPrice <= averages.last()) {
-                return true
-            }
-        }
-        return false
+        return toReturn
     }
 }
