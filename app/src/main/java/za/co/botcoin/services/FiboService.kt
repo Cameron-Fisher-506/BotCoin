@@ -152,7 +152,7 @@ class FiboService : Service() {
                             Log.d("BOTCOIN", "Market trend: $marketTrend")
                             when {
                                 marketTrend == Trend.UPWARD && simpleMovingAverage.isPriceOnLine(currentPrice) && lastTrade.type == Trade.BID_TYPE -> {
-                                    ask(currentPrice, lastTrade, xrpBalance, currentPrice+0.01)
+                                    ask(true, currentPrice, lastTrade, xrpBalance, currentPrice+0.01)
                                 }
                                 marketTrend == Trend.DOWNWARD && simpleMovingAverage.isPriceOnLine(currentPrice) && lastTrade.type == Trade.ASK_TYPE -> {
                                     bid(currentPrice, lastTrade, zarBalance, currentPrice-0.01)
@@ -254,8 +254,22 @@ class FiboService : Service() {
 
     private fun calcAmountXrpToBuy(zarBalance: Double, supportPrice: Double): Int = (zarBalance / supportPrice).toInt()
 
-    private fun ask(currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, resistancePrice: Double) {
-        if (resistancePrice != 0.0 && lastTrade.type == Trade.BID_TYPE && resistancePrice > lastTrade.price.toDouble() && resistancePrice > currentPrice) {
+    private fun ask(isRestrict: Boolean, currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, resistancePrice: Double = currentPrice+0.1) {
+        var placeSellOrder = false
+        if (isRestrict) {
+            if (resistancePrice != 0.0 && lastTrade.type == Trade.BID_TYPE && resistancePrice > lastTrade.price.toDouble() && resistancePrice > currentPrice) {
+                placeSellOrder = true
+            }
+        } else {
+            if (lastTrade.price.toDouble() != 0.0 && lastTrade.type == Trade.BID_TYPE) {
+                val result = MathUtils.calcMarginPercentage(lastTrade.price.toDouble(), lastTrade.volume.toDouble(), ConstantUtils.trailingStop)
+                if ((currentPrice * lastTrade.volume.toDouble()) <= result) {
+                    placeSellOrder = true
+                    GeneralUtils.notify(this, "ask - (LastPurchasePrice: ${lastTrade.price.toDouble()})", "${(currentPrice * lastTrade.volume.toDouble())} <= $result")
+                }
+            }
+        }
+        if (placeSellOrder) {
             val amountXrpToSell = (xrpBalance.balance.toDouble()).toInt().toString()
             attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell, resistancePrice.toString())
             GeneralUtils.notify(this, "Auto Trade", "New sell order has been placed.")
@@ -269,6 +283,8 @@ class FiboService : Service() {
                 attachStopOrderObserver(lastAskOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance)
                 GeneralUtils.notify(this, "pullOutOfAsk - (LastAskOrder: " + lastAskOrder.limitPrice + ")", "${(currentPrice * lastAskOrder.limitVolume.toDouble())} <= $result")
             }
+        } else {
+            ask(false, currentPrice, lastTrade, xrpBalance)
         }
     }
 
