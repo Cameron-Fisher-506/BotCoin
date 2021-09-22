@@ -6,13 +6,13 @@ import kotlin.math.abs
 import kotlin.math.sqrt
 
 object  StraightLineFormulaUtils {
-    fun calculateGradient(x2: Double, x1: Double, y2: Double, y1: Double): Double = MathUtils.precision((y2 - y1) / (x2 - x1))
+    fun calculateGradient(x2: Double, x1: Double, y2: Double, y1: Double): Double = (y2 - y1) / (x2 - x1)
 
-    fun calculateConstant(x: Double, y: Double, m: Double): Double = MathUtils.precision(y - (m*x))
+    fun calculateConstant(x: Double, y: Double, m: Double): Double = y - (m*x)
 
-    private fun calculateX(y: Double, m: Double, c: Double): Double = MathUtils.precision((y-c) / m)
+    fun calculateX(y: Double, m: Double, c: Double): Double = MathUtils.precision((y-c) / m)
 
-    private fun calculateY(x: Double, m: Double, c: Double): Double = MathUtils.precision((m*x) + c)
+    fun calculateY(x: Double, m: Double, c: Double): Double = MathUtils.precision((m*x) + c)
 
     fun isPointOnLine(x: Double, y: Double, m: Double, c: Double): Boolean {
         //y = mx + c
