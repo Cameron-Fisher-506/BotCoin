@@ -325,6 +325,16 @@ class FiboService : Service() {
                         Trend.DOWNWARD
                     }
 
+                    val fiboRetracement = FibonacciRetracement()
+                    fiboRetracement.calculateRetracements(highestCandle, lowestCandle, marketTrend)
+                    Log.d(ConstantUtils.BOTCOIN_TAG, "fiboRetracement: " +
+                            "HighestCandle: ${highestCandle.high}" +
+                            "LowestCandle: ${lowestCandle.low}"
+                    )
+                    fiboRetracement.retracements.map {
+                        Log.d(ConstantUtils.BOTCOIN_TAG, "retracement: $it")
+                    }
+
                 }
 
                 //simpleMovingAverage.calculateSma(resource.data?.reversed() ?: listOf())
