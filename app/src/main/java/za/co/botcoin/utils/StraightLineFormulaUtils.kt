@@ -6,7 +6,7 @@ import kotlin.math.abs
 import kotlin.math.sqrt
 
 object  StraightLineFormulaUtils {
-    fun calculateGradient(x2: Double, x1: Double, y2: Double, y1: Double): Double = (y2 - y1) / (x2 - x1)
+    fun calculateGradient(y2: Double, y1: Double, x2: Double, x1: Double): Double = if ((x2-x1) != 0.0) (y2 - y1) / (x2 - x1) else 0.0
 
     fun calculateConstant(x: Double, y: Double, m: Double): Double = y - (m*x)
 
