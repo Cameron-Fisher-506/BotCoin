@@ -42,19 +42,7 @@ object DateTimeUtils {
 
     fun differenceInMinutes(oldDateTime: String, currentDateTime: String) = TimeUnit.MILLISECONDS.toMinutes(differenceInTime(oldDateTime, currentDateTime))
 
-    private fun parseDateTime(dateTime: String): Date? {
-        var toReturn: Date? = null
-        try {
-            val sdfDate = SimpleDateFormat(DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS, Locale.ENGLISH)
-            toReturn = sdfDate.parse(dateTime)
-        } catch (e: ParseException) {
-            println("Error: ${e.message} " +
-                    "Method: parseDateTime " +
-                    "Data: $dateTime " +
-                    "Date: ${getCurrentDateTime()}")
-        }
-        return toReturn
-    }
+    private fun parseDateTime(dateTime: String): Date? = SimpleDateFormat(DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS, Locale.ENGLISH).parse(dateTime)
 
     fun getYesterdayDateTime(format: String = DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS): String {
         val calendar: Calendar = Calendar.getInstance()
@@ -73,5 +61,14 @@ object DateTimeUtils {
         }
 
         return toReturn
+    }
+
+    fun isDateTimeABeforeDateTimeB(dateTimeA: String, dateTimeB: String): Boolean {
+        val parseDateTimeA = parseDateTime(dateTimeA)
+        val parseDateTimeB = parseDateTime(dateTimeB)
+        if (parseDateTimeA != null && parseDateTimeB != null && parseDateTimeA.before(parseDateTimeB)) {
+            return true
+        }
+        return false
     }
 }
