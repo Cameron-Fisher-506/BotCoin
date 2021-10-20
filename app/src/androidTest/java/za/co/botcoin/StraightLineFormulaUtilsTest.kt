@@ -7,6 +7,7 @@ import za.co.botcoin.utils.StraightLineFormulaUtils.calculateConstant
 import za.co.botcoin.utils.StraightLineFormulaUtils.calculateGradient
 import za.co.botcoin.utils.StraightLineFormulaUtils.calculateX
 import za.co.botcoin.utils.StraightLineFormulaUtils.calculateY
+import za.co.botcoin.utils.StraightLineFormulaUtils.isPointOnLine
 
 class StraightLineFormulaUtilsTest {
 
@@ -99,5 +100,53 @@ class StraightLineFormulaUtilsTest {
 
         //then
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun shouldCalculateIsPointOnLineSuccess() {
+        //given
+        val pointOne = Pair(1.0, 1.0)
+        val pointTwo = Pair(2.0, 1.5)
+        val pointThree = Pair(3.0, 2.0)
+        val pointFour = Pair(4.0, 2.5)
+        val m = 0.5
+        val c = 0.5
+        val expected = true
+
+        //when
+        val actualPointOne = isPointOnLine(pointOne.first, pointOne.second, m, c)
+        val actualPointTwo = isPointOnLine(pointTwo.first, pointTwo.second, m, c)
+        val actualPointThree = isPointOnLine(pointThree.first, pointThree.second, m, c)
+        val actualPointFour = isPointOnLine(pointFour.first, pointFour.second, m, c)
+
+        //then
+        assertEquals(expected, actualPointOne)
+        assertEquals(expected, actualPointTwo)
+        assertEquals(expected, actualPointThree)
+        assertEquals(expected, actualPointFour)
+    }
+
+    @Test
+    fun shouldCalculateIsPointOnLineFailure() {
+        //given
+        val pointOne = Pair(1.0, 1.2)
+        val pointTwo = Pair(2.0, 1.7)
+        val pointThree = Pair(3.0, 2.2)
+        val pointFour = Pair(4.0, 2.7)
+        val m = 0.5
+        val c = 0.5
+        val expected = false
+
+        //when
+        val actualPointOne = isPointOnLine(pointOne.first, pointOne.second, m, c)
+        val actualPointTwo = isPointOnLine(pointTwo.first, pointTwo.second, m, c)
+        val actualPointThree = isPointOnLine(pointThree.first, pointThree.second, m, c)
+        val actualPointFour = isPointOnLine(pointFour.first, pointFour.second, m, c)
+
+        //then
+        assertEquals(expected, actualPointOne)
+        assertEquals(expected, actualPointTwo)
+        assertEquals(expected, actualPointThree)
+        assertEquals(expected, actualPointFour)
     }
 }
