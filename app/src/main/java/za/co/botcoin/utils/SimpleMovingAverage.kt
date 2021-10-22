@@ -18,11 +18,7 @@ class SimpleMovingAverage(var period: Int) {
 
                 dataSet.add(candles.last())
                 sum += candles.last().close.toDouble()
-                averages.add(sum/period)
-                averages.map { average ->
-                    Log.d("BOTCOIN", "average: ${ MathUtils.precision(average) }")
-                }
-
+                averages.add(MathUtils.precision(sum/period))
             }
         } else {
             if (candles.isNotEmpty()) {
