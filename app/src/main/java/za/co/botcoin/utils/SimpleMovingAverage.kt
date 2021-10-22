@@ -1,7 +1,9 @@
 package za.co.botcoin.utils
 
-import android.util.Log
 import za.co.botcoin.model.models.Candle
+import za.co.botcoin.utils.StraightLineFormulaUtils.calculateConstant
+import za.co.botcoin.utils.StraightLineFormulaUtils.calculateGradient
+import za.co.botcoin.utils.StraightLineFormulaUtils.isPointOnLine
 import java.util.*
 
 class SimpleMovingAverage(var period: Int) {
@@ -35,9 +37,9 @@ class SimpleMovingAverage(var period: Int) {
             var m = 0.0
             var c = 0.0
             for (i in 0 until averages.size-1) {
-                m = StraightLineFormulaUtils.calculateGradient((i+1).toDouble(), i.toDouble(), averages.elementAt(i+1), averages.elementAt(i))
-                c = StraightLineFormulaUtils.calculateConstant((i+1).toDouble(), averages.elementAt(i+1), m)
-                if (StraightLineFormulaUtils.isPointOnLine(i.toDouble(), currentPrice, m, c)) {
+                m = calculateGradient((i+1).toDouble(), i.toDouble(), averages.elementAt(i+1), averages.elementAt(i))
+                c = calculateConstant((i+1).toDouble(), averages.elementAt(i+1), m)
+                if (isPointOnLine(i.toDouble() + 1, currentPrice, m, c)) {
                     return true
                 }
             }

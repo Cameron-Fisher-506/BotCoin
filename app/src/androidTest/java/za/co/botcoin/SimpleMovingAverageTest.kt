@@ -93,4 +93,18 @@ class SimpleMovingAverageTest {
         //then
         assertEquals(expected, this.simpleMovingAverage.averages)
     }
+
+    @Test
+    fun shouldCalculateIsPriceOnLineSuccess() {
+        //given
+        shouldCalculateSmaSuccess()
+        val currentPrice: String = "6.65"
+        val expected: Boolean = true
+
+        //when
+        val actual = this.simpleMovingAverage.isPriceOnLine(currentPrice.toDouble())
+
+        //then
+        assertEquals(expected, actual)
+    }
 }

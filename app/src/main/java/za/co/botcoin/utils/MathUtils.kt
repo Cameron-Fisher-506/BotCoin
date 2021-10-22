@@ -12,6 +12,14 @@ object MathUtils {
         return decimalFormat.format(value).toDouble()
     }
 
+    fun precisionOneDecimal(value: Double): Double {
+        val decimalFormatSymbols = DecimalFormatSymbols()
+        decimalFormatSymbols.decimalSeparator = '.'
+        val decimalFormat = DecimalFormat("#.#")
+        decimalFormat.decimalFormatSymbols = decimalFormatSymbols
+        return decimalFormat.format(value).toDouble()
+    }
+
     fun percentage(value: Double, percentage: Int): Double = value * (percentage / 100.0f)
 
     fun calcMarginPercentage(price: Double, volume: Double, trailingStop: Int, isLowerMargin: Boolean = true): Double {
