@@ -21,7 +21,8 @@ import za.co.botcoin.model.models.Trade
 import za.co.botcoin.model.repository.AccountRepository
 import za.co.botcoin.model.repository.WithdrawalRepository
 import za.co.botcoin.utils.*
-import za.co.botcoin.utils.DateTimeUtils.getUnixTimestampToPreviousMidnight
+import za.co.botcoin.utils.DateTimeUtils.getFormattedUnix
+import za.co.botcoin.utils.DateTimeUtils.getPreviousMidnightUnixDateTime
 import java.util.*
 
 class FiboService : Service() {
@@ -235,7 +236,7 @@ class FiboService : Service() {
         }
     }
 
-    private fun attachCandlesObserver(currentPrice: Double, lastTrade: Trade, zarBalance: Balance, xrpBalance: Balance, pair: String, since: String = getUnixTimestampToPreviousMidnight().toString(), duration: Int = 3600) = CoroutineScope(Dispatchers.IO).launch {
+    private fun attachCandlesObserver(currentPrice: Double, lastTrade: Trade, zarBalance: Balance, xrpBalance: Balance, pair: String, since: String = getPreviousMidnightUnixDateTime().toString(), duration: Int = 3600) = CoroutineScope(Dispatchers.IO).launch {
         val resource = accountRepository.fetchCandles(pair, since, duration)
         when (resource.status) {
             Status.SUCCESS -> {
@@ -245,7 +246,7 @@ class FiboService : Service() {
                 val lowestCandle = candles.minByOrNull { candle -> candle.low  }
 
                 if (lowestCandle != null && highestCandle != null) {
-                    marketTrend = if (DateTimeUtils.isDateTimeABeforeDateTimeB(DateTimeUtils.convertLongToTime(lowestCandle.timestamp.toLong()), DateTimeUtils.convertLongToTime(highestCandle.timestamp.toLong()))) {
+                    marketTrend = if (DateTimeUtils.isBeforeDateTime(getFormattedUnix(lowestCandle.timestamp.toLong()), getFormattedUnix(highestCandle.timestamp.toLong()))) {
                        val candlesSorted = candles.sortedBy { candle -> candle.low }
 
                         //trend line
