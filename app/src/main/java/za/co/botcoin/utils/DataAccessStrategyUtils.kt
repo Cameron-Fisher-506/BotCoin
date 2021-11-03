@@ -31,7 +31,7 @@ object DataAccessStrategyUtils {
         if (data != null && (data as List<T>).size > 0) {
             var mustUpdate = true
             val oldDateTime = SharedPrefsUtils[context, SharedPrefsUtils.LAST_REQUEST_TIME]
-            if (oldDateTime != null) {
+            if (!oldDateTime.isNullOrBlank()) {
                 if (getMinutesFrom(oldDateTime, getCurrentDateTime()) > ONE_MINUTE) {
                     mustUpdate = true
                 }

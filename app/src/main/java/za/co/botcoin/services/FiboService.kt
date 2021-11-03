@@ -23,6 +23,11 @@ import za.co.botcoin.model.repository.WithdrawalRepository
 import za.co.botcoin.utils.*
 import za.co.botcoin.utils.DateTimeUtils.getFormattedUnix
 import za.co.botcoin.utils.DateTimeUtils.getPreviousMidnightUnixDateTime
+import za.co.botcoin.utils.DateTimeUtils.isBeforeDateTime
+import za.co.botcoin.utils.StraightLineFormulaUtils.calculateConstant
+import za.co.botcoin.utils.StraightLineFormulaUtils.calculateGradient
+import za.co.botcoin.utils.StraightLineFormulaUtils.calculateX
+import za.co.botcoin.utils.StraightLineFormulaUtils.calculateY
 import java.util.*
 
 class FiboService : Service() {
@@ -246,12 +251,12 @@ class FiboService : Service() {
                 val lowestCandle = candles.minByOrNull { candle -> candle.low  }
 
                 if (lowestCandle != null && highestCandle != null) {
-                    marketTrend = if (DateTimeUtils.isBeforeDateTime(getFormattedUnix(lowestCandle.timestamp.toLong()), getFormattedUnix(highestCandle.timestamp.toLong()))) {
+                    marketTrend = if (isBeforeDateTime(getFormattedUnix(lowestCandle.timestamp.toLong()), getFormattedUnix(highestCandle.timestamp.toLong()))) {
                        val candlesSorted = candles.sortedBy { candle -> candle.low }
 
                         //trend line
-                        var m = StraightLineFormulaUtils.calculateGradient(candlesSorted.first().id.toDouble(), candlesSorted[1].id.toDouble(), candlesSorted.first().low.toDouble(), candlesSorted[1].low.toDouble())
-                        var c = StraightLineFormulaUtils.calculateConstant(candlesSorted.first().id.toDouble(), candlesSorted.first().low.toDouble(), m)
+                        var m = calculateGradient(candlesSorted.first().id.toDouble(), candlesSorted[1].id.toDouble(), candlesSorted.first().low.toDouble(), candlesSorted[1].low.toDouble())
+                        var c = calculateConstant(candlesSorted.first().id.toDouble(), candlesSorted.first().low.toDouble(), m)
                         Log.d(ConstantUtils.BOTCOIN_TAG, "UPTREND - Bottom Line: " +
                                 "lowestCandle: ${candlesSorted.first().low.toDouble()} " +
                                 "highestCandle: ${candlesSorted[1].high.toDouble()} " +
@@ -260,15 +265,15 @@ class FiboService : Service() {
                                 "m: $m " +
                                 "c: $c " +
                                 "Point: ($currentPrice, ${candlesSorted[1].id.toDouble() + 1}) " +
-                                "calculateX: ${StraightLineFormulaUtils.calculateX(currentPrice, m, c)} " +
-                                "calculateY: ${StraightLineFormulaUtils.calculateY(candlesSorted[1].id.toDouble() + 1, m, c)} " +
+                                "calculateX: ${calculateX(currentPrice, m, c)} " +
+                                "calculateY: ${calculateY(candlesSorted[1].id.toDouble() + 1, m, c)} " +
                                 "Trend: Upward" +
                                 "lowest: ${lowestCandle.low} " +
                                 "highest: ${highestCandle.high}"
                         )
 
-                        m = StraightLineFormulaUtils.calculateGradient(candlesSorted.first().id.toDouble(), candlesSorted[1].id.toDouble(), candlesSorted.first().close.toDouble(), candlesSorted[1].close.toDouble())
-                        c = StraightLineFormulaUtils.calculateConstant(candlesSorted.first().id.toDouble(), candlesSorted.first().close.toDouble(), m)
+                        m = calculateGradient(candlesSorted.first().id.toDouble(), candlesSorted[1].id.toDouble(), candlesSorted.first().close.toDouble(), candlesSorted[1].close.toDouble())
+                        c = calculateConstant(candlesSorted.first().id.toDouble(), candlesSorted.first().close.toDouble(), m)
                         Log.d(ConstantUtils.BOTCOIN_TAG, "UPTREND - Top Line: " +
                                 "lowestCandle: ${candlesSorted.first().close.toDouble()} " +
                                 "highestCandle: ${candlesSorted[1].close.toDouble()} " +
@@ -277,8 +282,8 @@ class FiboService : Service() {
                                 "m: $m " +
                                 "c: $c " +
                                 "Point: ($currentPrice, ${candlesSorted[1].id.toDouble() + 2}) " +
-                                "calculateX: ${StraightLineFormulaUtils.calculateX(currentPrice, m, c)} " +
-                                "calculateY: ${StraightLineFormulaUtils.calculateY(candlesSorted[1].id.toDouble() + 2, m, c)} " +
+                                "calculateX: ${calculateX(currentPrice, m, c)} " +
+                                "calculateY: ${calculateY(candlesSorted[1].id.toDouble() + 2, m, c)} " +
                                 "Trend: Upward " +
                                 "lowest: ${lowestCandle.low} " +
                                 "highest: ${highestCandle.high}"
@@ -289,8 +294,8 @@ class FiboService : Service() {
                         val candlesSorted = candles.sortedByDescending { candle -> candle.high }
 
                         //trend line
-                        var m = StraightLineFormulaUtils.calculateGradient(candlesSorted[1].id.toDouble(), candlesSorted.first().id.toDouble(), candlesSorted[1].high.toDouble(), candlesSorted.first().high.toDouble())
-                        var c = StraightLineFormulaUtils.calculateConstant(candlesSorted[1].id.toDouble(), candlesSorted[1].high.toDouble(), m)
+                        var m = calculateGradient(candlesSorted[1].id.toDouble(), candlesSorted.first().id.toDouble(), candlesSorted[1].high.toDouble(), candlesSorted.first().high.toDouble())
+                        var c = calculateConstant(candlesSorted[1].id.toDouble(), candlesSorted[1].high.toDouble(), m)
                         Log.d(ConstantUtils.BOTCOIN_TAG, "DOWNTREND - Top Line " +
                                 "lowestCandle: ${candlesSorted[1].high.toDouble()} " +
                                 "highestCandle: ${candlesSorted.first().high.toDouble()} " +
@@ -299,15 +304,15 @@ class FiboService : Service() {
                                 "m: $m " +
                                 "c: $c " +
                                 "Point: ($currentPrice, ${candlesSorted[1].id.toDouble() + 2}) " +
-                                "calculateX: ${StraightLineFormulaUtils.calculateX(currentPrice, m, c)} " +
-                                "calculateY: ${StraightLineFormulaUtils.calculateY(candlesSorted[1].id.toDouble() + 2, m, c)} " +
+                                "calculateX: ${calculateX(currentPrice, m, c)} " +
+                                "calculateY: ${calculateY(candlesSorted[1].id.toDouble() + 2, m, c)} " +
                                 "Trend: Downward " +
                                 "lowest: ${lowestCandle.low} " +
                                 "highest: ${highestCandle.high}"
                         )
 
-                        m = StraightLineFormulaUtils.calculateGradient(candlesSorted[1].id.toDouble(), candlesSorted.first().id.toDouble(), candlesSorted[1].open.toDouble(), candlesSorted.first().open.toDouble())
-                        c = StraightLineFormulaUtils.calculateConstant(candlesSorted[1].id.toDouble(), candlesSorted[1].open.toDouble(), m)
+                        m = calculateGradient(candlesSorted[1].id.toDouble(), candlesSorted.first().id.toDouble(), candlesSorted[1].open.toDouble(), candlesSorted.first().open.toDouble())
+                        c = calculateConstant(candlesSorted[1].id.toDouble(), candlesSorted[1].open.toDouble(), m)
                         Log.d(ConstantUtils.BOTCOIN_TAG, "DOWNTREND - Bottom Line " +
                                 "lowestCandle: ${candlesSorted[1].open.toDouble()} " +
                                 "highestCandle: ${candlesSorted.first().open.toDouble()} " +
@@ -316,8 +321,8 @@ class FiboService : Service() {
                                 "m: $m " +
                                 "c: $c " +
                                 "Point: ($currentPrice, ${candlesSorted[1].id.toDouble() + 1}) " +
-                                "calculateX: ${StraightLineFormulaUtils.calculateX(currentPrice, m, c)} " +
-                                "calculateY: ${StraightLineFormulaUtils.calculateY(candlesSorted[1].id.toDouble() + 1, m, c)} " +
+                                "calculateX: ${calculateX(currentPrice, m, c)} " +
+                                "calculateY: ${calculateY(candlesSorted[1].id.toDouble() + 1, m, c)} " +
                                 "Trend: Downward " +
                                 "lowest: ${lowestCandle.low} " +
                                 "highest: ${highestCandle.high}"

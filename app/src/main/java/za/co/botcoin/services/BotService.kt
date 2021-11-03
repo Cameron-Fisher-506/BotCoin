@@ -19,6 +19,9 @@ import za.co.botcoin.model.repository.AccountRepository
 import za.co.botcoin.model.repository.WithdrawalRepository
 import za.co.botcoin.utils.*
 import za.co.botcoin.utils.GeneralUtils
+import za.co.botcoin.utils.MathUtils.percentage
+import za.co.botcoin.utils.MathUtils.precision
+import za.co.botcoin.utils.SharedPrefsUtils.SUPPORT_PRICE_COUNTER
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -257,7 +260,7 @@ class BotService : Service() {
                 resistancePrice = ""
                 resistancePrices.clear()
 
-                ConstantUtils.supportPriceCounter = SharedPrefsUtils[applicationContext, SharedPrefsUtils.SUPPORT_PRICE_COUNTER]?.toInt() ?: 4
+                ConstantUtils.supportPriceCounter = SharedPrefsUtils[applicationContext, SUPPORT_PRICE_COUNTER]?.toInt() ?: 4
             } else {
                 Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - bid " +
                         "supportPrice: $supportPrice " +
@@ -510,9 +513,9 @@ class BotService : Service() {
                         toReturn = Trend.UPWARD
                     } else {
                         useMaxCurrentPrice = true
-                        val percentage = MathUtils.percentage(this.smartTrendDetectors[i], ConstantUtils.smartTrendDetectorMargin)
-                        val upperBounds = MathUtils.precision(this.smartTrendDetectors[i] + MathUtils.precision(percentage))
-                        val lowerBounds = MathUtils.precision(this.smartTrendDetectors[i] - MathUtils.precision(percentage))
+                        val percentage = percentage(this.smartTrendDetectors[i], ConstantUtils.smartTrendDetectorMargin)
+                        val upperBounds = precision(this.smartTrendDetectors[i] + precision(percentage))
+                        val lowerBounds = precision(this.smartTrendDetectors[i] - precision(percentage))
 
                         toReturn = if (this.smartTrendDetectors[i+1] in lowerBounds..upperBounds) {
                             Trend.UPWARD
@@ -526,9 +529,9 @@ class BotService : Service() {
                         maxCurrentPrice = this.smartTrendDetectors[i+1]
                         toReturn = Trend.UPWARD
                     } else {
-                        val percentage = MathUtils.percentage(maxCurrentPrice, ConstantUtils.smartTrendDetectorMargin)
-                        val upperBounds = MathUtils.precision(maxCurrentPrice + MathUtils.precision(percentage))
-                        val lowerBounds = MathUtils.precision(maxCurrentPrice - MathUtils.precision(percentage))
+                        val percentage = percentage(maxCurrentPrice, ConstantUtils.smartTrendDetectorMargin)
+                        val upperBounds = precision(maxCurrentPrice + precision(percentage))
+                        val lowerBounds = precision(maxCurrentPrice - precision(percentage))
 
                         toReturn = if (this.smartTrendDetectors[i+1] in lowerBounds..upperBounds) {
                             Trend.UPWARD
