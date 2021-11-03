@@ -24,6 +24,7 @@ import za.co.botcoin.utils.*
 import za.co.botcoin.utils.DateTimeUtils.getFormattedUnix
 import za.co.botcoin.utils.DateTimeUtils.getPreviousMidnightUnixDateTime
 import za.co.botcoin.utils.DateTimeUtils.isBeforeDateTime
+import za.co.botcoin.utils.MathUtils.calculateMarginPercentage
 import za.co.botcoin.utils.StraightLineFormulaUtils.calculateConstant
 import za.co.botcoin.utils.StraightLineFormulaUtils.calculateGradient
 import za.co.botcoin.utils.StraightLineFormulaUtils.calculateX
@@ -370,7 +371,7 @@ class FiboService : Service() {
             }
         } else {
             if (lastTrade.price.toDouble() != 0.0 && lastTrade.type == Trade.BID_TYPE) {
-                val result = MathUtils.calcMarginPercentage(lastTrade.price.toDouble(), lastTrade.volume.toDouble(), ConstantUtils.trailingStop)
+                val result = calculateMarginPercentage(lastTrade.price.toDouble(), lastTrade.volume.toDouble(), ConstantUtils.trailingStop)
                 if ((currentPrice * lastTrade.volume.toDouble()) <= result) {
                     placeSellOrder = true
                     GeneralUtils.notify(this, "ask - (LastPurchasePrice: ${lastTrade.price.toDouble()})", "${(currentPrice * lastTrade.volume.toDouble())} <= $result")
@@ -386,7 +387,7 @@ class FiboService : Service() {
 
     private fun trailingStop(currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance, lastAskOrder: Order) {
         if (lastAskOrder.limitPrice.isNotBlank()) {
-            val result = MathUtils.calcMarginPercentage(lastAskOrder.limitPrice.toDouble(), lastAskOrder.limitVolume.toDouble(), ConstantUtils.trailingStop)
+            val result = calculateMarginPercentage(lastAskOrder.limitPrice.toDouble(), lastAskOrder.limitVolume.toDouble(), ConstantUtils.trailingStop)
             if ((currentPrice * lastAskOrder.limitVolume.toDouble())  <= result) {
                 attachStopOrderObserver(lastAskOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance)
                 GeneralUtils.notify(this, "pullOutOfAsk - (LastAskOrder: " + lastAskOrder.limitPrice + ")", "${(currentPrice * lastAskOrder.limitVolume.toDouble())} <= $result")

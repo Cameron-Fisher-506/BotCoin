@@ -22,7 +22,7 @@ object MathUtils {
 
     fun percentage(value: Double, percentage: Int): Double = value * (percentage / 100.0f)
 
-    fun calcMarginPercentage(price: Double, volume: Double, trailingStop: Int, isLowerMargin: Boolean = true): Double {
+    fun calculateMarginPercentage(price: Double, volume: Double, trailingStop: Int, isLowerMargin: Boolean = true): Double {
         val percentage = percentage(price * volume, trailingStop)
         return if (isLowerMargin) {
             precision((price * volume) - precision(percentage))
