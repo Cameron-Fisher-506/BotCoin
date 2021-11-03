@@ -1,6 +1,5 @@
 package za.co.botcoin.utils
 
-import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -13,62 +12,41 @@ object DateTimeUtils {
 
     fun getCurrentDateTime(format: String = DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS): String = SimpleDateFormat(format, Locale.ENGLISH).format(Date())
 
-    private fun differenceInTime(oldDateTime: String, currentDateTime: String): Long {
-        var toReturn: Long = 0L
-
+    private fun getTimeDifference(oldDateTime: String, currentDateTime: String): Long {
         val simpleDateFormat = SimpleDateFormat(DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS, Locale.ENGLISH)
         val oldDate = simpleDateFormat.parse(oldDateTime)
         val currentDate = simpleDateFormat.parse(currentDateTime)
-
-        if (oldDate != null && currentDate != null) {
-            toReturn = currentDate.time - oldDate.time
-        }
-
-        return toReturn
+        return if (currentDate != null && oldDate != null) { currentDate.time - oldDate.time } else { 0L }
     }
 
-    fun getCurrentDateTimeInUnix(): Long = Date().time
+    fun getCurrentUnixDateTime(): Long = Date().time
 
-    fun getUnixTimestampToPreviousMidnight(): Long {
-        val c = Calendar.getInstance(TimeZone.getTimeZone("GMT"))
-        c[Calendar.HOUR_OF_DAY] = 0
-        c[Calendar.MINUTE] = 0
-        c[Calendar.SECOND] = 0
-        c[Calendar.MILLISECOND] = 0
-        return c.timeInMillis
-    }
+    fun getPreviousMidnightUnixDateTime(): Long = Calendar.getInstance(TimeZone.getTimeZone("GMT")).apply {
+        set(Calendar.HOUR_OF_DAY, 0)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+    }.timeInMillis
 
-    fun convertLongToTime(time: Long, format: String = DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS): String = SimpleDateFormat(format, Locale.ENGLISH).format(Date(time))
+    fun getFormattedUnix(time: Long, format: String = DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS): String = SimpleDateFormat(format, Locale.ENGLISH).format(Date(time))
 
-    fun differenceInMinutes(oldDateTime: String, currentDateTime: String) = TimeUnit.MILLISECONDS.toMinutes(differenceInTime(oldDateTime, currentDateTime))
+    fun getMinutesFrom(oldDateTime: String, currentDateTime: String) = TimeUnit.MILLISECONDS.toMinutes(getTimeDifference(oldDateTime, currentDateTime))
 
     private fun parseDateTime(dateTime: String): Date? = SimpleDateFormat(DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS, Locale.ENGLISH).parse(dateTime)
 
-    fun getYesterdayDateTime(format: String = DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS): String {
-        val calendar: Calendar = Calendar.getInstance()
-        calendar.add(Calendar.DATE, -1)
-        return SimpleDateFormat(format, Locale.ENGLISH).format(calendar.time)
-    }
+    fun getYesterdayDateTime(format: String = DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS): String = SimpleDateFormat(format, Locale.ENGLISH).format(Calendar.getInstance().apply {
+        add(Calendar.DATE, -1)
+    }.time)
 
-    fun getDifferenceDateTimeInMin(dateTime: String): Long {
-        var toReturn: Long = 0L
-
+    fun getTimeDifferenceInMinutes(dateTime: String): Long {
         val parseDateTime = parseDateTime(dateTime)
         val currentDateTime = parseDateTime(getCurrentDateTime())
-        if (parseDateTime != null && currentDateTime != null) {
-            val difference = currentDateTime.time - parseDateTime.time
-            toReturn = difference / (60 * 1000)
-        }
-
-        return toReturn
+        return if (parseDateTime != null && currentDateTime != null) { currentDateTime.time - parseDateTime.time / (60 * 1000) } else { 0L }
     }
 
-    fun isDateTimeABeforeDateTimeB(dateTimeA: String, dateTimeB: String): Boolean {
+    fun isBeforeDateTime(dateTimeA: String, dateTimeB: String): Boolean {
         val parseDateTimeA = parseDateTime(dateTimeA)
         val parseDateTimeB = parseDateTime(dateTimeB)
-        if (parseDateTimeA != null && parseDateTimeB != null && parseDateTimeA.before(parseDateTimeB)) {
-            return true
-        }
-        return false
+        return parseDateTimeA != null && parseDateTimeB != null && parseDateTimeA.before(parseDateTimeB)
     }
 }
