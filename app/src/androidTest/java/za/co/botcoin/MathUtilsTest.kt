@@ -3,7 +3,7 @@ package za.co.botcoin
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import za.co.botcoin.utils.MathUtils.calcMarginPercentage
+import za.co.botcoin.utils.MathUtils.calculateMarginPercentage
 import za.co.botcoin.utils.MathUtils.percentage
 import za.co.botcoin.utils.MathUtils.precision
 import za.co.botcoin.utils.MathUtils.reverse
@@ -58,7 +58,7 @@ class MathUtilsTest {
         val expected = 126.0
 
         //when
-        val actual = calcMarginPercentage(10.0, 12.0, 5, false)
+        val actual = calculateMarginPercentage(10.0, 12.0, 5, false)
 
         //then
         assertEquals(expected, actual)
@@ -70,7 +70,7 @@ class MathUtilsTest {
         val expected = 114.0
 
         //when
-        val actual = calcMarginPercentage(10.0, 12.0, 5)
+        val actual = calculateMarginPercentage(10.0, 12.0, 5)
 
         //then
         assertEquals(expected, actual)
@@ -82,7 +82,7 @@ class MathUtilsTest {
         val expected = 157.5
 
         //when
-        val actual = calcMarginPercentage(150.0, 5, false)
+        val actual = calculateMarginPercentage(150.0, 5, false)
 
         //then
         assertEquals(expected, actual)
@@ -94,7 +94,7 @@ class MathUtilsTest {
         val expected = 142.5
 
         //when
-        val actual = calcMarginPercentage(150.0, 5)
+        val actual = calculateMarginPercentage(150.0, 5)
 
         //then
         assertEquals(expected, actual)

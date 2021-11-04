@@ -21,7 +21,6 @@ import za.co.botcoin.model.models.Trade
 import za.co.botcoin.model.repository.AccountRepository
 import za.co.botcoin.model.repository.WithdrawalRepository
 import za.co.botcoin.utils.*
-import za.co.botcoin.utils.DateTimeUtils.getFormattedUnix
 import za.co.botcoin.utils.DateTimeUtils.getPreviousMidnightUnixDateTime
 import za.co.botcoin.utils.DateTimeUtils.isBeforeDateTime
 import za.co.botcoin.utils.MathUtils.calculateMarginPercentage
@@ -252,7 +251,7 @@ class FiboService : Service() {
                 val lowestCandle = candles.minByOrNull { candle -> candle.low  }
 
                 if (lowestCandle != null && highestCandle != null) {
-                    marketTrend = if (isBeforeDateTime(getFormattedUnix(lowestCandle.timestamp.toLong()), getFormattedUnix(highestCandle.timestamp.toLong()))) {
+                    marketTrend = if (isBeforeDateTime(DateTimeUtils.format(lowestCandle.timestamp.toLong()), DateTimeUtils.format(highestCandle.timestamp.toLong()))) {
                        val candlesSorted = candles.sortedBy { candle -> candle.low }
 
                         //trend line
