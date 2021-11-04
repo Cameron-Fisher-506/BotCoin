@@ -17,7 +17,7 @@ class FibonacciRetracementTest {
     }
 
     @Test
-    fun should_calculateFibonacciRetracement_when_marketIsInDownwardTrend() {
+    fun shouldCalculateFibonacciRetracementWhenMarketIsInDownwardTrend() {
         //given
         val highestCandle = Candle().apply {
             high = "30"
@@ -40,7 +40,7 @@ class FibonacciRetracementTest {
     }
 
     @Test
-    fun should_calculateFibonacciRetracement_when_marketIsInUpwardTrend() {
+    fun shouldCalculateFibonacciRetracementWhenMarketIsInUpwardTrend() {
         //given
         val highestCandle = Candle().apply {
             high = "30"

@@ -175,7 +175,7 @@ class BotService : Service() {
                 }
 
                 if (useTrailingStart) {
-                    val result = MathUtils.calcMarginPercentage(getLowestPrice(supportPrices), ConstantUtils.trailingStart, false)
+                    val result = calculateMarginPercentage(getLowestPrice(supportPrices), ConstantUtils.trailingStart, false)
                     if (result < currentPrice) {
                         useTrailingStart = false
                     }
@@ -271,7 +271,7 @@ class BotService : Service() {
             }
         } else {
             if (supportPrice.isNotBlank() && supportPrice != "0.0") {
-                val result = MathUtils.calcMarginPercentage(supportPrice.toDouble(), ConstantUtils.trailingStop, false)
+                val result = calculateMarginPercentage(supportPrice.toDouble(), ConstantUtils.trailingStop, false)
                 if (currentPrice >= result) {
                     GeneralUtils.notify(this, "bid isRestrict: false - (bid reset support: $supportPrice)", "$currentPrice >= $result")
                     supportPrice = ""
