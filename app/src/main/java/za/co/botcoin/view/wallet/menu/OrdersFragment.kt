@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import za.co.botcoin.R
 import za.co.botcoin.databinding.OrdersFragmentBinding
 import za.co.botcoin.enum.Status
-import za.co.botcoin.utils.DateTimeUtils.getFormattedUnix
+import za.co.botcoin.utils.DateTimeUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.view.wallet.WithdrawalViewModel
 
@@ -42,8 +42,8 @@ class OrdersFragment : Fragment(R.layout.orders_fragment) {
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
                         data.map { order ->
-                            order.completedTime = getFormattedUnix(order.completedTime.toLong())
-                            order.createdTime = getFormattedUnix(order.createdTime.toLong())
+                            order.completedTime = DateTimeUtils.format(order.completedTime.toLong())
+                            order.createdTime = DateTimeUtils.format(order.createdTime.toLong())
                         }
                         val sortedOrders = data.sortedByDescending { order -> order.createdTime }
                         orderListAdapter.updateOrderList(sortedOrders)
