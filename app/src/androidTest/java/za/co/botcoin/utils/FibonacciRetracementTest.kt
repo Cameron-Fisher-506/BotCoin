@@ -1,11 +1,10 @@
-package za.co.botcoin
+package za.co.botcoin.utils
 
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import za.co.botcoin.enum.Trend
 import za.co.botcoin.model.models.Candle
-import za.co.botcoin.utils.FibonacciRetracement
 
 class FibonacciRetracementTest {
 

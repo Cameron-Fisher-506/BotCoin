@@ -1,4 +1,4 @@
-package za.co.botcoin
+package za.co.botcoin.utils
 
 import junit.framework.Assert.assertEquals
 import org.junit.Before

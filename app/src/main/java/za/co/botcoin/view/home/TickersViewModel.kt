@@ -10,7 +10,7 @@ import za.co.botcoin.model.repository.AccountRepository
 import za.co.botcoin.utils.Resource
 
 class TickersViewModel(application: Application) : AndroidViewModel(application) {
-    private val accountRepository: AccountRepository = AccountRepository(application)
+    var repository: AccountRepository = AccountRepository(application)
 
     lateinit var tickersLiveData: LiveData<Resource<List<Ticker>>>
 
@@ -19,6 +19,6 @@ class TickersViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun fetchTickers() {
-        tickersLiveData = liveData(Dispatchers.IO) { emit(accountRepository.fetchTickers()) }
+        tickersLiveData = liveData(Dispatchers.IO) { emit(repository.fetchTickers()) }
     }
 }
