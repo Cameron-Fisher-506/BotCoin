@@ -1,11 +1,11 @@
 package za.co.botcoin.utils
 
 object ConstantUtils {
-    var KEY_ID = ""
-    var SECRET_KEY = ""
+    var KEY_ID = "cmpcknw2re6mt"
+    var SECRET_KEY = "E3rY3u2cL1JdJr8WcJNjivwjToG3nU-KjR4E25MJeH8"
 
-    var USER_KEY_ID: String = ""
-    var USER_SECRET_KEY: String = ""
+    var USER_KEY_ID: String = "cmpcknw2re6mt"
+    var USER_SECRET_KEY: String = "E3rY3u2cL1JdJr8WcJNjivwjToG3nU-KjR4E25MJeH8"
 
     const val BOTCOIN_TAG = "BOTCOIN"
     const val BTC = "XBT"
@@ -23,6 +23,7 @@ object ConstantUtils {
 
     var trailingStop = 10
     var trailingStart = 5
+    var smartTrendDetectorMargin = 5
 
     const val BUY_SELL_MARGIN_PRICE = 0.01
 
