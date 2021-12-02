@@ -9,7 +9,7 @@ import za.co.botcoin.model.models.Trade
 import za.co.botcoin.utils.ConstantUtils
 
 class TradeAdapter(var context: Context, var trades: ArrayList<Trade>) : RecyclerView.Adapter<TradeAdapter.ViewHolder>() {
-    private lateinit var tradeViewModel: TradeViewModel
+    private lateinit var tradeSharedViewModel: TradeSharedViewModel
 
     var trade: Trade? = null
     private var zarBalance: Double? = null
