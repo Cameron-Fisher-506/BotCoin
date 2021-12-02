@@ -80,8 +80,7 @@ dependencies {
     testImplementation "junit:junit:4.13.2"
 
     //Mockito
-    testImplementation "org.mockito:mockito-core:3.11.1"
-    androidTestImplementation "org.mockito:mockito-android:3.11.1"
+    testImplementation "org.mockito:mockito-core:3.11.2"
+    androidTestImplementation "org.mockito:mockito-android:3.11.2"
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"//Instant Task Executor Rule
-    androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.28.1'
 }

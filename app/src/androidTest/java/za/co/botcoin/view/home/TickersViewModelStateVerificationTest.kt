@@ -18,7 +18,7 @@ class TickersViewModelStateVerificationTest : TickersViewModelTest() {
         val tickers: Resource<List<Ticker>> = Resource(Status.SUCCESS, listOf(Ticker(), Ticker()), "Success")
 
         runBlocking {
-            Mockito.`when`(accountRepository.fetchTickers()).thenReturn(tickers)
+            Mockito.`when`(tickersRepository.fetchTickers()).thenReturn(tickers)
         }
 
         tickersViewModel.fetchTickers()

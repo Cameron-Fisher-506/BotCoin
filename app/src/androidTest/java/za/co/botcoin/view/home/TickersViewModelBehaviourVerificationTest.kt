@@ -13,8 +13,8 @@ class TickersViewModelBehaviourVerificationTest : TickersViewModelTest() {
         tickersViewModel.fetchTickers()
         tickersViewModel.tickersLiveData.disposeObserver()
         runBlocking {
-            verify(accountRepository).fetchTickers()
-            verifyNoMoreInteractions(accountRepository)
+            verify(tickersRepository).fetchTickers()
+            verifyNoMoreInteractions(tickersRepository)
         }
     }
 }
