@@ -8,24 +8,25 @@ import androidx.recyclerview.widget.GridLayoutManager
 import za.co.botcoin.R
 import za.co.botcoin.databinding.OrdersFragmentBinding
 import za.co.botcoin.enum.Status
+import za.co.botcoin.model.repository.order.OrderViewModel
+import za.co.botcoin.model.repository.stopOrder.StopOrderViewModel
 import za.co.botcoin.utils.DateTimeUtils
 import za.co.botcoin.utils.GeneralUtils
-import za.co.botcoin.view.wallet.WithdrawalViewModel
 
 class OrdersFragment : Fragment(R.layout.orders_fragment) {
     private lateinit var binding: OrdersFragmentBinding
-    private lateinit var withdrawalViewModel: WithdrawalViewModel
+    private lateinit var stopOrderViewModel: StopOrderViewModel
+    private lateinit var orderViewModel: OrderViewModel
     private lateinit var orderListAdapter: OrderListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = OrdersFragmentBinding.bind(view)
 
-        this.withdrawalViewModel = ViewModelProviders.of(this).get(WithdrawalViewModel::class.java)
+        this.orderViewModel = ViewModelProviders.of(this).get(OrderViewModel::class.java)
+        this.stopOrderViewModel = ViewModelProviders.of(this).get(StopOrderViewModel::class.java)
         wireUI()
-
-        this.withdrawalViewModel.fetchOrders()
-        attachOrdersObserver()
+        fetchAndObserveOrders()
     }
 
     private fun wireUI() {
@@ -34,8 +35,9 @@ class OrdersFragment : Fragment(R.layout.orders_fragment) {
         this.binding.ordersRecyclerView.adapter = orderListAdapter
     }
 
-    private fun attachOrdersObserver() {
-        this.withdrawalViewModel.ordersLiveData.observe(viewLifecycleOwner, {
+    private fun fetchAndObserveOrders() {
+        this.orderViewModel.fetchOrders()
+        this.orderViewModel.ordersLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
                     displayOrdersRecyclerView()
@@ -62,7 +64,7 @@ class OrdersFragment : Fragment(R.layout.orders_fragment) {
     }
 
     private fun attachStopOrderObserver() {
-        this.withdrawalViewModel.stopOrderLiveData.observe(viewLifecycleOwner, {
+        this.stopOrderViewModel.stopOrderLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
                     displayOrdersRecyclerView()

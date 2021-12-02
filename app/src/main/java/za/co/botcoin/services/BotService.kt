@@ -15,10 +15,13 @@ import za.co.botcoin.model.models.Balance
 import za.co.botcoin.model.models.Order
 import za.co.botcoin.model.models.Trade
 import za.co.botcoin.model.models.TradePrice
-import za.co.botcoin.model.repository.AccountRepository
-import za.co.botcoin.model.repository.WithdrawalRepository
+import za.co.botcoin.model.repository.balance.BalanceRepository
+import za.co.botcoin.model.repository.order.OrderRepository
+import za.co.botcoin.model.repository.postOrder.PostOrderRepository
+import za.co.botcoin.model.repository.stopOrder.StopOrderRepository
+import za.co.botcoin.model.repository.tickers.TickersRepository
+import za.co.botcoin.model.repository.trade.TradeRepository
 import za.co.botcoin.utils.*
-import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.MathUtils.calculateMarginPercentage
 import za.co.botcoin.utils.MathUtils.percentage
 import za.co.botcoin.utils.MathUtils.precision
@@ -27,8 +30,12 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class BotService : Service() {
-    private lateinit var accountRepository: AccountRepository
-    private lateinit var withdrawalRepository: WithdrawalRepository
+    private lateinit var tickersRepository: TickersRepository
+    private lateinit var tradeRepository: TradeRepository
+    private lateinit var balanceRepository: BalanceRepository
+    private lateinit var orderRepository: OrderRepository
+    private lateinit var stopOrderRepository: StopOrderRepository
+    private lateinit var postOrderRepository: PostOrderRepository
 
     private var supportPrice: String = ""
     private var resistancePrice: String = ""
@@ -79,15 +86,19 @@ class BotService : Service() {
     }
 
     private fun init() {
-        this.accountRepository = AccountRepository(application)
-        this.withdrawalRepository = WithdrawalRepository(application)
+        this.tickersRepository = TickersRepository(application)
+        this.tradeRepository = TradeRepository(application)
+        this.balanceRepository = BalanceRepository(application)
+        this.orderRepository = OrderRepository(application)
+        this.stopOrderRepository = StopOrderRepository(application)
+        this.postOrderRepository = PostOrderRepository(application)
 
         supportPrice = ""
         resistancePrice = ""
     }
 
     private fun attachTickersObserver() = CoroutineScope(Dispatchers.IO).launch {
-        val resource = accountRepository.fetchTickers()
+        val resource = tickersRepository.fetchTickers()
         when (resource.status) {
             Status.SUCCESS -> {
                 val data = resource.data
@@ -108,7 +119,7 @@ class BotService : Service() {
     }
 
     private fun attachTradesObserver(currentPrice: Double) = CoroutineScope(Dispatchers.IO).launch {
-        val resource = accountRepository.fetchTrades(ConstantUtils.PAIR_XRPZAR, true)
+        val resource = tradeRepository.fetchTrades(ConstantUtils.PAIR_XRPZAR, true)
         when (resource.status) {
             Status.SUCCESS -> {
                 val data = resource.data
@@ -130,7 +141,7 @@ class BotService : Service() {
     }
 
     private fun attachBalancesObserver(currentPrice: Double, lastTrade: Trade) = CoroutineScope(Dispatchers.IO).launch {
-        val resource = accountRepository.fetchBalances()
+        val resource = balanceRepository.fetchBalances()
         when (resource.status) {
             Status.SUCCESS -> {
                 val data = resource.data
@@ -158,7 +169,7 @@ class BotService : Service() {
     }
 
     private fun attachOrdersObserver(currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance) = CoroutineScope(Dispatchers.IO).launch {
-        val response = accountRepository.fetchOrders()
+        val response = orderRepository.fetchOrders()
         when (response.status) {
             Status.SUCCESS -> {
                 val data = response.data
@@ -204,7 +215,7 @@ class BotService : Service() {
 
 
     private fun attachStopOrderObserver(orderId: String, currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance) = CoroutineScope(Dispatchers.IO).launch {
-        val resource = withdrawalRepository.stopOrder(orderId)
+        val resource = stopOrderRepository.stopOrder(orderId)
         when (resource.status) {
             Status.SUCCESS -> {
                 val data = resource.data
@@ -228,7 +239,7 @@ class BotService : Service() {
     }
 
     private fun attachPostOrderObserver(pair: String, type: String, volume: String, price: String) = CoroutineScope(Dispatchers.IO).launch {
-        val resource = accountRepository.postOrder(pair, type, volume, price)
+        val resource = postOrderRepository.postOrder(pair, type, volume, price)
         when (resource.status) {
             Status.SUCCESS -> {
                 val data = resource.data

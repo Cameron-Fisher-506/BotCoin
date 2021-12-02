@@ -9,6 +9,8 @@ import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.HomeFragmentBinding
 import za.co.botcoin.enum.Status
+import za.co.botcoin.model.repository.account.AccountViewModel
+import za.co.botcoin.model.repository.tickers.TickersViewModel
 import za.co.botcoin.services.BotService
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
@@ -18,6 +20,7 @@ import za.co.botcoin.utils.SharedPrefsUtils
 class HomeFragment : Fragment(R.layout.home_fragment) {
     private lateinit var binding: HomeFragmentBinding
     private lateinit var tickersViewModel: TickersViewModel
+    private lateinit var accountViewModel: AccountViewModel
 
     private val handler = Handler()
 
@@ -25,6 +28,7 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = HomeFragmentBinding.bind(view)
 
+        this.accountViewModel = ViewModelProviders.of(this).get(AccountViewModel::class.java)
         this.tickersViewModel = ViewModelProviders.of(this).get(TickersViewModel::class.java)
 
         attachTickerObserver()
