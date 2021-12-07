@@ -46,4 +46,14 @@ class WalletViewModelBehaviourVerificationTest : WalletViewModelTest() {
             verifyNoMoreInteractions(orderRepository)
         }
     }
+
+    @Test
+    fun shouldCallReceiveRepositoryWhenReceiveIsCalled() {
+        receiveViewModel.receive("", "", "")
+        receiveViewModel.receiveLiveData.disposeObserver()
+        runBlocking {
+            verify(receiveRepository).receive(anyString(), anyString(), anyString())
+            verifyNoMoreInteractions(receiveRepository)
+        }
+    }
 }
