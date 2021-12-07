@@ -8,11 +8,11 @@ import za.co.botcoin.model.repository.BaseViewModel
 import za.co.botcoin.utils.Resource
 
 class WithdrawalViewModel(application: Application): BaseViewModel(application) {
-    private val withdrawalRepository: WithdrawalRepository = WithdrawalRepository(application)
+    var repository: WithdrawalRepository = WithdrawalRepository(application)
 
     lateinit var withdrawalLiveData: LiveData<Resource<List<Withdrawal>>>
 
     fun withdrawal(type: String, amount: String, beneficiaryId: String) {
-        withdrawalLiveData = liveData { emit(withdrawalRepository.withdrawal(type, amount, beneficiaryId)) }
+        withdrawalLiveData = liveData { emit(repository.withdrawal(type, amount, beneficiaryId)) }
     }
 }

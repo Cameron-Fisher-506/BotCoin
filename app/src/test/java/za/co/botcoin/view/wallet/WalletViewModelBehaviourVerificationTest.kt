@@ -2,8 +2,7 @@ package za.co.botcoin.view.wallet
 
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.verifyNoMoreInteractions
+import org.mockito.Mockito.*
 import za.co.botcoin.disposeObserver
 
 class WalletViewModelBehaviourVerificationTest : WalletViewModelTest() {
@@ -15,6 +14,16 @@ class WalletViewModelBehaviourVerificationTest : WalletViewModelTest() {
         runBlocking {
             verify(balanceRepository).fetchBalances()
             verifyNoMoreInteractions(balanceRepository)
+        }
+    }
+
+    @Test
+    fun shouldCallWithdrawalRepositoryWhenWithdrawalIsCalled() {
+        withdrawalViewModel.withdrawal("", "", "")
+        withdrawalViewModel.withdrawalLiveData.disposeObserver()
+        runBlocking {
+            verify(withdrawalRepository).withdrawal(anyString(), anyString(), anyString())
+            verifyNoMoreInteractions(withdrawalRepository)
         }
     }
 }
