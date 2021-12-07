@@ -7,10 +7,7 @@ import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito
 import za.co.botcoin.enum.Status
 import za.co.botcoin.getOrAwaitValue
-import za.co.botcoin.model.models.Balance
-import za.co.botcoin.model.models.Order
-import za.co.botcoin.model.models.StopOrder
-import za.co.botcoin.model.models.Withdrawal
+import za.co.botcoin.model.models.*
 import za.co.botcoin.utils.Resource
 
 class WalletViewModelStateVerificationTest : WalletViewModelTest() {
@@ -73,6 +70,22 @@ class WalletViewModelStateVerificationTest : WalletViewModelTest() {
 
         orderViewModel.fetchOrders()
         with(orderViewModel.ordersLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.SUCCESS, this?.status)
+            assertTrue(!this?.data.isNullOrEmpty())
+        }
+    }
+
+    @Test
+    fun shouldReturnReceiveResponseWhenReceiveIsCalled() {
+        val receive: Resource<List<Receive>> = Resource(Status.SUCCESS, listOf(Receive()), "")
+
+        runBlocking {
+            Mockito.`when`(receiveRepository.receive(anyString(), anyString(), anyString())).thenReturn(receive)
+        }
+
+        receiveViewModel.receive("", "", "")
+        with(receiveViewModel.receiveLiveData.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.SUCCESS, this?.status)
             assertTrue(!this?.data.isNullOrEmpty())
