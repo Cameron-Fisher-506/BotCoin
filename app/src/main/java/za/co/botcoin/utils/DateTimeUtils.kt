@@ -1,6 +1,5 @@
 package za.co.botcoin.utils
 
-import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -13,65 +12,41 @@ object DateTimeUtils {
 
     fun getCurrentDateTime(format: String = DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS): String = SimpleDateFormat(format, Locale.ENGLISH).format(Date())
 
-    private fun differenceInTime(oldDateTime: String, currentDateTime: String): Long {
-        var toReturn: Long = 0L
-
+    private fun getTimeDifference(oldDateTime: String, currentDateTime: String): Long {
         val simpleDateFormat = SimpleDateFormat(DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS, Locale.ENGLISH)
         val oldDate = simpleDateFormat.parse(oldDateTime)
         val currentDate = simpleDateFormat.parse(currentDateTime)
-
-        if (oldDate != null && currentDate != null) {
-            toReturn = currentDate.time - oldDate.time
-        }
-
-        return toReturn
+        return if (currentDate != null && oldDate != null) { currentDate.time - oldDate.time } else { 0L }
     }
 
-    fun getCurrentDateTimeInUnix(): Long = Date().time
+    fun getCurrentUnixDateTime(): Long = Date().time
 
-    fun getUnixTimestampToPreviousMidnight(): Long {
-        val c = Calendar.getInstance(TimeZone.getTimeZone("GMT"))
-        c[Calendar.HOUR_OF_DAY] = 0
-        c[Calendar.MINUTE] = 0
-        c[Calendar.SECOND] = 0
-        c[Calendar.MILLISECOND] = 0
-        return c.timeInMillis
+    fun getPreviousMidnightUnixDateTime(): Long = Calendar.getInstance(TimeZone.getTimeZone("GMT")).apply {
+        set(Calendar.HOUR_OF_DAY, 0)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+    }.timeInMillis
+
+    fun format(unix: Long, format: String = DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS): String = SimpleDateFormat(format, Locale.ENGLISH).format(Date(unix))
+
+    private fun format(dateTime: String, format: String = DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS): Date? = SimpleDateFormat(format, Locale.ENGLISH).parse(dateTime)
+
+    fun getMinutesFrom(oldDateTime: String, currentDateTime: String) = TimeUnit.MILLISECONDS.toMinutes(getTimeDifference(oldDateTime, currentDateTime))
+
+    fun getYesterdayDateTime(format: String = DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS): String = SimpleDateFormat(format, Locale.ENGLISH).format(Calendar.getInstance().apply {
+        add(Calendar.DATE, -1)
+    }.time)
+
+    fun getTimeDifferenceInMinutes(dateTime: String): Long {
+        val parseDateTime = format(dateTime)
+        val currentDateTime = format(getCurrentDateTime())
+        return if (parseDateTime != null && currentDateTime != null) { (currentDateTime.time - parseDateTime.time) / (60 * 1000) } else { 0L }
     }
 
-    fun convertLongToTime(time: Long, format: String = DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS): String = SimpleDateFormat(format, Locale.ENGLISH).format(Date(time))
-
-    fun differenceInMinutes(oldDateTime: String, currentDateTime: String) = TimeUnit.MILLISECONDS.toMinutes(differenceInTime(oldDateTime, currentDateTime))
-
-    private fun parseDateTime(dateTime: String): Date? {
-        var toReturn: Date? = null
-        try {
-            val sdfDate = SimpleDateFormat(DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS, Locale.ENGLISH)
-            toReturn = sdfDate.parse(dateTime)
-        } catch (e: ParseException) {
-            println("Error: ${e.message} " +
-                    "Method: parseDateTime " +
-                    "Data: $dateTime " +
-                    "Date: ${getCurrentDateTime()}")
-        }
-        return toReturn
-    }
-
-    fun getYesterdayDateTime(format: String = DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS): String {
-        val calendar: Calendar = Calendar.getInstance()
-        calendar.add(Calendar.DATE, -1)
-        return SimpleDateFormat(format, Locale.ENGLISH).format(calendar.time)
-    }
-
-    fun getDifferenceDateTimeInMin(dateTime: String): Long {
-        var toReturn: Long = 0L
-
-        val parseDateTime = parseDateTime(dateTime)
-        val currentDateTime = parseDateTime(getCurrentDateTime())
-        if (parseDateTime != null && currentDateTime != null) {
-            val difference = currentDateTime.time - parseDateTime.time
-            toReturn = difference / (60 * 1000)
-        }
-
-        return toReturn
+    fun isBeforeDateTime(dateTimeA: String, dateTimeB: String): Boolean {
+        val parseDateTimeA = format(dateTimeA)
+        val parseDateTimeB = format(dateTimeB)
+        return parseDateTimeA != null && parseDateTimeB != null && parseDateTimeA.before(parseDateTimeB)
     }
 }

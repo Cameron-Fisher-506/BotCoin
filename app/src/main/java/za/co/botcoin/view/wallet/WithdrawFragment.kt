@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProviders
 import za.co.botcoin.R
 import za.co.botcoin.databinding.WithdrawFragmentBinding
 import za.co.botcoin.enum.Status
+import za.co.botcoin.model.repository.withdrawal.WithdrawalViewModel
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.GeneralUtils.createAlertDialog
 import za.co.botcoin.utils.GeneralUtils.isApiKeySet

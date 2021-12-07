@@ -1,7 +1,9 @@
 package za.co.botcoin.utils
 
-import android.util.Log
 import za.co.botcoin.model.models.Candle
+import za.co.botcoin.utils.StraightLineFormulaUtils.calculateConstant
+import za.co.botcoin.utils.StraightLineFormulaUtils.calculateGradient
+import za.co.botcoin.utils.StraightLineFormulaUtils.isPointOnLine
 import java.util.*
 
 class SimpleMovingAverage(var period: Int) {
@@ -10,7 +12,7 @@ class SimpleMovingAverage(var period: Int) {
     private var sum: Double = 0.0
 
     fun calculateSma(candles: List<Candle>) {
-        if (dataSet.isNotEmpty() && dataSet.size >= period) {
+        if (dataSet.size >= period) {
             val candleExists = dataSet.last().timestamp == candles.last().timestamp
             if (!candleExists) {
                 sum -= dataSet.remove().close.toDouble()
@@ -18,11 +20,7 @@ class SimpleMovingAverage(var period: Int) {
 
                 dataSet.add(candles.last())
                 sum += candles.last().close.toDouble()
-                averages.add(sum/period)
-                averages.map { average ->
-                    Log.d("BOTCOIN", "average: ${ MathUtils.precision(average) }")
-                }
-
+                averages.add(MathUtils.precision(sum/period))
             }
         } else {
             if (candles.isNotEmpty()) {
@@ -36,12 +34,10 @@ class SimpleMovingAverage(var period: Int) {
 
     fun isPriceOnLine(currentPrice: Double): Boolean {
         if (averages.isNotEmpty()) {
-            var m = 0.0
-            var c = 0.0
-            for (i in 0 until averages.size-1) {
-                m = StraightLineFormulaUtils.calculateGradient((i+1).toDouble(), i.toDouble(), averages.elementAt(i+1), averages.elementAt(i))
-                c = StraightLineFormulaUtils.calculateConstant((i+1).toDouble(), averages.elementAt(i+1), m)
-                if (StraightLineFormulaUtils.isPointOnLine(i.toDouble(), currentPrice, m, c)) {
+            for (i in averages.indices) {
+                val m = calculateGradient((i+1).toDouble(), i.toDouble(), averages.elementAt(i+1), averages.elementAt(i))
+                val c = calculateConstant((i+1).toDouble(), averages.elementAt(i+1), m)
+                if (isPointOnLine(i.toDouble() + 1, currentPrice, m, c)) {
                     return true
                 }
             }
@@ -51,8 +47,8 @@ class SimpleMovingAverage(var period: Int) {
 
     fun isPriceAboveLine(currentPrice: Double): Boolean {
         var toReturn: Boolean = false
-        if (averages.isNotEmpty() && averages.size >= 20) {
-            for (i in 0 until averages.size-1) {
+        if (averages.size >= 20) {
+            for (i in averages.indices) {
                 toReturn = currentPrice > averages.elementAt(i)
             }
         }

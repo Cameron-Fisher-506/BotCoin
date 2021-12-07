@@ -4,15 +4,17 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.DonateFragmentBinding
 import za.co.botcoin.enum.Status
+import za.co.botcoin.model.repository.receive.ReceiveViewModel
+import za.co.botcoin.model.repository.send.SendViewModel
 import za.co.botcoin.utils.*
 
 class DonateFragment : Fragment(R.layout.donate_fragment) {
     private lateinit var binding: DonateFragmentBinding
-    private lateinit var donateViewModel: DonateViewModel
+    private lateinit var receiveViewModel: ReceiveViewModel
+    private lateinit var sendViewModel: SendViewModel
 
     private var asset: String = ""
 
@@ -20,16 +22,17 @@ class DonateFragment : Fragment(R.layout.donate_fragment) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = DonateFragmentBinding.bind(view)
 
-        this.donateViewModel = ViewModelProviders.of(this).get(DonateViewModel::class.java)
+        this.receiveViewModel = ViewModelProviders.of(this).get(ReceiveViewModel::class.java)
+        this.sendViewModel = ViewModelProviders.of(this).get(SendViewModel::class.java)
         asset = arguments?.getString("asset") ?: ""
 
         wireUI()
-        this.donateViewModel.receive(asset, ConstantUtils.KEY_ID, ConstantUtils.SECRET_KEY)
-        attachReceiveObserver()
+        receiveAndObserveReceive()
     }
 
-    private fun attachReceiveObserver() {
-        this.donateViewModel.receiveLiveData.observe(viewLifecycleOwner, {
+    private fun receiveAndObserveReceive() {
+        this.receiveViewModel.receive(asset, ConstantUtils.KEY_ID, ConstantUtils.SECRET_KEY)
+        this.receiveViewModel.receiveLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
                     displayDonateOptions()
@@ -57,8 +60,8 @@ class DonateFragment : Fragment(R.layout.donate_fragment) {
         })
     }
 
-    private fun attachSendObserver(amount: String, asset: String, address: String) {
-        this.donateViewModel.sendLiveData.observe(viewLifecycleOwner, {
+    private fun sendAndObserveSend(amount: String, asset: String, address: String) {
+        this.sendViewModel.sendLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
                     displayDonateOptions()
@@ -102,8 +105,8 @@ class DonateFragment : Fragment(R.layout.donate_fragment) {
                 val destinationTag: String = this.binding.tagEditText.text.toString()
                 if (amount.isNotBlank()) {
                     if (amount != "0") {
-                        this.donateViewModel.send(amount, asset, address, destinationTag)
-                        attachSendObserver(amount, asset, address)
+                        this.sendViewModel.send(amount, asset, address, destinationTag)
+                        sendAndObserveSend(amount, asset, address)
                     } else {
                         GeneralUtils.createAlertDialog(context, "Invalid amount entered!", "Please note that you cannot donate 0 $asset.", false).show()
                     }
