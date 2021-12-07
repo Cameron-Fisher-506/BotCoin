@@ -81,6 +81,6 @@ dependencies {
 
     //Mockito
     testImplementation "org.mockito:mockito-core:3.11.2"
-    androidTestImplementation "org.mockito:mockito-android:3.11.2"
-    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"//Instant Task Executor Rule
+    testImplementation "org.mockito:mockito-inline:3.11.2"
+    implementation "androidx.arch.core:core-testing:2.1.0"//Instant Task Executor Rule
 }
