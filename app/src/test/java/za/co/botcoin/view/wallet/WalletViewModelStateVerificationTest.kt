@@ -107,4 +107,20 @@ class WalletViewModelStateVerificationTest : WalletViewModelTest() {
             assertTrue(!this?.data.isNullOrEmpty())
         }
     }
+
+    @Test
+    fun shouldReturnPostOrderResponseWhenPostOrderIsCalled() {
+        val postOrder: Resource<List<PostOrder>> = Resource(Status.SUCCESS, listOf(PostOrder()), "")
+
+        runBlocking {
+            Mockito.`when`(postOrderRepository.postOrder(anyString(), anyString(), anyString(), anyString())).thenReturn(postOrder)
+        }
+
+        postOrderViewModel.postOrder("", "", "", "")
+        with(postOrderViewModel.postOrderLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.SUCCESS, this?.status)
+            assertTrue(!this?.data.isNullOrEmpty())
+        }
+    }
 }

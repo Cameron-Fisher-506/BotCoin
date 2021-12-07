@@ -66,4 +66,14 @@ class WalletViewModelBehaviourVerificationTest : WalletViewModelTest() {
             verifyNoMoreInteractions(sendRepository)
         }
     }
+
+    @Test
+    fun shouldCallPostOrderRepositoryWhenPostOrderIsCalled() {
+        postOrderViewModel.postOrder("", "", "", "")
+        postOrderViewModel.postOrderLiveData.disposeObserver()
+        runBlocking {
+            verify(postOrderRepository).postOrder(anyString(), anyString(), anyString(), anyString())
+            verifyNoMoreInteractions(postOrderRepository)
+        }
+    }
 }
