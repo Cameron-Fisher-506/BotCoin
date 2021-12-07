@@ -36,4 +36,14 @@ class WalletViewModelBehaviourVerificationTest : WalletViewModelTest() {
             verifyNoMoreInteractions(stopOrderRepository)
         }
     }
+
+    @Test
+    fun shouldCallOrderRepositoryWhenFetchOrdersIsCalled() {
+        orderViewModel.fetchOrders()
+        orderViewModel.ordersLiveData.disposeObserver()
+        runBlocking {
+            verify(orderRepository).fetchOrders()
+            verifyNoMoreInteractions(orderRepository)
+        }
+    }
 }
