@@ -1,6 +1,6 @@
 package za.co.botcoin.view.home
 
-import junit.framework.Assert
+import junit.framework.Assert.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -11,7 +11,7 @@ import za.co.botcoin.model.models.Ticker
 import za.co.botcoin.utils.Resource
 
 @ExperimentalCoroutinesApi
-class TickersViewModelStateVerificationTest : TickersViewModelTest() {
+class HomeViewModelStateVerificationTest : HomeViewModelTest() {
 
     @Test
     fun shouldReturnTickerResponseWhenFetchTickersIsCalled() {
@@ -23,8 +23,9 @@ class TickersViewModelStateVerificationTest : TickersViewModelTest() {
 
         tickersViewModel.fetchTickers()
         with(tickersViewModel.tickersLiveData.getOrAwaitValue()) {
-            Assert.assertNotNull(this)
-            Assert.assertTrue(!this?.data.isNullOrEmpty())
+            assertNotNull(this)
+            assertEquals(Status.SUCCESS, this?.status)
+            assertTrue(!this?.data.isNullOrEmpty())
         }
     }
 }

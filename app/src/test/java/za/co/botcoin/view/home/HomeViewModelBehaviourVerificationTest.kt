@@ -6,10 +6,10 @@ import org.mockito.Mockito.verify
 import org.mockito.Mockito.verifyNoMoreInteractions
 import za.co.botcoin.disposeObserver
 
-class TickersViewModelBehaviourVerificationTest : TickersViewModelTest() {
+class HomeViewModelBehaviourVerificationTest : HomeViewModelTest() {
 
     @Test
-    fun shouldCallAccountRepositoryWhenFetchTickersIsCalled() {
+    fun shouldCallTickersRepositoryWhenFetchTickersIsCalled() {
         tickersViewModel.fetchTickers()
         tickersViewModel.tickersLiveData.disposeObserver()
         runBlocking {
