@@ -91,4 +91,20 @@ class WalletViewModelStateVerificationTest : WalletViewModelTest() {
             assertTrue(!this?.data.isNullOrEmpty())
         }
     }
+
+    @Test
+    fun shouldReturnSendResponseWhenSendIsCalled() {
+        val send: Resource<List<Send>> = Resource(Status.SUCCESS, listOf(Send()), "")
+
+        runBlocking {
+            Mockito.`when`(sendRepository.send(anyString(), anyString(), anyString(), anyString())).thenReturn(send)
+        }
+
+        sendViewModel.send("", "", "", "")
+        with(sendViewModel.sendLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.SUCCESS, this?.status)
+            assertTrue(!this?.data.isNullOrEmpty())
+        }
+    }
 }

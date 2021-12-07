@@ -17,6 +17,8 @@ import za.co.botcoin.model.repository.order.OrderRepository
 import za.co.botcoin.model.repository.order.OrderViewModel
 import za.co.botcoin.model.repository.receive.ReceiveRepository
 import za.co.botcoin.model.repository.receive.ReceiveViewModel
+import za.co.botcoin.model.repository.send.SendRepository
+import za.co.botcoin.model.repository.send.SendViewModel
 import za.co.botcoin.model.repository.stopOrder.StopOrderRepository
 import za.co.botcoin.model.repository.stopOrder.StopOrderViewModel
 import za.co.botcoin.model.repository.withdrawal.WithdrawalRepository
@@ -54,6 +56,10 @@ abstract class WalletViewModelTest {
 
     protected lateinit var receiveViewModel: ReceiveViewModel
 
+    protected val sendRepository: SendRepository = Mockito.mock(SendRepository::class.java)
+
+    protected lateinit var sendViewModel: SendViewModel
+
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
@@ -73,5 +79,8 @@ abstract class WalletViewModelTest {
 
         receiveViewModel = ReceiveViewModel(application)
         receiveViewModel.repository = receiveRepository
+
+        sendViewModel = SendViewModel(application)
+        sendViewModel.repository = sendRepository
     }
 }
