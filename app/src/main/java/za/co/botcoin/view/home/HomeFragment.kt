@@ -3,14 +3,12 @@ package za.co.botcoin.view.home
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.HomeFragmentBinding
 import za.co.botcoin.enum.Status
 import za.co.botcoin.model.repository.account.AccountViewModel
-import za.co.botcoin.model.repository.tickers.TickersRepository
 import za.co.botcoin.model.repository.tickers.TickersViewModel
 import za.co.botcoin.services.BotService
 import za.co.botcoin.utils.ConstantUtils
@@ -30,7 +28,7 @@ class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
         this.binding = HomeFragmentBinding.bind(view)
 
         this.accountViewModel = ViewModelProviders.of(this).get(AccountViewModel::class.java)
-        this.tickersViewModel = TickersViewModel(TickersRepository(homeActivity.application))
+        this.tickersViewModel = ViewModelProviders.of(this).get(TickersViewModel::class.java)
 
         attachTickerObserver()
         displayPrivacyPolicy(view)

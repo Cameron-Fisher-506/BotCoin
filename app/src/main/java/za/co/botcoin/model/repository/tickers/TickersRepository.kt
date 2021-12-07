@@ -12,7 +12,7 @@ import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.Resource
 
 class TickersRepository(private val application: Application) : BaseRepository() {
-    private val tickerDao: ITickerDao = BotCoinDatabase.getDatabase(application).tickerDao()
+    var tickerDao: ITickerDao = BotCoinDatabase.getDatabase(application).tickerDao()
 
     suspend fun fetchTickers(): Resource<List<Ticker>> {
         return DataAccessStrategyUtils.synchronizedCache(

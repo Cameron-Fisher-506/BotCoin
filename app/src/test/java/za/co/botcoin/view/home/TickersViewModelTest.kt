@@ -1,32 +1,37 @@
 package za.co.botcoin.view.home
 
+import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.test.core.app.ApplicationProvider
 import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
-import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoJUnitRunner
-import za.co.botcoin.model.repository.account.AccountRepository
+import org.mockito.junit.MockitoRule
 import za.co.botcoin.model.repository.tickers.TickersRepository
 import za.co.botcoin.model.repository.tickers.TickersViewModel
 
 @RunWith(MockitoJUnitRunner::class)
-abstract class TickersViewModelTest {
+abstract class TickersViewModelTest {   
 
-    @Mock
-    protected lateinit var tickersRepository: TickersRepository
+    protected val tickersRepository: TickersRepository = Mockito.mock(TickersRepository::class.java)
+
+    private val application = Mockito.mock(Application::class.java)
 
     protected lateinit var tickersViewModel: TickersViewModel
 
     @Rule
     @JvmField
-    var instantTaskExecutorRule = InstantTaskExecutorRule()
+    val instantExecutorRule = InstantTaskExecutorRule()
+
+    @Rule
+    @JvmField
+    var initRule: MockitoRule = MockitoJUnit.rule()
 
     @Before
     fun setUp() {
-        tickersViewModel = TickersViewModel(ApplicationProvider.getApplicationContext())
-        //accountRepository = AccountRepository(ApplicationProvider.getApplicationContext())
+        tickersViewModel = TickersViewModel(application)
         tickersViewModel.repository = tickersRepository
     }
 }
