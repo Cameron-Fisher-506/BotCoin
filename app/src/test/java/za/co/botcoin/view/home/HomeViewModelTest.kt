@@ -16,7 +16,7 @@ import za.co.botcoin.model.repository.tickers.TickersViewModel
 
 @RunWith(RobolectricTestRunner::class)
 @Config(manifest=Config.NONE)
-abstract class TickersViewModelTest {
+abstract class HomeViewModelTest {
 
     @Rule
     @JvmField
@@ -24,7 +24,7 @@ abstract class TickersViewModelTest {
 
     @Rule
     @JvmField
-    var initRule: MockitoRule = MockitoJUnit.rule()
+    val initRule: MockitoRule = MockitoJUnit.rule()
 
     protected val tickersRepository: TickersRepository = Mockito.mock(TickersRepository::class.java)
 

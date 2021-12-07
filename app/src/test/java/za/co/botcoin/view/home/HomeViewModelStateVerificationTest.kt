@@ -11,7 +11,7 @@ import za.co.botcoin.model.models.Ticker
 import za.co.botcoin.utils.Resource
 
 @ExperimentalCoroutinesApi
-class TickersViewModelStateVerificationTest : TickersViewModelTest() {
+class HomeViewModelStateVerificationTest : HomeViewModelTest() {
 
     @Test
     fun shouldReturnTickerResponseWhenFetchTickersIsCalled() {

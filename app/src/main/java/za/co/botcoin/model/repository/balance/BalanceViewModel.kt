@@ -9,7 +9,7 @@ import za.co.botcoin.model.repository.BaseViewModel
 import za.co.botcoin.utils.Resource
 
 class BalanceViewModel(application: Application) : BaseViewModel(application) {
-    private val balanceRepository: BalanceRepository = BalanceRepository(application)
+    var balanceRepository: BalanceRepository = BalanceRepository(application)
 
     lateinit var balancesLiveData: LiveData<Resource<List<Balance>>>
 
