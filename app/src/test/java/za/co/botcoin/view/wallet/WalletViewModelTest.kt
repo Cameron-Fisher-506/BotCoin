@@ -13,6 +13,8 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import za.co.botcoin.model.repository.balance.BalanceRepository
 import za.co.botcoin.model.repository.balance.BalanceViewModel
+import za.co.botcoin.model.repository.stopOrder.StopOrderRepository
+import za.co.botcoin.model.repository.stopOrder.StopOrderViewModel
 import za.co.botcoin.model.repository.withdrawal.WithdrawalRepository
 import za.co.botcoin.model.repository.withdrawal.WithdrawalViewModel
 
@@ -36,6 +38,10 @@ abstract class WalletViewModelTest {
 
     protected lateinit var withdrawalViewModel: WithdrawalViewModel
 
+    protected val stopOrderRepository: StopOrderRepository = Mockito.mock(StopOrderRepository::class.java)
+
+    protected lateinit var stopOrderViewModel: StopOrderViewModel
+
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
@@ -46,5 +52,8 @@ abstract class WalletViewModelTest {
 
         withdrawalViewModel = WithdrawalViewModel(application)
         withdrawalViewModel.repository = withdrawalRepository
+
+        stopOrderViewModel = StopOrderViewModel(application)
+        stopOrderViewModel.repository = stopOrderRepository
     }
 }

@@ -8,6 +8,7 @@ import org.mockito.Mockito
 import za.co.botcoin.enum.Status
 import za.co.botcoin.getOrAwaitValue
 import za.co.botcoin.model.models.Balance
+import za.co.botcoin.model.models.StopOrder
 import za.co.botcoin.model.models.Withdrawal
 import za.co.botcoin.utils.Resource
 
@@ -39,6 +40,22 @@ class WalletViewModelStateVerificationTest : WalletViewModelTest() {
 
         withdrawalViewModel.withdrawal("", "", "")
         with(withdrawalViewModel.withdrawalLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.SUCCESS, this?.status)
+            assertTrue(!this?.data.isNullOrEmpty())
+        }
+    }
+
+    @Test
+    fun shouldReturnStopOrderResponseWhenStopOrderIsCalled() {
+        val stopOrder: Resource<List<StopOrder>> = Resource(Status.SUCCESS, listOf(StopOrder()), "")
+
+        runBlocking {
+            Mockito.`when`(stopOrderRepository.stopOrder(anyString())).thenReturn(stopOrder)
+        }
+
+        stopOrderViewModel.stopOrder("")
+        with(stopOrderViewModel.stopOrderLiveData.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.SUCCESS, this?.status)
             assertTrue(!this?.data.isNullOrEmpty())
