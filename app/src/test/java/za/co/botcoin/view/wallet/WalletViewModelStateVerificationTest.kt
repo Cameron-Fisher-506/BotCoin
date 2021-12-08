@@ -1,6 +1,7 @@
 package za.co.botcoin.view.wallet
 
 import junit.framework.Assert.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.jupiter.api.DisplayName
@@ -11,6 +12,7 @@ import za.co.botcoin.getOrAwaitValue
 import za.co.botcoin.model.models.*
 import za.co.botcoin.utils.Resource
 
+@ExperimentalCoroutinesApi
 @DisplayName("Wallet ViewModel State Verification Test")
 class WalletViewModelStateVerificationTest : WalletViewModelTest() {
 

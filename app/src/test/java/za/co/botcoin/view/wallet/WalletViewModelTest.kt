@@ -1,6 +1,13 @@
 package za.co.botcoin.view.wallet
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -26,6 +33,7 @@ import za.co.botcoin.model.repository.stopOrder.StopOrderViewModel
 import za.co.botcoin.model.repository.withdrawal.WithdrawalRepository
 import za.co.botcoin.model.repository.withdrawal.WithdrawalViewModel
 
+@ExperimentalCoroutinesApi
 @RunWith(RobolectricTestRunner::class)
 @Config(manifest=Config.NONE)
 abstract class WalletViewModelTest {
@@ -33,6 +41,9 @@ abstract class WalletViewModelTest {
     @Rule
     @JvmField
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
+
+    @ObsoleteCoroutinesApi
+    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
     @Rule
     @JvmField
@@ -68,6 +79,7 @@ abstract class WalletViewModelTest {
 
     @Before
     fun setUp() {
+        Dispatchers.setMain(mainThreadSurrogate)
         MockitoAnnotations.openMocks(this)
         val application = RuntimeEnvironment.getApplication()
 
@@ -91,5 +103,11 @@ abstract class WalletViewModelTest {
 
         postOrderViewModel = PostOrderViewModel(application)
         postOrderViewModel.repository = postOrderRepository
+    }
+
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
+        mainThreadSurrogate.close()
     }
 }
