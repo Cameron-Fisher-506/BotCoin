@@ -15,7 +15,7 @@ class HomeViewModelStateVerificationTest : HomeViewModelTest() {
 
     @Test
     fun shouldReturnTickerResponseWhenFetchTickersIsCalled() {
-        val tickers: Resource<List<Ticker>> = Resource(Status.SUCCESS, listOf(Ticker(), Ticker()), "Success")
+        val tickers: Resource<List<Ticker>> = Resource.success(listOf(Ticker(), Ticker()))
 
         runBlocking {
             Mockito.`when`(tickersRepository.fetchTickers()).thenReturn(tickers)
