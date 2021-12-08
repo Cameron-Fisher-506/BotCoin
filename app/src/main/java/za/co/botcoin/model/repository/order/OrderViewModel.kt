@@ -15,7 +15,6 @@ class OrderViewModel(application: Application) : BaseViewModel(application) {
 
     fun fetchOrders() {
         ordersLiveData = liveData(Dispatchers.IO) {
-            emit(Resource.loading())
             emit(repository.fetchOrders())
         }
     }
