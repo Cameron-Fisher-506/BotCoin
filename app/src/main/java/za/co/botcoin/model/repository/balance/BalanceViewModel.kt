@@ -15,7 +15,6 @@ class BalanceViewModel(application: Application) : BaseViewModel(application) {
 
     fun fetchBalances() {
         balancesLiveData = liveData(Dispatchers.IO) {
-            emit(Resource.loading())
             emit(repository.fetchBalances())
         }
     }

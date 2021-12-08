@@ -15,7 +15,6 @@ class CandleViewModel(application: Application) : BaseViewModel(application) {
 
     fun fetchCandles(pair: String, since: String, duration: Int) {
         candleLiveData = liveData(Dispatchers.IO) {
-            emit(Resource.loading())
             emit(repository.fetchCandles(pair, since, duration))
         }
     }

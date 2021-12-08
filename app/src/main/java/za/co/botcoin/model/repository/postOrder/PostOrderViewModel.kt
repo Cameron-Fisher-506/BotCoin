@@ -15,7 +15,6 @@ class PostOrderViewModel(application: Application) : BaseViewModel(application) 
 
     fun postOrder(pair: String, type: String, volume: String, price: String) {
         postOrderLiveData = liveData(Dispatchers.IO) {
-            emit(Resource.loading())
             emit(repository.postOrder(pair, type, volume, price))
         }
     }

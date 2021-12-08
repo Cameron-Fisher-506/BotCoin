@@ -14,7 +14,6 @@ class ReceiveViewModel(application: Application) : BaseViewModel(application) {
 
     fun receive(asset: String, keyId: String, secretKey: String) {
         receiveLiveData = liveData {
-            emit(Resource.loading())
             emit(repository.receive(asset, keyId, secretKey))
         }
     }

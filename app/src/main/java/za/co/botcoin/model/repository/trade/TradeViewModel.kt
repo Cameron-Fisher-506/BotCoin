@@ -15,7 +15,6 @@ class TradeViewModel(application: Application) : BaseViewModel(application) {
 
     fun fetchTrades(pair: String, sortDescending: Boolean) {
         tradeLiveData = liveData(Dispatchers.IO) {
-            emit(Resource.loading())
             emit(repository.fetchTrades(pair, sortDescending))
         }
     }
