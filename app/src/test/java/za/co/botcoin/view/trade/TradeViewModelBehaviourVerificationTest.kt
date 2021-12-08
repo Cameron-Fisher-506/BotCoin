@@ -4,8 +4,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.DisplayName
 import org.junit.Test
-import org.mockito.ArgumentMatchers.anyBoolean
-import org.mockito.ArgumentMatchers.anyString
+import org.mockito.ArgumentMatchers.*
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.verifyNoMoreInteractions
 import za.co.botcoin.disposeObserver
@@ -22,6 +21,17 @@ class TradeViewModelBehaviourVerificationTest : TradeViewModelTest() {
         runBlocking {
             verify(tradeRepository).fetchTrades(anyString(), anyBoolean())
             verifyNoMoreInteractions(tradeRepository)
+        }
+    }
+
+    @Test
+    @DisplayName("Fetch Candles")
+    fun shouldCallCandleRepositoryWhenFetchCandlesIsCalled() {
+        candleViewModel.fetchCandles("", "", 0)
+        candleViewModel.candleLiveData.disposeObserver()
+        runBlocking {
+            verify(candleRepository).fetchCandles(anyString(), anyString(), anyInt())
+            verifyNoMoreInteractions(candleRepository)
         }
     }
 }
