@@ -3,6 +3,8 @@ package za.co.botcoin.view.trade
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.mockito.Mockito
+import za.co.botcoin.model.repository.candle.CandleRepository
+import za.co.botcoin.model.repository.candle.CandleViewModel
 import za.co.botcoin.model.repository.trade.TradeRepository
 import za.co.botcoin.model.repository.trade.TradeViewModel
 import za.co.botcoin.view.BaseViewModelTest
@@ -15,10 +17,17 @@ abstract class TradeViewModelTest : BaseViewModelTest() {
 
     protected lateinit var tradeViewModel: TradeViewModel
 
+    protected val candleRepository: CandleRepository = Mockito.mock(CandleRepository::class.java)
+
+    protected lateinit var candleViewModel: CandleViewModel
+
     @Before
     override fun setUp() {
         super.setUp()
         tradeViewModel = TradeViewModel(application)
         tradeViewModel.repository = tradeRepository
+
+        candleViewModel = CandleViewModel(application)
+        candleViewModel.repository = candleRepository
     }
 }
