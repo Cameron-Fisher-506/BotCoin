@@ -14,7 +14,7 @@ class WalletViewModelStateVerificationTest : WalletViewModelTest() {
 
     @Test
     fun shouldReturnBalanceResponseWhenFetchBalancesIsCalled() {
-        val balances: Resource<List<Balance>> = Resource(Status.SUCCESS, listOf(Balance(), Balance()), "Success")
+        val balances: Resource<List<Balance>> = Resource.success(listOf(Balance()))
 
         runBlocking {
             Mockito.`when`(balanceRepository.fetchBalances()).thenReturn(balances)
@@ -30,7 +30,7 @@ class WalletViewModelStateVerificationTest : WalletViewModelTest() {
 
     @Test
     fun shouldReturnWithdrawalResponseWhenWithdrawIsCalled() {
-        val withdrawal: Resource<List<Withdrawal>> = Resource(Status.SUCCESS, listOf(Withdrawal()), "")
+        val withdrawal: Resource<List<Withdrawal>> = Resource.success(listOf(Withdrawal()))
 
         runBlocking {
             Mockito.`when`(withdrawalRepository.withdrawal(anyString(), anyString(), anyString())).thenReturn(withdrawal)
@@ -46,7 +46,7 @@ class WalletViewModelStateVerificationTest : WalletViewModelTest() {
 
     @Test
     fun shouldReturnStopOrderResponseWhenStopOrderIsCalled() {
-        val stopOrder: Resource<List<StopOrder>> = Resource(Status.SUCCESS, listOf(StopOrder()), "")
+        val stopOrder: Resource<List<StopOrder>> = Resource.success(listOf(StopOrder()))
 
         runBlocking {
             Mockito.`when`(stopOrderRepository.stopOrder(anyString())).thenReturn(stopOrder)
@@ -62,7 +62,7 @@ class WalletViewModelStateVerificationTest : WalletViewModelTest() {
 
     @Test
     fun shouldReturnOrdersResponseWhenFetchOrdersIsCalled() {
-        val orders: Resource<List<Order>> = Resource(Status.SUCCESS, listOf(Order(), Order()), "")
+        val orders: Resource<List<Order>> = Resource.success(listOf(Order(), Order()))
 
         runBlocking {
             Mockito.`when`(orderRepository.fetchOrders()).thenReturn(orders)
@@ -78,7 +78,7 @@ class WalletViewModelStateVerificationTest : WalletViewModelTest() {
 
     @Test
     fun shouldReturnReceiveResponseWhenReceiveIsCalled() {
-        val receive: Resource<List<Receive>> = Resource(Status.SUCCESS, listOf(Receive()), "")
+        val receive: Resource<List<Receive>> = Resource.success(listOf(Receive()))
 
         runBlocking {
             Mockito.`when`(receiveRepository.receive(anyString(), anyString(), anyString())).thenReturn(receive)
@@ -94,7 +94,7 @@ class WalletViewModelStateVerificationTest : WalletViewModelTest() {
 
     @Test
     fun shouldReturnSendResponseWhenSendIsCalled() {
-        val send: Resource<List<Send>> = Resource(Status.SUCCESS, listOf(Send()), "")
+        val send: Resource<List<Send>> = Resource.success(listOf(Send()))
 
         runBlocking {
             Mockito.`when`(sendRepository.send(anyString(), anyString(), anyString(), anyString())).thenReturn(send)
@@ -110,7 +110,7 @@ class WalletViewModelStateVerificationTest : WalletViewModelTest() {
 
     @Test
     fun shouldReturnPostOrderResponseWhenPostOrderIsCalled() {
-        val postOrder: Resource<List<PostOrder>> = Resource(Status.SUCCESS, listOf(PostOrder()), "")
+        val postOrder: Resource<List<PostOrder>> = Resource.success(listOf(PostOrder()))
 
         runBlocking {
             Mockito.`when`(postOrderRepository.postOrder(anyString(), anyString(), anyString(), anyString())).thenReturn(postOrder)
