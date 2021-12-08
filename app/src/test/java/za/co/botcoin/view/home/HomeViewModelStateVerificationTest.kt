@@ -11,6 +11,7 @@ import za.co.botcoin.getOrAwaitValue
 import za.co.botcoin.model.models.Ticker
 import za.co.botcoin.utils.Resource
 
+@ExperimentalCoroutinesApi
 @DisplayName("Home ViewModel State Verification Test")
 class HomeViewModelStateVerificationTest : HomeViewModelTest() {
 

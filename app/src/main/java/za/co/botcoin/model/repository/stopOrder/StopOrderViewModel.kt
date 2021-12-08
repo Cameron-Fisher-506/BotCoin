@@ -3,6 +3,7 @@ package za.co.botcoin.model.repository.stopOrder
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import kotlinx.coroutines.Dispatchers
 import za.co.botcoin.model.models.StopOrder
 import za.co.botcoin.model.repository.BaseViewModel
 import za.co.botcoin.utils.Resource
@@ -13,6 +14,6 @@ class StopOrderViewModel(application: Application) : BaseViewModel(application) 
     lateinit var stopOrderLiveData: LiveData<Resource<List<StopOrder>>>
 
     fun stopOrder(orderId: String) {
-        stopOrderLiveData = liveData { emit(repository.stopOrder(orderId)) }
+        stopOrderLiveData = liveData(Dispatchers.IO) { emit(repository.stopOrder(orderId)) }
     }
 }
