@@ -2,12 +2,15 @@ package za.co.botcoin.view.wallet
 
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
+import org.junit.jupiter.api.DisplayName
 import org.mockito.Mockito.*
 import za.co.botcoin.disposeObserver
 
+@DisplayName("Wallet ViewModel Behaviour Verification Test")
 class WalletViewModelBehaviourVerificationTest : WalletViewModelTest() {
 
     @Test
+    @DisplayName("Fetch Balances")
     fun shouldCallBalanceRepositoryWhenFetchBalancesIsCalled() {
         balanceViewModel.fetchBalances()
         balanceViewModel.balancesLiveData.disposeObserver()
@@ -18,6 +21,7 @@ class WalletViewModelBehaviourVerificationTest : WalletViewModelTest() {
     }
 
     @Test
+    @DisplayName("Withdrawal")
     fun shouldCallWithdrawalRepositoryWhenWithdrawalIsCalled() {
         withdrawalViewModel.withdrawal("", "", "")
         withdrawalViewModel.withdrawalLiveData.disposeObserver()
@@ -28,6 +32,7 @@ class WalletViewModelBehaviourVerificationTest : WalletViewModelTest() {
     }
 
     @Test
+    @DisplayName("Stop Order")
     fun shouldCallStopOrderRepositoryWhenStopOrderIsCalled() {
         stopOrderViewModel.stopOrder("")
         stopOrderViewModel.stopOrderLiveData.disposeObserver()
@@ -38,6 +43,7 @@ class WalletViewModelBehaviourVerificationTest : WalletViewModelTest() {
     }
 
     @Test
+    @DisplayName("Fetch Orders")
     fun shouldCallOrderRepositoryWhenFetchOrdersIsCalled() {
         orderViewModel.fetchOrders()
         orderViewModel.ordersLiveData.disposeObserver()
@@ -48,6 +54,7 @@ class WalletViewModelBehaviourVerificationTest : WalletViewModelTest() {
     }
 
     @Test
+    @DisplayName("Receive")
     fun shouldCallReceiveRepositoryWhenReceiveIsCalled() {
         receiveViewModel.receive("", "", "")
         receiveViewModel.receiveLiveData.disposeObserver()
@@ -58,6 +65,7 @@ class WalletViewModelBehaviourVerificationTest : WalletViewModelTest() {
     }
 
     @Test
+    @DisplayName("Send")
     fun shouldCallSendRepositoryWhenSendIsCalled() {
         sendViewModel.send("", "", "", "")
         sendViewModel.sendLiveData.disposeObserver()
@@ -68,6 +76,7 @@ class WalletViewModelBehaviourVerificationTest : WalletViewModelTest() {
     }
 
     @Test
+    @DisplayName("Post Order")
     fun shouldCallPostOrderRepositoryWhenPostOrderIsCalled() {
         postOrderViewModel.postOrder("", "", "", "")
         postOrderViewModel.postOrderLiveData.disposeObserver()
