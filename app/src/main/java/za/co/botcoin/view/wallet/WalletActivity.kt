@@ -9,10 +9,11 @@ import androidx.navigation.ui.NavigationUI
 import za.co.botcoin.view.home.MainActivity
 import za.co.botcoin.R
 import za.co.botcoin.databinding.WalletActivityBinding
+import za.co.botcoin.view.BaseActivity
 import za.co.botcoin.view.menu.MenuActivity
 import za.co.botcoin.view.trade.TradeActivity
 
-class WalletActivity : AppCompatActivity() {
+class WalletActivity : BaseActivity() {
     private lateinit var binding: WalletActivityBinding
     private lateinit var navController: NavController
 

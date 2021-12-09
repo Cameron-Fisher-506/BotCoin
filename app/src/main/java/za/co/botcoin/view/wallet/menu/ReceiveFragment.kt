@@ -14,8 +14,9 @@ import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils.createAlertDialog
 import za.co.botcoin.utils.GeneralUtils.createQRCode
 import za.co.botcoin.utils.GeneralUtils.isApiKeySet
+import za.co.botcoin.view.wallet.WalletBaseFragment
 
-class ReceiveFragment : Fragment(R.layout.receive_fragment) {
+class ReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) {
     private lateinit var binding: ReceiveFragmentBinding
     private lateinit var receiveViewModel: ReceiveViewModel
 
@@ -38,6 +39,7 @@ class ReceiveFragment : Fragment(R.layout.receive_fragment) {
     private fun receiveAndObserveReceive() {
         this.receiveViewModel.receive(arguments?.getString("asset") ?: "", ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)
         this.receiveViewModel.receiveLiveData.observe(viewLifecycleOwner, {
+            walletActivity.dismissProgressBar()
             when (it.status) {
                 Status.SUCCESS -> {
                     displayReceiveOptions()

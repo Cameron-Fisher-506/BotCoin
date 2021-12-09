@@ -12,8 +12,9 @@ import za.co.botcoin.model.repository.order.OrderViewModel
 import za.co.botcoin.model.repository.stopOrder.StopOrderViewModel
 import za.co.botcoin.utils.DateTimeUtils
 import za.co.botcoin.utils.GeneralUtils
+import za.co.botcoin.view.wallet.WalletBaseFragment
 
-class OrdersFragment : Fragment(R.layout.orders_fragment) {
+class OrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
     private lateinit var binding: OrdersFragmentBinding
     private lateinit var stopOrderViewModel: StopOrderViewModel
     private lateinit var orderViewModel: OrderViewModel
@@ -38,6 +39,7 @@ class OrdersFragment : Fragment(R.layout.orders_fragment) {
     private fun fetchAndObserveOrders() {
         this.orderViewModel.fetchOrders()
         this.orderViewModel.ordersLiveData.observe(viewLifecycleOwner, {
+            walletActivity.dismissProgressBar()
             when (it.status) {
                 Status.SUCCESS -> {
                     displayOrdersRecyclerView()
@@ -65,6 +67,7 @@ class OrdersFragment : Fragment(R.layout.orders_fragment) {
 
     private fun attachStopOrderObserver() {
         this.stopOrderViewModel.stopOrderLiveData.observe(viewLifecycleOwner, {
+            walletActivity.dismissProgressBar()
             when (it.status) {
                 Status.SUCCESS -> {
                     displayOrdersRecyclerView()

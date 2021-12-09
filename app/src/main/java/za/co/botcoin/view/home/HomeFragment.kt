@@ -48,6 +48,7 @@ class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
     private fun attachTickerObserver() {
         tickersViewModel.fetchTickers()
         this.tickersViewModel.tickersLiveData.observe(viewLifecycleOwner, {
+            homeActivity.dismissProgressBar()
             when (it.status) {
                 Status.SUCCESS -> {
                     val data = it.data
