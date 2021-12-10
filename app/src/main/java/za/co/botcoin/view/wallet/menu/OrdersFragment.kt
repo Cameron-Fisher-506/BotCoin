@@ -39,7 +39,6 @@ class OrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
     private fun fetchAndObserveOrders() {
         this.orderViewModel.fetchOrders()
         this.orderViewModel.ordersLiveData.observe(viewLifecycleOwner, {
-            walletActivity.dismissProgressBar()
             when (it.status) {
                 Status.SUCCESS -> {
                     displayOrdersRecyclerView()
@@ -67,7 +66,6 @@ class OrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
 
     private fun attachStopOrderObserver() {
         this.stopOrderViewModel.stopOrderLiveData.observe(viewLifecycleOwner, {
-            walletActivity.dismissProgressBar()
             when (it.status) {
                 Status.SUCCESS -> {
                     displayOrdersRecyclerView()
