@@ -12,7 +12,7 @@ import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.GeneralUtils.createAlertDialog
 import za.co.botcoin.utils.GeneralUtils.isApiKeySet
 
-class WithdrawFragment : Fragment(R.layout.withdraw_fragment) {
+class WithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
     private lateinit var binding: WithdrawFragmentBinding
     private lateinit var withdrawalViewModel: WithdrawalViewModel
 

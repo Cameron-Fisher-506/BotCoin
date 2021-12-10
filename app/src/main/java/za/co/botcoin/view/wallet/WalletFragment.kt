@@ -11,7 +11,7 @@ import za.co.botcoin.enum.Status
 import za.co.botcoin.model.repository.balance.BalanceViewModel
 import za.co.botcoin.utils.*
 
-class WalletFragment : Fragment(R.layout.wallet_fragment) {
+class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
     private lateinit var binding: WalletFragmentBinding
     private lateinit var balanceViewModel: BalanceViewModel
 

@@ -14,8 +14,9 @@ import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils.createAlertDialog
 import za.co.botcoin.utils.GeneralUtils.createQRCode
 import za.co.botcoin.utils.GeneralUtils.isApiKeySet
+import za.co.botcoin.view.wallet.WalletBaseFragment
 
-class ReceiveFragment : Fragment(R.layout.receive_fragment) {
+class ReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) {
     private lateinit var binding: ReceiveFragmentBinding
     private lateinit var receiveViewModel: ReceiveViewModel
 
