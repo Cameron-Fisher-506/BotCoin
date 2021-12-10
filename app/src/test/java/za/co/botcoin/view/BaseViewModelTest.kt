@@ -3,8 +3,7 @@ package za.co.botcoin.view
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -25,8 +24,7 @@ abstract class BaseViewModelTest {
 
     protected val application = RuntimeEnvironment.getApplication()
 
-    @ObsoleteCoroutinesApi
-    protected val mainThreadSurrogate = newSingleThreadContext("UI Thread")
+    protected val testCoroutineDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
 
     @Rule
     @JvmField
@@ -38,13 +36,14 @@ abstract class BaseViewModelTest {
 
     @Before
     open fun setUp() {
-        Dispatchers.setMain(mainThreadSurrogate)
+        Dispatchers.setMain(testCoroutineDispatcher)
         MockitoAnnotations.openMocks(this)
     }
 
     @After
     open fun tearDown() {
         Dispatchers.resetMain()
-        mainThreadSurrogate.close()
+
+        testCoroutineDispatcher.cleanupTestCoroutines()
     }
 }

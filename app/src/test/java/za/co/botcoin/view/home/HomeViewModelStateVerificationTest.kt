@@ -2,7 +2,7 @@ package za.co.botcoin.view.home
 
 import junit.framework.Assert.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 import org.junit.jupiter.api.DisplayName
 import org.mockito.Mockito
@@ -20,7 +20,7 @@ class HomeViewModelStateVerificationTest : HomeViewModelTest() {
     fun shouldReturnTickerResponseWhenFetchTickersIsCalled() {
         val tickers: Resource<List<Ticker>> = Resource.success(listOf(Ticker(), Ticker()))
 
-        runBlocking {
+        runBlockingTest {
             Mockito.`when`(tickersRepository.fetchTickers()).thenReturn(tickers)
         }
 

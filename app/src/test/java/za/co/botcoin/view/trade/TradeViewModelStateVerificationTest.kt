@@ -2,9 +2,9 @@ package za.co.botcoin.view.trade
 
 import junit.framework.Assert.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.DisplayName
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
+import org.junit.jupiter.api.DisplayName
 import org.mockito.ArgumentMatchers.*
 import org.mockito.Mockito
 import za.co.botcoin.enum.Status
@@ -22,11 +22,16 @@ class TradeViewModelStateVerificationTest : TradeViewModelTest() {
     fun shouldReturnTradesResponseWhenFetchTradesIsCalled() {
         val response: Resource<List<Trade>> = Resource.success(listOf(Trade(), Trade()))
 
-        runBlocking {
+        runBlockingTest {
             Mockito.`when`(tradeRepository.fetchTrades(anyString(), anyBoolean())).thenReturn(response)
         }
 
         tradeViewModel.fetchTrades("", false)
+        with(tradeViewModel.tradeLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.LOADING, this?.status)
+        }
+
         with(tradeViewModel.tradeLiveData.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.SUCCESS, this?.status)
@@ -39,11 +44,16 @@ class TradeViewModelStateVerificationTest : TradeViewModelTest() {
     fun shouldReturnCandlesResponseWhenFetchCandlesIsCalled() {
         val response: Resource<List<Candle>> = Resource.success(listOf(Candle(), Candle()))
 
-        runBlocking {
+        runBlockingTest {
             Mockito.`when`(candleRepository.fetchCandles(anyString(), anyString(), anyInt())).thenReturn(response)
         }
 
         candleViewModel.fetchCandles("", "", 0)
+        with(candleViewModel.candleLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.LOADING, this?.status)
+        }
+
         with(candleViewModel.candleLiveData.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.SUCCESS, this?.status)

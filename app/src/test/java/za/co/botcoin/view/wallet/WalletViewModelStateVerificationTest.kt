@@ -2,7 +2,7 @@ package za.co.botcoin.view.wallet
 
 import junit.framework.Assert.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 import org.junit.jupiter.api.DisplayName
 import org.mockito.ArgumentMatchers.anyString
@@ -21,11 +21,16 @@ class WalletViewModelStateVerificationTest : WalletViewModelTest() {
     fun shouldReturnBalanceResponseWhenFetchBalancesIsCalled() {
         val balances: Resource<List<Balance>> = Resource.success(listOf(Balance()))
 
-        runBlocking {
+        runBlockingTest {
             Mockito.`when`(balanceRepository.fetchBalances()).thenReturn(balances)
         }
 
         balanceViewModel.fetchBalances()
+        with(balanceViewModel.balancesLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.LOADING, this?.status)
+        }
+
         with(balanceViewModel.balancesLiveData.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.SUCCESS, this?.status)
@@ -38,11 +43,16 @@ class WalletViewModelStateVerificationTest : WalletViewModelTest() {
     fun shouldReturnWithdrawalResponseWhenWithdrawalIsCalled() {
         val withdrawal: Resource<List<Withdrawal>> = Resource.success(listOf(Withdrawal()))
 
-        runBlocking {
+        runBlockingTest {
             Mockito.`when`(withdrawalRepository.withdrawal(anyString(), anyString(), anyString())).thenReturn(withdrawal)
         }
 
         withdrawalViewModel.withdrawal("", "", "")
+        with(withdrawalViewModel.withdrawalLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.LOADING, this?.status)
+        }
+
         with(withdrawalViewModel.withdrawalLiveData.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.SUCCESS, this?.status)
@@ -55,11 +65,16 @@ class WalletViewModelStateVerificationTest : WalletViewModelTest() {
     fun shouldReturnStopOrderResponseWhenStopOrderIsCalled() {
         val stopOrder: Resource<List<StopOrder>> = Resource.success(listOf(StopOrder()))
 
-        runBlocking {
+        runBlockingTest {
             Mockito.`when`(stopOrderRepository.stopOrder(anyString())).thenReturn(stopOrder)
         }
 
         stopOrderViewModel.stopOrder("")
+        with(stopOrderViewModel.stopOrderLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.LOADING, this?.status)
+        }
+
         with(stopOrderViewModel.stopOrderLiveData.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.SUCCESS, this?.status)
@@ -72,11 +87,16 @@ class WalletViewModelStateVerificationTest : WalletViewModelTest() {
     fun shouldReturnOrdersResponseWhenFetchOrdersIsCalled() {
         val orders: Resource<List<Order>> = Resource.success(listOf(Order(), Order()))
 
-        runBlocking {
+        runBlockingTest {
             Mockito.`when`(orderRepository.fetchOrders()).thenReturn(orders)
         }
 
         orderViewModel.fetchOrders()
+        with(orderViewModel.ordersLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.LOADING, this?.status)
+        }
+
         with(orderViewModel.ordersLiveData.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.SUCCESS, this?.status)
@@ -89,11 +109,16 @@ class WalletViewModelStateVerificationTest : WalletViewModelTest() {
     fun shouldReturnReceiveResponseWhenReceiveIsCalled() {
         val receive: Resource<List<Receive>> = Resource.success(listOf(Receive()))
 
-        runBlocking {
+        runBlockingTest {
             Mockito.`when`(receiveRepository.receive(anyString(), anyString(), anyString())).thenReturn(receive)
         }
 
         receiveViewModel.receive("", "", "")
+        with(receiveViewModel.receiveLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.LOADING, this?.status)
+        }
+
         with(receiveViewModel.receiveLiveData.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.SUCCESS, this?.status)
@@ -106,11 +131,16 @@ class WalletViewModelStateVerificationTest : WalletViewModelTest() {
     fun shouldReturnSendResponseWhenSendIsCalled() {
         val send: Resource<List<Send>> = Resource.success(listOf(Send()))
 
-        runBlocking {
+        runBlockingTest {
             Mockito.`when`(sendRepository.send(anyString(), anyString(), anyString(), anyString())).thenReturn(send)
         }
 
         sendViewModel.send("", "", "", "")
+        with(sendViewModel.sendLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.LOADING, this?.status)
+        }
+
         with(sendViewModel.sendLiveData.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.SUCCESS, this?.status)
@@ -123,11 +153,16 @@ class WalletViewModelStateVerificationTest : WalletViewModelTest() {
     fun shouldReturnPostOrderResponseWhenPostOrderIsCalled() {
         val postOrder: Resource<List<PostOrder>> = Resource.success(listOf(PostOrder()))
 
-        runBlocking {
+        runBlockingTest {
             Mockito.`when`(postOrderRepository.postOrder(anyString(), anyString(), anyString(), anyString())).thenReturn(postOrder)
         }
 
         postOrderViewModel.postOrder("", "", "", "")
+        with(postOrderViewModel.postOrderLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.LOADING, this?.status)
+        }
+
         with(postOrderViewModel.postOrderLiveData.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.SUCCESS, this?.status)

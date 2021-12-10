@@ -54,25 +54,25 @@ abstract class WalletViewModelTest : BaseViewModelTest() {
     override fun setUp() {
         super.setUp()
 
-        balanceViewModel = BalanceViewModel(application)
+        balanceViewModel = BalanceViewModel(application, testCoroutineDispatcher)
         balanceViewModel.repository = balanceRepository
 
-        withdrawalViewModel = WithdrawalViewModel(application)
+        withdrawalViewModel = WithdrawalViewModel(application, testCoroutineDispatcher)
         withdrawalViewModel.repository = withdrawalRepository
 
-        stopOrderViewModel = StopOrderViewModel(application)
+        stopOrderViewModel = StopOrderViewModel(application, testCoroutineDispatcher)
         stopOrderViewModel.repository = stopOrderRepository
 
-        orderViewModel = OrderViewModel(application)
+        orderViewModel = OrderViewModel(application, testCoroutineDispatcher)
         orderViewModel.repository = orderRepository
 
-        receiveViewModel = ReceiveViewModel(application)
+        receiveViewModel = ReceiveViewModel(application, testCoroutineDispatcher)
         receiveViewModel.repository = receiveRepository
 
-        sendViewModel = SendViewModel(application)
+        sendViewModel = SendViewModel(application, testCoroutineDispatcher)
         sendViewModel.repository = sendRepository
 
-        postOrderViewModel = PostOrderViewModel(application)
+        postOrderViewModel = PostOrderViewModel(application, testCoroutineDispatcher)
         postOrderViewModel.repository = postOrderRepository
     }
 }
