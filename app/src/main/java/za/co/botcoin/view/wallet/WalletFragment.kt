@@ -33,7 +33,6 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
     private fun attachBalanceObserver() {
         this.balanceViewModel.fetchBalances()
         this.balanceViewModel.balancesLiveData.observe(viewLifecycleOwner, {
-            walletActivity.dismissProgressBar()
             when (it.status) {
                 Status.SUCCESS -> {
                     val data = it.data

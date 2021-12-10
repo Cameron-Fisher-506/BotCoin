@@ -45,7 +45,6 @@ class WithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
 
     private fun attachWithdrawalObserver() {
         this.withdrawalViewModel.withdrawalLiveData.observe(viewLifecycleOwner, {
-            walletActivity.dismissProgressBar()
             when (it.status) {
                 Status.SUCCESS -> {
                     displayWithdrawOptions()

@@ -7,34 +7,34 @@ import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import za.co.botcoin.view.BaseActivity
 
 class BotCoinApplicationLifecycleObserver(private val botCoinApplication: BotCoinApplication) : Application.ActivityLifecycleCallbacks {
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        botCoinApplication.topMostActivity = activity
+        if (activity is BaseActivity) {
+            botCoinApplication.topMostActivity = activity
+        }
     }
 
     override fun onActivityStarted(activity: Activity) {
-        TODO("Not yet implemented")
     }
 
     override fun onActivityResumed(activity: Activity) {
-        botCoinApplication.topMostActivity = activity
+        if (activity is BaseActivity) {
+            botCoinApplication.topMostActivity = activity
+        }
     }
 
     override fun onActivityPaused(activity: Activity) {
-        TODO("Not yet implemented")
     }
 
     override fun onActivityStopped(activity: Activity) {
-        TODO("Not yet implemented")
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
-        TODO("Not yet implemented")
     }
 
     override fun onActivityDestroyed(activity: Activity) {
-        TODO("Not yet implemented")
     }
 }
