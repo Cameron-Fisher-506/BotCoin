@@ -10,8 +10,9 @@ import za.co.botcoin.enum.Status
 import za.co.botcoin.model.repository.send.SendViewModel
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.GeneralUtils.createAlertDialog
+import za.co.botcoin.view.wallet.WalletBaseFragment
 
-class SendFragment : Fragment(R.layout.send_fragment) {
+class SendFragment : WalletBaseFragment(R.layout.send_fragment) {
     private lateinit var binding: SendFragmentBinding
     private lateinit var sendViewModel: SendViewModel
 
@@ -46,6 +47,7 @@ class SendFragment : Fragment(R.layout.send_fragment) {
     private fun sendAndObserveSend(amount: String, asset: String, address: String, destinationTag: String) {
         this.sendViewModel.send(amount, asset, address, destinationTag)
         this.sendViewModel.sendLiveData.observe(viewLifecycleOwner, {
+            walletActivity.dismissProgressBar()
             when (it.status) {
                 Status.SUCCESS -> {
                     displaySendOptions()

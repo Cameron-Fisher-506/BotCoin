@@ -11,7 +11,7 @@ import za.co.botcoin.enum.Status
 import za.co.botcoin.model.repository.balance.BalanceViewModel
 import za.co.botcoin.utils.*
 
-class WalletFragment : Fragment(R.layout.wallet_fragment) {
+class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
     private lateinit var binding: WalletFragmentBinding
     private lateinit var balanceViewModel: BalanceViewModel
 
@@ -33,6 +33,7 @@ class WalletFragment : Fragment(R.layout.wallet_fragment) {
     private fun attachBalanceObserver() {
         this.balanceViewModel.fetchBalances()
         this.balanceViewModel.balancesLiveData.observe(viewLifecycleOwner, {
+            walletActivity.dismissProgressBar()
             when (it.status) {
                 Status.SUCCESS -> {
                     val data = it.data
