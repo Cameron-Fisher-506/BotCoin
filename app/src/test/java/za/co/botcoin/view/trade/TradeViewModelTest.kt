@@ -24,10 +24,12 @@ abstract class TradeViewModelTest : BaseViewModelTest() {
     @Before
     override fun setUp() {
         super.setUp()
-        tradeViewModel = TradeViewModel(application, testCoroutineDispatcher)
+        tradeViewModel = TradeViewModel(application)
         tradeViewModel.repository = tradeRepository
+        tradeViewModel.ioDispatcher = testCoroutineDispatcher
 
-        candleViewModel = CandleViewModel(application, testCoroutineDispatcher)
+        candleViewModel = CandleViewModel(application)
         candleViewModel.repository = candleRepository
+        candleViewModel.ioDispatcher = testCoroutineDispatcher
     }
 }

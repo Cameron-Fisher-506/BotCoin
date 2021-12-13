@@ -8,7 +8,7 @@ import za.co.botcoin.model.models.Withdrawal
 import za.co.botcoin.model.repository.BaseViewModel
 import za.co.botcoin.utils.Resource
 
-class WithdrawalViewModel(application: Application, private val ioDispatcher: CoroutineDispatcher): BaseViewModel(application) {
+class WithdrawalViewModel(application: Application): BaseViewModel(application) {
     var repository: WithdrawalRepository = WithdrawalRepository(application)
 
     lateinit var withdrawalLiveData: LiveData<Resource<List<Withdrawal>>>

@@ -8,7 +8,7 @@ import za.co.botcoin.model.models.Trade
 import za.co.botcoin.model.repository.BaseViewModel
 import za.co.botcoin.utils.Resource
 
-class TradeViewModel(application: Application, private val ioDispatcher: CoroutineDispatcher) : BaseViewModel(application) {
+class TradeViewModel(application: Application) : BaseViewModel(application) {
     var repository: TradeRepository = TradeRepository(application)
 
     lateinit var tradeLiveData: LiveData<Resource<List<Trade>>>

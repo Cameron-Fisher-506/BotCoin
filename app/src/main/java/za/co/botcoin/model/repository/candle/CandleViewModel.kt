@@ -8,7 +8,7 @@ import za.co.botcoin.model.models.Candle
 import za.co.botcoin.model.repository.BaseViewModel
 import za.co.botcoin.utils.Resource
 
-class CandleViewModel(application: Application, private val ioDispatcher: CoroutineDispatcher) : BaseViewModel(application) {
+class CandleViewModel(application: Application) : BaseViewModel(application) {
     var repository: CandleRepository = CandleRepository(application)
 
     lateinit var candleLiveData: LiveData<Resource<List<Candle>>>

@@ -8,7 +8,7 @@ import za.co.botcoin.model.models.Receive
 import za.co.botcoin.model.repository.BaseViewModel
 import za.co.botcoin.utils.Resource
 
-class ReceiveViewModel(application: Application, private val ioDispatcher: CoroutineDispatcher) : BaseViewModel(application) {
+class ReceiveViewModel(application: Application) : BaseViewModel(application) {
     var repository: ReceiveRepository = ReceiveRepository(application)
 
     lateinit var receiveLiveData: LiveData<Resource<List<Receive>>>
