@@ -17,7 +17,8 @@ abstract class HomeViewModelTest : BaseViewModelTest() {
     @Before
     override fun setUp() {
         super.setUp()
-        tickersViewModel = TickersViewModel(application, testCoroutineDispatcher)
+        tickersViewModel = TickersViewModel(application)
         tickersViewModel.repository = tickersRepository
+        tickersViewModel.ioDispatcher = testCoroutineDispatcher
     }
 }

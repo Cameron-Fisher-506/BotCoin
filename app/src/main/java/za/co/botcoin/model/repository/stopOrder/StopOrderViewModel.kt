@@ -8,7 +8,7 @@ import za.co.botcoin.model.models.StopOrder
 import za.co.botcoin.model.repository.BaseViewModel
 import za.co.botcoin.utils.Resource
 
-class StopOrderViewModel(application: Application, private val ioDispatcher: CoroutineDispatcher) : BaseViewModel(application) {
+class StopOrderViewModel(application: Application) : BaseViewModel(application) {
     var repository: StopOrderRepository = StopOrderRepository(application)
 
     lateinit var stopOrderLiveData: LiveData<Resource<List<StopOrder>>>

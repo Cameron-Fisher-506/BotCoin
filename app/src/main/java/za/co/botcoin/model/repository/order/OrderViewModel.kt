@@ -8,7 +8,7 @@ import za.co.botcoin.model.models.Order
 import za.co.botcoin.model.repository.BaseViewModel
 import za.co.botcoin.utils.Resource
 
-class OrderViewModel(application: Application, private val ioDispatcher: CoroutineDispatcher) : BaseViewModel(application) {
+class OrderViewModel(application: Application) : BaseViewModel(application) {
     var repository: OrderRepository = OrderRepository(application)
 
     lateinit var ordersLiveData: LiveData<Resource<List<Order>>>

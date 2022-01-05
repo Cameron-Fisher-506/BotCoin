@@ -8,7 +8,7 @@ import za.co.botcoin.model.models.Ticker
 import za.co.botcoin.model.repository.BaseViewModel
 import za.co.botcoin.utils.Resource
 
-class TickersViewModel(application: Application, val ioDispatcher: CoroutineDispatcher) : BaseViewModel(application) {
+class TickersViewModel(application: Application) : BaseViewModel(application) {
     var repository: TickersRepository = TickersRepository(application)
 
     lateinit var tickersLiveData: LiveData<Resource<List<Ticker>>>

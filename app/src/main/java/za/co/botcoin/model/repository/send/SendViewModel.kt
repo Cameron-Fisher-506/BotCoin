@@ -8,7 +8,7 @@ import za.co.botcoin.model.models.Send
 import za.co.botcoin.model.repository.BaseViewModel
 import za.co.botcoin.utils.Resource
 
-class SendViewModel(application: Application, private val ioDispatcher: CoroutineDispatcher) : BaseViewModel(application) {
+class SendViewModel(application: Application) : BaseViewModel(application) {
     var repository: SendRepository = SendRepository(application)
 
     lateinit var sendLiveData: LiveData<Resource<List<Send>>>
