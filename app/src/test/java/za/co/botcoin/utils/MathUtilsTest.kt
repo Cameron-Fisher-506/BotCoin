@@ -3,6 +3,7 @@ package za.co.botcoin.utils
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.junit.jupiter.api.DisplayName
 import za.co.botcoin.utils.MathUtils.calculateMarginPercentage
 import za.co.botcoin.utils.MathUtils.percentage
 import za.co.botcoin.utils.MathUtils.precision
@@ -16,7 +17,8 @@ class MathUtilsTest {
     }
 
     @Test
-    fun should_calculatePi_with_precision() {
+    @DisplayName("Should Calculate Pi With Precision")
+    fun shouldCalculatePiWithPrecision() {
         //Given
         val pi = Math.PI
         val expected: Double = 3.14
@@ -29,7 +31,8 @@ class MathUtilsTest {
     }
 
     @Test
-    fun should_calculate_percentage() {
+    @DisplayName("Should Calculate Percentage")
+    fun shouldCalculatePercentage() {
         //Given
         val expected = 10.000000149011612
 
@@ -41,7 +44,8 @@ class MathUtilsTest {
     }
 
     @Test
-    fun should_calculate_percentageWithPrecision() {
+    @DisplayName("Should Calculate percentage With Precision")
+    fun shouldCalculatePercentageWithPrecision() {
         //given
         val expected = 10.00
 
@@ -53,7 +57,8 @@ class MathUtilsTest {
     }
 
     @Test
-    fun should_calculate_higherMarginPercentage() {
+    @DisplayName("Should Calculate Higher Margin Percentage")
+    fun shouldCalculateHigherMarginPercentage() {
         //given
         val expected = 126.0
 
@@ -65,7 +70,8 @@ class MathUtilsTest {
     }
 
     @Test
-    fun should_calculate_lowerMarginPercentage() {
+    @DisplayName("Should Calculate Lower Margin Percentage")
+    fun shouldCalculateLowerMarginPercentage() {
         //given
         val expected = 114.0
 
@@ -77,7 +83,8 @@ class MathUtilsTest {
     }
 
     @Test
-    fun should_calculate_higherMarginPercentageOfPrice() {
+    @DisplayName("Should Calculate Higher Margin Percentage Of Price")
+    fun shouldCalculateHigherMarginPercentageOfPrice() {
         //given
         val expected = 157.5
 
@@ -89,7 +96,8 @@ class MathUtilsTest {
     }
 
     @Test
-    fun should_calculate_lowerMarginPercentageOfPrice() {
+    @DisplayName("Should Calculate Lower margin Percentage Of Price")
+    fun shouldCalculateLowerMarginPercentageOfPrice() {
         //given
         val expected = 142.5
 
@@ -101,7 +109,8 @@ class MathUtilsTest {
     }
 
     @Test
-    fun should_calculate_reverseValue() {
+    @DisplayName("Should Calculate Reverse Value")
+    fun shouldCalculateReverseValue() {
         //given
         val expected = -5.0
 
