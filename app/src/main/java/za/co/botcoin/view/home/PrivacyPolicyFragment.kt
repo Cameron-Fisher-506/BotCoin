@@ -46,7 +46,7 @@ class PrivacyPolicyFragment : Fragment(R.layout.privacy_policy_fragment) {
         this.binding.privacyPolicyTextView.text = Html.fromHtml(privacyPolicy)
 
         this.binding.exitButton.setOnClickListener {
-            activity!!.finishAffinity()
+            requireActivity().finishAffinity()
             exitProcess(0)
         }
 
