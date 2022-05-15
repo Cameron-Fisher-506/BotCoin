@@ -38,7 +38,7 @@ class OrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
 
     private fun fetchAndObserveOrders() {
         this.orderViewModel.fetchOrders()
-        this.orderViewModel.ordersLiveData.observe(viewLifecycleOwner, {
+        this.orderViewModel.ordersLiveData.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     displayOrdersRecyclerView()
@@ -61,30 +61,30 @@ class OrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
                     displayProgressBar()
                 }
             }
-        })
+        }
     }
 
     private fun attachStopOrderObserver() {
-        this.stopOrderViewModel.stopOrderLiveData.observe(viewLifecycleOwner, {
+        this.stopOrderViewModel.stopOrderLiveData.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     displayOrdersRecyclerView()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
-                        if (data.first().success) GeneralUtils.notify(context,"Order Cancellation", "Order cancelled successfully.") else GeneralUtils.notify(context,"Order Cancellation", "Order cancellation failed.")
+                        if (data.first().success) GeneralUtils.notify(context, "Order Cancellation", "Order cancelled successfully.") else GeneralUtils.notify(context, "Order Cancellation", "Order cancellation failed.")
                     } else {
-                        GeneralUtils.notify(context,"Order Cancellation", "Order cancellation failed.")
+                        GeneralUtils.notify(context, "Order Cancellation", "Order cancellation failed.")
                     }
                 }
                 Status.ERROR -> {
                     displayOrdersRecyclerView()
-                    GeneralUtils.notify(context,"Order Cancellation", "Order cancellation failed.")
+                    GeneralUtils.notify(context, "Order Cancellation", "Order cancellation failed.")
                 }
                 Status.LOADING -> {
                     displayProgressBar()
                 }
             }
-        })
+        }
     }
 
     private fun hideAllViews() {

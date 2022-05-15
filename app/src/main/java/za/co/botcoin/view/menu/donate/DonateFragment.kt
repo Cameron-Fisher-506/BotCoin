@@ -32,7 +32,7 @@ class DonateFragment : Fragment(R.layout.donate_fragment) {
 
     private fun receiveAndObserveReceive() {
         this.receiveViewModel.receive(asset, ConstantUtils.KEY_ID, ConstantUtils.SECRET_KEY)
-        this.receiveViewModel.receiveLiveData.observe(viewLifecycleOwner, {
+        this.receiveViewModel.receiveLiveData.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     displayDonateOptions()
@@ -57,30 +57,30 @@ class DonateFragment : Fragment(R.layout.donate_fragment) {
                     displayProgressBar()
                 }
             }
-        })
+        }
     }
 
     private fun sendAndObserveSend(amount: String, asset: String, address: String) {
-        this.sendViewModel.sendLiveData.observe(viewLifecycleOwner, {
+        this.sendViewModel.sendLiveData.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     displayDonateOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
-                        data.map { response -> if (response.success) GeneralUtils.notify(context,"Sent $amount $asset to $address.", response.withdrawalId) else GeneralUtils.notify(context,"Send failed.", "") }
+                        data.map { response -> if (response.success) GeneralUtils.notify(context, "Sent $amount $asset to $address.", response.withdrawalId) else GeneralUtils.notify(context, "Send failed.", "") }
                     } else {
-                        GeneralUtils.notify(context,"Send failed.", "")
+                        GeneralUtils.notify(context, "Send failed.", "")
                     }
                 }
                 Status.ERROR -> {
                     displayDonateOptions()
-                    GeneralUtils.notify(context,"Send failed.", "")
+                    GeneralUtils.notify(context, "Send failed.", "")
                 }
                 Status.LOADING -> {
                     displayProgressBar()
                 }
             }
-        })
+        }
     }
 
     private fun wireUI() {
