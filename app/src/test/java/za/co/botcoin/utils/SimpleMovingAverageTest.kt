@@ -6,6 +6,7 @@ import org.junit.Test
 import org.junit.jupiter.api.DisplayName
 import za.co.botcoin.model.models.Candle
 
+@DisplayName("Simple Moving Average Test")
 class SimpleMovingAverageTest {
     private lateinit var simpleMovingAverage: SimpleMovingAverage
 

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName
 import za.co.botcoin.enum.Trend
 import za.co.botcoin.model.models.Candle
 
+@DisplayName("Fibonacci Retracement Test")
 class FibonacciRetracementTest {
 
     private val fibonacciRetracement: FibonacciRetracement = FibonacciRetracement()

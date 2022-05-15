@@ -10,6 +10,7 @@ import za.co.botcoin.utils.StraightLineFormulaUtils.calculateX
 import za.co.botcoin.utils.StraightLineFormulaUtils.calculateY
 import za.co.botcoin.utils.StraightLineFormulaUtils.isPointOnLine
 
+@DisplayName("Straight Line Formula Utils Test")
 class StraightLineFormulaUtilsTest {
 
     @Before

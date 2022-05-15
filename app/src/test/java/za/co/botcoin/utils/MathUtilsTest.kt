@@ -9,6 +9,7 @@ import za.co.botcoin.utils.MathUtils.percentage
 import za.co.botcoin.utils.MathUtils.precision
 import za.co.botcoin.utils.MathUtils.reverse
 
+@DisplayName("Math Utils Test")
 class MathUtilsTest {
 
     @Before
