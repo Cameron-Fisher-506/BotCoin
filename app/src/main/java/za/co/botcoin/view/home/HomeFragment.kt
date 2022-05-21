@@ -47,7 +47,7 @@ class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
 
     private fun attachTickerObserver() {
         tickersViewModel.fetchTickers()
-        this.tickersViewModel.tickersLiveData.observe(viewLifecycleOwner, {
+        this.tickersViewModel.tickersLiveData.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     val data = it.data
@@ -70,7 +70,7 @@ class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
                 Status.LOADING -> {
                 }
             }
-        });
+        };
     }
 
     private fun displayLinearLayout() {

@@ -32,7 +32,7 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
 
     private fun attachBalanceObserver() {
         this.balanceViewModel.fetchBalances()
-        this.balanceViewModel.balancesLiveData.observe(viewLifecycleOwner, {
+        this.balanceViewModel.balancesLiveData.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     val data = it.data
@@ -57,7 +57,7 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
                     displayProgressBar()
                 }
             }
-        })
+        }
     }
 
     private fun displayLinearLayouts() {

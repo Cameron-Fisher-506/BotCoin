@@ -46,26 +46,26 @@ class SendFragment : WalletBaseFragment(R.layout.send_fragment) {
 
     private fun sendAndObserveSend(amount: String, asset: String, address: String, destinationTag: String) {
         this.sendViewModel.send(amount, asset, address, destinationTag)
-        this.sendViewModel.sendLiveData.observe(viewLifecycleOwner, {
+        this.sendViewModel.sendLiveData.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     displaySendOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
-                        data.map { response -> if (response.success) GeneralUtils.notify(context,"Sent $amount $asset to $address.", response.withdrawalId) else GeneralUtils.notify(context,"Send failed.", "") }
+                        data.map { response -> if (response.success) GeneralUtils.notify(context, "Sent $amount $asset to $address.", response.withdrawalId) else GeneralUtils.notify(context, "Send failed.", "") }
                     } else {
-                        GeneralUtils.notify(context,"Send failed.", "")
+                        GeneralUtils.notify(context, "Send failed.", "")
                     }
                 }
                 Status.ERROR -> {
                     displaySendOptions()
-                    GeneralUtils.notify(context,"Send failed.", "")
+                    GeneralUtils.notify(context, "Send failed.", "")
                 }
                 Status.LOADING -> {
                     displayProgressBar()
                 }
             }
-        })
+        }
     }
 
     private fun hideAllViews() {
