@@ -44,7 +44,7 @@ class DisclaimerPolicyFragment : Fragment(R.layout.disclaimer_policy_fragment) {
         this.binding.disclaimerPolicyTextView.text = Html.fromHtml(privacyPolicy)
 
         this.binding.exitButton.setOnClickListener {
-            activity!!.finishAffinity()
+            requireActivity().finishAffinity()
             exitProcess(0)
         }
 

@@ -3,12 +3,14 @@ package za.co.botcoin.utils
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.junit.jupiter.api.DisplayName
 import za.co.botcoin.utils.StraightLineFormulaUtils.calculateConstant
 import za.co.botcoin.utils.StraightLineFormulaUtils.calculateGradient
 import za.co.botcoin.utils.StraightLineFormulaUtils.calculateX
 import za.co.botcoin.utils.StraightLineFormulaUtils.calculateY
 import za.co.botcoin.utils.StraightLineFormulaUtils.isPointOnLine
 
+@DisplayName("Straight Line Formula Utils Test")
 class StraightLineFormulaUtilsTest {
 
     @Before
@@ -17,6 +19,7 @@ class StraightLineFormulaUtilsTest {
     }
 
     @Test
+    @DisplayName("Should Calculate Gradient Success")
     fun shouldCalculateGradientSuccess() {
         //given
         val pointA = Pair(3.0, 2.0)
@@ -31,6 +34,7 @@ class StraightLineFormulaUtilsTest {
     }
 
     @Test
+    @DisplayName("Should Calculate Gradient Zero Success")
     fun shouldCalculateGradientZeroSuccess() {
         //given
         val pointA = Pair(3.0, 2.0)
@@ -45,6 +49,7 @@ class StraightLineFormulaUtilsTest {
     }
 
     @Test
+    @DisplayName("Should Calculate Gradient Failure")
     fun shouldCalculateGradientFailure() {
         //given
         val pointA = Pair(3.0, 2.0)
@@ -59,6 +64,7 @@ class StraightLineFormulaUtilsTest {
     }
 
     @Test
+    @DisplayName("Should Calculate Constant Success")
     fun shouldCalculateConstantSuccess() {
         //given
         val point = Pair(3.0, 2.0)
@@ -73,6 +79,7 @@ class StraightLineFormulaUtilsTest {
     }
 
     @Test
+    @DisplayName("Should Calculate X Success")
     fun shouldCalculateXSuccess() {
         //given
         val y = 2.0
@@ -88,6 +95,7 @@ class StraightLineFormulaUtilsTest {
     }
 
     @Test
+    @DisplayName("Should Calculate Y Success")
     fun shouldCalculateYSuccess() {
         //given
         val x = 3.0
@@ -103,6 +111,7 @@ class StraightLineFormulaUtilsTest {
     }
 
     @Test
+    @DisplayName("Should Calculate Is Point On Line Success")
     fun shouldCalculateIsPointOnLineSuccess() {
         //given
         val pointOne = Pair(1.0, 1.0)
@@ -127,6 +136,7 @@ class StraightLineFormulaUtilsTest {
     }
 
     @Test
+    @DisplayName("Should Calculate Is Point On Line Failure")
     fun shouldCalculateIsPointOnLineFailure() {
         //given
         val pointOne = Pair(1.0, 1.2)
