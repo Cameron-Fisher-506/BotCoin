@@ -4,13 +4,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.HomeFragmentBinding
 import za.co.botcoin.enum.Status
-import za.co.botcoin.model.repository.account.AccountViewModel
-import za.co.botcoin.model.repository.tickers.TickersViewModel
 import za.co.botcoin.services.BotService
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
@@ -19,9 +16,7 @@ import za.co.botcoin.utils.SharedPrefsUtils
 
 class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
     private lateinit var binding: HomeFragmentBinding
-    private val tickersViewModel by viewModels<TickersViewModel>(factoryProducer = { homeActivity.getViewModelFactory })
-    private val accountViewModel by viewModels<AccountViewModel>(factoryProducer = { homeActivity.getViewModelFactory })
-
+    private val homeViewModel by viewModels<HomeViewModel>(factoryProducer = { homeActivity.getViewModelFactory })
 
     private val handler = Handler()
 
@@ -45,8 +40,8 @@ class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
     }
 
     private fun attachTickerObserver() {
-        tickersViewModel.fetchTickers()
-        this.tickersViewModel.tickersLiveData.observe(viewLifecycleOwner) {
+        homeViewModel.fetchTickers()
+        homeViewModel.tickersResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     val data = it.data

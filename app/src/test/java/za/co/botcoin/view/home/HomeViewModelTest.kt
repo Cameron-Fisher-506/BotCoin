@@ -4,7 +4,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.mockito.Mockito
 import za.co.botcoin.model.repository.tickers.TickersRepository
-import za.co.botcoin.model.repository.tickers.TickersViewModel
 import za.co.botcoin.view.BaseViewModelTest
 
 @ExperimentalCoroutinesApi
