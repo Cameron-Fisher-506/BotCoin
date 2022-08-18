@@ -3,6 +3,7 @@ package za.co.botcoin.view.home
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import za.co.botcoin.R
@@ -18,17 +19,15 @@ import za.co.botcoin.utils.SharedPrefsUtils
 
 class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
     private lateinit var binding: HomeFragmentBinding
-    private lateinit var tickersViewModel: TickersViewModel
-    private lateinit var accountViewModel: AccountViewModel
+    private val tickersViewModel by viewModels<TickersViewModel>(factoryProducer = { homeActivity.getViewModelFactory })
+    private val accountViewModel by viewModels<AccountViewModel>(factoryProducer = { homeActivity.getViewModelFactory })
+
 
     private val handler = Handler()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = HomeFragmentBinding.bind(view)
-
-        this.accountViewModel = ViewModelProviders.of(this).get(AccountViewModel::class.java)
-        this.tickersViewModel = ViewModelProviders.of(this).get(TickersViewModel::class.java)
 
         attachTickerObserver()
         displayPrivacyPolicy(view)
