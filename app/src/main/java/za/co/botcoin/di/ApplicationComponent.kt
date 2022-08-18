@@ -5,7 +5,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [ApplicationModule::class])
+@Component(modules = [ApplicationModule::class, ManagerModule::class])
 interface ApplicationComponent {
 
     fun getActivityComponent(presentationModule: PresentationModule): ActivityComponent
