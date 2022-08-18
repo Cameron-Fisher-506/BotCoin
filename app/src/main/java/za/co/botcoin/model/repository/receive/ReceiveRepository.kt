@@ -9,8 +9,9 @@ import za.co.botcoin.model.room.upsert
 import za.co.botcoin.utils.DataAccessStrategyUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.Resource
+import javax.inject.Inject
 
-class ReceiveRepository(private val application: Application) : BaseRepository() {
+class ReceiveRepository @Inject constructor(private val application: Application) : BaseRepository() {
     private val receiveDao: IReceiveDao = BotCoinDatabase.getDatabase(application).receiveDao()
 
     suspend fun receive(asset: String, keyId: String, secretKey: String): Resource<List<Receive>> {
