@@ -11,7 +11,7 @@ import za.co.botcoin.model.repository.tickers.TickersRepository
 import za.co.botcoin.view.home.HomeViewModel
 
 @Module
-class HomeViewModule {
+class HomeViewModelModule {
     @Provides
     @IntoMap
     @ViewModelKey(HomeViewModel::class)

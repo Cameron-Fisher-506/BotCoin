@@ -4,7 +4,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.mockito.Mockito
 import za.co.botcoin.model.repository.balance.BalanceRepository
-import za.co.botcoin.model.repository.balance.BalanceViewModel
 import za.co.botcoin.model.repository.order.OrderRepository
 import za.co.botcoin.model.repository.order.OrderViewModel
 import za.co.botcoin.model.repository.postOrder.PostOrderRepository
@@ -16,7 +15,6 @@ import za.co.botcoin.model.repository.send.SendViewModel
 import za.co.botcoin.model.repository.stopOrder.StopOrderRepository
 import za.co.botcoin.model.repository.stopOrder.StopOrderViewModel
 import za.co.botcoin.model.repository.withdrawal.WithdrawalRepository
-import za.co.botcoin.model.repository.withdrawal.WithdrawalViewModel
 import za.co.botcoin.view.BaseViewModelTest
 
 @ExperimentalCoroutinesApi
