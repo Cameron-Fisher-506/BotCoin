@@ -7,8 +7,6 @@ import androidx.lifecycle.ViewModelProviders
 import za.co.botcoin.R
 import za.co.botcoin.databinding.DonateFragmentBinding
 import za.co.botcoin.enum.Status
-import za.co.botcoin.model.repository.receive.ReceiveViewModel
-import za.co.botcoin.model.repository.send.SendViewModel
 import za.co.botcoin.utils.*
 
 class DonateFragment : Fragment(R.layout.donate_fragment) {

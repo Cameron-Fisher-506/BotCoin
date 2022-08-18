@@ -4,9 +4,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.mockito.Mockito
 import za.co.botcoin.model.repository.candle.CandleRepository
-import za.co.botcoin.model.repository.candle.CandleViewModel
 import za.co.botcoin.model.repository.trade.TradeRepository
-import za.co.botcoin.model.repository.trade.TradeViewModel
 import za.co.botcoin.view.BaseViewModelTest
 
 

@@ -2,12 +2,10 @@ package za.co.botcoin.view.wallet.menu
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import za.co.botcoin.R
 import za.co.botcoin.databinding.SendFragmentBinding
 import za.co.botcoin.enum.Status
-import za.co.botcoin.model.repository.send.SendViewModel
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.GeneralUtils.createAlertDialog
 import za.co.botcoin.view.wallet.WalletBaseFragment
