@@ -44,7 +44,7 @@ class WithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
     }
 
     private fun attachWithdrawalObserver() {
-        this.withdrawalViewModel.withdrawalLiveData.observe(viewLifecycleOwner, {
+        this.withdrawalViewModel.withdrawalLiveData.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     displayWithdrawOptions()
@@ -52,19 +52,19 @@ class WithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
                     if (!data.isNullOrEmpty()) {
                         data.map { withdrawal -> GeneralUtils.notify(context, "Withdrew " + withdrawal.amount + " Rands.", "") }
                     } else {
-                        GeneralUtils.notify(context,"Withdrawal Failed", "")
+                        GeneralUtils.notify(context, "Withdrawal Failed", "")
                     }
 
                 }
                 Status.ERROR -> {
                     displayWithdrawOptions()
-                    GeneralUtils.notify(context,"Withdrawal Failed", "")
+                    GeneralUtils.notify(context, "Withdrawal Failed", "")
                 }
                 Status.LOADING -> {
                     displayProgressBar()
                 }
             }
-        })
+        }
     }
 
     private fun hideAllViews() {

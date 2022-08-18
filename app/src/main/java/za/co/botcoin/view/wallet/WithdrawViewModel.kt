@@ -1,5 +1,4 @@
 package za.co.botcoin.view.wallet
 
-class WalletSharedViewModel {
-
+class WithdrawViewModel {
 }
