@@ -10,8 +10,9 @@ import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.DataAccessStrategyUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.Resource
+import javax.inject.Inject
 
-class SendRepository(private val application: Application) : BaseRepository() {
+class SendRepository @Inject constructor(private val application: Application) : BaseRepository() {
     private val sendDao: ISendDao = BotCoinDatabase.getDatabase(application).sendDao()
 
     suspend fun send(amount: String, currency: String, address: String, destinationTag: String = ""): Resource<List<Send>> {

@@ -5,15 +5,10 @@ import org.junit.Before
 import org.mockito.Mockito
 import za.co.botcoin.model.repository.balance.BalanceRepository
 import za.co.botcoin.model.repository.order.OrderRepository
-import za.co.botcoin.model.repository.order.OrderViewModel
 import za.co.botcoin.model.repository.postOrder.PostOrderRepository
-import za.co.botcoin.model.repository.postOrder.PostOrderViewModel
 import za.co.botcoin.model.repository.receive.ReceiveRepository
-import za.co.botcoin.model.repository.receive.ReceiveViewModel
 import za.co.botcoin.model.repository.send.SendRepository
-import za.co.botcoin.model.repository.send.SendViewModel
 import za.co.botcoin.model.repository.stopOrder.StopOrderRepository
-import za.co.botcoin.model.repository.stopOrder.StopOrderViewModel
 import za.co.botcoin.model.repository.withdrawal.WithdrawalRepository
 import za.co.botcoin.view.BaseViewModelTest
 

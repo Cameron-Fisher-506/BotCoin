@@ -2,14 +2,11 @@ package za.co.botcoin.view.wallet.menu
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import za.co.botcoin.R
 import za.co.botcoin.databinding.OrdersFragmentBinding
 import za.co.botcoin.enum.Status
-import za.co.botcoin.model.repository.order.OrderViewModel
-import za.co.botcoin.model.repository.stopOrder.StopOrderViewModel
 import za.co.botcoin.utils.DateTimeUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.view.wallet.WalletBaseFragment
