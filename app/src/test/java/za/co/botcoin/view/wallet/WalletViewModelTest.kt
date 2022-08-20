@@ -1,78 +1,290 @@
 package za.co.botcoin.view.wallet
 
+import junit.framework.Assert.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
+import org.junit.Test
+import org.junit.jupiter.api.DisplayName
+import org.mockito.ArgumentMatchers
+import org.mockito.InjectMocks
+import org.mockito.Mock
 import org.mockito.Mockito
+import za.co.botcoin.disposeObserver
+import za.co.botcoin.enum.Status
+import za.co.botcoin.getOrAwaitValue
+import za.co.botcoin.model.models.*
 import za.co.botcoin.model.repository.balance.BalanceRepository
-import za.co.botcoin.model.repository.balance.BalanceViewModel
 import za.co.botcoin.model.repository.order.OrderRepository
-import za.co.botcoin.model.repository.order.OrderViewModel
 import za.co.botcoin.model.repository.postOrder.PostOrderRepository
-import za.co.botcoin.model.repository.postOrder.PostOrderViewModel
 import za.co.botcoin.model.repository.receive.ReceiveRepository
-import za.co.botcoin.model.repository.receive.ReceiveViewModel
 import za.co.botcoin.model.repository.send.SendRepository
-import za.co.botcoin.model.repository.send.SendViewModel
 import za.co.botcoin.model.repository.stopOrder.StopOrderRepository
-import za.co.botcoin.model.repository.stopOrder.StopOrderViewModel
 import za.co.botcoin.model.repository.withdrawal.WithdrawalRepository
-import za.co.botcoin.model.repository.withdrawal.WithdrawalViewModel
+import za.co.botcoin.utils.Resource
 import za.co.botcoin.view.BaseViewModelTest
 
 @ExperimentalCoroutinesApi
 abstract class WalletViewModelTest : BaseViewModelTest() {
 
-    protected val balanceRepository: BalanceRepository = Mockito.mock(BalanceRepository::class.java)
+    @Mock
+    private lateinit var balanceRepository: BalanceRepository
 
-    protected lateinit var balanceViewModel: BalanceViewModel
+    @Mock
+    private lateinit var withdrawalRepository: WithdrawalRepository
 
-    protected val withdrawalRepository: WithdrawalRepository = Mockito.mock(WithdrawalRepository::class.java)
+    @Mock
+    private lateinit var stopOrderRepository: StopOrderRepository
 
-    protected lateinit var withdrawalViewModel: WithdrawalViewModel
+    @Mock
+    private lateinit var orderRepository: OrderRepository
 
-    protected val stopOrderRepository: StopOrderRepository = Mockito.mock(StopOrderRepository::class.java)
+    @Mock
+    private lateinit var receiveRepository: ReceiveRepository
 
-    protected lateinit var stopOrderViewModel: StopOrderViewModel
+    @Mock
+    private lateinit var sendRepository: SendRepository
 
-    protected val orderRepository: OrderRepository = Mockito.mock(OrderRepository::class.java)
+    @Mock
+    private lateinit var postOrderRepository: PostOrderRepository
 
-    protected lateinit var orderViewModel: OrderViewModel
-
-    protected val receiveRepository: ReceiveRepository = Mockito.mock(ReceiveRepository::class.java)
-
-    protected lateinit var receiveViewModel: ReceiveViewModel
-
-    protected val sendRepository: SendRepository = Mockito.mock(SendRepository::class.java)
-
-    protected lateinit var sendViewModel: SendViewModel
-
-    protected val postOrderRepository: PostOrderRepository = Mockito.mock(PostOrderRepository::class.java)
-
-    protected lateinit var postOrderViewModel: PostOrderViewModel
+    @InjectMocks
+    private lateinit var walletViewModel: WalletViewModel
 
     @Before
-    override fun setUp() {
-        super.setUp()
+    fun setUp() {
 
-        balanceViewModel = BalanceViewModel(application, testCoroutineDispatcher)
-        balanceViewModel.repository = balanceRepository
-
-        withdrawalViewModel = WithdrawalViewModel(application, testCoroutineDispatcher)
-        withdrawalViewModel.repository = withdrawalRepository
-
-        stopOrderViewModel = StopOrderViewModel(application, testCoroutineDispatcher)
-        stopOrderViewModel.repository = stopOrderRepository
-
-        orderViewModel = OrderViewModel(application, testCoroutineDispatcher)
-        orderViewModel.repository = orderRepository
-
-        receiveViewModel = ReceiveViewModel(application, testCoroutineDispatcher)
-        receiveViewModel.repository = receiveRepository
-
-        sendViewModel = SendViewModel(application, testCoroutineDispatcher)
-        sendViewModel.repository = sendRepository
-
-        postOrderViewModel = PostOrderViewModel(application, testCoroutineDispatcher)
-        postOrderViewModel.repository = postOrderRepository
     }
+
+    @Test
+    @DisplayName("Fetch Balances")
+    fun shouldCallBalanceRepositoryWhenFetchBalancesIsCalled() {
+        walletViewModel.fetchBalances()
+        walletViewModel.balancesResponse.disposeObserver()
+        runBlocking {
+            Mockito.verify(balanceRepository).fetchBalances()
+            Mockito.verifyNoMoreInteractions(balanceRepository)
+        }
+    }
+
+    /*@Test
+    @DisplayName("Withdrawal")
+    fun shouldCallWithdrawalRepositoryWhenWithdrawalIsCalled() {
+        withdrawalViewModel.withdrawal("", "", "")
+        withdrawalViewModel.withdrawalLiveData.disposeObserver()
+        runBlocking {
+            Mockito.verify(withdrawalRepository).withdrawal(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())
+            Mockito.verifyNoMoreInteractions(withdrawalRepository)
+        }
+    }
+
+    @Test
+    @DisplayName("Stop Order")
+    fun shouldCallStopOrderRepositoryWhenStopOrderIsCalled() {
+        stopOrderViewModel.stopOrder("")
+        stopOrderViewModel.stopOrderLiveData.disposeObserver()
+        runBlocking {
+            Mockito.verify(stopOrderRepository).stopOrder(Mockito.anyString())
+            Mockito.verifyNoMoreInteractions(stopOrderRepository)
+        }
+    }
+
+    @Test
+    @DisplayName("Fetch Orders")
+    fun shouldCallOrderRepositoryWhenFetchOrdersIsCalled() {
+        orderViewModel.fetchOrders()
+        orderViewModel.ordersLiveData.disposeObserver()
+        runBlocking {
+            Mockito.verify(orderRepository).fetchOrders()
+            Mockito.verifyNoMoreInteractions(orderRepository)
+        }
+    }
+
+    @Test
+    @DisplayName("Receive")
+    fun shouldCallReceiveRepositoryWhenReceiveIsCalled() {
+        receiveViewModel.receive("", "", "")
+        receiveViewModel.receiveLiveData.disposeObserver()
+        runBlocking {
+            Mockito.verify(receiveRepository).receive(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())
+            Mockito.verifyNoMoreInteractions(receiveRepository)
+        }
+    }
+
+    @Test
+    @DisplayName("Send")
+    fun shouldCallSendRepositoryWhenSendIsCalled() {
+        sendViewModel.send("", "", "", "")
+        sendViewModel.sendLiveData.disposeObserver()
+        runBlocking {
+            Mockito.verify(sendRepository).send(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString())
+            Mockito.verifyNoMoreInteractions(sendRepository)
+        }
+    }
+
+    @Test
+    @DisplayName("Post Order")
+    fun shouldCallPostOrderRepositoryWhenPostOrderIsCalled() {
+        postOrderViewModel.postOrder("", "", "", "")
+        postOrderViewModel.postOrderLiveData.disposeObserver()
+        runBlocking {
+            Mockito.verify(postOrderRepository).postOrder(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString())
+            Mockito.verifyNoMoreInteractions(postOrderRepository)
+        }
+    }*/
+
+    @Test
+    @DisplayName("Fetch Balances")
+    fun shouldReturnBalanceResponseWhenFetchBalancesIsCalled() {
+        val balances: Resource<List<Balance>> = Resource.success(listOf(Balance()))
+
+        runBlockingTest {
+            Mockito.`when`(balanceRepository.fetchBalances()).thenReturn(balances)
+        }
+
+        walletViewModel.fetchBalances()
+        with(walletViewModel.balancesResponse.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.LOADING, this?.status)
+        }
+
+        with(walletViewModel.balancesResponse.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.SUCCESS, this?.status)
+            assertTrue(!this?.data.isNullOrEmpty())
+        }
+    }
+
+    /*@Test
+    @DisplayName("Withdrawal")
+    fun shouldReturnWithdrawalResponseWhenWithdrawalIsCalled() {
+        val withdrawal: Resource<List<Withdrawal>> = Resource.success(listOf(Withdrawal()))
+
+        runBlockingTest {
+            Mockito.`when`(withdrawalRepository.withdrawal(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(withdrawal)
+        }
+
+        withdrawalViewModel.withdrawal("", "", "")
+        with(withdrawalViewModel.withdrawalLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.LOADING, this?.status)
+        }
+
+        with(withdrawalViewModel.withdrawalLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.SUCCESS, this?.status)
+            assertTrue(!this?.data.isNullOrEmpty())
+        }
+    }
+
+    @Test
+    @DisplayName("Stop Order")
+    fun shouldReturnStopOrderResponseWhenStopOrderIsCalled() {
+        val stopOrder: Resource<List<StopOrder>> = Resource.success(listOf(StopOrder()))
+
+        runBlockingTest {
+            Mockito.`when`(stopOrderRepository.stopOrder(ArgumentMatchers.anyString())).thenReturn(stopOrder)
+        }
+
+        stopOrderViewModel.stopOrder("")
+        with(stopOrderViewModel.stopOrderLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.LOADING, this?.status)
+        }
+
+        with(stopOrderViewModel.stopOrderLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.SUCCESS, this?.status)
+            assertTrue(!this?.data.isNullOrEmpty())
+        }
+    }
+
+    @Test
+    @DisplayName("Fetch Orders")
+    fun shouldReturnOrdersResponseWhenFetchOrdersIsCalled() {
+        val orders: Resource<List<Order>> = Resource.success(listOf(Order(), Order()))
+
+        runBlockingTest {
+            Mockito.`when`(orderRepository.fetchOrders()).thenReturn(orders)
+        }
+
+        orderViewModel.fetchOrders()
+        with(orderViewModel.ordersLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.LOADING, this?.status)
+        }
+
+        with(orderViewModel.ordersLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.SUCCESS, this?.status)
+            assertTrue(!this?.data.isNullOrEmpty())
+        }
+    }
+
+    @Test
+    @DisplayName("Receive")
+    fun shouldReturnReceiveResponseWhenReceiveIsCalled() {
+        val receive: Resource<List<Receive>> = Resource.success(listOf(Receive()))
+
+        runBlockingTest {
+            Mockito.`when`(receiveRepository.receive(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(receive)
+        }
+
+        receiveViewModel.receive("", "", "")
+        with(receiveViewModel.receiveLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.LOADING, this?.status)
+        }
+
+        with(receiveViewModel.receiveLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.SUCCESS, this?.status)
+            assertTrue(!this?.data.isNullOrEmpty())
+        }
+    }
+
+    @Test
+    @DisplayName("send")
+    fun shouldReturnSendResponseWhenSendIsCalled() {
+        val send: Resource<List<Send>> = Resource.success(listOf(Send()))
+
+        runBlockingTest {
+            Mockito.`when`(sendRepository.send(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(send)
+        }
+
+        sendViewModel.send("", "", "", "")
+        with(sendViewModel.sendLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.LOADING, this?.status)
+        }
+
+        with(sendViewModel.sendLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.SUCCESS, this?.status)
+            assertTrue(!this?.data.isNullOrEmpty())
+        }
+    }
+
+    @Test
+    @DisplayName("Post Order")
+    fun shouldReturnPostOrderResponseWhenPostOrderIsCalled() {
+        val postOrder: Resource<List<PostOrder>> = Resource.success(listOf(PostOrder()))
+
+        runBlockingTest {
+            Mockito.`when`(postOrderRepository.postOrder(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(postOrder)
+        }
+
+        postOrderViewModel.postOrder("", "", "", "")
+        with(postOrderViewModel.postOrderLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.LOADING, this?.status)
+        }
+
+        with(postOrderViewModel.postOrderLiveData.getOrAwaitValue()) {
+            assertNotNull(this)
+            assertEquals(Status.SUCCESS, this?.status)
+            assertTrue(!this?.data.isNullOrEmpty())
+        }
+    }*/
 }

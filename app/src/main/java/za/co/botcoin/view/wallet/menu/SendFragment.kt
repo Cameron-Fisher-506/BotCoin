@@ -2,12 +2,10 @@ package za.co.botcoin.view.wallet.menu
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import za.co.botcoin.R
 import za.co.botcoin.databinding.SendFragmentBinding
 import za.co.botcoin.enum.Status
-import za.co.botcoin.model.repository.send.SendViewModel
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.GeneralUtils.createAlertDialog
 import za.co.botcoin.view.wallet.WalletBaseFragment
@@ -46,26 +44,26 @@ class SendFragment : WalletBaseFragment(R.layout.send_fragment) {
 
     private fun sendAndObserveSend(amount: String, asset: String, address: String, destinationTag: String) {
         this.sendViewModel.send(amount, asset, address, destinationTag)
-        this.sendViewModel.sendLiveData.observe(viewLifecycleOwner, {
+        this.sendViewModel.sendResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     displaySendOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
-                        data.map { response -> if (response.success) GeneralUtils.notify(context,"Sent $amount $asset to $address.", response.withdrawalId) else GeneralUtils.notify(context,"Send failed.", "") }
+                        data.map { response -> if (response.success) GeneralUtils.notify(context, "Sent $amount $asset to $address.", response.withdrawalId) else GeneralUtils.notify(context, "Send failed.", "") }
                     } else {
-                        GeneralUtils.notify(context,"Send failed.", "")
+                        GeneralUtils.notify(context, "Send failed.", "")
                     }
                 }
                 Status.ERROR -> {
                     displaySendOptions()
-                    GeneralUtils.notify(context,"Send failed.", "")
+                    GeneralUtils.notify(context, "Send failed.", "")
                 }
                 Status.LOADING -> {
                     displayProgressBar()
                 }
             }
-        })
+        }
     }
 
     private fun hideAllViews() {

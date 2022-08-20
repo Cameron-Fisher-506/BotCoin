@@ -3,13 +3,11 @@ package za.co.botcoin.view.home
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.HomeFragmentBinding
 import za.co.botcoin.enum.Status
-import za.co.botcoin.model.repository.account.AccountViewModel
-import za.co.botcoin.model.repository.tickers.TickersViewModel
 import za.co.botcoin.services.BotService
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
@@ -18,17 +16,13 @@ import za.co.botcoin.utils.SharedPrefsUtils
 
 class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
     private lateinit var binding: HomeFragmentBinding
-    private lateinit var tickersViewModel: TickersViewModel
-    private lateinit var accountViewModel: AccountViewModel
+    private val homeViewModel by viewModels<HomeViewModel>(factoryProducer = { homeActivity.getViewModelFactory })
 
     private val handler = Handler()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = HomeFragmentBinding.bind(view)
-
-        this.accountViewModel = ViewModelProviders.of(this).get(AccountViewModel::class.java)
-        this.tickersViewModel = ViewModelProviders.of(this).get(TickersViewModel::class.java)
 
         attachTickerObserver()
         displayPrivacyPolicy(view)
@@ -46,8 +40,8 @@ class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
     }
 
     private fun attachTickerObserver() {
-        tickersViewModel.fetchTickers()
-        this.tickersViewModel.tickersLiveData.observe(viewLifecycleOwner, {
+        homeViewModel.fetchTickers()
+        homeViewModel.tickersResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     val data = it.data
@@ -70,7 +64,7 @@ class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
                 Status.LOADING -> {
                 }
             }
-        });
+        };
     }
 
     private fun displayLinearLayout() {

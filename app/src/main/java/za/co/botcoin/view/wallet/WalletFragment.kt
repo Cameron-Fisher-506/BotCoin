@@ -2,24 +2,21 @@ package za.co.botcoin.view.wallet
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.WalletFragmentBinding
 import za.co.botcoin.enum.Status
-import za.co.botcoin.model.repository.balance.BalanceViewModel
 import za.co.botcoin.utils.*
 
 class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
     private lateinit var binding: WalletFragmentBinding
-    private lateinit var balanceViewModel: BalanceViewModel
+    private val walletViewModel by viewModels<WalletViewModel>(factoryProducer = { walletActivity.getViewModelFactory })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = WalletFragmentBinding.bind(view)
-
-        this.balanceViewModel = ViewModelProviders.of(this).get(BalanceViewModel::class.java)
 
         addZarOptionListener()
         addXrpOptionListener()
@@ -31,8 +28,8 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
     }
 
     private fun attachBalanceObserver() {
-        this.balanceViewModel.fetchBalances()
-        this.balanceViewModel.balancesLiveData.observe(viewLifecycleOwner, {
+        this.walletViewModel.fetchBalances()
+        this.walletViewModel.balancesResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     val data = it.data
@@ -57,7 +54,7 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
                     displayProgressBar()
                 }
             }
-        })
+        }
     }
 
     private fun displayLinearLayouts() {
