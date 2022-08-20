@@ -8,8 +8,9 @@ import za.co.botcoin.model.models.Account
 import za.co.botcoin.model.repository.BaseRepository
 import za.co.botcoin.model.room.BotCoinDatabase
 import za.co.botcoin.model.room.IAccountDao
+import javax.inject.Inject
 
-class AccountRepository(application: Application) : BaseRepository() {
+class AccountRepository @Inject constructor(application: Application) : BaseRepository() {
     private val accountDao: IAccountDao = BotCoinDatabase.getDatabase(application).accountDao()
 
     init {

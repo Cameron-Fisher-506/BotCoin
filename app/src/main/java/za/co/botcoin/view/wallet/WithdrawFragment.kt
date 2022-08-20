@@ -2,7 +2,7 @@ package za.co.botcoin.view.wallet
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import za.co.botcoin.R
 import za.co.botcoin.databinding.WithdrawFragmentBinding
@@ -14,13 +14,11 @@ import za.co.botcoin.utils.GeneralUtils.isApiKeySet
 
 class WithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
     private lateinit var binding: WithdrawFragmentBinding
-    private lateinit var withdrawalViewModel: WithdrawalViewModel
+    private val withdrawViewModel by viewModels<WithdrawViewModel>(factoryProducer = { walletActivity.getViewModelFactory })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = WithdrawFragmentBinding.bind(view)
-
-        this.withdrawalViewModel = ViewModelProviders.of(this).get(WithdrawalViewModel::class.java)
 
         addWithdrawListener()
     }
@@ -32,7 +30,7 @@ class WithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
 
             if (amount.isNotBlank() && amount != "0" && beneficiaryId.isNotBlank()) {
                 if (isApiKeySet(context)) {
-                    this.withdrawalViewModel.withdrawal("ZAR_EFT", amount, beneficiaryId)
+                    this.withdrawViewModel.withdrawal("ZAR_EFT", amount, beneficiaryId)
                     attachWithdrawalObserver()
                 } else {
                     createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
@@ -44,7 +42,7 @@ class WithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
     }
 
     private fun attachWithdrawalObserver() {
-        this.withdrawalViewModel.withdrawalLiveData.observe(viewLifecycleOwner, {
+        this.withdrawViewModel.withdrawalResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     displayWithdrawOptions()
@@ -52,19 +50,19 @@ class WithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
                     if (!data.isNullOrEmpty()) {
                         data.map { withdrawal -> GeneralUtils.notify(context, "Withdrew " + withdrawal.amount + " Rands.", "") }
                     } else {
-                        GeneralUtils.notify(context,"Withdrawal Failed", "")
+                        GeneralUtils.notify(context, "Withdrawal Failed", "")
                     }
 
                 }
                 Status.ERROR -> {
                     displayWithdrawOptions()
-                    GeneralUtils.notify(context,"Withdrawal Failed", "")
+                    GeneralUtils.notify(context, "Withdrawal Failed", "")
                 }
                 Status.LOADING -> {
                     displayProgressBar()
                 }
             }
-        })
+        }
     }
 
     private fun hideAllViews() {

@@ -3,11 +3,13 @@ package za.co.botcoin.utils
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.junit.jupiter.api.DisplayName
 import za.co.botcoin.model.models.Candle
 
+@DisplayName("Simple Moving Average Test")
 class SimpleMovingAverageTest {
-
     private lateinit var simpleMovingAverage: SimpleMovingAverage
+
     @Before
     fun setup() {
         this.simpleMovingAverage = SimpleMovingAverage(5)
@@ -19,6 +21,7 @@ class SimpleMovingAverageTest {
     }
 
     @Test
+    @DisplayName("Should Calculate SMA Success")
     fun shouldCalculateSmaSuccess() {
         //given
         val candles: List<Candle> = ArrayList<Candle>().apply {
@@ -94,6 +97,7 @@ class SimpleMovingAverageTest {
     }
 
     @Test
+    @DisplayName("Should Calculate Is Price On Line Success")
     fun shouldCalculateIsPriceOnLineSuccess() {
         //given
         shouldCalculateSmaSuccess()
