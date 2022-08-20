@@ -7,19 +7,20 @@ import androidx.lifecycle.ViewModelProviders
 import za.co.botcoin.R
 import za.co.botcoin.databinding.SendFragmentBinding
 import za.co.botcoin.enum.Status
+import za.co.botcoin.model.repository.send.SendViewModel
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.GeneralUtils.createAlertDialog
-import za.co.botcoin.view.wallet.WithdrawalViewModel
+import za.co.botcoin.view.wallet.WalletBaseFragment
 
-class SendFragment : Fragment(R.layout.send_fragment) {
+class SendFragment : WalletBaseFragment(R.layout.send_fragment) {
     private lateinit var binding: SendFragmentBinding
-    private lateinit var withdrawalViewModel: WithdrawalViewModel
+    private lateinit var sendViewModel: SendViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = SendFragmentBinding.bind(view)
 
-        this.withdrawalViewModel = ViewModelProviders.of(this).get(WithdrawalViewModel::class.java)
+        this.sendViewModel = ViewModelProviders.of(this).get(SendViewModel::class.java)
 
         arguments?.let {
             addBtnSend(it.getString("asset") ?: "")
@@ -33,8 +34,7 @@ class SendFragment : Fragment(R.layout.send_fragment) {
             val destinationTag = this.binding.tagEditText.text.toString()
             if (amount.isNotBlank() && address.isNotBlank()) {
                 if (amount != "0") {
-                    this.withdrawalViewModel.send(amount, asset, address, destinationTag)
-                    attachSendObserver(amount, asset, address)
+                    sendAndObserveSend(amount, asset, address, destinationTag)
                 } else {
                     createAlertDialog(context, "Invalid amount entered!", "Please note that you cannot send 0 $asset.", false).show()
                 }
@@ -44,8 +44,9 @@ class SendFragment : Fragment(R.layout.send_fragment) {
         }
     }
 
-    private fun attachSendObserver(amount: String, asset: String, address: String) {
-        this.withdrawalViewModel.sendLiveData.observe(viewLifecycleOwner, {
+    private fun sendAndObserveSend(amount: String, asset: String, address: String, destinationTag: String) {
+        this.sendViewModel.send(amount, asset, address, destinationTag)
+        this.sendViewModel.sendLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
                     displaySendOptions()

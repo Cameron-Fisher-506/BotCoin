@@ -10,12 +10,13 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import za.co.botcoin.R
 import za.co.botcoin.databinding.ActivityMainBinding
+import za.co.botcoin.view.BaseActivity
 import za.co.botcoin.view.menu.MenuActivity
 import za.co.botcoin.view.settings.AutoTradeActivity
 import za.co.botcoin.view.trade.TradeActivity
 import za.co.botcoin.view.wallet.WalletActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 

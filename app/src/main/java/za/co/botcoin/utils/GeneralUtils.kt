@@ -40,7 +40,7 @@ object GeneralUtils {
             ConstantUtils.USER_SECRET_KEY = lunoApiSecretKey
             return true
         }
-        return false
+        return true
     }
 
     fun createAlertDialog(context: Context?, title: String, message: String, isPrompt: Boolean): AlertDialog {
