@@ -15,8 +15,8 @@ class HomeViewModelBehaviourVerificationTest : HomeViewModelTest() {
     @Test
     @DisplayName("Fetch Tickers")
     fun shouldCallTickersRepositoryWhenFetchTickersIsCalled() {
-        tickersViewModel.fetchTickers()
-        tickersViewModel.tickersLiveData.disposeObserver()
+        homeViewModel.fetchTickers()
+        homeViewModel.tickersResponse.disposeObserver()
         runBlocking {
             verify(tickersRepository).fetchTickers()
             verifyNoMoreInteractions(tickersRepository)

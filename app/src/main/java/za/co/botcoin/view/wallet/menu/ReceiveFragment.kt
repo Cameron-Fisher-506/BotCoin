@@ -37,7 +37,7 @@ class ReceiveFragment : Fragment(R.layout.receive_fragment) {
 
     private fun receiveAndObserveReceive() {
         this.receiveViewModel.receive(arguments?.getString("asset") ?: "", ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)
-        this.receiveViewModel.receiveLiveData.observe(viewLifecycleOwner) {
+        this.receiveViewModel.receiveResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     displayReceiveOptions()

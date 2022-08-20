@@ -2,6 +2,7 @@ package za.co.botcoin.view.wallet.menu
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import za.co.botcoin.R
@@ -9,22 +10,19 @@ import za.co.botcoin.databinding.OrdersFragmentBinding
 import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.DateTimeUtils
 import za.co.botcoin.utils.GeneralUtils
-import za.co.botcoin.view.wallet.WithdrawalViewModel
+import za.co.botcoin.view.wallet.WalletBaseFragment
 
-class OrdersFragment : Fragment(R.layout.orders_fragment) {
+class OrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
     private lateinit var binding: OrdersFragmentBinding
-    private lateinit var withdrawalViewModel: WithdrawalViewModel
+    private val ordersViewModel by viewModels<OrdersViewModel>(factoryProducer = { walletActivity.getViewModelFactory })
     private lateinit var orderListAdapter: OrderListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = OrdersFragmentBinding.bind(view)
 
-        this.withdrawalViewModel = ViewModelProviders.of(this).get(WithdrawalViewModel::class.java)
         wireUI()
-
-        this.withdrawalViewModel.fetchOrders()
-        attachOrdersObserver()
+        fetchAndObserveOrders()
     }
 
     private fun wireUI() {
@@ -34,16 +32,16 @@ class OrdersFragment : Fragment(R.layout.orders_fragment) {
     }
 
     private fun fetchAndObserveOrders() {
-        this.orderViewModel.fetchOrders()
-        this.orderViewModel.ordersLiveData.observe(viewLifecycleOwner) {
+        this.ordersViewModel.fetchOrders()
+        this.ordersViewModel.ordersResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     displayOrdersRecyclerView()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
                         data.map { order ->
-                            order.completedTime = DateTimeUtils.convertLongToTime(order.completedTime.toLong())
-                            order.createdTime = DateTimeUtils.convertLongToTime(order.createdTime.toLong())
+                            order.completedTime = DateTimeUtils.format(order.completedTime.toLong())
+                            order.createdTime = DateTimeUtils.format(order.createdTime.toLong())
                         }
                         val sortedOrders = data.sortedByDescending { order -> order.createdTime }
                         orderListAdapter.updateOrderList(sortedOrders)
@@ -62,7 +60,7 @@ class OrdersFragment : Fragment(R.layout.orders_fragment) {
     }
 
     private fun attachStopOrderObserver() {
-        this.stopOrderViewModel.stopOrderLiveData.observe(viewLifecycleOwner) {
+        this.ordersViewModel.stopOrderResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     displayOrdersRecyclerView()
