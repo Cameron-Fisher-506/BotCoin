@@ -10,8 +10,9 @@ import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.DataAccessStrategyUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.Resource
+import javax.inject.Inject
 
-class OrderRepository(private val application: Application) : BaseRepository() {
+class OrderRepository @Inject constructor(private val application: Application) : BaseRepository() {
     private val orderDao: IOrderDao = BotCoinDatabase.getDatabase(application).orderDao()
 
     suspend fun fetchOrders(): Resource<List<Order>> {

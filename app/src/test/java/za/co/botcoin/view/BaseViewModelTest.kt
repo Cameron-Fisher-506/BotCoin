@@ -25,25 +25,4 @@ abstract class BaseViewModelTest {
     protected val application = RuntimeEnvironment.getApplication()
 
     protected val testCoroutineDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
-
-    @Rule
-    @JvmField
-    val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
-
-    @Rule
-    @JvmField
-    val initRule: MockitoRule = MockitoJUnit.rule()
-
-    @Before
-    open fun setUp() {
-        Dispatchers.setMain(testCoroutineDispatcher)
-        MockitoAnnotations.openMocks(this)
-    }
-
-    @After
-    open fun tearDown() {
-        Dispatchers.resetMain()
-
-        testCoroutineDispatcher.cleanupTestCoroutines()
-    }
 }

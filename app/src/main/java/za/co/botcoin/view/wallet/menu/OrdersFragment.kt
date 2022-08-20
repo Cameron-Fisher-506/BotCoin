@@ -2,6 +2,7 @@ package za.co.botcoin.view.wallet.menu
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import za.co.botcoin.R
@@ -13,16 +14,13 @@ import za.co.botcoin.view.wallet.WalletBaseFragment
 
 class OrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
     private lateinit var binding: OrdersFragmentBinding
-    private lateinit var stopOrderViewModel: StopOrderViewModel
-    private lateinit var orderViewModel: OrderViewModel
+    private val ordersViewModel by viewModels<OrdersViewModel>(factoryProducer = { walletActivity.getViewModelFactory })
     private lateinit var orderListAdapter: OrderListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = OrdersFragmentBinding.bind(view)
 
-        this.orderViewModel = ViewModelProviders.of(this).get(OrderViewModel::class.java)
-        this.stopOrderViewModel = ViewModelProviders.of(this).get(StopOrderViewModel::class.java)
         wireUI()
         fetchAndObserveOrders()
     }
@@ -34,8 +32,8 @@ class OrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
     }
 
     private fun fetchAndObserveOrders() {
-        this.orderViewModel.fetchOrders()
-        this.orderViewModel.ordersLiveData.observe(viewLifecycleOwner) {
+        this.ordersViewModel.fetchOrders()
+        this.ordersViewModel.ordersResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     displayOrdersRecyclerView()
@@ -62,7 +60,7 @@ class OrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
     }
 
     private fun attachStopOrderObserver() {
-        this.stopOrderViewModel.stopOrderLiveData.observe(viewLifecycleOwner) {
+        this.ordersViewModel.stopOrderResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     displayOrdersRecyclerView()
