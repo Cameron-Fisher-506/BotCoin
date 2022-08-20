@@ -10,8 +10,9 @@ import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.DataAccessStrategyUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.Resource
+import javax.inject.Inject
 
-class WithdrawalRepository(private val application: Application) : BaseRepository() {
+class WithdrawalRepository @Inject constructor(private val application: Application) : BaseRepository() {
     private val withdrawalDao: IWithdrawalDao = BotCoinDatabase.getDatabase(application).withdrawalDao()
 
     suspend fun withdrawal(type: String, amount: String, beneficiaryId: String): Resource<List<Withdrawal>> {

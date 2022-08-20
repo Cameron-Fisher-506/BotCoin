@@ -10,7 +10,6 @@ import za.co.botcoin.utils.DateTimeUtils
 import za.co.botcoin.utils.GeneralUtils
 
 class OrderListAdapter(private val ordersList: ArrayList<Order>) : RecyclerView.Adapter<OrderListAdapter.ViewHolder>() {
-
     class ViewHolder(val binding: OrderListItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

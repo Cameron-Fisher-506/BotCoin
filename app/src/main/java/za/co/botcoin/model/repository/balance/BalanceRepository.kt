@@ -10,8 +10,9 @@ import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.DataAccessStrategyUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.Resource
+import javax.inject.Inject
 
-class BalanceRepository(private val application: Application) : BaseRepository() {
+class BalanceRepository @Inject constructor(private val application: Application) : BaseRepository() {
     private val balanceDao: IBalanceDao = BotCoinDatabase.getDatabase(application).balanceDao()
 
     suspend fun fetchBalances(): Resource<List<Balance>> {

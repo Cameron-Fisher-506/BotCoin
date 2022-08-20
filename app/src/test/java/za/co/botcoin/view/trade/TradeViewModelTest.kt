@@ -4,9 +4,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.mockito.Mockito
 import za.co.botcoin.model.repository.candle.CandleRepository
-import za.co.botcoin.model.repository.candle.CandleViewModel
 import za.co.botcoin.model.repository.trade.TradeRepository
-import za.co.botcoin.model.repository.trade.TradeViewModel
 import za.co.botcoin.view.BaseViewModelTest
 
 
@@ -24,10 +22,12 @@ abstract class TradeViewModelTest : BaseViewModelTest() {
     @Before
     override fun setUp() {
         super.setUp()
-        tradeViewModel = TradeViewModel(application, testCoroutineDispatcher)
+        tradeViewModel = TradeViewModel(application)
         tradeViewModel.repository = tradeRepository
+        tradeViewModel.ioDispatcher = testCoroutineDispatcher
 
-        candleViewModel = CandleViewModel(application, testCoroutineDispatcher)
+        candleViewModel = CandleViewModel(application)
         candleViewModel.repository = candleRepository
+        candleViewModel.ioDispatcher = testCoroutineDispatcher
     }
 }
