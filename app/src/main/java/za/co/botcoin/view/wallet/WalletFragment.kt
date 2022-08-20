@@ -10,7 +10,7 @@ import za.co.botcoin.databinding.WalletFragmentBinding
 import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.*
 
-class WalletFragment : Fragment(R.layout.wallet_fragment) {
+class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
     private lateinit var binding: WalletFragmentBinding
     private val walletViewModel by viewModels<WalletViewModel>(factoryProducer = { walletActivity.getViewModelFactory })
 

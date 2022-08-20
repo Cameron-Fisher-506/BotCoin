@@ -12,21 +12,20 @@ import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils.createAlertDialog
 import za.co.botcoin.utils.GeneralUtils.createQRCode
 import za.co.botcoin.utils.GeneralUtils.isApiKeySet
-import za.co.botcoin.view.wallet.WithdrawalViewModel
+import za.co.botcoin.view.wallet.WalletBaseFragment
 
-class ReceiveFragment : Fragment(R.layout.receive_fragment) {
+class ReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) {
     private lateinit var binding: ReceiveFragmentBinding
-    private lateinit var withdrawalViewModel: WithdrawalViewModel
+    private lateinit var receiveViewModel: ReceiveViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = ReceiveFragmentBinding.bind(view)
 
-        this.withdrawalViewModel = ViewModelProviders.of(this).get(WithdrawalViewModel::class.java)
+        this.receiveViewModel = ViewModelProviders.of(this).get(ReceiveViewModel::class.java)
 
         if (isApiKeySet(context)) {
-            this.withdrawalViewModel.receive(arguments?.getString("asset") ?: "", ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)
-            attachReceiveObserver()
+            receiveAndObserveReceive()
         } else {
             createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
 

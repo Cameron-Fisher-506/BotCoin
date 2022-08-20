@@ -14,7 +14,7 @@ import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.KioskUtils
 import za.co.botcoin.utils.SharedPrefsUtils
 
-class HomeFragment : Fragment(R.layout.home_fragment) {
+class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
     private lateinit var binding: HomeFragmentBinding
     private val homeViewModel by viewModels<HomeViewModel>(factoryProducer = { homeActivity.getViewModelFactory })
 
