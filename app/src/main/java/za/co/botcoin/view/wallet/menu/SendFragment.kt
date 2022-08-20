@@ -44,7 +44,7 @@ class SendFragment : WalletBaseFragment(R.layout.send_fragment) {
 
     private fun sendAndObserveSend(amount: String, asset: String, address: String, destinationTag: String) {
         this.sendViewModel.send(amount, asset, address, destinationTag)
-        this.sendViewModel.sendLiveData.observe(viewLifecycleOwner) {
+        this.sendViewModel.sendResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     displaySendOptions()

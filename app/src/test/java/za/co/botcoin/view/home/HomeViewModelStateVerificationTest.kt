@@ -24,8 +24,8 @@ class HomeViewModelStateVerificationTest : HomeViewModelTest() {
             Mockito.`when`(tickersRepository.fetchTickers()).thenReturn(tickers)
         }
 
-        tickersViewModel.fetchTickers()
-        with(tickersViewModel.tickersLiveData.getOrAwaitValue()) {
+        homeViewModel.fetchTickers()
+        with(homeViewModel.tickersResponse.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.SUCCESS, this?.status)
             assertTrue(!this?.data.isNullOrEmpty())
