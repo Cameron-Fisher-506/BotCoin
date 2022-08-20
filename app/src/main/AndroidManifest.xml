@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
+        android:name=".BotCoinApplication"
         android:allowBackup="true"
         android:icon="@mipmap/botcoin"
         android:label="@string/app_name"

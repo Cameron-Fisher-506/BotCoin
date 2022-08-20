@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.17572463768115942" />
         <entry key="app/src/main/res/layout/auto_trade_activity.xml" value="0.17572463768115942" />
         <entry key="app/src/main/res/layout/auto_trade_fragment.xml" value="0.17572463768115942" />
+        <entry key="app/src/main/res/layout/base_activity.xml" value="0.29257246376811596" />
         <entry key="app/src/main/res/layout/disclaimer_policy_fragment.xml" value="0.17572463768115942" />
         <entry key="app/src/main/res/layout/donate_fragment.xml" value="0.17572463768115942" />
         <entry key="app/src/main/res/layout/donate_menu_fragment.xml" value="0.17572463768115942" />
@@ -18,6 +19,7 @@
         <entry key="app/src/main/res/layout/order_list_item.xml" value="0.17572463768115942" />
         <entry key="app/src/main/res/layout/orders_fragment.xml" value="0.17572463768115942" />
         <entry key="app/src/main/res/layout/privacy_policy_fragment.xml" value="0.17572463768115942" />
+        <entry key="app/src/main/res/layout/progress_bar.xml" value="0.3614583333333333" />
         <entry key="app/src/main/res/layout/receive_fragment.xml" value="0.17572463768115942" />
         <entry key="app/src/main/res/layout/resistance_price_counter_fragment.xml" value="0.17572463768115942" />
         <entry key="app/src/main/res/layout/send_fragment.xml" value="0.17572463768115942" />
@@ -36,7 +38,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

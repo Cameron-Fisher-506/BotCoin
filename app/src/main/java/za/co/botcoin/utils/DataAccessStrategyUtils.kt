@@ -2,6 +2,9 @@ package za.co.botcoin.utils
 
 import android.content.Context
 import za.co.botcoin.enum.Status
+import za.co.botcoin.utils.DateTimeUtils.ONE_MINUTE
+import za.co.botcoin.utils.DateTimeUtils.getCurrentDateTime
+import za.co.botcoin.utils.DateTimeUtils.getMinutesFrom
 
 object DataAccessStrategyUtils {
     suspend inline fun <A, T> lazyCache(crossinline dbQuery: suspend () -> Resource<T>, crossinline wsCall: suspend () -> Resource<A>, crossinline saveCall: suspend (A) -> Unit): Resource<T> {
@@ -28,15 +31,15 @@ object DataAccessStrategyUtils {
         if (data != null && (data as List<T>).size > 0) {
             var mustUpdate = true
             val oldDateTime = SharedPrefsUtils[context, SharedPrefsUtils.LAST_REQUEST_TIME]
-            if (oldDateTime != null) {
-                if (DateTimeUtils.differenceInMinutes(oldDateTime, DateTimeUtils.getCurrentDateTime()) > DateTimeUtils.ONE_MINUTE) {
+            if (!oldDateTime.isNullOrBlank()) {
+                if (getMinutesFrom(oldDateTime, getCurrentDateTime()) > ONE_MINUTE) {
                     mustUpdate = true
                 }
             }
 
             if (mustUpdate) {
                 val response = wsCall.invoke()
-                SharedPrefsUtils.save(context, SharedPrefsUtils.LAST_REQUEST_TIME, DateTimeUtils.getCurrentDateTime(DateTimeUtils.DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS))
+                SharedPrefsUtils.save(context, SharedPrefsUtils.LAST_REQUEST_TIME, getCurrentDateTime())
                 toReturn = when (response.status) {
                     Status.SUCCESS -> {
                         response.data?.let { saveCall(it) }
@@ -48,7 +51,7 @@ object DataAccessStrategyUtils {
             }
         } else {
             val response = wsCall.invoke()
-            SharedPrefsUtils.save(context, SharedPrefsUtils.LAST_REQUEST_TIME, DateTimeUtils.getCurrentDateTime(DateTimeUtils.DASHED_PATTERN_YYYY_MM_DD_HH_MM_SS))
+            SharedPrefsUtils.save(context, SharedPrefsUtils.LAST_REQUEST_TIME, getCurrentDateTime())
             toReturn = when (response.status) {
                 Status.SUCCESS -> {
                     response.data?.let { saveCall(it) }

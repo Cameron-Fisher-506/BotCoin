@@ -15,16 +15,27 @@ import za.co.botcoin.model.models.Balance
 import za.co.botcoin.model.models.Order
 import za.co.botcoin.model.models.Trade
 import za.co.botcoin.model.models.TradePrice
-import za.co.botcoin.model.repository.AccountRepository
-import za.co.botcoin.model.repository.WithdrawalRepository
+import za.co.botcoin.model.repository.balance.BalanceRepository
+import za.co.botcoin.model.repository.order.OrderRepository
+import za.co.botcoin.model.repository.postOrder.PostOrderRepository
+import za.co.botcoin.model.repository.stopOrder.StopOrderRepository
+import za.co.botcoin.model.repository.tickers.TickersRepository
+import za.co.botcoin.model.repository.trade.TradeRepository
 import za.co.botcoin.utils.*
-import za.co.botcoin.utils.GeneralUtils
+import za.co.botcoin.utils.MathUtils.calculateMarginPercentage
+import za.co.botcoin.utils.MathUtils.percentage
+import za.co.botcoin.utils.MathUtils.precision
+import za.co.botcoin.utils.SharedPrefsUtils.SUPPORT_PRICE_COUNTER
 import java.util.*
 import kotlin.collections.ArrayList
 
 class BotService : Service() {
-    private lateinit var accountRepository: AccountRepository
-    private lateinit var withdrawalRepository: WithdrawalRepository
+    private lateinit var tickersRepository: TickersRepository
+    private lateinit var tradeRepository: TradeRepository
+    private lateinit var balanceRepository: BalanceRepository
+    private lateinit var orderRepository: OrderRepository
+    private lateinit var stopOrderRepository: StopOrderRepository
+    private lateinit var postOrderRepository: PostOrderRepository
 
     private var supportPrice: String = ""
     private var resistancePrice: String = ""
@@ -75,15 +86,19 @@ class BotService : Service() {
     }
 
     private fun init() {
-        this.accountRepository = AccountRepository(application)
-        this.withdrawalRepository = WithdrawalRepository(application)
+        this.tickersRepository = TickersRepository(application)
+        this.tradeRepository = TradeRepository(application)
+        this.balanceRepository = BalanceRepository(application)
+        this.orderRepository = OrderRepository(application)
+        this.stopOrderRepository = StopOrderRepository(application)
+        this.postOrderRepository = PostOrderRepository(application)
 
         supportPrice = ""
         resistancePrice = ""
     }
 
     private fun attachTickersObserver() = CoroutineScope(Dispatchers.IO).launch {
-        val resource = accountRepository.fetchTickers()
+        val resource = tickersRepository.fetchTickers()
         when (resource.status) {
             Status.SUCCESS -> {
                 val data = resource.data
@@ -104,7 +119,7 @@ class BotService : Service() {
     }
 
     private fun attachTradesObserver(currentPrice: Double) = CoroutineScope(Dispatchers.IO).launch {
-        val resource = accountRepository.fetchTrades(ConstantUtils.PAIR_XRPZAR, true)
+        val resource = tradeRepository.fetchTrades(ConstantUtils.PAIR_XRPZAR, true)
         when (resource.status) {
             Status.SUCCESS -> {
                 val data = resource.data
@@ -126,7 +141,7 @@ class BotService : Service() {
     }
 
     private fun attachBalancesObserver(currentPrice: Double, lastTrade: Trade) = CoroutineScope(Dispatchers.IO).launch {
-        val resource = accountRepository.fetchBalances()
+        val resource = balanceRepository.fetchBalances()
         when (resource.status) {
             Status.SUCCESS -> {
                 val data = resource.data
@@ -154,7 +169,7 @@ class BotService : Service() {
     }
 
     private fun attachOrdersObserver(currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance) = CoroutineScope(Dispatchers.IO).launch {
-        val response = accountRepository.fetchOrders()
+        val response = orderRepository.fetchOrders()
         when (response.status) {
             Status.SUCCESS -> {
                 val data = response.data
@@ -171,7 +186,7 @@ class BotService : Service() {
                 }
 
                 if (useTrailingStart) {
-                    val result = MathUtils.calcMarginPercentage(getLowestPrice(supportPrices), ConstantUtils.trailingStart, false)
+                    val result = calculateMarginPercentage(getLowestPrice(supportPrices), ConstantUtils.trailingStart, false)
                     if (result < currentPrice) {
                         useTrailingStart = false
                     }
@@ -200,7 +215,7 @@ class BotService : Service() {
 
 
     private fun attachStopOrderObserver(orderId: String, currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance) = CoroutineScope(Dispatchers.IO).launch {
-        val resource = withdrawalRepository.stopOrder(orderId)
+        val resource = stopOrderRepository.stopOrder(orderId)
         when (resource.status) {
             Status.SUCCESS -> {
                 val data = resource.data
@@ -224,7 +239,7 @@ class BotService : Service() {
     }
 
     private fun attachPostOrderObserver(pair: String, type: String, volume: String, price: String) = CoroutineScope(Dispatchers.IO).launch {
-        val resource = accountRepository.postOrder(pair, type, volume, price)
+        val resource = postOrderRepository.postOrder(pair, type, volume, price)
         when (resource.status) {
             Status.SUCCESS -> {
                 val data = resource.data
@@ -257,7 +272,7 @@ class BotService : Service() {
                 resistancePrice = ""
                 resistancePrices.clear()
 
-                ConstantUtils.supportPriceCounter = SharedPrefsUtils[applicationContext, SharedPrefsUtils.SUPPORT_PRICE_COUNTER]?.toInt() ?: 4
+                ConstantUtils.supportPriceCounter = SharedPrefsUtils[applicationContext, SUPPORT_PRICE_COUNTER]?.toInt() ?: 4
             } else {
                 Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - bid " +
                         "supportPrice: $supportPrice " +
@@ -267,7 +282,7 @@ class BotService : Service() {
             }
         } else {
             if (supportPrice.isNotBlank() && supportPrice != "0.0") {
-                val result = MathUtils.calcMarginPercentage(supportPrice.toDouble(), ConstantUtils.trailingStop, false)
+                val result = calculateMarginPercentage(supportPrice.toDouble(), ConstantUtils.trailingStop, false)
                 if (currentPrice >= result) {
                     GeneralUtils.notify(this, "bid isRestrict: false - (bid reset support: $supportPrice)", "$currentPrice >= $result")
                     supportPrice = ""
@@ -286,7 +301,7 @@ class BotService : Service() {
             }
         } else {
             if (lastTrade.price.toDouble() != 0.0 && lastTrade.type == Trade.BID_TYPE) {
-                val result = MathUtils.calcMarginPercentage(lastTrade.price.toDouble(), lastTrade.volume.toDouble(), ConstantUtils.trailingStop)
+                val result = calculateMarginPercentage(lastTrade.price.toDouble(), lastTrade.volume.toDouble(), ConstantUtils.trailingStop)
                 if ((currentPrice * lastTrade.volume.toDouble()) <= result) {
                     resistancePrice = (currentPrice + 0.01).toString()
                     placeSellOrder = true
@@ -467,7 +482,7 @@ class BotService : Service() {
 
     private fun pullOutOfAsk(currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance, lastAskOrder: Order) {
         if (lastAskOrder.limitPrice.isNotBlank()) {
-            val result = MathUtils.calcMarginPercentage(lastAskOrder.limitPrice.toDouble(), lastAskOrder.limitVolume.toDouble(), ConstantUtils.trailingStop)
+            val result = calculateMarginPercentage(lastAskOrder.limitPrice.toDouble(), lastAskOrder.limitVolume.toDouble(), ConstantUtils.trailingStop)
             if ((currentPrice * lastAskOrder.limitVolume.toDouble())  <= result) {
                 attachStopOrderObserver(lastAskOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance)
                 GeneralUtils.notify(this, "pullOutOfAsk - (LastAskOrder: " + lastAskOrder.limitPrice + ")", "${(currentPrice * lastAskOrder.limitVolume.toDouble())} <= $result")
@@ -479,7 +494,7 @@ class BotService : Service() {
 
     private fun pullOutOfBid(currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance, lastBidOrder: Order) {
         if (lastBidOrder.limitPrice.isNotBlank()) {
-            val result = MathUtils.calcMarginPercentage(lastBidOrder.limitPrice.toDouble(), lastBidOrder.limitVolume.toDouble(), ConstantUtils.trailingStop, false)
+            val result = calculateMarginPercentage(lastBidOrder.limitPrice.toDouble(), lastBidOrder.limitVolume.toDouble(), ConstantUtils.trailingStop, false)
             if ((currentPrice * lastBidOrder.limitVolume.toDouble()) >= result) {
                 attachStopOrderObserver(lastBidOrder.id, currentPrice, lastTrade, xrpBalance, zarBalance)
                 GeneralUtils.notify(this, "pullOutOfBidCancel - (LastBidOrder: " + lastBidOrder.limitPrice + ")", "${(currentPrice * lastBidOrder.limitVolume.toDouble())} >= $result")
@@ -510,9 +525,9 @@ class BotService : Service() {
                         toReturn = Trend.UPWARD
                     } else {
                         useMaxCurrentPrice = true
-                        val percentage = MathUtils.percentage(this.smartTrendDetectors[i], ConstantUtils.smartTrendDetectorMargin)
-                        val upperBounds = MathUtils.precision(this.smartTrendDetectors[i] + MathUtils.precision(percentage))
-                        val lowerBounds = MathUtils.precision(this.smartTrendDetectors[i] - MathUtils.precision(percentage))
+                        val percentage = percentage(this.smartTrendDetectors[i], ConstantUtils.smartTrendDetectorMargin)
+                        val upperBounds = precision(this.smartTrendDetectors[i] + precision(percentage))
+                        val lowerBounds = precision(this.smartTrendDetectors[i] - precision(percentage))
 
                         toReturn = if (this.smartTrendDetectors[i+1] in lowerBounds..upperBounds) {
                             Trend.UPWARD
@@ -526,9 +541,9 @@ class BotService : Service() {
                         maxCurrentPrice = this.smartTrendDetectors[i+1]
                         toReturn = Trend.UPWARD
                     } else {
-                        val percentage = MathUtils.percentage(maxCurrentPrice, ConstantUtils.smartTrendDetectorMargin)
-                        val upperBounds = MathUtils.precision(maxCurrentPrice + MathUtils.precision(percentage))
-                        val lowerBounds = MathUtils.precision(maxCurrentPrice - MathUtils.precision(percentage))
+                        val percentage = percentage(maxCurrentPrice, ConstantUtils.smartTrendDetectorMargin)
+                        val upperBounds = precision(maxCurrentPrice + precision(percentage))
+                        val lowerBounds = precision(maxCurrentPrice - precision(percentage))
 
                         toReturn = if (this.smartTrendDetectors[i+1] in lowerBounds..upperBounds) {
                             Trend.UPWARD
