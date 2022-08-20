@@ -3,9 +3,11 @@ package za.co.botcoin.utils
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.junit.jupiter.api.DisplayName
 import za.co.botcoin.enum.Trend
 import za.co.botcoin.model.models.Candle
 
+@DisplayName("Fibonacci Retracement Test")
 class FibonacciRetracementTest {
 
     private val fibonacciRetracement: FibonacciRetracement = FibonacciRetracement()
@@ -16,6 +18,7 @@ class FibonacciRetracementTest {
     }
 
     @Test
+    @DisplayName("Should Calculate Fibonacci Retracement When Market Is In Downward Trend")
     fun shouldCalculateFibonacciRetracementWhenMarketIsInDownwardTrend() {
         //given
         val highestCandle = Candle().apply {
@@ -39,6 +42,7 @@ class FibonacciRetracementTest {
     }
 
     @Test
+    @DisplayName("Should Calculate Fibonacci Retracement When Market Is In Upward Trend")
     fun shouldCalculateFibonacciRetracementWhenMarketIsInUpwardTrend() {
         //given
         val highestCandle = Candle().apply {

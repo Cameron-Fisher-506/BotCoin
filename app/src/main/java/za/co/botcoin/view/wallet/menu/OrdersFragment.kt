@@ -2,14 +2,11 @@ package za.co.botcoin.view.wallet.menu
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import za.co.botcoin.R
 import za.co.botcoin.databinding.OrdersFragmentBinding
 import za.co.botcoin.enum.Status
-import za.co.botcoin.model.repository.order.OrderViewModel
-import za.co.botcoin.model.repository.stopOrder.StopOrderViewModel
 import za.co.botcoin.utils.DateTimeUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.view.wallet.WalletBaseFragment
@@ -38,7 +35,7 @@ class OrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
 
     private fun fetchAndObserveOrders() {
         this.orderViewModel.fetchOrders()
-        this.orderViewModel.ordersLiveData.observe(viewLifecycleOwner, {
+        this.orderViewModel.ordersLiveData.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     displayOrdersRecyclerView()
@@ -61,30 +58,30 @@ class OrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
                     displayProgressBar()
                 }
             }
-        })
+        }
     }
 
     private fun attachStopOrderObserver() {
-        this.stopOrderViewModel.stopOrderLiveData.observe(viewLifecycleOwner, {
+        this.stopOrderViewModel.stopOrderLiveData.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     displayOrdersRecyclerView()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
-                        if (data.first().success) GeneralUtils.notify(context,"Order Cancellation", "Order cancelled successfully.") else GeneralUtils.notify(context,"Order Cancellation", "Order cancellation failed.")
+                        if (data.first().success) GeneralUtils.notify(context, "Order Cancellation", "Order cancelled successfully.") else GeneralUtils.notify(context, "Order Cancellation", "Order cancellation failed.")
                     } else {
-                        GeneralUtils.notify(context,"Order Cancellation", "Order cancellation failed.")
+                        GeneralUtils.notify(context, "Order Cancellation", "Order cancellation failed.")
                     }
                 }
                 Status.ERROR -> {
                     displayOrdersRecyclerView()
-                    GeneralUtils.notify(context,"Order Cancellation", "Order cancellation failed.")
+                    GeneralUtils.notify(context, "Order Cancellation", "Order cancellation failed.")
                 }
                 Status.LOADING -> {
                     displayProgressBar()
                 }
             }
-        })
+        }
     }
 
     private fun hideAllViews() {

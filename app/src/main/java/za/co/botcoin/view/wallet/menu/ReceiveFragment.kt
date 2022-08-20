@@ -2,13 +2,11 @@ package za.co.botcoin.view.wallet.menu
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.ReceiveFragmentBinding
 import za.co.botcoin.enum.Status
-import za.co.botcoin.model.repository.receive.ReceiveViewModel
 import za.co.botcoin.utils.ClipBoardUtils.copyToClipBoard
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils.createAlertDialog
@@ -38,12 +36,12 @@ class ReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) {
 
     private fun receiveAndObserveReceive() {
         this.receiveViewModel.receive(arguments?.getString("asset") ?: "", ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)
-        this.receiveViewModel.receiveLiveData.observe(viewLifecycleOwner, {
+        this.receiveViewModel.receiveLiveData.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     displayReceiveOptions()
                     val data = it.data
-                    if(!data.isNullOrEmpty()) {
+                    if (!data.isNullOrEmpty()) {
                         this.binding.addressEditText.setText(data.first().address)
                         this.binding.qrAddressImageView.setImageBitmap(createQRCode(data.first().qrCodeUri, this.binding.qrAddressImageView.width, this.binding.qrAddressImageView.height))
 
@@ -52,10 +50,14 @@ class ReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) {
                         displayErrorTextView()
                     }
                 }
-                Status.ERROR -> { displayErrorTextView() }
-                Status.LOADING -> { displayProgressBar() }
+                Status.ERROR -> {
+                    displayErrorTextView()
+                }
+                Status.LOADING -> {
+                    displayProgressBar()
+                }
             }
-        })
+        }
     }
 
     private fun addBtnCopyListener() {
