@@ -19,16 +19,16 @@ import za.co.botcoin.view.BaseViewModelTest
 
 
 @ExperimentalCoroutinesApi
-abstract class TradeViewModelTest : BaseViewModelTest() {
+class TradeViewModelTest : BaseViewModelTest() {
 
     @Mock
-    protected lateinit var tradeRepository: TradeRepository
+    private lateinit var tradeRepository: TradeRepository
 
     @InjectMocks
-    protected lateinit var tradeViewModel: TradeViewModel
+    private lateinit var tradeViewModel: TradeViewModel
 
     @Mock
-    protected lateinit var candleRepository: CandleRepository
+    private lateinit var candleRepository: CandleRepository
 
     @Before
     fun setUp() {

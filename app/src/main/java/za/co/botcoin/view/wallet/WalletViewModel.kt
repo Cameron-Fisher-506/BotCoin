@@ -8,7 +8,7 @@ import za.co.botcoin.model.repository.BaseViewModel
 import za.co.botcoin.model.repository.balance.BalanceRepository
 import za.co.botcoin.utils.Resource
 
-class WalletViewModel(application: Application, private val balanceRepository: BalanceRepository): BaseViewModel(application){
+class WalletViewModel(application: Application, private val balanceRepository: BalanceRepository) : BaseViewModel(application) {
     lateinit var balancesResponse: LiveData<Resource<List<Balance>>>
 
     fun fetchBalances() {
