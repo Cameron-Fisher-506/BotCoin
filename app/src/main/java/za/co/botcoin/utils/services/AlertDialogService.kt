@@ -1,11 +1,11 @@
-package za.co.botcoin.utils
+package za.co.botcoin.utils.services
 
 import android.app.AlertDialog
 import android.content.Context
 import android.widget.EditText
 import android.widget.LinearLayout
 
-object DialogUtils {
+object AlertDialogService {
     fun createAlertDialog(context: Context?, title: String, message: String, isPrompt: Boolean): AlertDialog {
         val builder = AlertDialog.Builder(context)
         val edTxtName = EditText(context)
