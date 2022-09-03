@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -24,5 +25,5 @@ abstract class BaseViewModelTest {
 
     protected val application = RuntimeEnvironment.getApplication()
 
-    protected val testCoroutineDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+    protected val unconfinedTestDispatcher = UnconfinedTestDispatcher()
 }
