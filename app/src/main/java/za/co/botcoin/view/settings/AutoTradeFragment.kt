@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.AutoTradeFragmentBinding
@@ -15,12 +16,13 @@ import za.co.botcoin.utils.services.SharedPreferencesService
 
 class AutoTradeFragment : AutoTradeBaseFragment(R.layout.auto_trade_fragment) {
     private lateinit var binding: AutoTradeFragmentBinding
+    private val autoTradeViewModel by viewModels<AutoTradeViewModel>(factoryProducer = { autoTradeActivity.getViewModelFactory })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = AutoTradeFragmentBinding.bind(view)
 
-
+        autoTradeViewModel.displayAutoTradeAlertDialog()
 
         if (GeneralUtils.isApiKeySet(context)) {
             setSwitchAutoTrade()
