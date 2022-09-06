@@ -5,46 +5,24 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.AutoTradeFragmentBinding
 import za.co.botcoin.services.FiboService
 import za.co.botcoin.utils.*
-import za.co.botcoin.utils.services.AlertDialogService
+import za.co.botcoin.utils.services.alertDialogService.AlertDialogService
 import za.co.botcoin.utils.services.SharedPreferencesService
 
-class AutoTradeFragment : Fragment(R.layout.auto_trade_fragment) {
+class AutoTradeFragment : AutoTradeBaseFragment(R.layout.auto_trade_fragment) {
     private lateinit var binding: AutoTradeFragmentBinding
+    private val autoTradeViewModel by viewModels<AutoTradeViewModel>(factoryProducer = { autoTradeActivity.getViewModelFactory })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = AutoTradeFragmentBinding.bind(view)
 
-        AlertDialogService.createAlertDialog(context, "Disclaimer",
-                """
-                    Any client deciding to use BotCoin understands that:
-                    
-                    1. Trading cryptocurrency involves substantial risk, and there is always the potential for loss.
-                    2. Trading results on BotCoin may vary. BotCoin does not guarantee that you will always make a profit as cryptocurrency prices are volatile.
-                    3. Past performance is not indicative of future results. A trader who has been successful for a substantial amount of time may not always be successful.
-                    4. The decision of whether to use the service offered is that of the client alone.
-                    5. BotCoin nor any of the developers, will be responsible for any loss.
-                    6. N.B. BotCoin will not make the decision to automatically pull out of a trades if the price drops as this is a very risky decision to make. 
-                    The user is responsible for pulling out of a trade if the price, of the cryptocurrency he/she is trading, drops.
-                    7. N.B. BotCoin consumes Luno's API. Therefore, Luno charges still apply when withdrawing money and sending money.
-                    8. BotCoin provides it's services for FREE. Users have the option to donate cryptocurrency to BotCoin. Donations are non-refundable.
-                    
-                    Your continued use of our app will be regarded as acceptance of the risk involved.
-                    
-                    Disclosure
-                    
-                    To make use of the BotCoin app please note that we require and store the following information:
-                    1. Your Luno API credentials.
-                    
-                    This policy is effective as of 25 November 2020.
-                    
-                    
-                    """.trimIndent(), false).show()
+        autoTradeViewModel.displayAutoTradeAlertDialog()
 
         if (GeneralUtils.isApiKeySet(context)) {
             setSwitchAutoTrade()
