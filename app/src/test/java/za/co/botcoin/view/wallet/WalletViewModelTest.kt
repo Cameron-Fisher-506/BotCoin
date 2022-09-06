@@ -57,7 +57,7 @@ class WalletViewModelTest : BaseViewModelTest() {
     }
 
     @Test
-    @DisplayName("Fetch Balances")
+    @DisplayName("Fetch Balances Behavioural Verification")
     fun shouldCallBalanceRepositoryWhenFetchBalancesIsCalled() {
         walletViewModel.fetchBalances()
         walletViewModel.balancesResponse.disposeObserver()
@@ -67,25 +67,8 @@ class WalletViewModelTest : BaseViewModelTest() {
         }
     }
 
-    /*
-
-
-
-
-
     @Test
-    @DisplayName("Post Order")
-    fun shouldCallPostOrderRepositoryWhenPostOrderIsCalled() {
-        postOrderViewModel.postOrder("", "", "", "")
-        postOrderViewModel.postOrderLiveData.disposeObserver()
-        runBlocking {
-            Mockito.verify(postOrderRepository).postOrder(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString())
-            Mockito.verifyNoMoreInteractions(postOrderRepository)
-        }
-    }
-
-    @Test
-    @DisplayName("Fetch Balances")
+    @DisplayName("Fetch Balances State Verification")
     fun shouldReturnBalanceResponseWhenFetchBalancesIsCalled() {
         val balances: Resource<List<Balance>> = Resource.success(listOf(Balance()))
 
@@ -96,123 +79,25 @@ class WalletViewModelTest : BaseViewModelTest() {
         walletViewModel.fetchBalances()
         with(walletViewModel.balancesResponse.getOrAwaitValue()) {
             assertNotNull(this)
-            assertEquals(Status.LOADING, this.status)
+            assertEquals(Status.LOADING, this?.status)
         }
 
         with(walletViewModel.balancesResponse.getOrAwaitValue()) {
             assertNotNull(this)
-            assertEquals(Status.SUCCESS, this.status)
-            assertTrue(!this.data.isNullOrEmpty())
-        }
-    }
-
-    @Test
-    @DisplayName("Withdrawal")
-    fun shouldReturnWithdrawalResponseWhenWithdrawalIsCalled() {
-        val withdrawal: Resource<List<Withdrawal>> = Resource.success(listOf(Withdrawal()))
-
-        runBlockingTest {
-            Mockito.`when`(withdrawalRepository.withdrawal(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(withdrawal)
-        }
-
-        withdrawalViewModel.withdrawal("", "", "")
-        with(withdrawalViewModel.withdrawalLiveData.getOrAwaitValue()) {
-            assertNotNull(this)
-            assertEquals(Status.LOADING, this?.status)
-        }
-
-        with(withdrawalViewModel.withdrawalLiveData.getOrAwaitValue()) {
-            assertNotNull(this)
             assertEquals(Status.SUCCESS, this?.status)
             assertTrue(!this?.data.isNullOrEmpty())
         }
     }
 
+    /*
     @Test
-    @DisplayName("Stop Order")
-    fun shouldReturnStopOrderResponseWhenStopOrderIsCalled() {
-        val stopOrder: Resource<List<StopOrder>> = Resource.success(listOf(StopOrder()))
-
-        runBlockingTest {
-            Mockito.`when`(stopOrderRepository.stopOrder(ArgumentMatchers.anyString())).thenReturn(stopOrder)
-        }
-
-        stopOrderViewModel.stopOrder("")
-        with(stopOrderViewModel.stopOrderLiveData.getOrAwaitValue()) {
-            assertNotNull(this)
-            assertEquals(Status.LOADING, this?.status)
-        }
-
-        with(stopOrderViewModel.stopOrderLiveData.getOrAwaitValue()) {
-            assertNotNull(this)
-            assertEquals(Status.SUCCESS, this?.status)
-            assertTrue(!this?.data.isNullOrEmpty())
-        }
-    }
-
-    @Test
-    @DisplayName("Fetch Orders")
-    fun shouldReturnOrdersResponseWhenFetchOrdersIsCalled() {
-        val orders: Resource<List<Order>> = Resource.success(listOf(Order(), Order()))
-
-        runBlockingTest {
-            Mockito.`when`(orderRepository.fetchOrders()).thenReturn(orders)
-        }
-
-        orderViewModel.fetchOrders()
-        with(orderViewModel.ordersLiveData.getOrAwaitValue()) {
-            assertNotNull(this)
-            assertEquals(Status.LOADING, this?.status)
-        }
-
-        with(orderViewModel.ordersLiveData.getOrAwaitValue()) {
-            assertNotNull(this)
-            assertEquals(Status.SUCCESS, this?.status)
-            assertTrue(!this?.data.isNullOrEmpty())
-        }
-    }
-
-    @Test
-    @DisplayName("Receive")
-    fun shouldReturnReceiveResponseWhenReceiveIsCalled() {
-        val receive: Resource<List<Receive>> = Resource.success(listOf(Receive()))
-
-        runBlockingTest {
-            Mockito.`when`(receiveRepository.receive(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(receive)
-        }
-
-        receiveViewModel.receive("", "", "")
-        with(receiveViewModel.receiveLiveData.getOrAwaitValue()) {
-            assertNotNull(this)
-            assertEquals(Status.LOADING, this?.status)
-        }
-
-        with(receiveViewModel.receiveLiveData.getOrAwaitValue()) {
-            assertNotNull(this)
-            assertEquals(Status.SUCCESS, this?.status)
-            assertTrue(!this?.data.isNullOrEmpty())
-        }
-    }
-
-    @Test
-    @DisplayName("send")
-    fun shouldReturnSendResponseWhenSendIsCalled() {
-        val send: Resource<List<Send>> = Resource.success(listOf(Send()))
-
-        runBlockingTest {
-            Mockito.`when`(sendRepository.send(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(send)
-        }
-
-        sendViewModel.send("", "", "", "")
-        with(sendViewModel.sendLiveData.getOrAwaitValue()) {
-            assertNotNull(this)
-            assertEquals(Status.LOADING, this?.status)
-        }
-
-        with(sendViewModel.sendLiveData.getOrAwaitValue()) {
-            assertNotNull(this)
-            assertEquals(Status.SUCCESS, this?.status)
-            assertTrue(!this?.data.isNullOrEmpty())
+    @DisplayName("Post Order")
+    fun shouldCallPostOrderRepositoryWhenPostOrderIsCalled() {
+        postOrderViewModel.postOrder("", "", "", "")
+        postOrderViewModel.postOrderLiveData.disposeObserver()
+        runBlocking {
+            Mockito.verify(postOrderRepository).postOrder(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString())
+            Mockito.verifyNoMoreInteractions(postOrderRepository)
         }
     }
 
