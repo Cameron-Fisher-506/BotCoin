@@ -4,11 +4,11 @@ import android.app.AlertDialog
 import android.content.Context
 
 object BaseAlertDialog {
-    fun showAlertDialog(context: Context, alertDialogProperties: AlertDialogProperties) {
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle(alertDialogProperties.title)
-        builder.setCancelable(false)
-        builder.setPositiveButton("Okay") { dialog, _ -> dialog.cancel() }
-        builder.create().show()
+    fun showAlertDialog(context: Context, alertDialogProperties: AlertDialogProperties) = AlertDialog.Builder(context).apply {
+        setTitle(alertDialogProperties.title)
+        setMessage(alertDialogProperties.message)
+        setCancelable(false)
+        setPositiveButton("Okay") { dialog, _ -> dialog.cancel() }
+        create().show()
     }
 }

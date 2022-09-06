@@ -64,7 +64,7 @@ class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
                 Status.LOADING -> {
                 }
             }
-        };
+        }
     }
 
     private fun displayLinearLayout() {
