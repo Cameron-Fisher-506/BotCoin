@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Subcomponent
 import za.co.botcoin.di.featureModules.HomeViewModelModule
 import za.co.botcoin.di.featureModules.WalletViewModelModule
-import za.co.botcoin.utils.ProgressDialog
+import za.co.botcoin.utils.services.ProgressDialogService
 
 @Subcomponent(modules = [ViewModelsModule::class, PresentationModule::class, HomeViewModelModule::class, WalletViewModelModule::class])
 interface ActivityComponent {
     fun getViewModelFactory(): ViewModelProvider.Factory
-    fun getProgressDialogService(): ProgressDialog
+    fun getProgressDialogService(): ProgressDialogService
 }

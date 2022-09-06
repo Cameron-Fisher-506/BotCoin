@@ -5,6 +5,7 @@ import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.DateTimeUtils.ONE_MINUTE
 import za.co.botcoin.utils.DateTimeUtils.getCurrentDateTime
 import za.co.botcoin.utils.DateTimeUtils.getMinutesFrom
+import za.co.botcoin.utils.services.SharedPreferencesService
 
 object DataAccessStrategyUtils {
     suspend inline fun <A, T> lazyCache(crossinline dbQuery: suspend () -> Resource<T>, crossinline wsCall: suspend () -> Resource<A>, crossinline saveCall: suspend (A) -> Unit): Resource<T> {
@@ -30,7 +31,7 @@ object DataAccessStrategyUtils {
         val data = toReturn.data
         if (data != null && (data as List<T>).size > 0) {
             var mustUpdate = true
-            val oldDateTime = SharedPrefsUtils[context, SharedPrefsUtils.LAST_REQUEST_TIME]
+            val oldDateTime = SharedPreferencesService[context, SharedPreferencesService.LAST_REQUEST_TIME]
             if (!oldDateTime.isNullOrBlank()) {
                 if (getMinutesFrom(oldDateTime, getCurrentDateTime()) > ONE_MINUTE) {
                     mustUpdate = true
@@ -39,7 +40,7 @@ object DataAccessStrategyUtils {
 
             if (mustUpdate) {
                 val response = wsCall.invoke()
-                SharedPrefsUtils.save(context, SharedPrefsUtils.LAST_REQUEST_TIME, getCurrentDateTime())
+                SharedPreferencesService.save(context, SharedPreferencesService.LAST_REQUEST_TIME, getCurrentDateTime())
                 toReturn = when (response.status) {
                     Status.SUCCESS -> {
                         response.data?.let { saveCall(it) }
@@ -51,7 +52,7 @@ object DataAccessStrategyUtils {
             }
         } else {
             val response = wsCall.invoke()
-            SharedPrefsUtils.save(context, SharedPrefsUtils.LAST_REQUEST_TIME, getCurrentDateTime())
+            SharedPreferencesService.save(context, SharedPreferencesService.LAST_REQUEST_TIME, getCurrentDateTime())
             toReturn = when (response.status) {
                 Status.SUCCESS -> {
                     response.data?.let { saveCall(it) }

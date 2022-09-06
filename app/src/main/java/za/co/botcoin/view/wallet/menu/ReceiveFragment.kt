@@ -7,7 +7,7 @@ import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.ReceiveFragmentBinding
 import za.co.botcoin.enum.Status
-import za.co.botcoin.utils.ClipBoardUtils.copyToClipBoard
+import za.co.botcoin.utils.services.ClipBoardService.copyToClipBoard
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils.createAlertDialog
 import za.co.botcoin.utils.GeneralUtils.createQRCode

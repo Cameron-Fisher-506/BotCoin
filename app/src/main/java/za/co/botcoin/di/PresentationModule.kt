@@ -1,13 +1,12 @@
 package za.co.botcoin.di
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import dagger.Module
 import dagger.Provides
-import za.co.botcoin.utils.ProgressDialog
+import za.co.botcoin.utils.services.ProgressDialogService
 
 @Module
 class PresentationModule(private val activity: AppCompatActivity) {
     @Provides
-    fun progressDialogService(): ProgressDialog = ProgressDialog(activity)
+    fun progressDialogService(): ProgressDialogService = ProgressDialogService(activity)
 }

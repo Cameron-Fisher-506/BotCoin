@@ -13,6 +13,7 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import za.co.botcoin.R
 import za.co.botcoin.services.FiboService
+import za.co.botcoin.utils.services.SharedPreferencesService
 
 object GeneralUtils {
     fun makeToast(context: Context?, message: String) {
@@ -33,8 +34,8 @@ object GeneralUtils {
     }
 
     fun isApiKeySet(context: Context?): Boolean {
-        val lunoApiKeyId = context?.let { SharedPrefsUtils[it, SharedPrefsUtils.LUNO_API_KEY_ID] }
-        val lunoApiSecretKey = context?.let { SharedPrefsUtils[it, SharedPrefsUtils.LUNO_API_SECRET_KEY] }
+        val lunoApiKeyId = context?.let { SharedPreferencesService[it, SharedPreferencesService.LUNO_API_KEY_ID] }
+        val lunoApiSecretKey = context?.let { SharedPreferencesService[it, SharedPreferencesService.LUNO_API_SECRET_KEY] }
         if (!lunoApiKeyId.isNullOrBlank() && !lunoApiSecretKey.isNullOrBlank()) {
             ConstantUtils.USER_KEY_ID = lunoApiKeyId
             ConstantUtils.USER_SECRET_KEY = lunoApiSecretKey
@@ -102,7 +103,7 @@ object GeneralUtils {
 
     fun runAutoTrade(context: Context) {
         if (isApiKeySet(context)) {
-            val isAutoTrade = SharedPrefsUtils[context, SharedPrefsUtils.AUTO_TRADE_PREF]
+            val isAutoTrade = SharedPreferencesService[context, SharedPreferencesService.AUTO_TRADE_PREF]
             if (!isAutoTrade.isNullOrBlank() && isAutoTrade.toBoolean()) {
                 if (Build.VERSION.SDK_INT >= 26) {
                     context.startForegroundService(Intent(context, FiboService::class.java))

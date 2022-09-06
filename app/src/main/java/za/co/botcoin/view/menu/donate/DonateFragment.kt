@@ -2,13 +2,12 @@ package za.co.botcoin.view.menu.donate
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProviders
 import za.co.botcoin.R
 import za.co.botcoin.databinding.DonateFragmentBinding
 import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.*
+import za.co.botcoin.utils.services.ClipBoardService
 import za.co.botcoin.view.menu.MenuBaseFragment
 
 class DonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
@@ -87,11 +86,11 @@ class DonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
     }
 
     private fun addBtnCopyListener() {
-        this.binding.copyImageButton.setOnClickListener { activity?.let { context -> ClipBoardUtils.copyToClipBoard(context, this.binding.addressEditText.text.toString()) } }
+        this.binding.copyImageButton.setOnClickListener { activity?.let { context -> ClipBoardService.copyToClipBoard(context, this.binding.addressEditText.text.toString()) } }
     }
 
     private fun addBtnCopyTagListener() {
-        this.binding.copyTagImageButton.setOnClickListener { activity?.let { context -> ClipBoardUtils.copyToClipBoard(context, this.binding.tagEditText.text.toString()) } }
+        this.binding.copyTagImageButton.setOnClickListener { activity?.let { context -> ClipBoardService.copyToClipBoard(context, this.binding.tagEditText.text.toString()) } }
     }
 
     private fun addBtnDonateListener() {

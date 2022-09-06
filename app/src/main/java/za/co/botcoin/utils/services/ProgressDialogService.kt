@@ -1,10 +1,10 @@
-package za.co.botcoin.utils
+package za.co.botcoin.utils.services
 
 import android.app.Dialog
 import android.content.Context
 import za.co.botcoin.R
 
-class ProgressDialog(context: Context) : Dialog(context) {
+class ProgressDialogService(context: Context) : Dialog(context) {
 
     init {
         this.setContentView(R.layout.progress_bar)

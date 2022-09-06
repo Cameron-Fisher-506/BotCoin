@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.DisclaimerPolicyFragmentBinding
-import za.co.botcoin.utils.SharedPrefsUtils
+import za.co.botcoin.utils.services.SharedPreferencesService
 import kotlin.system.exitProcess
 
 class DisclaimerPolicyFragment : Fragment(R.layout.disclaimer_policy_fragment) {
@@ -49,7 +49,7 @@ class DisclaimerPolicyFragment : Fragment(R.layout.disclaimer_policy_fragment) {
         }
 
         this.binding.acceptButton.setOnClickListener {
-            SharedPrefsUtils.save(requireContext(), SharedPrefsUtils.DISCLAIMER_ACCEPTANCE, "true")
+            SharedPreferencesService.save(requireContext(), SharedPreferencesService.DISCLAIMER_ACCEPTANCE, "true")
             val action = DisclaimerPolicyFragmentDirections.actionDisclaimerPolicyFragmentToHomeFragment()
             Navigation.findNavController(view).navigate(action)
         }

@@ -4,22 +4,22 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import za.co.botcoin.BotCoinApplication
 import za.co.botcoin.di.PresentationModule
-import za.co.botcoin.utils.ProgressDialog
+import za.co.botcoin.utils.services.ProgressDialogService
 
 abstract class BaseActivity : AppCompatActivity() {
-    protected lateinit var progressBar: ProgressDialog
+    protected lateinit var progressDialogBar: ProgressDialogService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        progressBar = ProgressDialog(this)
+        progressDialogBar = ProgressDialogService(this)
     }
 
     fun displayProgressBar() {
-        progressBar.show()
+        progressDialogBar.show()
     }
 
     fun dismissProgressBar() {
-        progressBar.dismiss()
+        progressDialogBar.dismiss()
     }
 
     private val activityComponent by lazy {

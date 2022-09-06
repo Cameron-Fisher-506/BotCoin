@@ -8,7 +8,7 @@ import za.co.botcoin.R
 import za.co.botcoin.databinding.SupportPriceCounterFragmentBinding
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
-import za.co.botcoin.utils.SharedPrefsUtils
+import za.co.botcoin.utils.services.SharedPreferencesService
 
 class SupportPriceCounterFragment : Fragment(R.layout.support_price_counter_fragment) {
     private lateinit var binding: SupportPriceCounterFragmentBinding
@@ -25,7 +25,7 @@ class SupportPriceCounterFragment : Fragment(R.layout.support_price_counter_frag
         val adapter = ArrayAdapter.createFromResource(requireContext(), R.array.support_price_counter_items, android.R.layout.simple_spinner_item)
         this.binding.spinner.adapter = adapter
 
-        val supportPriceCounter = SharedPrefsUtils[requireContext(), SharedPrefsUtils.SUPPORT_PRICE_COUNTER]
+        val supportPriceCounter = SharedPreferencesService[requireContext(), SharedPreferencesService.SUPPORT_PRICE_COUNTER]
         if (!supportPriceCounter.isNullOrBlank()) {
             this.binding.spinner.setSelection(supportPriceCounter.toInt())
         } else {
@@ -54,6 +54,6 @@ class SupportPriceCounterFragment : Fragment(R.layout.support_price_counter_frag
     }
 
     private fun saveUserSupportPriceCounter(itemPosition: Int) {
-        SharedPrefsUtils.save(requireContext(), SharedPrefsUtils.SUPPORT_PRICE_COUNTER, itemPosition.toString())
+        SharedPreferencesService.save(requireContext(), SharedPreferencesService.SUPPORT_PRICE_COUNTER, itemPosition.toString())
     }
 }

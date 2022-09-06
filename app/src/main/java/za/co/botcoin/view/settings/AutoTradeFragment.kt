@@ -8,9 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.AutoTradeFragmentBinding
-import za.co.botcoin.services.BotService
 import za.co.botcoin.services.FiboService
 import za.co.botcoin.utils.*
+import za.co.botcoin.utils.services.AlertDialogService
+import za.co.botcoin.utils.services.SharedPreferencesService
 
 class AutoTradeFragment : Fragment(R.layout.auto_trade_fragment) {
     private lateinit var binding: AutoTradeFragmentBinding
@@ -19,7 +20,7 @@ class AutoTradeFragment : Fragment(R.layout.auto_trade_fragment) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = AutoTradeFragmentBinding.bind(view)
 
-        DialogUtils.createAlertDialog(context, "Disclaimer",
+        AlertDialogService.createAlertDialog(context, "Disclaimer",
                 """
                     Any client deciding to use BotCoin understands that:
                     
@@ -57,7 +58,7 @@ class AutoTradeFragment : Fragment(R.layout.auto_trade_fragment) {
         }
 
         this.binding.autoTradeSwitch.setOnCheckedChangeListener { _, isChecked ->
-            context?.let { SharedPrefsUtils.save(it, SharedPrefsUtils.AUTO_TRADE_PREF, isChecked.toString()) }
+            context?.let { SharedPreferencesService.save(it, SharedPreferencesService.AUTO_TRADE_PREF, isChecked.toString()) }
             if (isChecked) {
                 //start service
                 startBotService()
@@ -81,7 +82,7 @@ class AutoTradeFragment : Fragment(R.layout.auto_trade_fragment) {
     }
 
     private fun setSwitchAutoTrade() {
-        val isAutoTrade = context?.let { SharedPrefsUtils[it, SharedPrefsUtils.AUTO_TRADE_PREF] }
+        val isAutoTrade = context?.let { SharedPreferencesService[it, SharedPreferencesService.AUTO_TRADE_PREF] }
         this.binding.autoTradeSwitch.isChecked = isAutoTrade != null
     }
 }

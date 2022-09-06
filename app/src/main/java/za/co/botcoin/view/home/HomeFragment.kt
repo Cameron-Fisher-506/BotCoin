@@ -11,8 +11,8 @@ import za.co.botcoin.enum.Status
 import za.co.botcoin.services.BotService
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
-import za.co.botcoin.utils.KioskUtils
-import za.co.botcoin.utils.SharedPrefsUtils
+import za.co.botcoin.utils.services.KioskService
+import za.co.botcoin.utils.services.SharedPreferencesService
 
 class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
     private lateinit var binding: HomeFragmentBinding
@@ -31,7 +31,7 @@ class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
         handler.postDelayed(object : Runnable {
             override fun run() {
                 attachTickerObserver()
-                if(!KioskUtils.isMyServiceRunning(requireContext(), BotService::class.java.simpleName)) {
+                if(!KioskService.isMyServiceRunning(requireContext(), BotService::class.java.simpleName)) {
                     GeneralUtils.runAutoTrade(requireContext())
                 }
                 handler.postDelayed(this, delay)
@@ -78,7 +78,7 @@ class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
     }
 
     private fun displayPrivacyPolicy(view: View) {
-        val privacyPolicyAcceptance = SharedPrefsUtils[requireContext(), SharedPrefsUtils.PRIVACY_POLICY_ACCEPTANCE]
+        val privacyPolicyAcceptance = SharedPreferencesService[requireContext(), SharedPreferencesService.PRIVACY_POLICY_ACCEPTANCE]
         if (privacyPolicyAcceptance == null) {
             val action = HomeFragmentDirections.actionHomeFragmentToPrivacyPolicyFragment()
             Navigation.findNavController(view).navigate(action)
@@ -92,35 +92,35 @@ class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
     }
 
     private fun setUserTrailingStartPrice() {
-        val trailingStart = SharedPrefsUtils[requireContext(), SharedPrefsUtils.TRAILING_START]
+        val trailingStart = SharedPreferencesService[requireContext(), SharedPreferencesService.TRAILING_START]
         if (!trailingStart.isNullOrBlank()) {
             ConstantUtils.trailingStart = trailingStart.toInt()
         }
     }
 
     private fun setUserTrailingStopPrice() {
-        val trailingStop = SharedPrefsUtils[requireContext(), SharedPrefsUtils.TRAILING_STOP]
+        val trailingStop = SharedPreferencesService[requireContext(), SharedPreferencesService.TRAILING_STOP]
         if (!trailingStop.isNullOrBlank()) {
             ConstantUtils.trailingStop = trailingStop.toInt()
         }
     }
 
     private fun setSupportPriceCounter() {
-        val supportPriceCounter = SharedPrefsUtils[requireContext(), SharedPrefsUtils.SUPPORT_PRICE_COUNTER]
+        val supportPriceCounter = SharedPreferencesService[requireContext(), SharedPreferencesService.SUPPORT_PRICE_COUNTER]
         if (!supportPriceCounter.isNullOrBlank()) {
             ConstantUtils.supportPriceCounter = supportPriceCounter.toInt()
         }
     }
 
     private fun setResistancePriceCounter() {
-        val resistancePriceCounter = SharedPrefsUtils[requireContext(), SharedPrefsUtils.RESISTANCE_PRICE_COUNTER]
+        val resistancePriceCounter = SharedPreferencesService[requireContext(), SharedPreferencesService.RESISTANCE_PRICE_COUNTER]
         if (!resistancePriceCounter.isNullOrBlank()) {
             ConstantUtils.resistancePriceCounter = resistancePriceCounter.toInt()
         }
     }
 
     private fun setSmartTrendDetectorMargin() {
-        val smartTrendDetectorMargin = SharedPrefsUtils[requireContext(), SharedPrefsUtils.SMART_TREND_DETECTOR]
+        val smartTrendDetectorMargin = SharedPreferencesService[requireContext(), SharedPreferencesService.SMART_TREND_DETECTOR]
         if (!smartTrendDetectorMargin.isNullOrBlank()) {
             ConstantUtils.smartTrendDetectorMargin = smartTrendDetectorMargin.toInt()
         }
