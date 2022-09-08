@@ -39,6 +39,7 @@ class ReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) {
         this.receiveViewModel.receiveResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
+                    walletActivity.dismissProgressBar()
                     displayReceiveOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
@@ -51,9 +52,11 @@ class ReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) {
                     }
                 }
                 Status.ERROR -> {
+                    walletActivity.dismissProgressBar()
                     displayErrorTextView()
                 }
                 Status.LOADING -> {
+                    walletActivity.displayProgressBar()
                     displayProgressBar()
                 }
             }
@@ -69,7 +72,6 @@ class ReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) {
         this.binding.addressEditText.visibility = View.GONE
         this.binding.donateTextView.visibility = View.GONE
         this.binding.errorTextView.visibility = View.GONE
-        this.binding.progressBar.visibility = View.GONE
     }
 
     private fun displayReceiveOptions() {
@@ -86,6 +88,5 @@ class ReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) {
 
     private fun displayProgressBar() {
         hideAllViews()
-        this.binding.progressBar.visibility = View.VISIBLE
     }
 }

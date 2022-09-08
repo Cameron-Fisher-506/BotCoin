@@ -31,6 +31,7 @@ class DonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
         this.donateViewModel.receiveResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
+                    menuActivity.dismissProgressBar()
                     displayDonateOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
@@ -47,9 +48,11 @@ class DonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
                     }
                 }
                 Status.ERROR -> {
+                    menuActivity.dismissProgressBar()
                     displayErrorTextView()
                 }
                 Status.LOADING -> {
+                    menuActivity.displayProgressBar()
                     displayProgressBar()
                 }
             }
@@ -60,6 +63,7 @@ class DonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
         this.donateViewModel.sendResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
+                    menuActivity.dismissProgressBar()
                     displayDonateOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
@@ -69,10 +73,12 @@ class DonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
                     }
                 }
                 Status.ERROR -> {
+                    menuActivity.dismissProgressBar()
                     displayDonateOptions()
                     GeneralUtils.notify(context, "Send failed.", "")
                 }
                 Status.LOADING -> {
+                    menuActivity.displayProgressBar()
                     displayProgressBar()
                 }
             }
@@ -124,7 +130,6 @@ class DonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
         this.binding.tagEditText.visibility = View.GONE
         this.binding.donateTextView.visibility = View.GONE
         this.binding.errorTextView.visibility = View.GONE
-        this.binding.progressBar.visibility = View.GONE
     }
 
     private fun displayDonateOptions() {
@@ -145,6 +150,5 @@ class DonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
 
     private fun displayProgressBar() {
         hideAllViews()
-        this.binding.progressBar.visibility = View.VISIBLE
     }
 }

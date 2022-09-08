@@ -32,6 +32,7 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
         this.walletViewModel.balancesResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
+                    walletActivity.dismissProgressBar()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
                         displayLinearLayouts()
@@ -48,9 +49,11 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
                     }
                 }
                 Status.ERROR -> {
+                    walletActivity.dismissProgressBar()
                     displayErrorTextView()
                 }
                 Status.LOADING -> {
+                    walletActivity.displayProgressBar()
                     displayProgressBar()
                 }
             }
@@ -70,14 +73,12 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
 
     private fun displayProgressBar() {
         hideAllView()
-        this.binding.progressBar.visibility = View.VISIBLE
     }
 
     private fun hideAllView() {
         this.binding.zarLinearLayoutCompat.visibility = View.GONE
         this.binding.xrpLinearLayoutCompat.visibility = View.GONE
         this.binding.errorTextView.visibility = View.GONE
-        this.binding.progressBar.visibility = View.GONE
     }
 
     private fun addZarOptionListener() {

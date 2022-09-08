@@ -10,6 +10,7 @@ import za.co.botcoin.databinding.OrdersFragmentBinding
 import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.DateTimeUtils
 import za.co.botcoin.utils.GeneralUtils
+import za.co.botcoin.view.wallet.WalletActivity
 import za.co.botcoin.view.wallet.WalletBaseFragment
 
 class OrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
@@ -36,6 +37,7 @@ class OrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
         this.ordersViewModel.ordersResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
+                    walletActivity.dismissProgressBar()
                     displayOrdersRecyclerView()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
@@ -50,9 +52,11 @@ class OrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
                     }
                 }
                 Status.ERROR -> {
+                    walletActivity.dismissProgressBar()
                     displayErrorTextView()
                 }
                 Status.LOADING -> {
+                    walletActivity.displayProgressBar()
                     displayProgressBar()
                 }
             }
@@ -63,6 +67,7 @@ class OrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
         this.ordersViewModel.stopOrderResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
+                    walletActivity.dismissProgressBar()
                     displayOrdersRecyclerView()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
@@ -72,10 +77,12 @@ class OrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
                     }
                 }
                 Status.ERROR -> {
+                    walletActivity.dismissProgressBar()
                     displayOrdersRecyclerView()
                     GeneralUtils.notify(context, "Order Cancellation", "Order cancellation failed.")
                 }
                 Status.LOADING -> {
+                    walletActivity.displayProgressBar()
                     displayProgressBar()
                 }
             }
@@ -85,7 +92,6 @@ class OrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
     private fun hideAllViews() {
         this.binding.ordersRecyclerView.visibility = View.GONE
         this.binding.errorTextView.visibility = View.GONE
-        this.binding.progressBar.visibility = View.GONE
     }
 
     private fun displayOrdersRecyclerView() {
@@ -100,6 +106,5 @@ class OrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
 
     private fun displayProgressBar() {
         hideAllViews()
-        this.binding.progressBar.visibility = View.VISIBLE
     }
 }
