@@ -44,6 +44,7 @@ class WithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
         this.withdrawViewModel.withdrawalResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
+                    walletActivity.dismissProgressBar()
                     displayWithdrawOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
@@ -54,10 +55,12 @@ class WithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
 
                 }
                 Status.ERROR -> {
+                    walletActivity.dismissProgressBar()
                     displayWithdrawOptions()
                     GeneralUtils.notify(context, "Withdrawal Failed", "")
                 }
                 Status.LOADING -> {
+                    walletActivity.displayProgressBar()
                     displayProgressBar()
                 }
             }
@@ -70,7 +73,6 @@ class WithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
         this.binding.beneficiaryIdEditText.visibility = View.GONE
         this.binding.withdrawTextView.visibility = View.GONE
         this.binding.errorTextView.visibility = View.GONE
-        this.binding.progressBar.visibility = View.GONE
     }
 
     private fun displayWithdrawOptions() {
@@ -88,6 +90,5 @@ class WithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
 
     private fun displayProgressBar() {
         hideAllViews()
-        this.binding.progressBar.visibility = View.VISIBLE
     }
 }

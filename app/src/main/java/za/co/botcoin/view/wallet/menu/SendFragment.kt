@@ -47,6 +47,7 @@ class SendFragment : WalletBaseFragment(R.layout.send_fragment) {
         this.sendViewModel.sendResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
+                    walletActivity.dismissProgressBar()
                     displaySendOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
@@ -56,10 +57,12 @@ class SendFragment : WalletBaseFragment(R.layout.send_fragment) {
                     }
                 }
                 Status.ERROR -> {
+                    walletActivity.dismissProgressBar()
                     displaySendOptions()
                     GeneralUtils.notify(context, "Send failed.", "")
                 }
                 Status.LOADING -> {
+                    walletActivity.displayProgressBar()
                     displayProgressBar()
                 }
             }
@@ -72,12 +75,10 @@ class SendFragment : WalletBaseFragment(R.layout.send_fragment) {
         this.binding.addressEditText.visibility = View.GONE
         this.binding.amountEditText.visibility = View.GONE
         this.binding.tagEditText.visibility = View.GONE
-        this.binding.progressBar.visibility = View.GONE
     }
 
     private fun displayProgressBar() {
         hideAllViews()
-        this.binding.progressBar.visibility = View.VISIBLE
     }
 
     private fun displaySendOptions() {
