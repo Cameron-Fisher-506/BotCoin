@@ -8,7 +8,7 @@ import za.co.botcoin.R
 import za.co.botcoin.databinding.TrailingStartFragmentBinding
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
-import za.co.botcoin.utils.services.SharedPreferencesService
+import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
 
 class TrailingStartFragment : Fragment(R.layout.trailing_start_fragment) {
     private lateinit var binding: TrailingStartFragmentBinding
@@ -26,7 +26,7 @@ class TrailingStartFragment : Fragment(R.layout.trailing_start_fragment) {
         val adapter = ArrayAdapter.createFromResource(requireContext(), R.array.trailing_items, android.R.layout.simple_spinner_item)
         this.binding.spinner.adapter = adapter
 
-        val trailingStart = SharedPreferencesService[requireContext(), SharedPreferencesService.TRAILING_START]
+        val trailingStart = BaseSharedPreferencesService[requireContext(), BaseSharedPreferencesService.TRAILING_START]
         if (!trailingStart.isNullOrBlank()) {
             this.binding.spinner.setSelection(if (trailingStart.toInt() > 0) trailingStart.toInt() - 1 else 0)
         } else {
@@ -45,7 +45,7 @@ class TrailingStartFragment : Fragment(R.layout.trailing_start_fragment) {
     private fun setBtnUseDefaultListener() {
         this.binding.useDefaultButton.setOnClickListener {
             ConstantUtils.trailingStart = 5
-            SharedPreferencesService.save(requireContext(), SharedPreferencesService.TRAILING_START, ConstantUtils.trailingStart.toString())
+            BaseSharedPreferencesService.save(requireContext(), BaseSharedPreferencesService.TRAILING_START, ConstantUtils.trailingStart.toString())
             this.binding.spinner.setSelection(0)
             GeneralUtils.makeToast(context, "Default value set!")
         }
@@ -68,6 +68,6 @@ class TrailingStartFragment : Fragment(R.layout.trailing_start_fragment) {
     }
 
     private fun saveUserPullOutBidPrice(trailingStart: Int) {
-        SharedPreferencesService.save(requireContext(), SharedPreferencesService.TRAILING_START, trailingStart.toString())
+        BaseSharedPreferencesService.save(requireContext(), BaseSharedPreferencesService.TRAILING_START, trailingStart.toString())
     }
 }

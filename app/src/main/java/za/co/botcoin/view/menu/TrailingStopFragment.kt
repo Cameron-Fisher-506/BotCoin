@@ -8,7 +8,7 @@ import za.co.botcoin.R
 import za.co.botcoin.databinding.TrailingStopFragmentBinding
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
-import za.co.botcoin.utils.services.SharedPreferencesService
+import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
 
 class TrailingStopFragment : Fragment(R.layout.trailing_stop_fragment) {
     private lateinit var binding: TrailingStopFragmentBinding
@@ -26,7 +26,7 @@ class TrailingStopFragment : Fragment(R.layout.trailing_stop_fragment) {
         val adapter = ArrayAdapter.createFromResource(requireContext(), R.array.trailing_items, android.R.layout.simple_spinner_item)
         this.binding.spinner.adapter = adapter
 
-        val trailingStop = SharedPreferencesService[requireContext(), SharedPreferencesService.TRAILING_STOP]
+        val trailingStop = BaseSharedPreferencesService[requireContext(), BaseSharedPreferencesService.TRAILING_STOP]
         if (!trailingStop.isNullOrBlank()) {
             this.binding.spinner.setSelection(if (trailingStop.toInt() > 0) trailingStop.toInt() - 1 else 0)
         } else {
@@ -45,7 +45,7 @@ class TrailingStopFragment : Fragment(R.layout.trailing_stop_fragment) {
     private fun setBtnUseDefaultListener() {
         this.binding.useDefaultButton.setOnClickListener {
             ConstantUtils.trailingStop = 10
-            SharedPreferencesService.save(requireContext(), SharedPreferencesService.TRAILING_STOP, ConstantUtils.trailingStop.toString())
+            BaseSharedPreferencesService.save(requireContext(), BaseSharedPreferencesService.TRAILING_STOP, ConstantUtils.trailingStop.toString())
             this.binding.spinner.setSelection(0)
             GeneralUtils.makeToast(context, "Default value set!")
         }
@@ -67,6 +67,6 @@ class TrailingStopFragment : Fragment(R.layout.trailing_stop_fragment) {
     }
 
     private fun saveUserPullOutBidPrice(trailingStop: Int) {
-        SharedPreferencesService.save(requireContext(), SharedPreferencesService.TRAILING_STOP, trailingStop.toString())
+        BaseSharedPreferencesService.save(requireContext(), BaseSharedPreferencesService.TRAILING_STOP, trailingStop.toString())
     }
 }

@@ -7,7 +7,7 @@ import za.co.botcoin.R
 import za.co.botcoin.databinding.LunoApiFragmentBinding
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
-import za.co.botcoin.utils.services.SharedPreferencesService
+import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
 
 class LunoApiFragment : Fragment(R.layout.luno_api_fragment) {
     private lateinit var binding: LunoApiFragmentBinding
@@ -30,8 +30,8 @@ class LunoApiFragment : Fragment(R.layout.luno_api_fragment) {
                 ConstantUtils.USER_KEY_ID = keyID
                 ConstantUtils.USER_SECRET_KEY = secretKey
 
-                SharedPreferencesService.save(requireContext(), SharedPreferencesService.LUNO_API_KEY_ID, keyID)
-                SharedPreferencesService.save(requireContext(), SharedPreferencesService.LUNO_API_SECRET_KEY, secretKey)
+                BaseSharedPreferencesService.save(requireContext(), BaseSharedPreferencesService.LUNO_API_KEY_ID, keyID)
+                BaseSharedPreferencesService.save(requireContext(), BaseSharedPreferencesService.LUNO_API_SECRET_KEY, secretKey)
                 GeneralUtils.makeToast(activity, "API Key Saved!")
             } else {
                 GeneralUtils.createAlertDialog(activity, "Luno API Credentials (Luno API)", "Please set your Luno API credentials in order to use BotCoin!", false).show()

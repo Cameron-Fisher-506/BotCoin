@@ -7,6 +7,9 @@ import za.co.botcoin.di.managers.IResourceManager
 import za.co.botcoin.di.managers.ResourceManager
 import za.co.botcoin.utils.services.alertDialogService.AlertDialogService
 import za.co.botcoin.utils.services.ProgressDialogService
+import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
+import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
+import za.co.botcoin.utils.services.sharePreferencesService.SharedPreferencesService
 
 @Module
 class PresentationModule(private val activity: AppCompatActivity) {
@@ -14,8 +17,11 @@ class PresentationModule(private val activity: AppCompatActivity) {
     fun progressDialogService(): ProgressDialogService = ProgressDialogService(activity)
 
     @Provides
-    fun alertDialogService(): AlertDialogService = AlertDialogService(activity)
+    fun alertDialogService(): IAlertDialogService = AlertDialogService(activity)
 
     @Provides
     fun resourceManager(): IResourceManager = ResourceManager(activity.resources)
+
+    @Provides
+    fun sharedPreferencesService(): ISharedPreferencesService = SharedPreferencesService(activity)
 }
