@@ -7,15 +7,15 @@ import za.co.botcoin.di.featureModules.DonateViewModelModule
 import za.co.botcoin.di.featureModules.HomeViewModelModule
 import za.co.botcoin.di.featureModules.WalletViewModelModule
 import za.co.botcoin.di.managers.IResourceManager
-import za.co.botcoin.utils.services.alertDialogService.AlertDialogService
 import za.co.botcoin.utils.services.ProgressDialogService
-import za.co.botcoin.utils.services.sharePreferencesService.SharedPreferencesService
+import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
+import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
 
 @Subcomponent(modules = [ViewModelsModule::class, PresentationModule::class, HomeViewModelModule::class, WalletViewModelModule::class, DonateViewModelModule::class, AutoTradeViewModelModule::class])
 interface ActivityComponent {
     fun getViewModelFactory(): ViewModelProvider.Factory
     fun getProgressDialogService(): ProgressDialogService
-    fun getAlertDialogService(): AlertDialogService
+    fun getAlertDialogService(): IAlertDialogService
     fun getResourceManager(): IResourceManager
-    fun getSharedPreferencesService(): SharedPreferencesService
+    fun getSharedPreferencesService(): ISharedPreferencesService
 }

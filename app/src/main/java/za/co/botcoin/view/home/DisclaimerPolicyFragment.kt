@@ -4,14 +4,16 @@ import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.DisclaimerPolicyFragmentBinding
 import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
 import kotlin.system.exitProcess
 
-class DisclaimerPolicyFragment : Fragment(R.layout.disclaimer_policy_fragment) {
+class DisclaimerPolicyFragment : HomeBaseFragment(R.layout.disclaimer_policy_fragment) {
     private lateinit var binding: DisclaimerPolicyFragmentBinding
+    private val disclaimerViewModel by viewModels<DisclaimerPolicyViewModel>(factoryProducer = { homeActivity.getViewModelFactory })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -26,7 +28,7 @@ class DisclaimerPolicyFragment : Fragment(R.layout.disclaimer_policy_fragment) {
         }
 
         this.binding.acceptButton.setOnClickListener {
-            BaseSharedPreferencesService.save(requireContext(), BaseSharedPreferencesService.DISCLAIMER_ACCEPTANCE, "true")
+            disclaimerViewModel.saveDisclaimerAcceptance()
             val action = DisclaimerPolicyFragmentDirections.actionDisclaimerPolicyFragmentToHomeFragment()
             Navigation.findNavController(view).navigate(action)
         }
