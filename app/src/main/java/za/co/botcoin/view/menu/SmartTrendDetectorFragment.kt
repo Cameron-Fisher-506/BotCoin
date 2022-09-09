@@ -8,7 +8,7 @@ import za.co.botcoin.R
 import za.co.botcoin.databinding.SmartTrendDetectorFragmentBinding
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
-import za.co.botcoin.utils.services.SharedPreferencesService
+import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
 
 class SmartTrendDetectorFragment : Fragment(R.layout.smart_trend_detector_fragment) {
     private lateinit var binding: SmartTrendDetectorFragmentBinding
@@ -26,7 +26,7 @@ class SmartTrendDetectorFragment : Fragment(R.layout.smart_trend_detector_fragme
         val adapter = ArrayAdapter.createFromResource(requireContext(), R.array.trailing_items, android.R.layout.simple_spinner_item)
         this.binding.spinner.adapter = adapter
 
-        val smartTrendDetectorMargin = SharedPreferencesService[requireContext(), SharedPreferencesService.SMART_TREND_DETECTOR]
+        val smartTrendDetectorMargin = BaseSharedPreferencesService[requireContext(), BaseSharedPreferencesService.SMART_TREND_DETECTOR]
         if (!smartTrendDetectorMargin.isNullOrBlank()) {
             this.binding.spinner.setSelection(if (smartTrendDetectorMargin.toInt() > 0) smartTrendDetectorMargin.toInt() - 1 else 0)
         } else {
@@ -45,7 +45,7 @@ class SmartTrendDetectorFragment : Fragment(R.layout.smart_trend_detector_fragme
     private fun setBtnUseDefaultListener() {
         this.binding.useDefaultButton.setOnClickListener {
             ConstantUtils.smartTrendDetectorMargin = 5
-            SharedPreferencesService.save(requireContext(), SharedPreferencesService.SMART_TREND_DETECTOR, ConstantUtils.smartTrendDetectorMargin.toString())
+            BaseSharedPreferencesService.save(requireContext(), BaseSharedPreferencesService.SMART_TREND_DETECTOR, ConstantUtils.smartTrendDetectorMargin.toString())
             this.binding.spinner.setSelection(0)
             GeneralUtils.makeToast(context, "Default value set!")
         }
@@ -59,6 +59,6 @@ class SmartTrendDetectorFragment : Fragment(R.layout.smart_trend_detector_fragme
     }
 
     private fun saveUserSmartTrendDectectorMarginPrice(smartTrendDetectorMargin: Int) {
-        SharedPreferencesService.save(requireContext(), SharedPreferencesService.SMART_TREND_DETECTOR, smartTrendDetectorMargin.toString())
+        BaseSharedPreferencesService.save(requireContext(), BaseSharedPreferencesService.SMART_TREND_DETECTOR, smartTrendDetectorMargin.toString())
     }
 }

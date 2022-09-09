@@ -4,15 +4,13 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.AutoTradeFragmentBinding
 import za.co.botcoin.services.FiboService
 import za.co.botcoin.utils.*
-import za.co.botcoin.utils.services.alertDialogService.AlertDialogService
-import za.co.botcoin.utils.services.SharedPreferencesService
+import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
 
 class AutoTradeFragment : AutoTradeBaseFragment(R.layout.auto_trade_fragment) {
     private lateinit var binding: AutoTradeFragmentBinding
@@ -36,7 +34,7 @@ class AutoTradeFragment : AutoTradeBaseFragment(R.layout.auto_trade_fragment) {
         }
 
         this.binding.autoTradeSwitch.setOnCheckedChangeListener { _, isChecked ->
-            context?.let { SharedPreferencesService.save(it, SharedPreferencesService.AUTO_TRADE_PREF, isChecked.toString()) }
+            context?.let { BaseSharedPreferencesService.save(it, BaseSharedPreferencesService.AUTO_TRADE_PREF, isChecked.toString()) }
             if (isChecked) {
                 //start service
                 startBotService()
@@ -60,7 +58,7 @@ class AutoTradeFragment : AutoTradeBaseFragment(R.layout.auto_trade_fragment) {
     }
 
     private fun setSwitchAutoTrade() {
-        val isAutoTrade = context?.let { SharedPreferencesService[it, SharedPreferencesService.AUTO_TRADE_PREF] }
+        val isAutoTrade = context?.let { BaseSharedPreferencesService[it, BaseSharedPreferencesService.AUTO_TRADE_PREF] }
         this.binding.autoTradeSwitch.isChecked = isAutoTrade != null
     }
 }

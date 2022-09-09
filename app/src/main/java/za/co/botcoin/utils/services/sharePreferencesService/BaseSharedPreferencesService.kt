@@ -1,9 +1,9 @@
-package za.co.botcoin.utils.services
+package za.co.botcoin.utils.services.sharePreferencesService
 
 import android.content.Context
 import android.content.SharedPreferences
 
-object SharedPreferencesService {
+object BaseSharedPreferencesService {
     const val LUNO_API_KEY_ID: String = "LUNO_API_KEY_ID"
     const val LUNO_API_SECRET_KEY: String = "LUNO_API_SECRET_KEY"
     const val AUTO_TRADE_PREF: String = "AUTO_TRADE"

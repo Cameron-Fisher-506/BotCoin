@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.PrivacyPolicyFragmentBinding
-import za.co.botcoin.utils.services.SharedPreferencesService
+import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
 import kotlin.system.exitProcess
 
 class PrivacyPolicyFragment : Fragment(R.layout.privacy_policy_fragment) {
@@ -51,7 +51,7 @@ class PrivacyPolicyFragment : Fragment(R.layout.privacy_policy_fragment) {
         }
 
         this.binding.acceptButton.setOnClickListener {
-            SharedPreferencesService.save(requireContext(), SharedPreferencesService.PRIVACY_POLICY_ACCEPTANCE, "true")
+            BaseSharedPreferencesService.save(requireContext(), BaseSharedPreferencesService.PRIVACY_POLICY_ACCEPTANCE, "true")
             val action = PrivacyPolicyFragmentDirections.actionPrivacyPolicyFragmentToDisclaimerPolicyFragment()
             Navigation.findNavController(view).navigate(action)
         }
