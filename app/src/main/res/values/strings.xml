@@ -131,6 +131,8 @@
                     To make use of the BotCoin app please note that we require and store the following information:\n
                     1. Your Luno API credentials.\n\n
                     This policy is effective as of 25 November 2020.</string>
+    <string name="auto_trade_luno_api_credentials">Luno API Credentials</string>
+    <string name="auto_trade_please_set_your_luno_api">Please set your Luno API credentials in order to use BotCoin!</string>
 
     //DONATE MENU
     <string name="btc">BTC</string>

@@ -14,7 +14,6 @@ import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreference
 
 class AutoTradeFragment : AutoTradeBaseFragment(R.layout.auto_trade_fragment) {
     private lateinit var binding: AutoTradeFragmentBinding
-    private val autoTradeViewModel by viewModels<AutoTradeViewModel>(factoryProducer = { autoTradeActivity.getViewModelFactory })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -27,14 +26,17 @@ class AutoTradeFragment : AutoTradeBaseFragment(R.layout.auto_trade_fragment) {
         } else {
             stopBotService()
             this.binding.autoTradeSwitch.isChecked = false
-            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
+            autoTradeViewModel.displayLunoApiCredentialsAlertDialog()
 
             val action = AutoTradeFragmentDirections.actionAutoTradeFragmentToLunoApiFragment()
             Navigation.findNavController(view).navigate(action)
         }
+        setUpOnClickListeners()
+    }
 
+    private fun setUpOnClickListeners() {
         this.binding.autoTradeSwitch.setOnCheckedChangeListener { _, isChecked ->
-            context?.let { BaseSharedPreferencesService.save(it, BaseSharedPreferencesService.AUTO_TRADE_PREF, isChecked.toString()) }
+            autoTradeViewModel.saveAutoTradePref(isChecked)
             if (isChecked) {
                 //start service
                 startBotService()
@@ -47,18 +49,18 @@ class AutoTradeFragment : AutoTradeBaseFragment(R.layout.auto_trade_fragment) {
 
     private fun startBotService() {
         if (Build.VERSION.SDK_INT >= 26) {
-            activity?.startForegroundService(Intent(activity, FiboService::class.java))
+            autoTradeActivity.startForegroundService(Intent(activity, FiboService::class.java))
         } else {
-            activity?.startService(Intent(activity, FiboService::class.java))
+            autoTradeActivity.startService(Intent(activity, FiboService::class.java))
         }
     }
 
     private fun stopBotService() {
-        activity?.stopService(Intent(activity, FiboService::class.java))
+        autoTradeActivity.stopService(Intent(activity, FiboService::class.java))
     }
 
     private fun setSwitchAutoTrade() {
-        val isAutoTrade = context?.let { BaseSharedPreferencesService[it, BaseSharedPreferencesService.AUTO_TRADE_PREF] }
+        val isAutoTrade = autoTradeViewModel.getAutoTradePref()
         this.binding.autoTradeSwitch.isChecked = isAutoTrade != null
     }
 }
