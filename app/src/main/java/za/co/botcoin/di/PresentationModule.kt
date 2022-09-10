@@ -23,5 +23,5 @@ class PresentationModule(private val activity: AppCompatActivity) {
     fun resourceManager(): IResourceManager = ResourceManager(activity.resources)
 
     @Provides
-    fun sharedPreferencesService(): ISharedPreferencesService = SharedPreferencesService(activity)
+    fun getSharedPreferencesService(): ISharedPreferencesService = SharedPreferencesService(activity)
 }

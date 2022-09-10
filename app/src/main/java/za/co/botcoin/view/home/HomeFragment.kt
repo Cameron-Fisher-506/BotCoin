@@ -16,8 +16,6 @@ import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreference
 
 class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
     private lateinit var binding: HomeFragmentBinding
-    private val homeViewModel by viewModels<HomeViewModel>(factoryProducer = { homeActivity.getViewModelFactory })
-
     private val handler = Handler()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
