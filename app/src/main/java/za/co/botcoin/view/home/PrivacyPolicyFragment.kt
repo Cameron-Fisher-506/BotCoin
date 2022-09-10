@@ -20,9 +20,16 @@ class PrivacyPolicyFragment : HomeBaseFragment(R.layout.privacy_policy_fragment)
         super.onViewCreated(view, savedInstanceState)
         this.binding = PrivacyPolicyFragmentBinding.bind(view)
 
+        setUpViews()
+        setUpOnClickListeners(view)
+    }
+
+    private fun setUpViews() {
         this.binding.privacyPolicyTextView.movementMethod = ScrollingMovementMethod()
         this.binding.privacyPolicyTextView.text = getString(R.string.home_privacy_policy)
+    }
 
+    private fun setUpOnClickListeners(view: View) {
         this.binding.exitButton.setOnClickListener {
             requireActivity().finishAffinity()
             exitProcess(0)

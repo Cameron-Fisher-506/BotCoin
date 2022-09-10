@@ -6,7 +6,7 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import za.co.botcoin.di.ViewModelKey
 import za.co.botcoin.di.managers.IResourceManager
-import za.co.botcoin.utils.services.alertDialogService.AlertDialogService
+import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
 import za.co.botcoin.view.settings.AutoTradeViewModel
 
 @Module
@@ -16,6 +16,6 @@ class AutoTradeViewModelModule {
     @ViewModelKey(AutoTradeViewModel::class)
     fun autoTradeViewModel(
         resourceManager: IResourceManager,
-        alertDialogService: AlertDialogService
+        alertDialogService: IAlertDialogService
     ): ViewModel = AutoTradeViewModel(resourceManager, alertDialogService)
 }

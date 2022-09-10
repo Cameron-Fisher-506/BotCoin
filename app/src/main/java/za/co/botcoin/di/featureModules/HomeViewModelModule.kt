@@ -19,15 +19,25 @@ class HomeViewModelModule {
     @Provides
     @IntoMap
     @ViewModelKey(HomeViewModel::class)
-    fun homeViewModel(application: Application, accountRepository: AccountRepository, tickersRepository: TickersRepository): ViewModel = HomeViewModel(application, accountRepository, tickersRepository)
+    fun homeViewModel(
+        application: Application,
+        sharedPreferencesService: ISharedPreferencesService,
+        accountRepository: AccountRepository,
+        tickersRepository: TickersRepository
+    ): ViewModel =
+        HomeViewModel(application, sharedPreferencesService, accountRepository, tickersRepository)
 
     @Provides
     @IntoMap
     @ViewModelKey(PrivacyPolicyViewModel::class)
-    fun privacyViewModel(sharedPreferencesService: ISharedPreferencesService): ViewModel = PrivacyPolicyViewModel(sharedPreferencesService)
+    fun privacyViewModel(
+        sharedPreferencesService: ISharedPreferencesService
+    ): ViewModel = PrivacyPolicyViewModel(sharedPreferencesService)
 
     @Provides
     @IntoMap
     @ViewModelKey(DisclaimerPolicyViewModel::class)
-    fun disclaimerPolicyViewModel(sharedPreferencesService: ISharedPreferencesService): ViewModel = DisclaimerPolicyViewModel(sharedPreferencesService)
+    fun disclaimerPolicyViewModel(
+        sharedPreferencesService: ISharedPreferencesService
+    ): ViewModel = DisclaimerPolicyViewModel(sharedPreferencesService)
 }
