@@ -4,11 +4,11 @@ import androidx.lifecycle.ViewModel
 import za.co.botcoin.R
 import za.co.botcoin.di.managers.IResourceManager
 import za.co.botcoin.utils.services.alertDialogService.AlertDialogProperties
-import za.co.botcoin.utils.services.alertDialogService.AlertDialogService
+import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
 
 class AutoTradeViewModel(
     private val resourceManager: IResourceManager,
-    private var alertDialogService: AlertDialogService
+    private var alertDialogService: IAlertDialogService
 ) : ViewModel() {
 
     fun displayAutoTradeAlertDialog() {

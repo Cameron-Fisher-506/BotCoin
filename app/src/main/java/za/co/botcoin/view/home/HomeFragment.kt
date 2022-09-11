@@ -22,13 +22,13 @@ class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = HomeFragmentBinding.bind(view)
 
-        attachTickerObserver()
+        fetchAndObserveTickers()
         displayPrivacyPolicy(view)
 
         val delay: Long = 100000L
         handler.postDelayed(object : Runnable {
             override fun run() {
-                attachTickerObserver()
+                fetchAndObserveTickers()
                 if(!KioskService.isMyServiceRunning(requireContext(), BotService::class.java.simpleName)) {
                     GeneralUtils.runAutoTrade(requireContext())
                 }
@@ -37,7 +37,7 @@ class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
         }, delay)
     }
 
-    private fun attachTickerObserver() {
+    private fun fetchAndObserveTickers() {
         homeViewModel.fetchTickers()
         homeViewModel.tickersResponse.observe(viewLifecycleOwner) {
             when (it.status) {
@@ -76,51 +76,16 @@ class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
     }
 
     private fun displayPrivacyPolicy(view: View) {
-        val privacyPolicyAcceptance = BaseSharedPreferencesService[requireContext(), BaseSharedPreferencesService.PRIVACY_POLICY_ACCEPTANCE]
+        val privacyPolicyAcceptance = homeViewModel.getPrivacyPolicyAcceptance()
         if (privacyPolicyAcceptance == null) {
             val action = HomeFragmentDirections.actionHomeFragmentToPrivacyPolicyFragment()
             Navigation.findNavController(view).navigate(action)
         } else {
-            setUserTrailingStartPrice()
-            setUserTrailingStopPrice()
-            setSupportPriceCounter()
-            setResistancePriceCounter()
-            setSmartTrendDetectorMargin()
-        }
-    }
-
-    private fun setUserTrailingStartPrice() {
-        val trailingStart = BaseSharedPreferencesService[requireContext(), BaseSharedPreferencesService.TRAILING_START]
-        if (!trailingStart.isNullOrBlank()) {
-            ConstantUtils.trailingStart = trailingStart.toInt()
-        }
-    }
-
-    private fun setUserTrailingStopPrice() {
-        val trailingStop = BaseSharedPreferencesService[requireContext(), BaseSharedPreferencesService.TRAILING_STOP]
-        if (!trailingStop.isNullOrBlank()) {
-            ConstantUtils.trailingStop = trailingStop.toInt()
-        }
-    }
-
-    private fun setSupportPriceCounter() {
-        val supportPriceCounter = BaseSharedPreferencesService[requireContext(), BaseSharedPreferencesService.SUPPORT_PRICE_COUNTER]
-        if (!supportPriceCounter.isNullOrBlank()) {
-            ConstantUtils.supportPriceCounter = supportPriceCounter.toInt()
-        }
-    }
-
-    private fun setResistancePriceCounter() {
-        val resistancePriceCounter = BaseSharedPreferencesService[requireContext(), BaseSharedPreferencesService.RESISTANCE_PRICE_COUNTER]
-        if (!resistancePriceCounter.isNullOrBlank()) {
-            ConstantUtils.resistancePriceCounter = resistancePriceCounter.toInt()
-        }
-    }
-
-    private fun setSmartTrendDetectorMargin() {
-        val smartTrendDetectorMargin = BaseSharedPreferencesService[requireContext(), BaseSharedPreferencesService.SMART_TREND_DETECTOR]
-        if (!smartTrendDetectorMargin.isNullOrBlank()) {
-            ConstantUtils.smartTrendDetectorMargin = smartTrendDetectorMargin.toInt()
+            homeViewModel.setUserTrailingStartPrice()
+            homeViewModel.setUserTrailingStopPrice()
+            homeViewModel.setSupportPriceCounter()
+            homeViewModel.setResistancePriceCounter()
+            homeViewModel.setSmartTrendDetectorMargin()
         }
     }
 

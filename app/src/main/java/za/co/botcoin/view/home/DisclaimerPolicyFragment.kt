@@ -19,9 +19,16 @@ class DisclaimerPolicyFragment : HomeBaseFragment(R.layout.disclaimer_policy_fra
         super.onViewCreated(view, savedInstanceState)
         this.binding = DisclaimerPolicyFragmentBinding.bind(view)
 
+        setUpViews()
+        setUpOnClickListeners(view)
+    }
+
+    private fun setUpViews() {
         this.binding.disclaimerPolicyTextView.movementMethod = ScrollingMovementMethod()
         this.binding.disclaimerPolicyTextView.text = getString(R.string.home_disclaimer_policy)
+    }
 
+    private fun setUpOnClickListeners(view: View) {
         this.binding.exitButton.setOnClickListener {
             requireActivity().finishAffinity()
             exitProcess(0)
