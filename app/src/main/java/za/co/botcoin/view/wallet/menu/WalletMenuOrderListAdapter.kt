@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import za.co.botcoin.databinding.OrderListItemBinding
 import za.co.botcoin.model.models.Order
-import za.co.botcoin.utils.DateTimeUtils
 import za.co.botcoin.utils.GeneralUtils
 
-class OrderListAdapter(private val ordersList: ArrayList<Order>) : RecyclerView.Adapter<OrderListAdapter.ViewHolder>() {
+class WalletMenuOrderListAdapter(private val ordersList: ArrayList<Order>) : RecyclerView.Adapter<WalletMenuOrderListAdapter.ViewHolder>() {
     class ViewHolder(val binding: OrderListItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

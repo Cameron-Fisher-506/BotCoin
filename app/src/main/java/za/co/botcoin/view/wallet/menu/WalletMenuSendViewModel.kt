@@ -11,7 +11,7 @@ import za.co.botcoin.model.repository.send.SendRepository
 import za.co.botcoin.utils.Resource
 import za.co.botcoin.utils.services.notificationService.INotificationService
 
-class SendViewModel(
+class WalletMenuSendViewModel(
     application: Application,
     private val resourceManager: IResourceManager,
     private val notificationService: INotificationService,

@@ -8,12 +8,12 @@ import dagger.multibindings.IntoMap
 import za.co.botcoin.di.ViewModelKey
 import za.co.botcoin.model.repository.receive.ReceiveRepository
 import za.co.botcoin.model.repository.send.SendRepository
-import za.co.botcoin.view.menu.donate.DonateViewModel
+import za.co.botcoin.view.menu.donate.DonateMenuDonateViewModel
 
 @Module
 class DonateViewModelModule {
     @Provides
     @IntoMap
-    @ViewModelKey(DonateViewModel::class)
-    fun donateViewModel(application: Application, receiveRepository: ReceiveRepository, sendRepository: SendRepository): ViewModel = DonateViewModel(application, receiveRepository, sendRepository)
+    @ViewModelKey(DonateMenuDonateViewModel::class)
+    fun donateViewModel(application: Application, receiveRepository: ReceiveRepository, sendRepository: SendRepository): ViewModel = DonateMenuDonateViewModel(application, receiveRepository, sendRepository)
 }

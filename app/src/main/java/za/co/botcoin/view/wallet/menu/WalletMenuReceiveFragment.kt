@@ -9,34 +9,33 @@ import za.co.botcoin.databinding.ReceiveFragmentBinding
 import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.services.ClipBoardService.copyToClipBoard
 import za.co.botcoin.utils.ConstantUtils
-import za.co.botcoin.utils.GeneralUtils.createAlertDialog
 import za.co.botcoin.utils.GeneralUtils.createQRCode
 import za.co.botcoin.utils.GeneralUtils.isApiKeySet
 import za.co.botcoin.view.wallet.WalletBaseFragment
 
-class ReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) {
+class WalletMenuReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) {
     private lateinit var binding: ReceiveFragmentBinding
-    private lateinit var receiveViewModel: ReceiveViewModel
+    private lateinit var walletMenuReceiveViewModel: WalletMenuReceiveViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = ReceiveFragmentBinding.bind(view)
 
-        this.receiveViewModel = ViewModelProviders.of(this).get(ReceiveViewModel::class.java)
+        this.walletMenuReceiveViewModel = ViewModelProviders.of(this).get(WalletMenuReceiveViewModel::class.java)
 
         if (isApiKeySet(context)) {
             receiveAndObserveReceive()
         } else {
             walletViewModel.displayLunoApiCredentialsAlertDialog()
 
-            val action = ReceiveFragmentDirections.actionReceiveFragmentToLunoApiFragment()
+            val action = WalletMenuReceiveFragmentDirections.actionReceiveFragmentToLunoApiFragment()
             Navigation.findNavController(view).navigate(action)
         }
     }
 
     private fun receiveAndObserveReceive() {
-        this.receiveViewModel.receive(arguments?.getString("asset") ?: "", ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)
-        this.receiveViewModel.receiveResponse.observe(viewLifecycleOwner) {
+        this.walletMenuReceiveViewModel.receive(arguments?.getString("asset") ?: "", ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)
+        this.walletMenuReceiveViewModel.receiveResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     walletActivity.dismissProgressBar()

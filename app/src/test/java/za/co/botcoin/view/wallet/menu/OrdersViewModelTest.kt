@@ -30,18 +30,18 @@ class OrdersViewModelTest: BaseViewModelTest() {
     private lateinit var stopOrderRepository: StopOrderRepository
 
     @InjectMocks
-    private lateinit var ordersViewModel: OrdersViewModel
+    private lateinit var walletMenuOrdersViewModel: WalletMenuOrdersViewModel
 
     @BeforeEach
     fun setUp() {
-        ordersViewModel.ioDispatcher = unconfinedTestDispatcher
+        walletMenuOrdersViewModel.ioDispatcher = unconfinedTestDispatcher
     }
 
     @Test
     @DisplayName("Stop Order Behavioural Verification")
     fun shouldCallStopOrderRepositoryWhenStopOrderIsCalled() {
-        ordersViewModel.stopOrder("")
-        ordersViewModel.stopOrderResponse.disposeObserver()
+        walletMenuOrdersViewModel.stopOrder("")
+        walletMenuOrdersViewModel.stopOrderResponse.disposeObserver()
         runBlocking {
             verify(stopOrderRepository).stopOrder(anyString())
             verifyNoMoreInteractions(stopOrderRepository)
@@ -51,8 +51,8 @@ class OrdersViewModelTest: BaseViewModelTest() {
     @Test
     @DisplayName("Fetch Orders Behavioural Verification")
     fun shouldCallOrderRepositoryWhenFetchOrdersIsCalled() {
-        ordersViewModel.fetchOrders()
-        ordersViewModel.ordersResponse.disposeObserver()
+        walletMenuOrdersViewModel.fetchOrders()
+        walletMenuOrdersViewModel.ordersResponse.disposeObserver()
         runBlocking {
             verify(ordersRepository).fetchOrders()
             verifyNoMoreInteractions(ordersRepository)
@@ -68,13 +68,13 @@ class OrdersViewModelTest: BaseViewModelTest() {
             `when`(stopOrderRepository.stopOrder(anyString())).thenReturn(stopOrder)
         }
 
-        ordersViewModel.stopOrder("")
-        with(ordersViewModel.stopOrderResponse.getOrAwaitValue()) {
+        walletMenuOrdersViewModel.stopOrder("")
+        with(walletMenuOrdersViewModel.stopOrderResponse.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.LOADING, this?.status)
         }
 
-        with(ordersViewModel.stopOrderResponse.getOrAwaitValue()) {
+        with(walletMenuOrdersViewModel.stopOrderResponse.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.SUCCESS, this?.status)
             assertTrue(!this?.data.isNullOrEmpty())
@@ -90,13 +90,13 @@ class OrdersViewModelTest: BaseViewModelTest() {
             `when`(ordersRepository.fetchOrders()).thenReturn(orders)
         }
 
-        ordersViewModel.fetchOrders()
-        with(ordersViewModel.ordersResponse.getOrAwaitValue()) {
+        walletMenuOrdersViewModel.fetchOrders()
+        with(walletMenuOrdersViewModel.ordersResponse.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.LOADING, this?.status)
         }
 
-        with(ordersViewModel.ordersResponse.getOrAwaitValue()) {
+        with(walletMenuOrdersViewModel.ordersResponse.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.SUCCESS, this?.status)
             assertTrue(!this?.data.isNullOrEmpty())

@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/lunoApiFragment"
-        android:name="za.co.botcoin.view.menu.LunoApiFragment"
+        android:name="za.co.botcoin.view.menu.MenuLunoApiFragment"
         android:label="Luno Api" />
     <fragment
         android:id="@+id/autoTradeFragment"

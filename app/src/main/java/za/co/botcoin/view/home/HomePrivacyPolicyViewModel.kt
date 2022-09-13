@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService.PRIVACY_POLICY_ACCEPTANCE
 import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
 
-class PrivacyPolicyViewModel(
+class HomePrivacyPolicyViewModel(
     private val sharedPreferencesService: ISharedPreferencesService
 ) : ViewModel() {
     companion object {

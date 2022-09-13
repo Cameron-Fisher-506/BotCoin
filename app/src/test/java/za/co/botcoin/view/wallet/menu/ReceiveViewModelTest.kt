@@ -25,18 +25,18 @@ class ReceiveViewModelTest: BaseViewModelTest() {
     private lateinit var receiveRepository: ReceiveRepository
 
     @InjectMocks
-    private lateinit var receiveViewModel: ReceiveViewModel
+    private lateinit var walletMenuReceiveViewModel: WalletMenuReceiveViewModel
 
     @BeforeEach
     fun setUp() {
-        receiveViewModel.ioDispatcher = unconfinedTestDispatcher
+        walletMenuReceiveViewModel.ioDispatcher = unconfinedTestDispatcher
     }
 
     @Test
     @DisplayName("Receive Behavioural Verification")
     fun shouldCallReceiveRepositoryWhenReceiveIsCalled() {
-        receiveViewModel.receive("", "", "")
-        receiveViewModel.receiveResponse.disposeObserver()
+        walletMenuReceiveViewModel.receive("", "", "")
+        walletMenuReceiveViewModel.receiveResponse.disposeObserver()
         runBlocking {
             verify(receiveRepository).receive(anyString(), anyString(), anyString())
             verifyNoMoreInteractions(receiveRepository)
@@ -52,13 +52,13 @@ class ReceiveViewModelTest: BaseViewModelTest() {
             `when`(receiveRepository.receive(anyString(), anyString(), anyString())).thenReturn(receive)
         }
 
-        receiveViewModel.receive("", "", "")
-        with(receiveViewModel.receiveResponse.getOrAwaitValue()) {
+        walletMenuReceiveViewModel.receive("", "", "")
+        with(walletMenuReceiveViewModel.receiveResponse.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.LOADING, this?.status)
         }
 
-        with(receiveViewModel.receiveResponse.getOrAwaitValue()) {
+        with(walletMenuReceiveViewModel.receiveResponse.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.SUCCESS, this?.status)
             assertTrue(!this?.data.isNullOrEmpty())
