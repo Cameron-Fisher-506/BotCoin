@@ -23,7 +23,7 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
         if (GeneralUtils.isApiKeySet(context)) {
             attachBalanceObserver()
         } else {
-            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
+            walletViewModel.displayLunoApiCredentialsAlertDialog()
         }
     }
 

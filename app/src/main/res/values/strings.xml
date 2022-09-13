@@ -43,6 +43,12 @@
         Please enter the amount You would like to withdraw from your ZAR account.\nPlease provide the Beneficiary ID of the bank account the withdrawal will be paid out to.\nThe Beneficiary ID must be provided if You have multiple beneficiaries setup.
     </string>
     <string name="beneficiary_id">Beneficiary ID</string>
+    <string name="wallet_luno_api_credentials">Luno API Credentials</string>
+    <string name="wallet_please_set_your_luno_api_credentials">Please set your Luno API credentials in order to use BotCoin!</string>
+    <string name="wallet_withdrawal">Withdrawal</string>
+    <string name="wallet_please_provide_an_amount_more_than">Please provide an amount more than 0 and a valid beneficiary ID!</string>
+    <string name="wallet_withdrawal_failed">Withdrawal Failed</string>
+    <string name="wallet_withdrew">Withdrew</string>
 
     //WALLET MENU
     <string name="send">Send</string>
