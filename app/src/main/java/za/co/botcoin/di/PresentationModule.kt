@@ -8,6 +8,8 @@ import za.co.botcoin.di.managers.ResourceManager
 import za.co.botcoin.utils.services.alertDialogService.AlertDialogService
 import za.co.botcoin.utils.services.ProgressDialogService
 import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
+import za.co.botcoin.utils.services.notificationService.INotificationService
+import za.co.botcoin.utils.services.notificationService.NotificationService
 import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
 import za.co.botcoin.utils.services.sharePreferencesService.SharedPreferencesService
 
@@ -23,5 +25,8 @@ class PresentationModule(private val activity: AppCompatActivity) {
     fun resourceManager(): IResourceManager = ResourceManager(activity.resources)
 
     @Provides
-    fun getSharedPreferencesService(): ISharedPreferencesService = SharedPreferencesService(activity)
+    fun sharedPreferencesService(): ISharedPreferencesService = SharedPreferencesService(activity)
+
+    @Provides
+    fun notificationService(): INotificationService = NotificationService(activity)
 }

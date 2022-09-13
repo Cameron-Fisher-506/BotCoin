@@ -27,15 +27,15 @@ class WithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
             val amount: String = this.binding.amountEditText.text.toString()
             val beneficiaryId: String = this.binding.amountEditText.text.toString()
 
-            if (amount.isNotBlank() && amount != "0" && beneficiaryId.isNotBlank()) {
+            if (withdrawViewModel.isAmountNotEmptyAndNotZero(amount) && beneficiaryId.isNotBlank()) {
                 if (isApiKeySet(context)) {
-                    this.withdrawViewModel.withdrawal("ZAR_EFT", amount, beneficiaryId)
+                    withdrawViewModel.withdrawal("ZAR_EFT", amount, beneficiaryId)
                     attachWithdrawalObserver()
                 } else {
-                    createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
+                    withdrawViewModel.displayLunoApiCredentialsAlertDialog()
                 }
             } else {
-                createAlertDialog(activity, "Withdrawal", "Please provide an amount more than 0 and a valid beneficiary ID!", false).show()
+                withdrawViewModel.displayWithdrawalAlertDialog()
             }
         }
     }
@@ -48,16 +48,16 @@ class WithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
                     displayWithdrawOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
-                        data.map { withdrawal -> GeneralUtils.notify(context, "Withdrew " + withdrawal.amount + " Rands.", "") }
+                        data.map { withdrawal -> withdrawViewModel.displayAmountWithdrewNotification(withdrawal.amount) }
                     } else {
-                        GeneralUtils.notify(context, "Withdrawal Failed", "")
+                        withdrawViewModel.displayWithdrawalFailedNotification()
                     }
 
                 }
                 Status.ERROR -> {
                     walletActivity.dismissProgressBar()
                     displayWithdrawOptions()
-                    GeneralUtils.notify(context, "Withdrawal Failed", "")
+                    withdrawViewModel.displayWithdrawalFailedNotification()
                 }
                 Status.LOADING -> {
                     walletActivity.displayProgressBar()
