@@ -29,13 +29,6 @@ class WithdrawViewModel(
         }
     }
 
-    fun displayLunoApiCredentialsAlertDialog() {
-        alertDialogService.showAlertDialog(AlertDialogProperties().apply {
-            title = resourceManager.getString(R.string.wallet_luno_api_credentials)
-            message = resourceManager.getString(R.string.wallet_please_set_your_luno_api_credentials)
-        })
-    }
-
     fun displayWithdrawalAlertDialog() {
         alertDialogService.showAlertDialog(AlertDialogProperties().apply {
             title = resourceManager.getString(R.string.wallet_withdrawal)

@@ -27,7 +27,7 @@ class ReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) {
         if (isApiKeySet(context)) {
             receiveAndObserveReceive()
         } else {
-            createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
+            walletViewModel.displayLunoApiCredentialsAlertDialog()
 
             val action = ReceiveFragmentDirections.actionReceiveFragmentToLunoApiFragment()
             Navigation.findNavController(view).navigate(action)

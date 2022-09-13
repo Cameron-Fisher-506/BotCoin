@@ -29,17 +29,18 @@ class WalletViewModelModule {
         alertDialogService: IAlertDialogService,
         resourceManager: IResourceManager,
         balanceRepository: BalanceRepository
-    ): ViewModel =
-        WalletViewModel(application, alertDialogService, resourceManager, balanceRepository)
+    ): ViewModel = WalletViewModel(application, alertDialogService, resourceManager, balanceRepository)
 
     @Provides
     @IntoMap
     @ViewModelKey(OrdersViewModel::class)
     fun ordersViewModel(
         application: Application,
+        resourceManager: IResourceManager,
+        notificationService: INotificationService,
         orderRepository: OrderRepository,
         stopOrderRepository: StopOrderRepository
-    ): ViewModel = OrdersViewModel(application, orderRepository, stopOrderRepository)
+    ): ViewModel = OrdersViewModel(application, resourceManager, notificationService, orderRepository, stopOrderRepository)
 
     @Provides
     @IntoMap
@@ -50,17 +51,15 @@ class WalletViewModelModule {
         resourceManager: IResourceManager,
         notificationService: INotificationService,
         withdrawalRepository: WithdrawalRepository
-    ): ViewModel = WithdrawViewModel(
-        application,
-        alertDialogService,
-        resourceManager,
-        notificationService,
-        withdrawalRepository
-    )
+    ): ViewModel = WithdrawViewModel(application, alertDialogService, resourceManager, notificationService, withdrawalRepository)
 
     @Provides
     @IntoMap
     @ViewModelKey(SendViewModel::class)
-    fun sendViewModel(application: Application, sendRepository: SendRepository): ViewModel =
-        SendViewModel(application, sendRepository)
+    fun sendViewModel(
+        application: Application,
+        resourceManager: IResourceManager,
+        notificationService: INotificationService,
+        sendRepository: SendRepository
+    ): ViewModel = SendViewModel(application, resourceManager, notificationService, sendRepository)
 }

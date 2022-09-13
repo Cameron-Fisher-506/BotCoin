@@ -24,8 +24,7 @@ class HomeViewModelModule {
         sharedPreferencesService: ISharedPreferencesService,
         accountRepository: AccountRepository,
         tickersRepository: TickersRepository
-    ): ViewModel =
-        HomeViewModel(application, sharedPreferencesService, accountRepository, tickersRepository)
+    ): ViewModel = HomeViewModel(application, sharedPreferencesService, accountRepository, tickersRepository)
 
     @Provides
     @IntoMap

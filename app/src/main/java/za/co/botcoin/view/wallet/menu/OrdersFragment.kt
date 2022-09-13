@@ -22,13 +22,13 @@ class OrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = OrdersFragmentBinding.bind(view)
 
-        wireUI()
+        setUpViews()
         fetchAndObserveOrders()
     }
 
-    private fun wireUI() {
+    private fun setUpViews() {
         this.orderListAdapter = OrderListAdapter(arrayListOf())
-        this.binding.ordersRecyclerView.layoutManager = GridLayoutManager(context, 1)
+        this.binding.ordersRecyclerView.layoutManager = GridLayoutManager(context, 1) //TODO: Do this in xml
         this.binding.ordersRecyclerView.adapter = orderListAdapter
     }
 
@@ -70,16 +70,16 @@ class OrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
                     walletActivity.dismissProgressBar()
                     displayOrdersRecyclerView()
                     val data = it.data
-                    if (!data.isNullOrEmpty()) {
-                        if (data.first().success) GeneralUtils.notify(context, "Order Cancellation", "Order cancelled successfully.") else GeneralUtils.notify(context, "Order Cancellation", "Order cancellation failed.")
+                    if (!data.isNullOrEmpty() && data.first().success) {
+                        ordersViewModel.displayOrderCancellationSuccessNotification()
                     } else {
-                        GeneralUtils.notify(context, "Order Cancellation", "Order cancellation failed.")
+                        ordersViewModel.displayOrderCancellationFailureNotification()
                     }
                 }
                 Status.ERROR -> {
                     walletActivity.dismissProgressBar()
                     displayOrdersRecyclerView()
-                    GeneralUtils.notify(context, "Order Cancellation", "Order cancellation failed.")
+                    ordersViewModel.displayOrderCancellationFailureNotification()
                 }
                 Status.LOADING -> {
                     walletActivity.displayProgressBar()

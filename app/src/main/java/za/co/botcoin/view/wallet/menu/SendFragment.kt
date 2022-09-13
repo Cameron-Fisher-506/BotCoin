@@ -51,15 +51,21 @@ class SendFragment : WalletBaseFragment(R.layout.send_fragment) {
                     displaySendOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
-                        data.map { response -> if (response.success) GeneralUtils.notify(context, "Sent $amount $asset to $address.", response.withdrawalId) else GeneralUtils.notify(context, "Send failed.", "") }
+                        data.map { response ->
+                            if (response.success) {
+                                GeneralUtils.notify(context, "Sent $amount $asset to $address.", response.withdrawalId)
+                            } else {
+                                sendViewModel.displaySendFailedNotification()
+                            }
+                        }
                     } else {
-                        GeneralUtils.notify(context, "Send failed.", "")
+                        sendViewModel.displaySendFailedNotification()
                     }
                 }
                 Status.ERROR -> {
                     walletActivity.dismissProgressBar()
                     displaySendOptions()
-                    GeneralUtils.notify(context, "Send failed.", "")
+                    sendViewModel.displaySendFailedNotification()
                 }
                 Status.LOADING -> {
                     walletActivity.displayProgressBar()
