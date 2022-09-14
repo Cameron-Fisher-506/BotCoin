@@ -16,10 +16,6 @@ import za.co.botcoin.services.FiboService
 import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
 
 object GeneralUtils {
-    fun makeToast(context: Context?, message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-    }
-
     fun getAuth(keyId: String, secretKey: String): String {
         try {
             val auth = "$keyId:$secretKey"
