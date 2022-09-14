@@ -70,6 +70,14 @@
     <string name="donate">Donate</string>
     <string name="notifications">Notifications</string>
     <string name="trailing_start">Trailing Start</string>
+    <string name="menu_trailing_start_description">BotCoin uses the trailing start percentage, to start trading again if the market is in an upward trend.\n\n
+         E.g.\n
+         Trailing start: 10%\n
+         Current price: R100\n
+         Buy order: R109.99\n\n
+         In the above scenario, BotCoin will create a buy order if the price increases 10% above the last lowest support price.\n
+         BotCoin will always place a buy order of R0.1 less than the current price.
+    </string>
     <string name="trailing_stop">Trailing Stop</string>
     <string name="menu_trailing_stop_description">BotCoin uses the trailing stop percentage, to pullout of a trade if the market is in a downtrend.\n\n
          E.g.\n

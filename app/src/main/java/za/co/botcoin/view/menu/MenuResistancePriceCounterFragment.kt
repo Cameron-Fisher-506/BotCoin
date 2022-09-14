@@ -10,7 +10,7 @@ import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
 
-class MenuResistancePriceCounterFragment : Fragment(R.layout.resistance_price_counter_fragment) {
+class MenuResistancePriceCounterFragment : MenuBaseFragment(R.layout.resistance_price_counter_fragment) {
     private lateinit var binding: ResistancePriceCounterFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

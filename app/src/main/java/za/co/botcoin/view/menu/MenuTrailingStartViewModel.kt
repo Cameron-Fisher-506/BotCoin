@@ -6,10 +6,10 @@ import za.co.botcoin.di.managers.IResourceManager
 import za.co.botcoin.model.repository.BaseViewModel
 import za.co.botcoin.utils.services.alertDialogService.AlertDialogProperties
 import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
-import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService.TRAILING_STOP
+import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService.TRAILING_START
 import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
 
-class MenuTrailingStopViewModel(
+class MenuTrailingStartViewModel(
     application: Application,
     private val alertDialogService: IAlertDialogService,
     private val resourceManager: IResourceManager,
@@ -23,16 +23,16 @@ class MenuTrailingStopViewModel(
         alertDialogService.makeToast(resourceManager.getString(R.string.menu_default_value_set))
     }
 
-    fun displayTrailingStopDescriptionAlertDialog() {
+    fun displayTrailingStartDescriptionAlertDialog() {
         alertDialogService.showAlertDialog(AlertDialogProperties().apply {
-            title = resourceManager.getString(R.string.trailing_stop)
-            message = resourceManager.getString(R.string.menu_trailing_stop_description)
+            title = resourceManager.getString(R.string.trailing_start)
+            message = resourceManager.getString(R.string.menu_trailing_start_description)
         })
     }
 
-    fun getSavedTrailingStop(): String? = sharedPreferencesService[TRAILING_STOP]
+    fun getSavedTrailingStart(): String? = sharedPreferencesService[TRAILING_START]
 
-    fun saveTrailingStop(trailingStop: String) {
-        sharedPreferencesService.save(TRAILING_STOP, trailingStop)
+    fun saveTrailingStart(trailingStart: String) {
+        sharedPreferencesService.save(TRAILING_START, trailingStart)
     }
 }
