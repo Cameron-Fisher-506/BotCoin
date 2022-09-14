@@ -43,6 +43,6 @@ class OrderListAdapter(private val ordersList: ArrayList<Order>) : RecyclerView.
     fun updateOrderList(orders: List<Order>) {
         this.ordersList.clear()
         this.ordersList.addAll(orders)
-        notifyDataSetChanged()
+        notifyItemRangeChanged(0, orders.size)
     }
 }

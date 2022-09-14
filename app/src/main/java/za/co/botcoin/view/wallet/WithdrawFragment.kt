@@ -32,7 +32,7 @@ class WithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
                     withdrawViewModel.withdrawal("ZAR_EFT", amount, beneficiaryId)
                     attachWithdrawalObserver()
                 } else {
-                    withdrawViewModel.displayLunoApiCredentialsAlertDialog()
+                    walletViewModel.displayLunoApiCredentialsAlertDialog()
                 }
             } else {
                 withdrawViewModel.displayWithdrawalAlertDialog()
