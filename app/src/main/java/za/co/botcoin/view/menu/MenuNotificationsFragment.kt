@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import za.co.botcoin.R
 import za.co.botcoin.databinding.NotificationsFragmentBinding
 
-class MenuNotificationsFragment : Fragment(R.layout.notifications_fragment) {
+class MenuNotificationsFragment : MenuBaseFragment(R.layout.notifications_fragment) {
     private lateinit var binding: NotificationsFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

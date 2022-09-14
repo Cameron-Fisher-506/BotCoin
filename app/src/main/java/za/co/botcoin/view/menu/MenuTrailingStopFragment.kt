@@ -16,13 +16,11 @@ class MenuTrailingStopFragment : MenuBaseFragment(R.layout.trailing_stop_fragmen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = TrailingStopFragmentBinding.bind(view)
-        wireUI()
-        setBtnSaveListener()
-        setImgBtnTrailingStopListener()
-        setBtnUseDefaultListener()
+        setUpViews()
+        setUpOnClickListeners()
     }
 
-    private fun wireUI() {
+    private fun setUpViews() {
         val adapter = ArrayAdapter.createFromResource(requireContext(), R.array.trailing_items, android.R.layout.simple_spinner_item)
         this.binding.spinner.adapter = adapter
 
@@ -34,30 +32,22 @@ class MenuTrailingStopFragment : MenuBaseFragment(R.layout.trailing_stop_fragmen
         }
     }
 
-    private fun setBtnSaveListener() {
+    private fun setUpOnClickListeners() {
         this.binding.saveButton.setOnClickListener {
             ConstantUtils.trailingStop = this.binding.spinner.selectedItem.toString().replace("%", "").toInt()
-            saveUserPullOutBidPrice(this.binding.spinner.selectedItemPosition + 1)
+            menuTrailingStopViewModel.saveTrailingStop((binding.spinner.selectedItemPosition + 1).toString())
             menuTrailingStopViewModel.displaySavedToast()
         }
-    }
 
-    private fun setBtnUseDefaultListener() {
         this.binding.useDefaultButton.setOnClickListener {
             ConstantUtils.trailingStop = 10
             BaseSharedPreferencesService.save(requireContext(), BaseSharedPreferencesService.TRAILING_STOP, ConstantUtils.trailingStop.toString())
             this.binding.spinner.setSelection(0)
             menuTrailingStopViewModel.displayDefaultValueSet()
         }
-    }
 
-    private fun setImgBtnTrailingStopListener() {
         this.binding.trailingStopImageButton.setOnClickListener {
             menuTrailingStopViewModel.displayTrailingStopDescriptionAlertDialog()
         }
-    }
-
-    private fun saveUserPullOutBidPrice(trailingStop: Int) {
-        BaseSharedPreferencesService.save(requireContext(), BaseSharedPreferencesService.TRAILING_STOP, trailingStop.toString())
     }
 }
