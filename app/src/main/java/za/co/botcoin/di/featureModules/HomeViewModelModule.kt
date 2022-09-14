@@ -9,10 +9,9 @@ import za.co.botcoin.di.ViewModelKey
 import za.co.botcoin.model.repository.account.AccountRepository
 import za.co.botcoin.model.repository.tickers.TickersRepository
 import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
-import za.co.botcoin.utils.services.sharePreferencesService.SharedPreferencesService
-import za.co.botcoin.view.home.DisclaimerPolicyViewModel
+import za.co.botcoin.view.home.HomeDisclaimerPolicyViewModel
 import za.co.botcoin.view.home.HomeViewModel
-import za.co.botcoin.view.home.PrivacyPolicyViewModel
+import za.co.botcoin.view.home.HomePrivacyPolicyViewModel
 
 @Module
 class HomeViewModelModule {
@@ -28,15 +27,15 @@ class HomeViewModelModule {
 
     @Provides
     @IntoMap
-    @ViewModelKey(PrivacyPolicyViewModel::class)
+    @ViewModelKey(HomePrivacyPolicyViewModel::class)
     fun privacyViewModel(
         sharedPreferencesService: ISharedPreferencesService
-    ): ViewModel = PrivacyPolicyViewModel(sharedPreferencesService)
+    ): ViewModel = HomePrivacyPolicyViewModel(sharedPreferencesService)
 
     @Provides
     @IntoMap
-    @ViewModelKey(DisclaimerPolicyViewModel::class)
+    @ViewModelKey(HomeDisclaimerPolicyViewModel::class)
     fun disclaimerPolicyViewModel(
         sharedPreferencesService: ISharedPreferencesService
-    ): ViewModel = DisclaimerPolicyViewModel(sharedPreferencesService)
+    ): ViewModel = HomeDisclaimerPolicyViewModel(sharedPreferencesService)
 }

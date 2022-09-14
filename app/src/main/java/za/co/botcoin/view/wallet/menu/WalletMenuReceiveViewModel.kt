@@ -12,7 +12,7 @@ import za.co.botcoin.utils.Resource
 import za.co.botcoin.utils.services.alertDialogService.AlertDialogProperties
 import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
 
-class ReceiveViewModel(
+class WalletMenuReceiveViewModel(
     application: Application,
     private val alertDialogService: IAlertDialogService,
     private val resourceManager: IResourceManager,

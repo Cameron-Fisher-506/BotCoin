@@ -13,7 +13,7 @@ import za.co.botcoin.utils.services.alertDialogService.AlertDialogProperties
 import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
 import za.co.botcoin.utils.services.notificationService.INotificationService
 
-class WithdrawViewModel(
+class WalletWithdrawViewModel(
     application: Application,
     private val alertDialogService: IAlertDialogService,
     private val resourceManager: IResourceManager,

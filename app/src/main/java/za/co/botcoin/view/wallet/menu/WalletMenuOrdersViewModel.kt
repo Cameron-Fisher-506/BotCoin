@@ -14,7 +14,7 @@ import za.co.botcoin.utils.Resource
 import za.co.botcoin.utils.services.notificationService.INotificationService
 import javax.inject.Inject
 
-class OrdersViewModel @Inject constructor(
+class WalletMenuOrdersViewModel @Inject constructor(
     application: Application,
     private val resourceManager: IResourceManager,
     private val notificationService: INotificationService,

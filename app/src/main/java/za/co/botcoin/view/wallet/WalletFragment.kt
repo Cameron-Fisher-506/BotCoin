@@ -12,7 +12,6 @@ import za.co.botcoin.utils.*
 
 class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
     private lateinit var binding: WalletFragmentBinding
-    private val walletViewModel by viewModels<WalletViewModel>(factoryProducer = { walletActivity.getViewModelFactory })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

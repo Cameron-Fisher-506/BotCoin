@@ -15,9 +15,9 @@ import za.co.botcoin.model.repository.withdrawal.WithdrawalRepository
 import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
 import za.co.botcoin.utils.services.notificationService.INotificationService
 import za.co.botcoin.view.wallet.WalletViewModel
-import za.co.botcoin.view.wallet.WithdrawViewModel
-import za.co.botcoin.view.wallet.menu.OrdersViewModel
-import za.co.botcoin.view.wallet.menu.SendViewModel
+import za.co.botcoin.view.wallet.WalletWithdrawViewModel
+import za.co.botcoin.view.wallet.menu.WalletMenuOrdersViewModel
+import za.co.botcoin.view.wallet.menu.WalletMenuSendViewModel
 
 @Module
 class WalletViewModelModule {
@@ -33,33 +33,33 @@ class WalletViewModelModule {
 
     @Provides
     @IntoMap
-    @ViewModelKey(OrdersViewModel::class)
+    @ViewModelKey(WalletMenuOrdersViewModel::class)
     fun ordersViewModel(
         application: Application,
         resourceManager: IResourceManager,
         notificationService: INotificationService,
         orderRepository: OrderRepository,
         stopOrderRepository: StopOrderRepository
-    ): ViewModel = OrdersViewModel(application, resourceManager, notificationService, orderRepository, stopOrderRepository)
+    ): ViewModel = WalletMenuOrdersViewModel(application, resourceManager, notificationService, orderRepository, stopOrderRepository)
 
     @Provides
     @IntoMap
-    @ViewModelKey(WithdrawViewModel::class)
+    @ViewModelKey(WalletWithdrawViewModel::class)
     fun withdrawViewModel(
         application: Application,
         alertDialogService: IAlertDialogService,
         resourceManager: IResourceManager,
         notificationService: INotificationService,
         withdrawalRepository: WithdrawalRepository
-    ): ViewModel = WithdrawViewModel(application, alertDialogService, resourceManager, notificationService, withdrawalRepository)
+    ): ViewModel = WalletWithdrawViewModel(application, alertDialogService, resourceManager, notificationService, withdrawalRepository)
 
     @Provides
     @IntoMap
-    @ViewModelKey(SendViewModel::class)
+    @ViewModelKey(WalletMenuSendViewModel::class)
     fun sendViewModel(
         application: Application,
         resourceManager: IResourceManager,
         notificationService: INotificationService,
         sendRepository: SendRepository
-    ): ViewModel = SendViewModel(application, resourceManager, notificationService, sendRepository)
+    ): ViewModel = WalletMenuSendViewModel(application, resourceManager, notificationService, sendRepository)
 }

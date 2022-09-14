@@ -20,23 +20,23 @@ import za.co.botcoin.utils.Resource
 import za.co.botcoin.view.BaseViewModelTest
 
 @ExperimentalCoroutinesApi
-class SendViewModelTest: BaseViewModelTest() {
+class WalletMenuSendViewModelTest: BaseViewModelTest() {
     @Mock
     private lateinit var sendRepository: SendRepository
 
     @InjectMocks
-    private lateinit var sendViewModel: SendViewModel
+    private lateinit var walletMenuSendViewModel: WalletMenuSendViewModel
 
     @BeforeEach
     fun setUp() {
-        sendViewModel.ioDispatcher = unconfinedTestDispatcher
+        walletMenuSendViewModel.ioDispatcher = unconfinedTestDispatcher
     }
 
     @Test
     @DisplayName("Send Behavioural Verification")
     fun shouldCallSendRepositoryWhenSendIsCalled() {
-        sendViewModel.send("", "", "", "")
-        sendViewModel.sendResponse.disposeObserver()
+        walletMenuSendViewModel.send("", "", "", "")
+        walletMenuSendViewModel.sendResponse.disposeObserver()
         runBlocking {
             verify(sendRepository).send(anyString(), anyString(), anyString(), anyString())
             verifyNoMoreInteractions(sendRepository)
@@ -52,13 +52,13 @@ class SendViewModelTest: BaseViewModelTest() {
             `when`(sendRepository.send(anyString(), anyString(), anyString(), anyString())).thenReturn(send)
         }
 
-        sendViewModel.send("", "", "", "")
-        with(sendViewModel.sendResponse.getOrAwaitValue()) {
+        walletMenuSendViewModel.send("", "", "", "")
+        with(walletMenuSendViewModel.sendResponse.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.LOADING, this?.status)
         }
 
-        with(sendViewModel.sendResponse.getOrAwaitValue()) {
+        with(walletMenuSendViewModel.sendResponse.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.SUCCESS, this?.status)
             assertTrue(!this?.data.isNullOrEmpty())

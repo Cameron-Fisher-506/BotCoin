@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService.DISCLAIMER_ACCEPTANCE
 import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
 
-class DisclaimerPolicyViewModel(
+class HomeDisclaimerPolicyViewModel(
     private val sharedPreferencesService: ISharedPreferencesService
 ) : ViewModel() {
     companion object {

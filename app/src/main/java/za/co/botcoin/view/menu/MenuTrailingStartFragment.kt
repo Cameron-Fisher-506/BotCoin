@@ -10,7 +10,7 @@ import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
 
-class TrailingStartFragment : Fragment(R.layout.trailing_start_fragment) {
+class MenuTrailingStartFragment : Fragment(R.layout.trailing_start_fragment) {
     private lateinit var binding: TrailingStartFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

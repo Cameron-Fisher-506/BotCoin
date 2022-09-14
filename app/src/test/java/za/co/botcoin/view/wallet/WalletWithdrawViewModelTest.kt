@@ -22,23 +22,23 @@ import za.co.botcoin.utils.Resource
 import za.co.botcoin.view.BaseViewModelTest
 
 @ExperimentalCoroutinesApi
-class WithdrawViewModelTest : BaseViewModelTest() {
+class WalletWithdrawViewModelTest : BaseViewModelTest() {
     @Mock
     private lateinit var withdrawalRepository: WithdrawalRepository
 
     @InjectMocks
-    private lateinit var withdrawViewModel: WithdrawViewModel
+    private lateinit var walletWithdrawViewModel: WalletWithdrawViewModel
 
     @BeforeEach
     fun setUp() {
-        withdrawViewModel.ioDispatcher = unconfinedTestDispatcher
+        walletWithdrawViewModel.ioDispatcher = unconfinedTestDispatcher
     }
 
     @Test
     @DisplayName("Withdrawal Behavioural Verification")
     fun shouldCallWithdrawalRepositoryWhenWithdrawalIsCalled() {
-        withdrawViewModel.withdrawal("", "", "")
-        withdrawViewModel.withdrawalResponse.disposeObserver()
+        walletWithdrawViewModel.withdrawal("", "", "")
+        walletWithdrawViewModel.withdrawalResponse.disposeObserver()
         runBlocking {
             verify(withdrawalRepository).withdrawal(anyString(), anyString(), anyString())
             verifyNoMoreInteractions(withdrawalRepository)
@@ -54,13 +54,13 @@ class WithdrawViewModelTest : BaseViewModelTest() {
             Mockito.`when`(withdrawalRepository.withdrawal(anyString(), anyString(), anyString())).thenReturn(withdrawal)
         }
 
-        withdrawViewModel.withdrawal("", "", "")
-        with(withdrawViewModel.withdrawalResponse.getOrAwaitValue()) {
+        walletWithdrawViewModel.withdrawal("", "", "")
+        with(walletWithdrawViewModel.withdrawalResponse.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.LOADING, this?.status)
         }
 
-        with(withdrawViewModel.withdrawalResponse.getOrAwaitValue()) {
+        with(walletWithdrawViewModel.withdrawalResponse.getOrAwaitValue()) {
             assertNotNull(this)
             assertEquals(Status.SUCCESS, this?.status)
             assertTrue(!this?.data.isNullOrEmpty())

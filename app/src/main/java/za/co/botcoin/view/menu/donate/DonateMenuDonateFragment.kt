@@ -10,9 +10,9 @@ import za.co.botcoin.utils.*
 import za.co.botcoin.utils.services.ClipBoardService
 import za.co.botcoin.view.menu.MenuBaseFragment
 
-class DonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
+class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
     private lateinit var binding: DonateFragmentBinding
-    private val donateViewModel by viewModels<DonateViewModel>(factoryProducer = { menuActivity.getViewModelFactory })
+    private val donateViewModel by viewModels<DonateMenuDonateViewModel>(factoryProducer = { menuActivity.getViewModelFactory })
 
     private var asset: String = ""
 

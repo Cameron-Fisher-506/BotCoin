@@ -3,17 +3,14 @@ package za.co.botcoin.view.wallet
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProviders
 import za.co.botcoin.R
 import za.co.botcoin.databinding.WithdrawFragmentBinding
 import za.co.botcoin.enum.Status
-import za.co.botcoin.utils.GeneralUtils
-import za.co.botcoin.utils.GeneralUtils.createAlertDialog
 import za.co.botcoin.utils.GeneralUtils.isApiKeySet
 
-class WithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
+class WalletWithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
     private lateinit var binding: WithdrawFragmentBinding
-    private val withdrawViewModel by viewModels<WithdrawViewModel>(factoryProducer = { walletActivity.getViewModelFactory })
+    private val withdrawViewModel by viewModels<WalletWithdrawViewModel>(factoryProducer = { walletActivity.getViewModelFactory })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

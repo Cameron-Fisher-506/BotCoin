@@ -10,7 +10,7 @@ import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
 
-class SmartTrendDetectorFragment : Fragment(R.layout.smart_trend_detector_fragment) {
+class MenuSmartTrendDetectorFragment : Fragment(R.layout.smart_trend_detector_fragment) {
     private lateinit var binding: SmartTrendDetectorFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

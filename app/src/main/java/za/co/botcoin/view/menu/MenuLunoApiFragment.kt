@@ -9,7 +9,7 @@ import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
 
-class LunoApiFragment : Fragment(R.layout.luno_api_fragment) {
+class MenuLunoApiFragment : Fragment(R.layout.luno_api_fragment) {
     private lateinit var binding: LunoApiFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

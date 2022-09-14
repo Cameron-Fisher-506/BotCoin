@@ -12,7 +12,7 @@ import za.co.botcoin.model.repository.send.SendRepository
 import za.co.botcoin.model.repository.withdrawal.WithdrawalRepository
 import za.co.botcoin.utils.Resource
 
-class DonateViewModel(application: Application, private val receiveRepository: ReceiveRepository, private val sendRepository: SendRepository): BaseViewModel(application) {
+class DonateMenuDonateViewModel(application: Application, private val receiveRepository: ReceiveRepository, private val sendRepository: SendRepository): BaseViewModel(application) {
     lateinit var receiveResponse: LiveData<Resource<List<Receive>>>
     lateinit var sendResponse: LiveData<Resource<List<Send>>>
 

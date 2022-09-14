@@ -10,15 +10,15 @@ import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.GeneralUtils.createAlertDialog
 import za.co.botcoin.view.wallet.WalletBaseFragment
 
-class SendFragment : WalletBaseFragment(R.layout.send_fragment) {
+class WalletMenuSendFragment : WalletBaseFragment(R.layout.send_fragment) {
     private lateinit var binding: SendFragmentBinding
-    private lateinit var sendViewModel: SendViewModel
+    private lateinit var walletMenuSendViewModel: WalletMenuSendViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = SendFragmentBinding.bind(view)
 
-        this.sendViewModel = ViewModelProviders.of(this).get(SendViewModel::class.java)
+        this.walletMenuSendViewModel = ViewModelProviders.of(this).get(WalletMenuSendViewModel::class.java)
 
         arguments?.let {
             addBtnSend(it.getString("asset") ?: "")
@@ -43,8 +43,8 @@ class SendFragment : WalletBaseFragment(R.layout.send_fragment) {
     }
 
     private fun sendAndObserveSend(amount: String, asset: String, address: String, destinationTag: String) {
-        this.sendViewModel.send(amount, asset, address, destinationTag)
-        this.sendViewModel.sendResponse.observe(viewLifecycleOwner) {
+        this.walletMenuSendViewModel.send(amount, asset, address, destinationTag)
+        this.walletMenuSendViewModel.sendResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     walletActivity.dismissProgressBar()
@@ -55,17 +55,17 @@ class SendFragment : WalletBaseFragment(R.layout.send_fragment) {
                             if (response.success) {
                                 GeneralUtils.notify(context, "Sent $amount $asset to $address.", response.withdrawalId)
                             } else {
-                                sendViewModel.displaySendFailedNotification()
+                                walletMenuSendViewModel.displaySendFailedNotification()
                             }
                         }
                     } else {
-                        sendViewModel.displaySendFailedNotification()
+                        walletMenuSendViewModel.displaySendFailedNotification()
                     }
                 }
                 Status.ERROR -> {
                     walletActivity.dismissProgressBar()
                     displaySendOptions()
-                    sendViewModel.displaySendFailedNotification()
+                    walletMenuSendViewModel.displaySendFailedNotification()
                 }
                 Status.LOADING -> {
                     walletActivity.displayProgressBar()
