@@ -14,22 +14,4 @@ class AutoTradeViewModel(
     private val alertDialogService: IAlertDialogService,
     private val sharedPreferencesService: ISharedPreferencesService
 ) : ViewModel() {
-
-    fun displayAutoTradeAlertDialog() {
-        alertDialogService.showAlertDialog(AlertDialogProperties().apply {
-            title = resourceManager.getString(R.string.auto_trade)
-            message = resourceManager.getString(R.string.auto_trade_disclaimer)
-        })
-    }
-
-    fun displayLunoApiCredentialsAlertDialog() {
-        alertDialogService.showAlertDialog(AlertDialogProperties().apply {
-            title = resourceManager.getString(R.string.auto_trade_luno_api_credentials)
-            message = resourceManager.getString(R.string.auto_trade_please_set_your_luno_api)
-        })
-    }
-
-    fun saveAutoTradePref(isChecked: Boolean) = sharedPreferencesService.save(AUTO_TRADE_PREF, isChecked.toString())
-
-    fun getAutoTradePref(): String? = sharedPreferencesService[AUTO_TRADE_PREF]
 }

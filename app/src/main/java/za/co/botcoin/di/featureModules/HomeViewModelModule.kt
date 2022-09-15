@@ -10,20 +10,20 @@ import za.co.botcoin.model.repository.account.AccountRepository
 import za.co.botcoin.model.repository.tickers.TickersRepository
 import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
 import za.co.botcoin.view.home.HomeDisclaimerPolicyViewModel
-import za.co.botcoin.view.home.HomeViewModel
 import za.co.botcoin.view.home.HomePrivacyPolicyViewModel
+import za.co.botcoin.view.home.HomeTickerViewModel
 
 @Module
 class HomeViewModelModule {
     @Provides
     @IntoMap
-    @ViewModelKey(HomeViewModel::class)
-    fun homeViewModel(
+    @ViewModelKey(HomeTickerViewModel::class)
+    fun homeTickerViewModel(
         application: Application,
         sharedPreferencesService: ISharedPreferencesService,
         accountRepository: AccountRepository,
         tickersRepository: TickersRepository
-    ): ViewModel = HomeViewModel(application, sharedPreferencesService, accountRepository, tickersRepository)
+    ): ViewModel = HomeTickerViewModel(application, sharedPreferencesService, accountRepository, tickersRepository)
 
     @Provides
     @IntoMap

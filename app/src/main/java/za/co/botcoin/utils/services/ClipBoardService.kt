@@ -10,6 +10,5 @@ object ClipBoardService {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("data", data)
         clipboard.setPrimaryClip(clip)
-        GeneralUtils.makeToast(context, "Copied to clipboard!")
     }
 }

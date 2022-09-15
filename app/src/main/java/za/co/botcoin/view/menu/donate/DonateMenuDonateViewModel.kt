@@ -1,7 +1,6 @@
 package za.co.botcoin.view.menu.donate
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import za.co.botcoin.model.models.Receive
@@ -9,7 +8,6 @@ import za.co.botcoin.model.models.Send
 import za.co.botcoin.model.repository.BaseViewModel
 import za.co.botcoin.model.repository.receive.ReceiveRepository
 import za.co.botcoin.model.repository.send.SendRepository
-import za.co.botcoin.model.repository.withdrawal.WithdrawalRepository
 import za.co.botcoin.utils.Resource
 
 class DonateMenuDonateViewModel(application: Application, private val receiveRepository: ReceiveRepository, private val sendRepository: SendRepository): BaseViewModel(application) {

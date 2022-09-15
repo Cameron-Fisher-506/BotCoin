@@ -12,23 +12,24 @@ import za.co.botcoin.services.FiboService
 import za.co.botcoin.utils.*
 import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
 
-class AutoTradeFragment : AutoTradeBaseFragment(R.layout.auto_trade_fragment) {
+class AutoTradeSwitchFragment : AutoTradeBaseFragment(R.layout.auto_trade_fragment) {
     private lateinit var binding: AutoTradeFragmentBinding
+    private val autoTradeSwitchViewModel by viewModels<AutoTradeSwitchViewModel>(factoryProducer = { autoTradeActivity.getViewModelFactory })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = AutoTradeFragmentBinding.bind(view)
 
-        autoTradeViewModel.displayAutoTradeAlertDialog()
+        autoTradeSwitchViewModel.displayAutoTradeAlertDialog()
 
         if (GeneralUtils.isApiKeySet(context)) {
             setSwitchAutoTrade()
         } else {
             stopBotService()
             this.binding.autoTradeSwitch.isChecked = false
-            autoTradeViewModel.displayLunoApiCredentialsAlertDialog()
+            autoTradeSwitchViewModel.displayLunoApiCredentialsAlertDialog()
 
-            val action = AutoTradeFragmentDirections.actionAutoTradeFragmentToLunoApiFragment()
+            val action = AutoTradeSwitchFragmentDirections.actionAutoTradeSwitchFragmentToLunoApiFragment()
             Navigation.findNavController(view).navigate(action)
         }
         setUpOnClickListeners()
@@ -36,7 +37,7 @@ class AutoTradeFragment : AutoTradeBaseFragment(R.layout.auto_trade_fragment) {
 
     private fun setUpOnClickListeners() {
         this.binding.autoTradeSwitch.setOnCheckedChangeListener { _, isChecked ->
-            autoTradeViewModel.saveAutoTradePref(isChecked)
+            autoTradeSwitchViewModel.saveAutoTradePref(isChecked)
             if (isChecked) {
                 //start service
                 startBotService()
@@ -60,7 +61,7 @@ class AutoTradeFragment : AutoTradeBaseFragment(R.layout.auto_trade_fragment) {
     }
 
     private fun setSwitchAutoTrade() {
-        val isAutoTrade = autoTradeViewModel.getAutoTradePref()
+        val isAutoTrade = autoTradeSwitchViewModel.getAutoTradePref()
         this.binding.autoTradeSwitch.isChecked = isAutoTrade != null
     }
 }

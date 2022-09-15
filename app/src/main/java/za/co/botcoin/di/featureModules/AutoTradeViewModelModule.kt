@@ -8,6 +8,7 @@ import za.co.botcoin.di.ViewModelKey
 import za.co.botcoin.di.managers.IResourceManager
 import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
 import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
+import za.co.botcoin.view.settings.AutoTradeSwitchViewModel
 import za.co.botcoin.view.settings.AutoTradeViewModel
 
 @Module
@@ -20,4 +21,13 @@ class AutoTradeViewModelModule {
         alertDialogService: IAlertDialogService,
         sharedPreferencesService: ISharedPreferencesService
     ): ViewModel = AutoTradeViewModel(resourceManager, alertDialogService, sharedPreferencesService)
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(AutoTradeSwitchViewModel::class)
+    fun autoTradeSwitchViewModel(
+        resourceManager: IResourceManager,
+        alertDialogService: IAlertDialogService,
+        sharedPreferencesService: ISharedPreferencesService
+    ): ViewModel = AutoTradeSwitchViewModel(resourceManager, alertDialogService, sharedPreferencesService)
 }

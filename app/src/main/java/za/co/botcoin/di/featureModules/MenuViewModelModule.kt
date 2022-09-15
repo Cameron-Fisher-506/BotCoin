@@ -17,60 +17,54 @@ class MenuViewModelModule {
     @IntoMap
     @ViewModelKey(MenuTrailingStopViewModel::class)
     fun menuTrailingStopViewModel(
-        application: Application,
         alertDialogService: IAlertDialogService,
         resourceManager: IResourceManager,
         sharedPreferencesService: ISharedPreferencesService
-    ) : ViewModel = MenuTrailingStopViewModel(application, alertDialogService, resourceManager, sharedPreferencesService)
+    ) : ViewModel = MenuTrailingStopViewModel(alertDialogService, resourceManager, sharedPreferencesService)
 
     @Provides
     @IntoMap
     @ViewModelKey(MenuTrailingStartViewModel::class)
     fun menuTrailingStartViewModel(
-        application: Application,
         alertDialogService: IAlertDialogService,
         resourceManager: IResourceManager,
         sharedPreferencesService: ISharedPreferencesService
-    ) : ViewModel = MenuTrailingStartViewModel(application, alertDialogService, resourceManager, sharedPreferencesService)
+    ) : ViewModel = MenuTrailingStartViewModel(alertDialogService, resourceManager, sharedPreferencesService)
 
     @Provides
     @IntoMap
     @ViewModelKey(MenuSupportPriceCounterViewModel::class)
     fun menuSupportPriceCounterViewModel(
-        application: Application,
         alertDialogService: IAlertDialogService,
         resourceManager: IResourceManager,
         sharedPreferencesService: ISharedPreferencesService
-    ) : ViewModel = MenuSupportPriceCounterViewModel(application, alertDialogService, resourceManager, sharedPreferencesService)
+    ) : ViewModel = MenuSupportPriceCounterViewModel(alertDialogService, resourceManager, sharedPreferencesService)
 
     @Provides
     @IntoMap
     @ViewModelKey(MenuResistancePriceCounterViewModel::class)
     fun menuResistancePriceCounterViewModel(
-        application: Application,
         alertDialogService: IAlertDialogService,
         resourceManager: IResourceManager,
         sharedPreferencesService: ISharedPreferencesService
-    ) : ViewModel = MenuResistancePriceCounterViewModel(application, alertDialogService, resourceManager, sharedPreferencesService)
+    ) : ViewModel = MenuResistancePriceCounterViewModel(alertDialogService, resourceManager, sharedPreferencesService)
 
     @Provides
     @IntoMap
     @ViewModelKey(MenuSmartTrendDetectorViewModel::class)
     fun menuSmartTrendDetectorViewModel(
-        application: Application,
         alertDialogService: IAlertDialogService,
         resourceManager: IResourceManager,
         sharedPreferencesService: ISharedPreferencesService
-    ) : ViewModel = MenuSmartTrendDetectorViewModel(application, alertDialogService, resourceManager, sharedPreferencesService)
+    ) : ViewModel = MenuSmartTrendDetectorViewModel(alertDialogService, resourceManager, sharedPreferencesService)
 
     @Provides
     @IntoMap
     @ViewModelKey(MenuLunoApiViewModel::class)
     fun menuLunoApiViewModel(
-        application: Application,
         alertDialogService: IAlertDialogService,
         resourceManager: IResourceManager,
         sharedPreferencesService: ISharedPreferencesService
-    ) : ViewModel = MenuLunoApiViewModel(application, alertDialogService, resourceManager, sharedPreferencesService)
+    ) : ViewModel = MenuLunoApiViewModel(alertDialogService, resourceManager, sharedPreferencesService)
 
 }

@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_navigation_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/homeTickerFragment">
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="za.co.botcoin.view.home.HomeFragment"
+        android:id="@+id/homeTickerFragment"
+        android:name="za.co.botcoin.view.home.HomeTickerFragment"
         android:label="Home">
         <action
-            android:id="@+id/action_homeFragment_to_privacyPolicyFragment"
+            android:id="@+id/action_homeTickerFragment_to_privacyPolicyFragment"
             app:destination="@id/homePrivacyPolicyFragment" />
     </fragment>
     <fragment
@@ -25,7 +25,7 @@
         android:name="za.co.botcoin.view.home.HomeDisclaimerPolicyFragment"
         android:label="Disclaimer Policy">
         <action
-            android:id="@+id/action_disclaimerPolicyFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            android:id="@+id/action_disclaimerPolicyFragment_to_homeTickerFragment"
+            app:destination="@id/homeTickerFragment" />
     </fragment>
 </navigation>

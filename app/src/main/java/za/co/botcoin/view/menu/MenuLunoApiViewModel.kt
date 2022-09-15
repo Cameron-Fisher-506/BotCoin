@@ -1,9 +1,8 @@
 package za.co.botcoin.view.menu
 
-import android.app.Application
+import androidx.lifecycle.ViewModel
 import za.co.botcoin.R
 import za.co.botcoin.di.managers.IResourceManager
-import za.co.botcoin.model.repository.BaseViewModel
 import za.co.botcoin.utils.services.alertDialogService.AlertDialogProperties
 import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
 import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService.LUNO_API_KEY_ID
@@ -11,11 +10,10 @@ import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreference
 import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
 
 class MenuLunoApiViewModel(
-    application: Application,
     private val alertDialogService: IAlertDialogService,
     private val resourceManager: IResourceManager,
     private val sharedPreferencesService: ISharedPreferencesService
-) : BaseViewModel(application) {
+) : ViewModel() {
     fun displayApiKeySavedToast() {
         alertDialogService.makeToast(resourceManager.getString(R.string.menu_api_key_saved))
     }
