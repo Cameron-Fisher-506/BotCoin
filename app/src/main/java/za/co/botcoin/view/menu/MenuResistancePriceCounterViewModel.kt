@@ -1,6 +1,7 @@
 package za.co.botcoin.view.menu
 
 import android.app.Application
+import androidx.lifecycle.ViewModel
 import za.co.botcoin.R
 import za.co.botcoin.di.managers.IResourceManager
 import za.co.botcoin.model.repository.BaseViewModel
@@ -11,11 +12,10 @@ import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreference
 import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
 
 class MenuResistancePriceCounterViewModel(
-    application: Application,
     private val alertDialogService: IAlertDialogService,
     private val resourceManager: IResourceManager,
     private val sharedPreferencesService: ISharedPreferencesService
-) : BaseViewModel(application) {
+) : ViewModel() {
     fun displaySavedToast() {
         alertDialogService.makeToast(resourceManager.getString(R.string.menu_saved))
     }

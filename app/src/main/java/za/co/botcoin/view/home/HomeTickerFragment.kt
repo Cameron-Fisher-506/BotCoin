@@ -14,8 +14,9 @@ import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.services.KioskService
 import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
 
-class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
+class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
     private lateinit var binding: HomeFragmentBinding
+    private val homeTickerViewModel by viewModels<HomeTickerViewModel>(factoryProducer = { homeActivity.getViewModelFactory })
     private val handler = Handler()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -23,7 +24,7 @@ class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
         this.binding = HomeFragmentBinding.bind(view)
 
         fetchAndObserveTickers()
-        displayPrivacyPolicy(view)
+        navigateToPrivacyPolicyScreen(view)
 
         val delay: Long = 100000L
         handler.postDelayed(object : Runnable {
@@ -38,8 +39,8 @@ class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
     }
 
     private fun fetchAndObserveTickers() {
-        homeViewModel.fetchTickers()
-        homeViewModel.tickersResponse.observe(viewLifecycleOwner) {
+        homeTickerViewModel.fetchTickers()
+        homeTickerViewModel.tickersResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     val data = it.data
@@ -75,17 +76,17 @@ class HomeFragment : HomeBaseFragment(R.layout.home_fragment) {
         this.binding.errorTextView.visibility = View.VISIBLE
     }
 
-    private fun displayPrivacyPolicy(view: View) {
-        val privacyPolicyAcceptance = homeViewModel.getPrivacyPolicyAcceptance()
+    private fun navigateToPrivacyPolicyScreen(view: View) {
+        val privacyPolicyAcceptance = homeTickerViewModel.getPrivacyPolicyAcceptance()
         if (privacyPolicyAcceptance == null) {
-            val action = HomeFragmentDirections.actionHomeFragmentToPrivacyPolicyFragment()
+            val action = HomeTickerFragmentDirections.actionHomeTickerFragmentToPrivacyPolicyFragment()
             Navigation.findNavController(view).navigate(action)
         } else {
-            homeViewModel.setUserTrailingStartPrice()
-            homeViewModel.setUserTrailingStopPrice()
-            homeViewModel.setSupportPriceCounter()
-            homeViewModel.setResistancePriceCounter()
-            homeViewModel.setSmartTrendDetectorMargin()
+            homeTickerViewModel.setUserTrailingStartPrice()
+            homeTickerViewModel.setUserTrailingStopPrice()
+            homeTickerViewModel.setSupportPriceCounter()
+            homeTickerViewModel.setResistancePriceCounter()
+            homeTickerViewModel.setSmartTrendDetectorMargin()
         }
     }
 

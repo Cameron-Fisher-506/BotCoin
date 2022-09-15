@@ -2,18 +2,18 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/auto_trade_navigation_graph"
-    app:startDestination="@id/autoTradeFragment">
+    app:startDestination="@id/autoTradeSwitchFragment">
 
     <fragment
         android:id="@+id/lunoApiFragment"
         android:name="za.co.botcoin.view.menu.MenuLunoApiFragment"
         android:label="Luno Api" />
     <fragment
-        android:id="@+id/autoTradeFragment"
-        android:name="za.co.botcoin.view.settings.AutoTradeFragment"
+        android:id="@+id/autoTradeSwitchFragment"
+        android:name="za.co.botcoin.view.settings.AutoTradeSwitchFragment"
         android:label="Auto Trade">
         <action
-            android:id="@+id/action_autoTradeFragment_to_lunoApiFragment"
+            android:id="@+id/action_autoTradeSwitchFragment_to_lunoApiFragment"
             app:destination="@id/lunoApiFragment" />
     </fragment>
 </navigation>

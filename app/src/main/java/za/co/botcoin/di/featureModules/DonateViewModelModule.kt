@@ -15,5 +15,9 @@ class DonateViewModelModule {
     @Provides
     @IntoMap
     @ViewModelKey(DonateMenuDonateViewModel::class)
-    fun donateViewModel(application: Application, receiveRepository: ReceiveRepository, sendRepository: SendRepository): ViewModel = DonateMenuDonateViewModel(application, receiveRepository, sendRepository)
+    fun donateViewModel(
+        application: Application,
+        receiveRepository: ReceiveRepository,
+        sendRepository: SendRepository
+    ): ViewModel = DonateMenuDonateViewModel(application, receiveRepository, sendRepository)
 }

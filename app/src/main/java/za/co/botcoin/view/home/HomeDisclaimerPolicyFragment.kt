@@ -34,7 +34,7 @@ class HomeDisclaimerPolicyFragment : HomeBaseFragment(R.layout.disclaimer_policy
 
         this.binding.acceptButton.setOnClickListener {
             disclaimerViewModel.saveDisclaimerAcceptance()
-            val action = HomeDisclaimerPolicyFragmentDirections.actionDisclaimerPolicyFragmentToHomeFragment()
+            val action = HomeDisclaimerPolicyFragmentDirections.actionDisclaimerPolicyFragmentToHomeTickerFragment()
             Navigation.findNavController(view).navigate(action)
         }
     }
