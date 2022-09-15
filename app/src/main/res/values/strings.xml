@@ -71,27 +71,42 @@
     <string name="notifications">Notifications</string>
     <string name="trailing_start">Trailing Start</string>
     <string name="menu_trailing_start_description">BotCoin uses the trailing start percentage, to start trading again if the market is in an upward trend.\n\n
-         E.g.\n
-         Trailing start: 10%\n
-         Current price: R100\n
-         Buy order: R109.99\n\n
-         In the above scenario, BotCoin will create a buy order if the price increases 10% above the last lowest support price.\n
-         BotCoin will always place a buy order of R0.1 less than the current price.
+        E.g.\n
+        Trailing start: 10%\n
+        Current price: R100\n
+        Buy order: R109.99\n\n
+        In the above scenario, BotCoin will create a buy order if the price increases 10% above the last lowest support price.\n
+        BotCoin will always place a buy order of R0.1 less than the current price.
     </string>
     <string name="trailing_stop">Trailing Stop</string>
     <string name="menu_trailing_stop_description">BotCoin uses the trailing stop percentage, to pullout of a trade if the market is in a downtrend.\n\n
-         E.g.\n
-         Trailing stop: 10%\n
-         Current price: 100\n
-         Sell order: 90\n\n
-         In the above scenario BotCoin will create a sell order if the price drops 10% below than last highest resistance price.
+        E.g.\n
+        Trailing stop: 10%\n
+        Current price: 100\n
+        Sell order: 90\n\n
+        In the above scenario BotCoin will create a sell order if the price drops 10% below than last highest resistance price.
     </string>
     <string name="logcat">Logcat</string>
     <string name="support_price_counter">Set Support Price Counter</string>
+    <string name="menu_support_price_counter_description">BotCoin uses the Support Price Counter, to buy at a solid support price.\n\n
+        E.g.\n
+        Support Price Counter: 5\n
+        BotCoin keeps track of the number of hits each price gets.\n
+        The lowest price with the highest number of hits > 5 will be set as the support price.
+    </string>
     <string name="resistance_price_counter">Set Resistance Price Counter</string>
+    <string name="menu_resistance_price_counter_description">BotCoin uses the Resistance Price Counter, to sell at solid resistance price.\n\n
+        E.g.\n
+        Resistance Price Counter: 5\n
+        BotCoin keeps track of the number of hits each price gets.\n
+        The highest price with the highest number of hits > 5 will be set as the resistance price.
+    </string>
     <string name="smart_trend_detector_margin">Set Smart Trend Detector Margin</string>
     <string name="menu_saved">Saved</string>
     <string name="menu_default_value_set">Default value set</string>
+    <string name="menu_api_key_saved">API key saved</string>
+    <string name="menu_luno_api_credentials_luno_api">Luno API Credentials (Luno API)</string>
+    <string name="menu_please_set_your_luno_api">Please set your Luno API credentials in order to use BotCoin!</string>
 
     //LUNO API
     <string name="luno_api_key_id">Key ID</string>
@@ -158,7 +173,7 @@
                     1. Your Luno API credentials.\n\n
                     This policy is effective as of 25 November 2020.</string>
     <string name="auto_trade_luno_api_credentials">Luno API Credentials</string>
-    <string name="auto_trade_please_set_your_luno_api">Please set your Luno API credentials in order to use BotCoin!</string>
+    <string name="auto_trade_please_set_your_luno_api">Please set your Luno API credentials in order to use BotCoin</string>
 
     //DONATE MENU
     <string name="btc">BTC</string>
