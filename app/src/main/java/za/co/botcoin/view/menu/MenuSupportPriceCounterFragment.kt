@@ -3,29 +3,27 @@ package za.co.botcoin.view.menu
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import za.co.botcoin.R
 import za.co.botcoin.databinding.SupportPriceCounterFragmentBinding
 import za.co.botcoin.utils.ConstantUtils
-import za.co.botcoin.utils.GeneralUtils
-import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
 
 class MenuSupportPriceCounterFragment : MenuBaseFragment(R.layout.support_price_counter_fragment) {
     private lateinit var binding: SupportPriceCounterFragmentBinding
+    private val menuSupportPriceCounterViewModel by viewModels<MenuSupportPriceCounterViewModel>(factoryProducer = { menuActivity.getViewModelFactory })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.binding = SupportPriceCounterFragmentBinding.bind(view)
-        wireUI()
-        setBtnSaveListener()
-        setImgBtnSupportPriceCounterListener()
+        binding = SupportPriceCounterFragmentBinding.bind(view)
+        setUpViews()
+        setUpOnClickListeners()
     }
 
-    private fun wireUI() {
+    private fun setUpViews() {
         val adapter = ArrayAdapter.createFromResource(requireContext(), R.array.support_price_counter_items, android.R.layout.simple_spinner_item)
         this.binding.spinner.adapter = adapter
 
-        val supportPriceCounter = BaseSharedPreferencesService[requireContext(), BaseSharedPreferencesService.SUPPORT_PRICE_COUNTER]
+        val supportPriceCounter = menuSupportPriceCounterViewModel.getSavedSupportPriceCounter()
         if (!supportPriceCounter.isNullOrBlank()) {
             this.binding.spinner.setSelection(supportPriceCounter.toInt())
         } else {
@@ -33,27 +31,14 @@ class MenuSupportPriceCounterFragment : MenuBaseFragment(R.layout.support_price_
         }
     }
 
-    private fun setBtnSaveListener() {
-        this.binding.saveButton.setOnClickListener {
+    private fun setUpOnClickListeners() {
+        binding.saveButton.setOnClickListener {
             ConstantUtils.supportPriceCounter = this.binding.spinner.selectedItem.toString().toInt()
-            saveUserSupportPriceCounter(this.binding.spinner.selectedItemPosition)
-            GeneralUtils.makeToast(context, "Saved!")
+            menuSupportPriceCounterViewModel.saveSupportPriceCounter((this.binding.spinner.selectedItemPosition).toString())
+            menuSupportPriceCounterViewModel.displaySavedToast()
         }
-    }
-
-    private fun setImgBtnSupportPriceCounterListener() {
-        this.binding.supportPriceCounterImageButton.setOnClickListener {
-            GeneralUtils.createAlertDialog(context, "Support Price Counter", """
-     BotCoin uses the Support Price Counter, to buy at a solid support price
-     
-     E.g.
-     Support Price Counter: 5
-     BotCoin keeps track of the number of hits each price gets. The lowest price with the highest number of hits > 5 will be set as the support price.
-     """.trimIndent(), false).show()
+        binding.supportPriceCounterImageButton.setOnClickListener {
+            menuSupportPriceCounterViewModel.displaySupportPriceCounterDescriptionAlertDialog()
         }
-    }
-
-    private fun saveUserSupportPriceCounter(itemPosition: Int) {
-        BaseSharedPreferencesService.save(requireContext(), BaseSharedPreferencesService.SUPPORT_PRICE_COUNTER, itemPosition.toString())
     }
 }

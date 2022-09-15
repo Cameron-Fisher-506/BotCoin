@@ -3,12 +3,10 @@ package za.co.botcoin.view.menu
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import za.co.botcoin.R
 import za.co.botcoin.databinding.TrailingStartFragmentBinding
 import za.co.botcoin.utils.ConstantUtils
-import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
 
 class MenuTrailingStartFragment : MenuBaseFragment(R.layout.trailing_start_fragment) {
@@ -23,8 +21,7 @@ class MenuTrailingStartFragment : MenuBaseFragment(R.layout.trailing_start_fragm
     }
 
     private fun setUpViews() {
-        val adapter = ArrayAdapter.createFromResource(requireContext(), R.array.trailing_items, android.R.layout.simple_spinner_item)
-        this.binding.spinner.adapter = adapter
+        this.binding.spinner.adapter = ArrayAdapter.createFromResource(requireContext(), R.array.trailing_items, android.R.layout.simple_spinner_item)
 
         val trailingStart = menuTrailingStartViewModel.getSavedTrailingStart()
         if (!trailingStart.isNullOrBlank()) {

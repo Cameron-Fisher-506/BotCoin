@@ -21,8 +21,7 @@ class MenuTrailingStopFragment : MenuBaseFragment(R.layout.trailing_stop_fragmen
     }
 
     private fun setUpViews() {
-        val adapter = ArrayAdapter.createFromResource(requireContext(), R.array.trailing_items, android.R.layout.simple_spinner_item)
-        this.binding.spinner.adapter = adapter
+        this.binding.spinner.adapter = ArrayAdapter.createFromResource(requireContext(), R.array.trailing_items, android.R.layout.simple_spinner_item)
 
         val trailingStop = menuTrailingStopViewModel.getSavedTrailingStop()
         if (!trailingStop.isNullOrBlank()) {
