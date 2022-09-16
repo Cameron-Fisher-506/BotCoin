@@ -8,6 +8,8 @@ import za.co.botcoin.di.managers.ResourceManager
 import za.co.botcoin.utils.services.alertDialogService.AlertDialogService
 import za.co.botcoin.utils.services.ProgressDialogService
 import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
+import za.co.botcoin.utils.services.clipBoardService.ClipBoardService
+import za.co.botcoin.utils.services.clipBoardService.IClipBoardService
 import za.co.botcoin.utils.services.notificationService.INotificationService
 import za.co.botcoin.utils.services.notificationService.NotificationService
 import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
@@ -29,4 +31,7 @@ class PresentationModule(private val activity: AppCompatActivity) {
 
     @Provides
     fun notificationService(): INotificationService = NotificationService(activity)
+
+    @Provides
+    fun clipBoardService(): IClipBoardService = ClipBoardService(activity)
 }

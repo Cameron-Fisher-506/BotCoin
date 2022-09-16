@@ -118,6 +118,12 @@
     <string name="tag">Tag</string>
     <string name="copy">Copy</string>
     <string name="donate_description">Copy the address or scan QR code to donate via Luno platform or any platform of your choice. Thank You!</string>
+    <string name="menu_invalid_amount_entered">Invalid amount entered</string>
+    <string name="menu_please_note_you_cannot_donate_zero">Please note that you cannot donate 0 %1$s.</string>
+    <string name="menu_luno_api_credentials">Luno API Credentials</string>
+    <string name="menu_please_set_your_luno_api_credentials">Please set your Luno API credentials in order to use BotCoin!</string>
+    <string name="menu_send_failed">Send failed</string>
+    <string name="menu_sent_amount_to_address">Sent %1$s %2s to %3$s.</string>
 
     //RECEIVE
     <string name="receive_description">Copy the address or scan QR code to receive.</string>

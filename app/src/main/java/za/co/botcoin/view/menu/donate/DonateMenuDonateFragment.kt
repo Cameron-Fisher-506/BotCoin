@@ -7,7 +7,7 @@ import za.co.botcoin.R
 import za.co.botcoin.databinding.DonateFragmentBinding
 import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.*
-import za.co.botcoin.utils.services.ClipBoardService
+import za.co.botcoin.utils.services.clipBoardService.BaseClipBoardService
 import za.co.botcoin.view.menu.MenuBaseFragment
 
 class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
@@ -22,7 +22,7 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
 
         asset = arguments?.getString("asset") ?: ""
 
-        wireUI()
+        setUpOnClickListeners()
         receiveAndObserveReceive()
     }
 
@@ -59,7 +59,8 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
         }
     }
 
-    private fun sendAndObserveSend(amount: String, asset: String, address: String) {
+    private fun sendAndObserveSend(amount: String, asset: String, address: String, destinationTag: String) {
+        this.donateViewModel.send(amount, asset, address, destinationTag)
         this.donateViewModel.sendResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
@@ -67,15 +68,21 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
                     displayDonateOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
-                        data.map { response -> if (response.success) GeneralUtils.notify(context, "Sent $amount $asset to $address.", response.withdrawalId) else GeneralUtils.notify(context, "Send failed.", "") }
+                        data.map { response ->
+                            if (response.success) {
+                                donateViewModel.displaySentAmountOfAssetToAddressNotification(amount, asset, address)
+                            } else {
+                                donateViewModel.displaySendFailedNotification()
+                            }
+                        }
                     } else {
-                        GeneralUtils.notify(context, "Send failed.", "")
+                        donateViewModel.displaySendFailedNotification()
                     }
                 }
                 Status.ERROR -> {
                     menuActivity.dismissProgressBar()
                     displayDonateOptions()
-                    GeneralUtils.notify(context, "Send failed.", "")
+                    donateViewModel.displaySendFailedNotification()
                 }
                 Status.LOADING -> {
                     menuActivity.displayProgressBar()
@@ -85,38 +92,25 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
         }
     }
 
-    private fun wireUI() {
-        addBtnCopyListener()
-        addBtnDonateListener()
-        addBtnCopyTagListener()
-    }
-
-    private fun addBtnCopyListener() {
-        this.binding.copyImageButton.setOnClickListener { activity?.let { context -> ClipBoardService.copyToClipBoard(context, this.binding.addressEditText.text.toString()) } }
-    }
-
-    private fun addBtnCopyTagListener() {
-        this.binding.copyTagImageButton.setOnClickListener { activity?.let { context -> ClipBoardService.copyToClipBoard(context, this.binding.tagEditText.text.toString()) } }
-    }
-
-    private fun addBtnDonateListener() {
+    private fun setUpOnClickListeners() {
+        this.binding.copyImageButton.setOnClickListener {
+            donateViewModel.copyToClipBoard(this.binding.addressEditText.text.toString())
+        }
+        this.binding.copyTagImageButton.setOnClickListener {
+            donateViewModel.copyToClipBoard(this.binding.tagEditText.text.toString())
+        }
         this.binding.donateButton.setOnClickListener {
             if (GeneralUtils.isApiKeySet(context)) {
                 val amount: String = this.binding.amountEditText.text.toString()
                 val address: String = this.binding.addressEditText.text.toString()
                 val destinationTag: String = this.binding.tagEditText.text.toString()
-                if (amount.isNotBlank()) {
-                    if (amount != "0") {
-                        this.donateViewModel.send(amount, asset, address, destinationTag)
-                        sendAndObserveSend(amount, asset, address)
-                    } else {
-                        GeneralUtils.createAlertDialog(context, "Invalid amount entered!", "Please note that you cannot donate 0 $asset.", false).show()
-                    }
+                if (amount.isNotBlank() && amount != "0") {
+                    sendAndObserveSend(amount, asset, address, destinationTag)
                 } else {
-                    GeneralUtils.createAlertDialog(context, "No amount entered!", "Please enter the amount of $asset You would like to donate.", false).show()
+                    donateViewModel.displayInvalidAmountEnteredAlertDialog(asset)
                 }
             } else {
-                GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
+                donateViewModel.displayLunoApiCredentialsAlertDialog()
             }
         }
     }
