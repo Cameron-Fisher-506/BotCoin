@@ -1,15 +1,18 @@
 package za.co.botcoin.view.home
 
 import junit.framework.Assert
+import junit.framework.Assert.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Before
-import org.junit.Test
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.Mockito.*
 import za.co.botcoin.disposeObserver
 import za.co.botcoin.enum.Status
 import za.co.botcoin.getOrAwaitValue
@@ -20,20 +23,20 @@ import za.co.botcoin.utils.Resource
 import za.co.botcoin.view.BaseViewModelTest
 
 @ExperimentalCoroutinesApi
-abstract class HomeViewModelTest : BaseViewModelTest() {
+class HomeViewModelTest : BaseViewModelTest() {
 
     @Mock
-    protected lateinit var tickersRepository: TickersRepository
+    private lateinit var tickersRepository: TickersRepository
 
     @Mock
-    protected lateinit var accountRepository: AccountRepository
+    private lateinit var accountRepository: AccountRepository
 
     @InjectMocks
-    protected lateinit var homeViewModel: HomeViewModel
+    private lateinit var homeViewModel: HomeViewModel
 
-    @Before
+    @BeforeEach
     fun setUp() {
-        homeViewModel.ioDispatcher = testCoroutineDispatcher
+        homeViewModel.ioDispatcher = unconfinedTestDispatcher
     }
 
 
@@ -43,8 +46,8 @@ abstract class HomeViewModelTest : BaseViewModelTest() {
         homeViewModel.fetchTickers()
         homeViewModel.tickersResponse.disposeObserver()
         runBlocking {
-            Mockito.verify(tickersRepository).fetchTickers()
-            Mockito.verifyNoMoreInteractions(tickersRepository)
+            verify(tickersRepository).fetchTickers()
+            verifyNoMoreInteractions(tickersRepository)
         }
     }
 
@@ -53,15 +56,15 @@ abstract class HomeViewModelTest : BaseViewModelTest() {
     fun shouldReturnTickerResponseWhenFetchTickersIsCalled() {
         val tickers: Resource<List<Ticker>> = Resource.success(listOf(Ticker(), Ticker()))
 
-        runBlockingTest {
-            Mockito.`when`(tickersRepository.fetchTickers()).thenReturn(tickers)
+        runTest {
+            `when`(tickersRepository.fetchTickers()).thenReturn(tickers)
         }
 
         homeViewModel.fetchTickers()
         with(homeViewModel.tickersResponse.getOrAwaitValue()) {
-            Assert.assertNotNull(this)
-            Assert.assertEquals(Status.SUCCESS, this?.status)
-            Assert.assertTrue(!this?.data.isNullOrEmpty())
+            assertNotNull(this)
+            assertEquals(Status.SUCCESS, this?.status)
+            assertTrue(!this?.data.isNullOrEmpty())
         }
     }
 }

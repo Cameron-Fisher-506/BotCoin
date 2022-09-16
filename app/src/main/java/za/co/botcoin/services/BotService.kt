@@ -25,7 +25,8 @@ import za.co.botcoin.utils.*
 import za.co.botcoin.utils.MathUtils.calculateMarginPercentage
 import za.co.botcoin.utils.MathUtils.percentage
 import za.co.botcoin.utils.MathUtils.precision
-import za.co.botcoin.utils.SharedPrefsUtils.SUPPORT_PRICE_COUNTER
+import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
+import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService.SUPPORT_PRICE_COUNTER
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -272,7 +273,7 @@ class BotService : Service() {
                 resistancePrice = ""
                 resistancePrices.clear()
 
-                ConstantUtils.supportPriceCounter = SharedPrefsUtils[applicationContext, SUPPORT_PRICE_COUNTER]?.toInt() ?: 4
+                ConstantUtils.supportPriceCounter = BaseSharedPreferencesService[applicationContext, SUPPORT_PRICE_COUNTER]?.toInt() ?: 4
             } else {
                 Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - bid " +
                         "supportPrice: $supportPrice " +
@@ -518,7 +519,7 @@ class BotService : Service() {
         var useMaxCurrentPrice: Boolean = false
         if (this.smartTrendDetectors.isNotEmpty()) {
             for (i in 0 until this.smartTrendDetectors.size-1) {
-                ConstantUtils.smartTrendDetectorMargin = SharedPrefsUtils[applicationContext, SharedPrefsUtils.SMART_TREND_DETECTOR]?.toInt() ?: 5
+                ConstantUtils.smartTrendDetectorMargin = BaseSharedPreferencesService[applicationContext, BaseSharedPreferencesService.SMART_TREND_DETECTOR]?.toInt() ?: 5
                 if (!useMaxCurrentPrice) {
                     if (this.smartTrendDetectors[i+1] > this.smartTrendDetectors[i]) {
                         maxCurrentPrice = this.smartTrendDetectors[i+1]

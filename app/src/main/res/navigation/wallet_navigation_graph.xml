@@ -13,7 +13,7 @@
             app:destination="@id/walletMenuFragment" />
         <action
             android:id="@+id/action_walletFragment_to_withdrawFragment"
-            app:destination="@id/withdrawFragment" />
+            app:destination="@id/walletWithdrawFragment" />
     </fragment>
     <fragment
         android:id="@+id/walletMenuFragment"
@@ -21,32 +21,32 @@
         android:label="Wallet Menu">
         <action
             android:id="@+id/action_walletMenuFragment_to_ordersFragment"
-            app:destination="@id/ordersFragment" />
+            app:destination="@id/walletMenuOrdersFragment" />
         <action
             android:id="@+id/action_walletMenuFragment_to_receiveFragment"
-            app:destination="@id/receiveFragment" />
+            app:destination="@id/walletMenuReceiveFragment" />
         <action
             android:id="@+id/action_walletMenuFragment_to_sendFragment"
-            app:destination="@id/sendFragment" />
+            app:destination="@id/walletMenuSendFragment" />
         <argument
             android:name="asset"
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/withdrawFragment"
-        android:name="za.co.botcoin.view.wallet.WithdrawFragment"
+        android:id="@+id/walletWithdrawFragment"
+        android:name="za.co.botcoin.view.wallet.WalletWithdrawFragment"
         android:label="Withdraw" />
     <fragment
-        android:id="@+id/ordersFragment"
-        android:name="za.co.botcoin.view.wallet.menu.OrdersFragment"
+        android:id="@+id/walletMenuOrdersFragment"
+        android:name="za.co.botcoin.view.wallet.menu.WalletMenuOrdersFragment"
         android:label="Orders">
         <argument
             android:name="asset"
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/receiveFragment"
-        android:name="za.co.botcoin.view.wallet.menu.ReceiveFragment"
+        android:id="@+id/walletMenuReceiveFragment"
+        android:name="za.co.botcoin.view.wallet.menu.WalletMenuReceiveFragment"
         android:label="Receive">
         <argument
             android:name="asset"
@@ -56,8 +56,8 @@
             app:destination="@id/lunoApiFragment" />
     </fragment>
     <fragment
-        android:id="@+id/sendFragment"
-        android:name="za.co.botcoin.view.wallet.menu.SendFragment"
+        android:id="@+id/walletMenuSendFragment"
+        android:name="za.co.botcoin.view.wallet.menu.WalletMenuSendFragment"
         android:label="Send">
         <argument
             android:name="asset"
@@ -65,6 +65,6 @@
     </fragment>
     <fragment
         android:id="@+id/lunoApiFragment"
-        android:name="za.co.botcoin.view.menu.LunoApiFragment"
+        android:name="za.co.botcoin.view.menu.MenuLunoApiFragment"
         android:label="Luno Api" />
 </navigation>

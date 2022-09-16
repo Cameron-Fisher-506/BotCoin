@@ -9,9 +9,10 @@ import androidx.navigation.ui.NavigationUI
 import za.co.botcoin.view.home.MainActivity
 import za.co.botcoin.R
 import za.co.botcoin.databinding.AutoTradeActivityBinding
+import za.co.botcoin.view.BaseActivity
 import za.co.botcoin.view.trade.TradeActivity
 
-class AutoTradeActivity : AppCompatActivity() {
+class AutoTradeActivity : BaseActivity() {
     private lateinit var binding: AutoTradeActivityBinding
     private lateinit var navController: NavController
 

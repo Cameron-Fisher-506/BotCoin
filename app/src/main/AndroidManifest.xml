@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/botcoin"
         android:supportsRtl="true"
         android:theme="@style/Theme.BotCoin">
-        <activity android:name=".view.home.MainActivity">
+        <activity android:name=".view.home.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
