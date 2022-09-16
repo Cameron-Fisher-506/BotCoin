@@ -10,52 +10,52 @@
         android:label="Menu">
         <action
             android:id="@+id/action_menuFragment_to_lunoApiFragment"
-            app:destination="@id/lunoApiFragment" />
+            app:destination="@id/menuLunoApiFragment" />
         <action
             android:id="@+id/action_menuFragment_to_notificationsFragment"
-            app:destination="@id/notificationsFragment" />
+            app:destination="@id/menuNotificationsFragment" />
         <action
             android:id="@+id/action_menuFragment_to_supportPriceCounterFragment"
-            app:destination="@id/supportPriceCounterFragment" />
+            app:destination="@id/menuSupportPriceCounterFragment" />
         <action
             android:id="@+id/action_menuFragment_to_trailingStartFragment"
-            app:destination="@id/trailingStartFragment" />
+            app:destination="@id/menuTrailingStartFragment" />
         <action
             android:id="@+id/action_menuFragment_to_trailingStopFragment"
-            app:destination="@id/trailingStopFragment" />
+            app:destination="@id/menuTrailingStopFragment" />
         <action
             android:id="@+id/action_menuFragment_to_resistancePriceCounterFragment"
-            app:destination="@id/resistancePriceCounterFragment" />
+            app:destination="@id/menuResistancePriceCounterFragment" />
         <action
             android:id="@+id/action_menuFragment_to_donateMenuFragment"
             app:destination="@id/donateMenuFragment" />
         <action
             android:id="@+id/action_menuFragment_to_smartTrendDetectorFragment"
-            app:destination="@id/smartTrendDetectorFragment" />
+            app:destination="@id/menuSmartTrendDetectorFragment" />
     </fragment>
     <fragment
-        android:id="@+id/lunoApiFragment"
-        android:name="za.co.botcoin.view.menu.LunoApiFragment"
+        android:id="@+id/menuLunoApiFragment"
+        android:name="za.co.botcoin.view.menu.MenuLunoApiFragment"
         android:label="Luno Api" />
     <fragment
-        android:id="@+id/notificationsFragment"
-        android:name="za.co.botcoin.view.menu.NotificationsFragment"
+        android:id="@+id/menuNotificationsFragment"
+        android:name="za.co.botcoin.view.menu.MenuNotificationsFragment"
         android:label="Notifications" />
     <fragment
-        android:id="@+id/supportPriceCounterFragment"
-        android:name="za.co.botcoin.view.menu.SupportPriceCounterFragment"
+        android:id="@+id/menuSupportPriceCounterFragment"
+        android:name="za.co.botcoin.view.menu.MenuSupportPriceCounterFragment"
         android:label="Support Price Counter" />
     <fragment
-        android:id="@+id/trailingStartFragment"
-        android:name="za.co.botcoin.view.menu.TrailingStartFragment"
+        android:id="@+id/menuTrailingStartFragment"
+        android:name="za.co.botcoin.view.menu.MenuTrailingStartFragment"
         android:label="Trailing Start" />
     <fragment
-        android:id="@+id/trailingStopFragment"
-        android:name="za.co.botcoin.view.menu.TrailingStopFragment"
+        android:id="@+id/menuTrailingStopFragment"
+        android:name="za.co.botcoin.view.menu.MenuTrailingStopFragment"
         android:label="Trailing Stop" />
     <fragment
-        android:id="@+id/resistancePriceCounterFragment"
-        android:name="za.co.botcoin.view.menu.ResistancePriceCounterFragment"
+        android:id="@+id/menuResistancePriceCounterFragment"
+        android:name="za.co.botcoin.view.menu.MenuResistancePriceCounterFragment"
         android:label="Resistance Price Counter" />
     <fragment
         android:id="@+id/donateMenuFragment"
@@ -63,18 +63,18 @@
         android:label="Donate Menu">
         <action
             android:id="@+id/action_donateMenuFragment_to_donateFragment"
-            app:destination="@id/donateFragment" />
+            app:destination="@id/donateMenuDonateFragment" />
     </fragment>
     <fragment
-        android:id="@+id/donateFragment"
-        android:name="za.co.botcoin.view.menu.donate.DonateFragment"
+        android:id="@+id/donateMenuDonateFragment"
+        android:name="za.co.botcoin.view.menu.donate.DonateMenuDonateFragment"
         android:label="Donate">
         <argument
             android:name="asset"
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/smartTrendDetectorFragment"
-        android:name="za.co.botcoin.view.menu.SmartTrendDetectorFragment"
+        android:id="@+id/menuSmartTrendDetectorFragment"
+        android:name="za.co.botcoin.view.menu.MenuSmartTrendDetectorFragment"
         android:label="SmartTrendDetectorFragment" />
 </navigation>

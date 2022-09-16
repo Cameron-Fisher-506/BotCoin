@@ -8,12 +8,12 @@ apply plugin: "kotlin-kapt"
 apply plugin: 'androidx.navigation.safeargs'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 32
     buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "za.co.botcoin"
         minSdkVersion 22
-        targetSdkVersion 30
+        targetSdkVersion 32
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -40,22 +40,22 @@ android {
 }
 
 def retrofitVersion = '2.9.0'
-def navVersion = '2.1.0-alpha05'
-def roomVersion = '2.3.0'
+def navVersion = '2.5.1'
+def roomVersion = '2.4.3'
 def lifecycleExtensionsVersion = '1.1.1'
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.google.zxing:core:3.3.2'
-    implementation 'androidx.viewpager2:viewpager2:1.1.0-alpha01'
+    implementation 'androidx.viewpager2:viewpager2:1.1.0-beta01'
 
     //navigation
     implementation "androidx.navigation:navigation-fragment-ktx:${navVersion}"
@@ -69,8 +69,8 @@ dependencies {
 
     //Lifecycle components
     implementation "android.arch.lifecycle:extensions:${lifecycleExtensionsVersion}"
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
 
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:${retrofitVersion}"
@@ -88,7 +88,7 @@ dependencies {
     testImplementation "org.mockito:mockito-inline:3.11.2"
     testImplementation 'org.robolectric:robolectric:4.7.3'
     testImplementation "androidx.arch.core:core-testing:2.1.0"//Instant Task Executor Rule
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1'
 
     //Dagger 2
     implementation 'com.google.dagger:dagger:2.40.5'

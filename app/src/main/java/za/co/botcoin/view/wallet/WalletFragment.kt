@@ -12,7 +12,6 @@ import za.co.botcoin.utils.*
 
 class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
     private lateinit var binding: WalletFragmentBinding
-    private val walletViewModel by viewModels<WalletViewModel>(factoryProducer = { walletActivity.getViewModelFactory })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -23,7 +22,7 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
         if (GeneralUtils.isApiKeySet(context)) {
             attachBalanceObserver()
         } else {
-            GeneralUtils.createAlertDialog(activity, "Luno API Credentials", "Please set your Luno API credentials in order to use BotCoin!", false).show()
+            walletViewModel.displayLunoApiCredentialsAlertDialog()
         }
     }
 
@@ -32,6 +31,7 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
         this.walletViewModel.balancesResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
+                    walletActivity.dismissProgressBar()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
                         displayLinearLayouts()
@@ -48,9 +48,11 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
                     }
                 }
                 Status.ERROR -> {
+                    walletActivity.dismissProgressBar()
                     displayErrorTextView()
                 }
                 Status.LOADING -> {
+                    walletActivity.displayProgressBar()
                     displayProgressBar()
                 }
             }
@@ -70,14 +72,12 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
 
     private fun displayProgressBar() {
         hideAllView()
-        this.binding.progressBar.visibility = View.VISIBLE
     }
 
     private fun hideAllView() {
         this.binding.zarLinearLayoutCompat.visibility = View.GONE
         this.binding.xrpLinearLayoutCompat.visibility = View.GONE
         this.binding.errorTextView.visibility = View.GONE
-        this.binding.progressBar.visibility = View.GONE
     }
 
     private fun addZarOptionListener() {

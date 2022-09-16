@@ -3,6 +3,37 @@
 
     <string name="error_no_data_found">No data found.</string>
 
+    //HOME
+    <string name="home_disclaimer_policy"><b><u>Any client deciding to use BotCoin understands that:</u></b>\n
+        1. Trading cryptocurrency involves substantial risk, and there is always the potential for loss.\n
+        2. Trading results on BotCoin may vary. BotCoin does not guarantee that you will always make a profit as cryptocurrency prices are volatile.\n
+        3. Past performance is not indicative of future results. A trader who has been successful for a substantial amount of time may not always be successful.\n
+        4. The decision of whether to use the service offered is that of the client alone.\n
+        5. BotCoin nor any of the developers, will be responsible for any loss.\n
+        6. N.B. BotCoin will not make the decision to automatically pull out of a trades if the price drops as this is a very risky decision to make.\n
+        The user is responsible for pulling out of a trade if the price, of the cryptocurrency he/she is trading, drops.\n
+        7. N.B. BotCoin consumes Luno\'s API. Therefore, Luno charges still apply when withdrawing money and sending money.\n
+        8. BotCoin provides it\'s services for FREE. Users have the option to donate cryptocurrency to BotCoin. Donations are non-refundable.\n
+        Your continued use of our app will be regarded as acceptance of the risk involved.\n\n
+        <b><u>Disclosure</u></b>\n
+        To make use of the BotCoin app please note that we require and store the following information:\n
+        1. Your Luno API credentials.\n\n
+        This policy is effective as of 25 November 2020.
+        </string>
+
+    <string name="home_privacy_policy">Your privacy and legal rights are important to us. It is BotCoin\'s policy to respect your privacy regarding any information we may collect from you.\n\n
+        We only ask for personal information that is required for us to provide a service to you. We collect it by fair and lawful means, with your knowledge and consent. We also let you know why we\'re collecting it and how it will be used.\n\n
+        We only retain the collected information for as long as necessary to provide you with your requested service.
+        The data we store, we will protect within commercially acceptable means to prevent loss and theft, as well as unauthorized access, disclosure, copying, use or modification.\n\n
+        We don\'t share any personally identifying information publicly or with third-parties, except when required to by law.\n\n
+        You are free to refuse our request for your personal information, with the understanding that we may be unable to provide you with some of your desired services.\n\n
+        Your continued use of our app will be regarded as acceptance of our practices around privacy and personal information. If you have any questions about how we handle user data and personal information, feel free to contact us.\n\n
+        <b><u>Personal and Sensitive Information Disclosure</u></b>\n
+        To make use of the BotCoin app please note that we require and store the following information:\n
+        1. Your Luno API credentials.\n\n
+        This policy is effective as of 1 November 2020.\n\n
+        By accepting these above terms for personal and sensitivity information disclosure as to how your data will be used you give us permission to save your data for the terms as described above.
+        </string>
 
     //WALLET
     <string name="ZAR">ZAR\u0020</string>
@@ -12,17 +43,26 @@
         Please enter the amount You would like to withdraw from your ZAR account.\nPlease provide the Beneficiary ID of the bank account the withdrawal will be paid out to.\nThe Beneficiary ID must be provided if You have multiple beneficiaries setup.
     </string>
     <string name="beneficiary_id">Beneficiary ID</string>
+    <string name="wallet_luno_api_credentials">Luno API Credentials</string>
+    <string name="wallet_please_set_your_luno_api_credentials">Please set your Luno API credentials in order to use BotCoin!</string>
+    <string name="wallet_withdrawal">Withdrawal</string>
+    <string name="wallet_please_provide_an_amount_more_than">Please provide an amount more than 0 and a valid beneficiary ID!</string>
+    <string name="wallet_withdrawal_failed">Withdrawal Failed</string>
+    <string name="wallet_withdrew">Withdrew</string>
 
     //WALLET MENU
     <string name="send">Send</string>
     <string name="receive">Receive</string>
     <string name="orders">Orders</string>
+    <string name="wallet_order_cancellation">Order Cancellation</string>
+    <string name="wallet_order_cancelled_successfully">Order cancelled successfully.</string>
+    <string name="wallet_order_cancellation_failed">Order cancellation failed.</string>
 
     //SEND
     <string name="recipient_account_address">Recipient account address</string>
     <string name="recipient_account_tag">Recipient account tag</string>
     <string name="send_description">Please enter the amount You would like to send. Please enter the recipient\'s account address and ensure that the address is entered correctly.</string>
-
+    <string name="wallet_send_failed">Send failed.</string>
 
     //MENU
     <string name="support_resistance">Support/Resistance</string>
@@ -30,11 +70,43 @@
     <string name="donate">Donate</string>
     <string name="notifications">Notifications</string>
     <string name="trailing_start">Trailing Start</string>
+    <string name="menu_trailing_start_description">BotCoin uses the trailing start percentage, to start trading again if the market is in an upward trend.\n\n
+        E.g.\n
+        Trailing start: 10%\n
+        Current price: R100\n
+        Buy order: R109.99\n\n
+        In the above scenario, BotCoin will create a buy order if the price increases 10% above the last lowest support price.\n
+        BotCoin will always place a buy order of R0.1 less than the current price.
+    </string>
     <string name="trailing_stop">Trailing Stop</string>
+    <string name="menu_trailing_stop_description">BotCoin uses the trailing stop percentage, to pullout of a trade if the market is in a downtrend.\n\n
+        E.g.\n
+        Trailing stop: 10%\n
+        Current price: 100\n
+        Sell order: 90\n\n
+        In the above scenario BotCoin will create a sell order if the price drops 10% below than last highest resistance price.
+    </string>
     <string name="logcat">Logcat</string>
     <string name="support_price_counter">Set Support Price Counter</string>
+    <string name="menu_support_price_counter_description">BotCoin uses the Support Price Counter, to buy at a solid support price.\n\n
+        E.g.\n
+        Support Price Counter: 5\n
+        BotCoin keeps track of the number of hits each price gets.\n
+        The lowest price with the highest number of hits > 5 will be set as the support price.
+    </string>
     <string name="resistance_price_counter">Set Resistance Price Counter</string>
+    <string name="menu_resistance_price_counter_description">BotCoin uses the Resistance Price Counter, to sell at solid resistance price.\n\n
+        E.g.\n
+        Resistance Price Counter: 5\n
+        BotCoin keeps track of the number of hits each price gets.\n
+        The highest price with the highest number of hits > 5 will be set as the resistance price.
+    </string>
     <string name="smart_trend_detector_margin">Set Smart Trend Detector Margin</string>
+    <string name="menu_saved">Saved</string>
+    <string name="menu_default_value_set">Default value set</string>
+    <string name="menu_api_key_saved">API key saved</string>
+    <string name="menu_luno_api_credentials_luno_api">Luno API Credentials (Luno API)</string>
+    <string name="menu_please_set_your_luno_api">Please set your Luno API credentials in order to use BotCoin!</string>
 
     //LUNO API
     <string name="luno_api_key_id">Key ID</string>
@@ -46,6 +118,12 @@
     <string name="tag">Tag</string>
     <string name="copy">Copy</string>
     <string name="donate_description">Copy the address or scan QR code to donate via Luno platform or any platform of your choice. Thank You!</string>
+    <string name="menu_invalid_amount_entered">Invalid amount entered</string>
+    <string name="menu_please_note_you_cannot_donate_zero">Please note that you cannot donate 0 %1$s.</string>
+    <string name="menu_luno_api_credentials">Luno API Credentials</string>
+    <string name="menu_please_set_your_luno_api_credentials">Please set your Luno API credentials in order to use BotCoin!</string>
+    <string name="menu_send_failed">Send failed</string>
+    <string name="menu_sent_amount_to_address">Sent %1$s %2s to %3$s.</string>
 
     //RECEIVE
     <string name="receive_description">Copy the address or scan QR code to receive.</string>
@@ -85,6 +163,23 @@
     <string name="auto_trade_instructions">By activating auto trade, BotCoin will automatically trade for you by using the set Support/Resistant.</string>
     <string name="off">Off</string>
     <string name="on">On</string>
+    <string name="auto_trade_disclaimer">Disclaimer,\nAny client deciding to use BotCoin understands that:\n\n
+                    1. Trading cryptocurrency involves substantial risk, and there is always the potential for loss.\n
+                    2. Trading results on BotCoin may vary. BotCoin does not guarantee that you will always make a profit as cryptocurrency prices are volatile.\n
+                    3. Past performance is not indicative of future results. A trader who has been successful for a substantial amount of time may not always be successful.\n
+                    4. The decision of whether to use the service offered is that of the client alone.\n
+                    5. BotCoin nor any of the developers, will be responsible for any loss.\n
+                    6. N.B. BotCoin will not make the decision to automatically pull out of a trades if the price drops as this is a very risky decision to make.\n
+                    The user is responsible for pulling out of a trade if the price, of the cryptocurrency he/she is trading, drops.\n
+                    7. N.B. BotCoin consumes Luno\'s API. Therefore, Luno charges still apply when withdrawing money and sending money.\n
+                    8. BotCoin provides it\'s services for FREE. Users have the option to donate cryptocurrency to BotCoin. Donations are non-refundable.\n\n
+                    Your continued use of our app will be regarded as acceptance of the risk involved.\n\n
+                    Disclosure\n\n
+                    To make use of the BotCoin app please note that we require and store the following information:\n
+                    1. Your Luno API credentials.\n\n
+                    This policy is effective as of 25 November 2020.</string>
+    <string name="auto_trade_luno_api_credentials">Luno API Credentials</string>
+    <string name="auto_trade_please_set_your_luno_api">Please set your Luno API credentials in order to use BotCoin</string>
 
     //DONATE MENU
     <string name="btc">BTC</string>
