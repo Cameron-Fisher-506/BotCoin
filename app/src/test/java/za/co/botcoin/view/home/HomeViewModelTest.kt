@@ -40,7 +40,6 @@ class HomeViewModelTest : BaseViewModelTest() {
         homeTickerViewModel.ioDispatcher = unconfinedTestDispatcher
     }
 
-
     @Test
     @DisplayName("Fetch Tickers Behaviour Verification")
     fun shouldCallTickersRepositoryWhenFetchTickersIsCalled() {

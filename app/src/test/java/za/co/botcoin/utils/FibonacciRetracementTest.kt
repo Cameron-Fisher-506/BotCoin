@@ -1,8 +1,8 @@
 package za.co.botcoin.utils
 
 import junit.framework.Assert.assertEquals
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.DisplayName
 import za.co.botcoin.enum.Trend
 import za.co.botcoin.model.models.Candle
@@ -12,7 +12,7 @@ class FibonacciRetracementTest {
 
     private val fibonacciRetracement: FibonacciRetracement = FibonacciRetracement()
 
-    @Before
+    @BeforeEach
     fun setup() {
 
     }

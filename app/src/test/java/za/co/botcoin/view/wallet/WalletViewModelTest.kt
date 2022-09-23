@@ -4,9 +4,9 @@ import junit.framework.Assert.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -34,7 +34,7 @@ class WalletViewModelTest : BaseViewModelTest() {
     @InjectMocks
     private lateinit var walletViewModel: WalletViewModel
 
-    @Before
+    @BeforeEach
     fun setUp() {
         walletViewModel.ioDispatcher = unconfinedTestDispatcher
     }
