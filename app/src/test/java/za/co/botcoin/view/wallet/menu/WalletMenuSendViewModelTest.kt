@@ -11,16 +11,24 @@ import org.mockito.ArgumentMatchers.anyString
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
+import za.co.botcoin.di.managers.IResourceManager
 import za.co.botcoin.disposeObserver
 import za.co.botcoin.enum.Status
 import za.co.botcoin.getOrAwaitValue
 import za.co.botcoin.model.models.Send
 import za.co.botcoin.model.repository.send.SendRepository
 import za.co.botcoin.utils.Resource
+import za.co.botcoin.utils.services.notificationService.INotificationService
 import za.co.botcoin.view.BaseViewModelTest
 
 @ExperimentalCoroutinesApi
 class WalletMenuSendViewModelTest: BaseViewModelTest() {
+    @Mock
+    private lateinit var resourceManage: IResourceManager
+
+    @Mock
+    private lateinit var notificationService: INotificationService
+
     @Mock
     private lateinit var sendRepository: SendRepository
 
