@@ -1,8 +1,8 @@
 package za.co.botcoin.utils
 
 import junit.framework.Assert.assertEquals
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.DisplayName
 import za.co.botcoin.model.models.Candle
 
@@ -10,7 +10,7 @@ import za.co.botcoin.model.models.Candle
 class SimpleMovingAverageTest {
     private lateinit var simpleMovingAverage: SimpleMovingAverage
 
-    @Before
+    @BeforeEach
     fun setup() {
         this.simpleMovingAverage = SimpleMovingAverage(5)
     }
