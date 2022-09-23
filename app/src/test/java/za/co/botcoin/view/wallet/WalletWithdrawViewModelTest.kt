@@ -13,16 +13,28 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.verifyNoMoreInteractions
+import za.co.botcoin.di.managers.IResourceManager
 import za.co.botcoin.disposeObserver
 import za.co.botcoin.enum.Status
 import za.co.botcoin.getOrAwaitValue
 import za.co.botcoin.model.models.Withdrawal
 import za.co.botcoin.model.repository.withdrawal.WithdrawalRepository
 import za.co.botcoin.utils.Resource
+import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
+import za.co.botcoin.utils.services.notificationService.INotificationService
 import za.co.botcoin.view.BaseViewModelTest
 
 @ExperimentalCoroutinesApi
 class WalletWithdrawViewModelTest : BaseViewModelTest() {
+    @Mock
+    private lateinit var alertDialogService: IAlertDialogService
+
+    @Mock
+    private lateinit var resourceManager: IResourceManager
+
+    @Mock
+    private lateinit var notificationService: INotificationService
+
     @Mock
     private lateinit var withdrawalRepository: WithdrawalRepository
 

@@ -10,43 +10,26 @@ import org.junit.jupiter.api.DisplayName
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
+import za.co.botcoin.di.managers.IResourceManager
 import za.co.botcoin.disposeObserver
 import za.co.botcoin.enum.Status
 import za.co.botcoin.getOrAwaitValue
-import za.co.botcoin.model.models.*
+import za.co.botcoin.model.models.Balance
 import za.co.botcoin.model.repository.balance.BalanceRepository
-import za.co.botcoin.model.repository.order.OrderRepository
-import za.co.botcoin.model.repository.postOrder.PostOrderRepository
-import za.co.botcoin.model.repository.receive.ReceiveRepository
-import za.co.botcoin.model.repository.send.SendRepository
-import za.co.botcoin.model.repository.stopOrder.StopOrderRepository
-import za.co.botcoin.model.repository.withdrawal.WithdrawalRepository
 import za.co.botcoin.utils.Resource
+import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
 import za.co.botcoin.view.BaseViewModelTest
 
 @ExperimentalCoroutinesApi
 class WalletViewModelTest : BaseViewModelTest() {
+    @Mock
+    private lateinit var alertDialogService: IAlertDialogService
+
+    @Mock
+    private lateinit var resourceManager: IResourceManager
 
     @Mock
     private lateinit var balanceRepository: BalanceRepository
-
-    @Mock
-    private lateinit var withdrawalRepository: WithdrawalRepository
-
-    @Mock
-    private lateinit var stopOrderRepository: StopOrderRepository
-
-    @Mock
-    private lateinit var orderRepository: OrderRepository
-
-    @Mock
-    private lateinit var receiveRepository: ReceiveRepository
-
-    @Mock
-    private lateinit var sendRepository: SendRepository
-
-    @Mock
-    private lateinit var postOrderRepository: PostOrderRepository
 
     @InjectMocks
     private lateinit var walletViewModel: WalletViewModel
