@@ -8,12 +8,11 @@ import android.graphics.Color
 import android.os.Build
 import android.util.Base64
 import android.util.Log
-import android.widget.Toast
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import za.co.botcoin.R
 import za.co.botcoin.services.FiboService
-import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
+import za.co.botcoin.utils.services.sharedPreferencesService.BaseSharedPreferencesService
 
 object GeneralUtils {
     fun getAuth(keyId: String, secretKey: String): String {

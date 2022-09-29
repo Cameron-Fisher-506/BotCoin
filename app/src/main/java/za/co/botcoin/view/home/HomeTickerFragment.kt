@@ -10,7 +10,6 @@ import android.view.View
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.HomeFragmentBinding
@@ -19,7 +18,6 @@ import za.co.botcoin.services.BotService
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.services.KioskService
-import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
 import za.co.botcoin.view.settings.AutoTradeActivity
 
 class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
