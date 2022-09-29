@@ -1,9 +1,16 @@
 package za.co.botcoin.view.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.HomeFragmentBinding
@@ -13,6 +20,7 @@ import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.services.KioskService
 import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
+import za.co.botcoin.view.settings.AutoTradeActivity
 
 class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
     private lateinit var binding: HomeFragmentBinding
@@ -23,6 +31,7 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = HomeFragmentBinding.bind(view)
 
+        setUpMenu()
         fetchAndObserveTickers()
         navigateToPrivacyPolicyScreen(view)
 
@@ -36,6 +45,33 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
                 handler.postDelayed(this, delay)
             }
         }, delay)
+    }
+
+    private fun setUpMenu() {
+        menuHost.addMenuProvider(object: MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu, menu)
+            }
+
+
+            override fun onPrepareMenu(menu: Menu) {
+                super.onPrepareMenu(menu)
+            }
+
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.autoTrade -> {
+
+                        //auto trade
+                        startActivity(Intent(homeActivity, AutoTradeActivity::class.java))
+                        true
+                    }
+                    else -> false
+                }
+            }
+
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     private fun fetchAndObserveTickers() {
