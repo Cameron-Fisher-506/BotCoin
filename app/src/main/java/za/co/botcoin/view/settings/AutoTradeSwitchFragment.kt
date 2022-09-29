@@ -10,7 +10,6 @@ import za.co.botcoin.R
 import za.co.botcoin.databinding.AutoTradeFragmentBinding
 import za.co.botcoin.services.FiboService
 import za.co.botcoin.utils.*
-import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
 
 class AutoTradeSwitchFragment : AutoTradeBaseFragment(R.layout.auto_trade_fragment) {
     private lateinit var binding: AutoTradeFragmentBinding
@@ -39,10 +38,8 @@ class AutoTradeSwitchFragment : AutoTradeBaseFragment(R.layout.auto_trade_fragme
         this.binding.autoTradeSwitch.setOnCheckedChangeListener { _, isChecked ->
             autoTradeSwitchViewModel.saveAutoTradePref(isChecked)
             if (isChecked) {
-                //start service
                 startBotService()
             } else {
-                //stop service
                 stopBotService()
             }
         }

@@ -25,8 +25,8 @@ import za.co.botcoin.utils.*
 import za.co.botcoin.utils.MathUtils.calculateMarginPercentage
 import za.co.botcoin.utils.MathUtils.percentage
 import za.co.botcoin.utils.MathUtils.precision
-import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
-import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService.SUPPORT_PRICE_COUNTER
+import za.co.botcoin.utils.services.sharedPreferencesService.BaseSharedPreferencesService
+import za.co.botcoin.utils.services.sharedPreferencesService.BaseSharedPreferencesService.SUPPORT_PRICE_COUNTER
 import java.util.*
 import kotlin.collections.ArrayList
 

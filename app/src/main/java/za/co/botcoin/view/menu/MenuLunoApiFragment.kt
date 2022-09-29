@@ -2,13 +2,10 @@ package za.co.botcoin.view.menu
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import za.co.botcoin.R
 import za.co.botcoin.databinding.LunoApiFragmentBinding
 import za.co.botcoin.utils.ConstantUtils
-import za.co.botcoin.utils.GeneralUtils
-import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
 
 class MenuLunoApiFragment : MenuBaseFragment(R.layout.luno_api_fragment) {
     private lateinit var binding: LunoApiFragmentBinding

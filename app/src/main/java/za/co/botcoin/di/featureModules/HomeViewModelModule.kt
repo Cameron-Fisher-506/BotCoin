@@ -8,7 +8,7 @@ import dagger.multibindings.IntoMap
 import za.co.botcoin.di.ViewModelKey
 import za.co.botcoin.model.repository.account.AccountRepository
 import za.co.botcoin.model.repository.tickers.TickersRepository
-import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
+import za.co.botcoin.utils.services.sharedPreferencesService.ISharedPreferencesService
 import za.co.botcoin.view.home.HomeDisclaimerPolicyViewModel
 import za.co.botcoin.view.home.HomePrivacyPolicyViewModel
 import za.co.botcoin.view.home.HomeTickerViewModel
