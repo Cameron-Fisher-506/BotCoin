@@ -1,8 +1,8 @@
 package za.co.botcoin.utils
 
 import junit.framework.Assert.assertEquals
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.Before
+import org.junit.Test
 import org.junit.jupiter.api.DisplayName
 import za.co.botcoin.utils.StraightLineFormulaUtils.calculateConstant
 import za.co.botcoin.utils.StraightLineFormulaUtils.calculateGradient
@@ -13,7 +13,7 @@ import za.co.botcoin.utils.StraightLineFormulaUtils.isPointOnLine
 @DisplayName("Straight Line Formula Utils Test")
 class StraightLineFormulaUtilsTest {
 
-    @BeforeEach
+    @Before
     fun setup() {
 
     }

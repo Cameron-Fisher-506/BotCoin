@@ -1,8 +1,8 @@
 package za.co.botcoin.utils
 
 import junit.framework.Assert.assertEquals
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.Before
+import org.junit.Test
 import org.junit.jupiter.api.DisplayName
 import za.co.botcoin.utils.MathUtils.calculateMarginPercentage
 import za.co.botcoin.utils.MathUtils.percentage
@@ -12,7 +12,7 @@ import za.co.botcoin.utils.MathUtils.reverse
 @DisplayName("Math Utils Test")
 class MathUtilsTest {
 
-    @BeforeEach
+    @Before
     fun setup() {
 
     }

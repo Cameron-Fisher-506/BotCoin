@@ -36,7 +36,6 @@ class HomeViewModelTest : BaseViewModelTest() {
 
     @BeforeEach
     fun setUp() {
-        homeTickerViewModel = HomeTickerViewModel(application, sharedPreferencesService, accountRepository, tickersRepository)
         homeTickerViewModel.ioDispatcher = unconfinedTestDispatcher
     }
 
