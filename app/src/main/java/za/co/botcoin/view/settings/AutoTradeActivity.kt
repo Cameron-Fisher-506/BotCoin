@@ -36,7 +36,7 @@ class AutoTradeActivity : BaseActivity() {
 
     private fun setUpViews() {
         this.binding.bottomNavigationView.selectedItemId = R.id.menu
-        this.binding.bottomNavigationView.setOnNavigationItemSelectedListener {
+        this.binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> startActivity(Intent(this, MainActivity::class.java))
                 R.id.trade -> startActivity(Intent(this, TradeActivity::class.java))
