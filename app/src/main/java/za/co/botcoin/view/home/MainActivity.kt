@@ -40,7 +40,7 @@ class MainActivity : BaseActivity() {
 
     private fun setUpViews() {
         this.binding.bottomNavigationView.selectedItemId = R.id.home
-        this.binding.bottomNavigationView.setOnNavigationItemSelectedListener {
+        this.binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.trade -> startActivity(Intent(this, TradeActivity::class.java))
                 R.id.wallet -> startActivity(Intent(this, WalletActivity::class.java))
