@@ -25,6 +25,10 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
     private val homeTickerViewModel by viewModels<HomeTickerViewModel>(factoryProducer = { homeActivity.getViewModelFactory })
     private val handler = Handler()
 
+    companion object {
+        private const val PAIR_XRPZAR = "XRPZAR"
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = HomeFragmentBinding.bind(view)
@@ -82,7 +86,7 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
                         displayLinearLayout()
 
                         data.map { ticker ->
-                            if (ticker.pair == ConstantUtils.PAIR_XRPZAR) {
+                            if (ticker.pair.equals(PAIR_XRPZAR, true)) {
                                 this.binding.xrpZarTextView.setText(R.string.XRPZAR)
                                 this.binding.xrpZarTextView.append(ticker.lastTrade)
                             }

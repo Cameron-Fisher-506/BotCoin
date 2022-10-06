@@ -16,6 +16,10 @@ class TradeAdapter(var context: Context, var trades: ArrayList<Trade>) : Recycle
     private var currentPrice: Double? = null
     private var xrpBalance: Double? = null
 
+    companion object {
+        private const val BUY_SELL_MARGIN_PRICE = 0.01
+    }
+
     class ViewHolder(val binding: TradeFragmentBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,7 +42,7 @@ class TradeAdapter(var context: Context, var trades: ArrayList<Trade>) : Recycle
     override fun getItemCount(): Int = trades.size
 
     private fun bid() {
-        currentPrice = currentPrice!! - ConstantUtils.BUY_SELL_MARGIN_PRICE
+        currentPrice = currentPrice!! - BUY_SELL_MARGIN_PRICE
         val amountXrpToBuy = Integer.toString(calcAmountXrpToBuy(zarBalance!!, currentPrice!!))
         //val postOrder = buildPostOrder(ConstantUtils.PAIR_XRPZAR, "BID", amountXrpToBuy, java.lang.Double.toString(currentPrice!!))
         //WSCallsUtils.post(this, REQ_CODE_BUY, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_POSTORDER + postOrder, "", getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY))
@@ -58,7 +62,7 @@ class TradeAdapter(var context: Context, var trades: ArrayList<Trade>) : Recycle
 
     private fun ask() {
         val amountXrpToSell = Integer.toString(calcAmountXrpToSell(xrpBalance!!))
-        currentPrice = currentPrice!! + ConstantUtils.BUY_SELL_MARGIN_PRICE
+        currentPrice = currentPrice!! + BUY_SELL_MARGIN_PRICE
         //val postOrder = buildPostOrder(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell, java.lang.Double.toString(currentPrice!!))
         //WSCallsUtils.post(this, REQ_CODE_SELL, StringUtils.GLOBAL_LUNO_URL + StringUtils.GLOBAL_ENDPOINT_POSTORDER + postOrder, "", getAuth(ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY))
     }
