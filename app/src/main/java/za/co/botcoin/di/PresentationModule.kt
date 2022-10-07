@@ -12,8 +12,8 @@ import za.co.botcoin.utils.services.clipBoardService.ClipBoardService
 import za.co.botcoin.utils.services.clipBoardService.IClipBoardService
 import za.co.botcoin.utils.services.notificationService.INotificationService
 import za.co.botcoin.utils.services.notificationService.NotificationService
-import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
-import za.co.botcoin.utils.services.sharePreferencesService.SharedPreferencesService
+import za.co.botcoin.utils.services.sharedPreferencesService.ISharedPreferencesService
+import za.co.botcoin.utils.services.sharedPreferencesService.SharedPreferencesService
 
 @Module
 class PresentationModule(private val activity: AppCompatActivity) {

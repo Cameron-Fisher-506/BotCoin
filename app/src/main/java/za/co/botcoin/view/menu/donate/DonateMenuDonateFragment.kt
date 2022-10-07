@@ -3,11 +3,11 @@ package za.co.botcoin.view.menu.donate
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import za.co.botcoin.BuildConfig
 import za.co.botcoin.R
 import za.co.botcoin.databinding.DonateFragmentBinding
 import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.*
-import za.co.botcoin.utils.services.clipBoardService.BaseClipBoardService
 import za.co.botcoin.view.menu.MenuBaseFragment
 
 class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
@@ -27,11 +27,11 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
     }
 
     private fun receiveAndObserveReceive() {
-        this.donateViewModel.receive(asset, ConstantUtils.KEY_ID, ConstantUtils.SECRET_KEY)
+        this.donateViewModel.receive(asset, BuildConfig.KEY_ID, BuildConfig.SECRET_KEY)
         this.donateViewModel.receiveResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
-                    menuActivity.dismissProgressBar()
+                    menuActivity.displayProgressBar()
                     displayDonateOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
@@ -48,7 +48,7 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
                     }
                 }
                 Status.ERROR -> {
-                    menuActivity.dismissProgressBar()
+                    menuActivity.displayProgressBar()
                     displayErrorTextView()
                 }
                 Status.LOADING -> {

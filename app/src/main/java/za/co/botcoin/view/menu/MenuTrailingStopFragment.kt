@@ -7,7 +7,7 @@ import androidx.fragment.app.viewModels
 import za.co.botcoin.R
 import za.co.botcoin.databinding.TrailingStopFragmentBinding
 import za.co.botcoin.utils.ConstantUtils
-import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
+import za.co.botcoin.utils.services.sharedPreferencesService.BaseSharedPreferencesService
 
 class MenuTrailingStopFragment : MenuBaseFragment(R.layout.trailing_stop_fragment) {
     private lateinit var binding: TrailingStopFragmentBinding

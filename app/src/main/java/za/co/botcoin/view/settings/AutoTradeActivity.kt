@@ -21,7 +21,7 @@ class AutoTradeActivity : BaseActivity() {
         this.binding = AutoTradeActivityBinding.inflate(layoutInflater)
         setContentView(this.binding.root)
 
-        wireUI()
+        setUpViews()
         attachNavController()
     }
 
@@ -34,9 +34,9 @@ class AutoTradeActivity : BaseActivity() {
         return NavigationUI.navigateUp(this.navController, null)
     }
 
-    private fun wireUI() {
+    private fun setUpViews() {
         this.binding.bottomNavigationView.selectedItemId = R.id.menu
-        this.binding.bottomNavigationView.setOnNavigationItemSelectedListener {
+        this.binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> startActivity(Intent(this, MainActivity::class.java))
                 R.id.trade -> startActivity(Intent(this, TradeActivity::class.java))

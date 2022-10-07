@@ -13,6 +13,11 @@ import za.co.botcoin.utils.*
 class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
     private lateinit var binding: WalletFragmentBinding
 
+    companion object {
+        private const val XRP = "XRP"
+        private const val ZAR = "ZAR"
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = WalletFragmentBinding.bind(view)
@@ -35,12 +40,10 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
                         displayLinearLayouts()
-
                         data.map { balance ->
-                            if (balance.asset == ConstantUtils.XRP) {
-                                this.binding.xrpTextView.append(balance.balance)
-                            } else if (balance.asset == ConstantUtils.ZAR) {
-                                this.binding.zarTextView.append(balance.balance)
+                            when {
+                                balance.asset.equals(XRP, true) -> this.binding.xrpTextView.append(balance.balance)
+                                balance.asset.equals(ZAR, true) -> this.binding.zarTextView.append(balance.balance)
                             }
                         }
                     } else {
@@ -89,7 +92,7 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
 
     private fun addXrpOptionListener() {
         this.binding.xrpLinearLayoutCompat.setOnClickListener {
-            val action = WalletFragmentDirections.actionWalletFragmentToWalletMenuFragment(ConstantUtils.XRP)
+            val action = WalletFragmentDirections.actionWalletFragmentToWalletMenuFragment(XRP)
             Navigation.findNavController(it).navigate(action)
         }
     }

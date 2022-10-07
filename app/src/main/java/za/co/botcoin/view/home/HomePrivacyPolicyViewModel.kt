@@ -1,8 +1,8 @@
 package za.co.botcoin.view.home
 
 import androidx.lifecycle.ViewModel
-import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService.PRIVACY_POLICY_ACCEPTANCE
-import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
+import za.co.botcoin.utils.services.sharedPreferencesService.BaseSharedPreferencesService.PRIVACY_POLICY_ACCEPTANCE
+import za.co.botcoin.utils.services.sharedPreferencesService.ISharedPreferencesService
 
 class HomePrivacyPolicyViewModel(
     private val sharedPreferencesService: ISharedPreferencesService
