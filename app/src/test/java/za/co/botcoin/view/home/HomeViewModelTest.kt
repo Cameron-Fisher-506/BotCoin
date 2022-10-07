@@ -17,7 +17,7 @@ import za.co.botcoin.model.models.Ticker
 import za.co.botcoin.model.repository.account.AccountRepository
 import za.co.botcoin.model.repository.tickers.TickersRepository
 import za.co.botcoin.utils.Resource
-import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
+import za.co.botcoin.utils.services.sharedPreferencesService.ISharedPreferencesService
 import za.co.botcoin.view.BaseViewModelTest
 
 @ExperimentalCoroutinesApi

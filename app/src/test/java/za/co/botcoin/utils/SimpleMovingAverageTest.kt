@@ -101,7 +101,7 @@ class SimpleMovingAverageTest {
     fun shouldCalculateIsPriceOnLineSuccess() {
         //given
         shouldCalculateSmaSuccess()
-        val currentPrice: String = "6.65"
+        val currentPrice: String = "3.99"
         val expected: Boolean = true
 
         //when
