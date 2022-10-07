@@ -25,7 +25,7 @@ class MainActivity : BaseActivity() {
         this.binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(this.binding.root)
 
-        wireUI()
+        setUpViews()
         attachNavController()
     }
 
@@ -38,9 +38,9 @@ class MainActivity : BaseActivity() {
         return NavigationUI.navigateUp(this.navController, null)
     }
 
-    private fun wireUI() {
+    private fun setUpViews() {
         this.binding.bottomNavigationView.selectedItemId = R.id.home
-        this.binding.bottomNavigationView.setOnNavigationItemSelectedListener {
+        this.binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.trade -> startActivity(Intent(this, TradeActivity::class.java))
                 R.id.wallet -> startActivity(Intent(this, WalletActivity::class.java))
@@ -48,24 +48,5 @@ class MainActivity : BaseActivity() {
             }
             true
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflate = menuInflater
-        inflate.inflate(R.menu.menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.autoTrade -> {
-
-                //auto trade
-                startActivity(Intent(this, AutoTradeActivity::class.java))
-            }
-            else -> {
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 }

@@ -9,8 +9,8 @@ import za.co.botcoin.model.repository.account.AccountRepository
 import za.co.botcoin.model.repository.tickers.TickersRepository
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.Resource
-import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
-import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
+import za.co.botcoin.utils.services.sharedPreferencesService.BaseSharedPreferencesService
+import za.co.botcoin.utils.services.sharedPreferencesService.ISharedPreferencesService
 
 class HomeTickerViewModel(
     application: Application,

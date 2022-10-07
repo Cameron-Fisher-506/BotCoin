@@ -5,7 +5,7 @@ import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.DateTimeUtils.ONE_MINUTE
 import za.co.botcoin.utils.DateTimeUtils.getCurrentDateTime
 import za.co.botcoin.utils.DateTimeUtils.getMinutesFrom
-import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
+import za.co.botcoin.utils.services.sharedPreferencesService.BaseSharedPreferencesService
 
 object DataAccessStrategyUtils {
     suspend inline fun <A, T> lazyCache(crossinline dbQuery: suspend () -> Resource<T>, crossinline wsCall: suspend () -> Resource<A>, crossinline saveCall: suspend (A) -> Unit): Resource<T> {

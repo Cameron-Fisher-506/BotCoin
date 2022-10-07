@@ -11,6 +11,7 @@ import org.mockito.ArgumentMatchers.anyString
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
+import za.co.botcoin.di.managers.IResourceManager
 import za.co.botcoin.disposeObserver
 import za.co.botcoin.enum.Status
 import za.co.botcoin.getOrAwaitValue
@@ -19,10 +20,17 @@ import za.co.botcoin.model.models.StopOrder
 import za.co.botcoin.model.repository.order.OrderRepository
 import za.co.botcoin.model.repository.stopOrder.StopOrderRepository
 import za.co.botcoin.utils.Resource
+import za.co.botcoin.utils.services.notificationService.INotificationService
 import za.co.botcoin.view.BaseViewModelTest
 
 @ExperimentalCoroutinesApi
-class OrdersViewModelTest: BaseViewModelTest() {
+class WalletMenuOrdersViewModelTest: BaseViewModelTest() {
+    @Mock
+    private lateinit var resourceManager: IResourceManager
+
+    @Mock
+    private lateinit var notificationService: INotificationService
+
     @Mock
     private lateinit var ordersRepository: OrderRepository
 

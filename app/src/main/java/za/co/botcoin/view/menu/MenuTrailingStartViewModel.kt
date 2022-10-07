@@ -5,8 +5,8 @@ import za.co.botcoin.R
 import za.co.botcoin.di.managers.IResourceManager
 import za.co.botcoin.utils.services.alertDialogService.AlertDialogProperties
 import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
-import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService.TRAILING_START
-import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
+import za.co.botcoin.utils.services.sharedPreferencesService.BaseSharedPreferencesService.TRAILING_START
+import za.co.botcoin.utils.services.sharedPreferencesService.ISharedPreferencesService
 
 class MenuTrailingStartViewModel(
     private val alertDialogService: IAlertDialogService,

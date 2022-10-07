@@ -11,7 +11,7 @@ import za.co.botcoin.utils.services.ProgressDialogService
 import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
 import za.co.botcoin.utils.services.clipBoardService.IClipBoardService
 import za.co.botcoin.utils.services.notificationService.INotificationService
-import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
+import za.co.botcoin.utils.services.sharedPreferencesService.ISharedPreferencesService
 
 @Subcomponent(modules = [ViewModelsModule::class, PresentationModule::class, HomeViewModelModule::class, WalletViewModelModule::class, DonateViewModelModule::class, AutoTradeViewModelModule::class])
 interface ActivityComponent {

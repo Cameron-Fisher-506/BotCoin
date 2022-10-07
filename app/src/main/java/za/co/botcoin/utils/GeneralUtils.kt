@@ -8,21 +8,22 @@ import android.graphics.Color
 import android.os.Build
 import android.util.Base64
 import android.util.Log
-import android.widget.Toast
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import za.co.botcoin.R
 import za.co.botcoin.services.FiboService
-import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
+import za.co.botcoin.utils.services.sharedPreferencesService.BaseSharedPreferencesService
 
 object GeneralUtils {
+    private const val BOTCOIN_TAG = "BOTCOIN"
+
     fun getAuth(keyId: String, secretKey: String): String {
         try {
             val auth = "$keyId:$secretKey"
             val authEncBytes = Base64.encode(auth.toByteArray(), Base64.NO_WRAP)
             return String(authEncBytes)
         } catch (e: Exception) {
-            Log.e(ConstantUtils.BOTCOIN_TAG, "Error: ${e.message} " +
+            Log.e(BOTCOIN_TAG, "Error: ${e.message} " +
                     "Method: getAuth " +
                     "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
         }

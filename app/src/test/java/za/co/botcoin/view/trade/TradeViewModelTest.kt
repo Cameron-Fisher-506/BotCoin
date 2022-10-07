@@ -1,20 +1,11 @@
 package za.co.botcoin.view.trade
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
-import org.junit.Test
-import org.junit.jupiter.api.DisplayName
-import org.mockito.ArgumentMatchers
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito
-import za.co.botcoin.model.models.Candle
-import za.co.botcoin.model.models.Trade
 import za.co.botcoin.model.repository.candle.CandleRepository
 import za.co.botcoin.model.repository.trade.TradeRepository
-import za.co.botcoin.utils.Resource
 import za.co.botcoin.view.BaseViewModelTest
 
 

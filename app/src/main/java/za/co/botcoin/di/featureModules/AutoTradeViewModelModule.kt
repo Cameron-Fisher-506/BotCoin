@@ -7,7 +7,7 @@ import dagger.multibindings.IntoMap
 import za.co.botcoin.di.ViewModelKey
 import za.co.botcoin.di.managers.IResourceManager
 import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
-import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
+import za.co.botcoin.utils.services.sharedPreferencesService.ISharedPreferencesService
 import za.co.botcoin.view.settings.AutoTradeSwitchViewModel
 import za.co.botcoin.view.settings.AutoTradeViewModel
 
