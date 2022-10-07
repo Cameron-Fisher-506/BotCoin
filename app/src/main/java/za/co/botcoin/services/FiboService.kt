@@ -49,6 +49,14 @@ class FiboService : Service() {
     private lateinit var timer: Timer
     private lateinit var timerTask: TimerTask
 
+    companion object {
+        private const val TICKER_RUN_TIME = 5000L
+        private const val PAIR_XRPZAR = "XRPZAR"
+        private const val BOTCOIN_TAG = "BOTCOIN"
+        private const val XRP = "XRP"
+        private const val ZAR = "ZAR"
+    }
+
     override fun onCreate() {
         super.onCreate()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -75,11 +83,11 @@ class FiboService : Service() {
         this.timerTask = object : TimerTask() {
             override fun run() {
                 attachTickersObserver()
-                Log.d(ConstantUtils.BOTCOIN_TAG, "AUTO TRADE RUNNING...")
+                Log.d(BOTCOIN_TAG, "AUTO TRADE RUNNING...")
             }
         }
         this.timer = Timer()
-        this.timer.schedule(this.timerTask, 0, ConstantUtils.TICKER_RUN_TIME)
+        this.timer.schedule(this.timerTask, 0, TICKER_RUN_TIME)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -103,7 +111,7 @@ class FiboService : Service() {
                 val data = resource.data
                 if (!data.isNullOrEmpty()) {
                     data.map { ticker ->
-                        if (ticker.pair == ConstantUtils.PAIR_XRPZAR) {
+                        if (ticker.pair == PAIR_XRPZAR) {
                             attachTradesObserver(ticker.lastTrade.toDouble())
                         }
                     }
@@ -117,7 +125,7 @@ class FiboService : Service() {
     }
 
     private fun attachTradesObserver(currentPrice: Double) = CoroutineScope(Dispatchers.IO).launch {
-        val resource = tradeRepository.fetchTrades(ConstantUtils.PAIR_XRPZAR, true)
+        val resource = tradeRepository.fetchTrades(PAIR_XRPZAR, true)
         when (resource.status) {
             Status.SUCCESS -> {
                 val data = resource.data
@@ -146,16 +154,16 @@ class FiboService : Service() {
                 var xrpBalance: Balance = Balance()
                 if (!data.isNullOrEmpty()) {
                     data.map { balance ->
-                        if (balance.asset == ConstantUtils.XRP) {
+                        if (balance.asset.equals(XRP, true)) {
                             xrpBalance = balance
-                        } else if (balance.asset == ConstantUtils.ZAR) {
+                        } else if (balance.asset.equals(ZAR, true)) {
                             zarBalance = balance
                         }
                     }
                     if (::lastCandle.isInitialized) {
-                        attachCandlesObserver(currentPrice, lastTrade, zarBalance, xrpBalance, ConstantUtils.PAIR_XRPZAR, lastCandle.timestamp)
+                        attachCandlesObserver(currentPrice, lastTrade, zarBalance, xrpBalance, PAIR_XRPZAR, lastCandle.timestamp)
                     } else {
-                        attachCandlesObserver(currentPrice, lastTrade, zarBalance, xrpBalance, ConstantUtils.PAIR_XRPZAR)
+                        attachCandlesObserver(currentPrice, lastTrade, zarBalance, xrpBalance, PAIR_XRPZAR)
                     }
 
 
@@ -272,7 +280,7 @@ class FiboService : Service() {
                         //trend line
                         var m = calculateGradient(candlesSorted.first().id.toDouble(), candlesSorted[1].id.toDouble(), candlesSorted.first().low.toDouble(), candlesSorted[1].low.toDouble())
                         var c = calculateConstant(candlesSorted.first().id.toDouble(), candlesSorted.first().low.toDouble(), m)
-                        Log.d(ConstantUtils.BOTCOIN_TAG, "UPTREND - Bottom Line: " +
+                        Log.d(BOTCOIN_TAG, "UPTREND - Bottom Line: " +
                                 "lowestCandle: ${candlesSorted.first().low.toDouble()} " +
                                 "highestCandle: ${candlesSorted[1].high.toDouble()} " +
                                 "x2: ${candlesSorted.first().id.toDouble()} " +
@@ -289,7 +297,7 @@ class FiboService : Service() {
 
                         m = calculateGradient(candlesSorted.first().id.toDouble(), candlesSorted[1].id.toDouble(), candlesSorted.first().close.toDouble(), candlesSorted[1].close.toDouble())
                         c = calculateConstant(candlesSorted.first().id.toDouble(), candlesSorted.first().close.toDouble(), m)
-                        Log.d(ConstantUtils.BOTCOIN_TAG, "UPTREND - Top Line: " +
+                        Log.d(BOTCOIN_TAG, "UPTREND - Top Line: " +
                                 "lowestCandle: ${candlesSorted.first().close.toDouble()} " +
                                 "highestCandle: ${candlesSorted[1].close.toDouble()} " +
                                 "x2: ${candlesSorted.first().id.toDouble()} " +
@@ -311,7 +319,7 @@ class FiboService : Service() {
                         //trend line
                         var m = calculateGradient(candlesSorted[1].id.toDouble(), candlesSorted.first().id.toDouble(), candlesSorted[1].high.toDouble(), candlesSorted.first().high.toDouble())
                         var c = calculateConstant(candlesSorted[1].id.toDouble(), candlesSorted[1].high.toDouble(), m)
-                        Log.d(ConstantUtils.BOTCOIN_TAG, "DOWNTREND - Top Line " +
+                        Log.d(BOTCOIN_TAG, "DOWNTREND - Top Line " +
                                 "lowestCandle: ${candlesSorted[1].high.toDouble()} " +
                                 "highestCandle: ${candlesSorted.first().high.toDouble()} " +
                                 "x2: ${candlesSorted[1].id.toDouble()} " +
@@ -328,7 +336,7 @@ class FiboService : Service() {
 
                         m = calculateGradient(candlesSorted[1].id.toDouble(), candlesSorted.first().id.toDouble(), candlesSorted[1].open.toDouble(), candlesSorted.first().open.toDouble())
                         c = calculateConstant(candlesSorted[1].id.toDouble(), candlesSorted[1].open.toDouble(), m)
-                        Log.d(ConstantUtils.BOTCOIN_TAG, "DOWNTREND - Bottom Line " +
+                        Log.d(BOTCOIN_TAG, "DOWNTREND - Bottom Line " +
                                 "lowestCandle: ${candlesSorted[1].open.toDouble()} " +
                                 "highestCandle: ${candlesSorted.first().open.toDouble()} " +
                                 "x2: ${candlesSorted[1].id.toDouble()} " +
@@ -348,12 +356,12 @@ class FiboService : Service() {
 
                     val fiboRetracement = FibonacciRetracement()
                     fiboRetracement.calculateRetracements(highestCandle, lowestCandle, marketTrend)
-                    Log.d(ConstantUtils.BOTCOIN_TAG, "fiboRetracement: " +
+                    Log.d(BOTCOIN_TAG, "fiboRetracement: " +
                             "HighestCandle: ${highestCandle.high}" +
                             "LowestCandle: ${lowestCandle.low}"
                     )
                     fiboRetracement.retracements.map {
-                        Log.d(ConstantUtils.BOTCOIN_TAG, "retracement: $it")
+                        Log.d(BOTCOIN_TAG, "retracement: $it")
                     }
 
                 }
@@ -370,7 +378,7 @@ class FiboService : Service() {
     private fun bid(currentPrice: Double, lastTrade: Trade, zarBalance: Balance, supportPrice: Double) {
         if (supportPrice != 0.0 && lastTrade.type != Trade.BID_TYPE && supportPrice < currentPrice) {
             val amountXrpToBuy = calcAmountXrpToBuy(zarBalance.balance.toDouble(), supportPrice).toString()
-            attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "BID", amountXrpToBuy, supportPrice.toString())
+            attachPostOrderObserver(PAIR_XRPZAR, "BID", amountXrpToBuy, supportPrice.toString())
             GeneralUtils.notify(this, "Auto Trade", "New buy order has been placed.")
         }
     }
@@ -394,7 +402,7 @@ class FiboService : Service() {
         }
         if (placeSellOrder) {
             val amountXrpToSell = (xrpBalance.balance.toDouble()).toInt().toString()
-            attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell, resistancePrice.toString())
+            attachPostOrderObserver(PAIR_XRPZAR, "ASK", amountXrpToSell, resistancePrice.toString())
             GeneralUtils.notify(this, "Auto Trade", "New sell order has been placed.")
         }
     }

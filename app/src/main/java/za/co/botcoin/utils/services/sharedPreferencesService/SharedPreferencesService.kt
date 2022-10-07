@@ -1,4 +1,4 @@
-package za.co.botcoin.utils.services.sharePreferencesService
+package za.co.botcoin.utils.services.sharedPreferencesService
 
 import android.content.Context
 

@@ -5,9 +5,9 @@ import za.co.botcoin.R
 import za.co.botcoin.di.managers.IResourceManager
 import za.co.botcoin.utils.services.alertDialogService.AlertDialogProperties
 import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
-import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService.LUNO_API_KEY_ID
-import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService.LUNO_API_SECRET_KEY
-import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
+import za.co.botcoin.utils.services.sharedPreferencesService.BaseSharedPreferencesService.LUNO_API_KEY_ID
+import za.co.botcoin.utils.services.sharedPreferencesService.BaseSharedPreferencesService.LUNO_API_SECRET_KEY
+import za.co.botcoin.utils.services.sharedPreferencesService.ISharedPreferencesService
 
 class MenuLunoApiViewModel(
     private val alertDialogService: IAlertDialogService,

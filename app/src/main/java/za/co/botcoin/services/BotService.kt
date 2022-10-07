@@ -25,8 +25,8 @@ import za.co.botcoin.utils.*
 import za.co.botcoin.utils.MathUtils.calculateMarginPercentage
 import za.co.botcoin.utils.MathUtils.percentage
 import za.co.botcoin.utils.MathUtils.precision
-import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
-import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService.SUPPORT_PRICE_COUNTER
+import za.co.botcoin.utils.services.sharedPreferencesService.BaseSharedPreferencesService
+import za.co.botcoin.utils.services.sharedPreferencesService.BaseSharedPreferencesService.SUPPORT_PRICE_COUNTER
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -48,6 +48,14 @@ class BotService : Service() {
 
     private lateinit var timer: Timer
     private lateinit var timerTask: TimerTask
+
+    companion object {
+        private const val TICKER_RUN_TIME = 5000L
+        private const val PAIR_XRPZAR = "XRPZAR"
+        private const val BOTCOIN_TAG = "BOTCOIN"
+        private const val XRP = "XRP"
+        private const val ZAR = "ZAR"
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -75,11 +83,11 @@ class BotService : Service() {
         this.timerTask = object : TimerTask() {
             override fun run() {
                 attachTickersObserver()
-                Log.d(ConstantUtils.BOTCOIN_TAG, "AUTO TRADE RUNNING...")
+                Log.d(BOTCOIN_TAG, "AUTO TRADE RUNNING...")
             }
         }
         this.timer = Timer()
-        this.timer.schedule(this.timerTask, 0, ConstantUtils.TICKER_RUN_TIME)
+        this.timer.schedule(this.timerTask, 0, TICKER_RUN_TIME)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -105,7 +113,7 @@ class BotService : Service() {
                 val data = resource.data
                 if (!data.isNullOrEmpty()) {
                     data.map { ticker ->
-                        if (ticker.pair == ConstantUtils.PAIR_XRPZAR) {
+                        if (ticker.pair == PAIR_XRPZAR) {
                             marketTrend = getSmartTrendDetector(ticker.lastTrade.toDouble())
                             attachTradesObserver(ticker.lastTrade.toDouble())
                         }
@@ -120,7 +128,7 @@ class BotService : Service() {
     }
 
     private fun attachTradesObserver(currentPrice: Double) = CoroutineScope(Dispatchers.IO).launch {
-        val resource = tradeRepository.fetchTrades(ConstantUtils.PAIR_XRPZAR, true)
+        val resource = tradeRepository.fetchTrades(PAIR_XRPZAR, true)
         when (resource.status) {
             Status.SUCCESS -> {
                 val data = resource.data
@@ -150,9 +158,9 @@ class BotService : Service() {
                 var xrpBalance: Balance = Balance()
                 if (!data.isNullOrEmpty()) {
                     data.map { balance ->
-                        if (balance.asset == ConstantUtils.XRP) {
+                        if (balance.asset.equals(XRP, true)) {
                             xrpBalance = balance
-                        } else if (balance.asset == ConstantUtils.ZAR) {
+                        } else if (balance.asset.equals(ZAR, true)) {
                             zarBalance = balance
                         }
                     }
@@ -178,9 +186,9 @@ class BotService : Service() {
                 var lastBidOrder: Order = Order()
                 if (!data.isNullOrEmpty()) {
                     data.map { order ->
-                        if (order.type == "ASK" && order.state == "PENDING") {
+                        if (order.type.equals("ASK", true) && order.state.equals("PENDING", true)) {
                             lastAskOrder = order
-                        } else if (order.type == "BID" && order.state == "PENDING") {
+                        } else if (order.type.equals("BID", true) && order.state.equals("PENDING", true)) {
                             lastBidOrder = order
                         }
                     }
@@ -258,14 +266,14 @@ class BotService : Service() {
     private fun bid(isRestrict: Boolean, currentPrice: Double, lastTrade: Trade, zarBalance: Balance) {
         if (isRestrict) {
             if (supportPrice.isNotBlank() && supportPrice != "0.0" && lastTrade.type != Trade.BID_TYPE && supportPrice.toDouble() < currentPrice) {
-                Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - bid " +
+                Log.d(BOTCOIN_TAG, "Method: BotService - bid " +
                         "supportPrice: $supportPrice " +
                         "lastTradeType: ${lastTrade.type} " +
                         "currentPrice: $currentPrice " +
                         "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
                 val amountXrpToBuy = calcAmountXrpToBuy(zarBalance.balance.toDouble(), supportPrice.toDouble()).toString()
 
-                attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "BID", amountXrpToBuy, supportPrice)
+                attachPostOrderObserver(PAIR_XRPZAR, "BID", amountXrpToBuy, supportPrice)
                 GeneralUtils.notify(this, "Auto Trade", "New buy order has been placed.")
 
                 supportPrice = ""
@@ -275,7 +283,7 @@ class BotService : Service() {
 
                 ConstantUtils.supportPriceCounter = BaseSharedPreferencesService[applicationContext, SUPPORT_PRICE_COUNTER]?.toInt() ?: 4
             } else {
-                Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - bid " +
+                Log.d(BOTCOIN_TAG, "Method: BotService - bid " +
                         "supportPrice: $supportPrice " +
                         "lastTradeType: ${lastTrade.type} " +
                         "currentPrice: $currentPrice " +
@@ -313,14 +321,14 @@ class BotService : Service() {
         }
         if (placeSellOrder) {
             val amountXrpToSell = (xrpBalance.balance.toDouble()).toInt().toString()
-            attachPostOrderObserver(ConstantUtils.PAIR_XRPZAR, "ASK", amountXrpToSell, resistancePrice)
+            attachPostOrderObserver(PAIR_XRPZAR, "ASK", amountXrpToSell, resistancePrice)
             GeneralUtils.notify(this, "Auto Trade", "New sell order has been placed.")
             supportPrice = ""
             supportPrices.clear()
             resistancePrice = ""
             resistancePrices.clear()
         }
-        Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - ask " +
+        Log.d(BOTCOIN_TAG, "Method: BotService - ask " +
                 "resistancePrice: $resistancePrice " +
                 "lastTradeType: ${lastTrade.type} " +
                 "lastPurchasePrice: ${lastTrade.price} " +
@@ -410,7 +418,7 @@ class BotService : Service() {
                 prices.append("[${it.price}, ${it.counter}]")
                 if (maxCounter == it.counter && toReturn > it.price) { toReturn = it.price }
             }
-            Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - getLowestPriceWithCounter " + "Prices: $prices" + "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
+            Log.d(BOTCOIN_TAG, "Method: BotService - getLowestPriceWithCounter " + "Prices: $prices" + "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
         }
         return toReturn
     }
@@ -424,7 +432,7 @@ class BotService : Service() {
                 prices.append("[${it.price}, ${it.counter}]")
                 if (toReturn > it.price) { toReturn = it.price }
             }
-            Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - getLowestPrice " + "Prices: $prices" + "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
+            Log.d(BOTCOIN_TAG, "Method: BotService - getLowestPrice " + "Prices: $prices" + "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
         }
         return toReturn
     }
@@ -438,7 +446,7 @@ class BotService : Service() {
                     toReturn = it.price
                 }
             }
-            Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - getHighestPriceWithCounter " + "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
+            Log.d(BOTCOIN_TAG, "Method: BotService - getHighestPriceWithCounter " + "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
         }
         return toReturn
     }
@@ -447,7 +455,7 @@ class BotService : Service() {
         if (supportPrices.isNotEmpty()) {
             val prices = StringBuilder()
             supportPrices.map { prices.append("[${it.price}, ${it.counter}]") }
-            Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - setSupportPrice " + "SupportPrices: $prices " + "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
+            Log.d(BOTCOIN_TAG, "Method: BotService - setSupportPrice " + "SupportPrices: $prices " + "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
         }
 
         if (getNumberOfPricesCounterMoreThanN(supportPrices, lastTrade) == 1) {
@@ -466,7 +474,7 @@ class BotService : Service() {
         if (resistancePrices.isNotEmpty()) {
             val prices = StringBuilder()
             resistancePrices.map { prices.append("[${it.price}, ${it.counter}]") }
-            Log.d(ConstantUtils.BOTCOIN_TAG, "Method: BotService - setResistancePrice " + "ResistancePrices: $prices " + "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
+            Log.d(BOTCOIN_TAG, "Method: BotService - setResistancePrice " + "ResistancePrices: $prices " + "CreatedTime: ${DateTimeUtils.getCurrentDateTime()}")
         }
 
         if (getNumberOfPricesCounterMoreThanN(resistancePrices, lastTrade) == 1) {

@@ -1,15 +1,12 @@
 package za.co.botcoin.view.menu
 
-import android.app.Application
 import androidx.lifecycle.ViewModel
 import za.co.botcoin.R
 import za.co.botcoin.di.managers.IResourceManager
-import za.co.botcoin.model.repository.BaseViewModel
 import za.co.botcoin.utils.services.alertDialogService.AlertDialogProperties
 import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
-import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService
-import za.co.botcoin.utils.services.sharePreferencesService.BaseSharedPreferencesService.RESISTANCE_PRICE_COUNTER
-import za.co.botcoin.utils.services.sharePreferencesService.ISharedPreferencesService
+import za.co.botcoin.utils.services.sharedPreferencesService.BaseSharedPreferencesService.RESISTANCE_PRICE_COUNTER
+import za.co.botcoin.utils.services.sharedPreferencesService.ISharedPreferencesService
 
 class MenuResistancePriceCounterViewModel(
     private val alertDialogService: IAlertDialogService,
