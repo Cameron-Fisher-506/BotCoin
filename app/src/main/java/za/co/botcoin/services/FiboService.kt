@@ -167,29 +167,14 @@ class FiboService : Service() {
                     }
 
 
-                    if (!::marketTrend.isInitialized) {
-                        if (simpleMovingAverage.averages.isNotEmpty() && simpleMovingAverage.averages.size >= 20) {
-                            marketTrend = when {
-                                simpleMovingAverage.isPriceAboveLine(currentPrice) -> Trend.UPWARD
-                                !simpleMovingAverage.isPriceAboveLine(currentPrice) -> Trend.DOWNWARD
-                                else -> Trend.DOWNWARD
+                    if (::marketTrend.isInitialized && simpleMovingAverage.averages.isNotEmpty() && simpleMovingAverage.averages.size >= 20) {
+                        Log.d("BOTCOIN", "Market trend: $marketTrend")
+                        when {
+                            marketTrend == Trend.UPWARD && simpleMovingAverage.isPriceOnLine(currentPrice) && lastTrade.type == Trade.BID_TYPE -> {
+                                ask(true, currentPrice, lastTrade, xrpBalance, currentPrice+0.01)
                             }
-                        }
-                    } else {
-                        if (simpleMovingAverage.averages.isNotEmpty() && simpleMovingAverage.averages.size >= 20) {
-                            marketTrend = when {
-                                simpleMovingAverage.isPriceAboveLine(currentPrice) -> Trend.UPWARD
-                                !simpleMovingAverage.isPriceAboveLine(currentPrice) -> Trend.DOWNWARD
-                                else -> Trend.DOWNWARD
-                            }
-                            Log.d("BOTCOIN", "Market trend: $marketTrend")
-                            when {
-                                marketTrend == Trend.UPWARD && simpleMovingAverage.isPriceOnLine(currentPrice) && lastTrade.type == Trade.BID_TYPE -> {
-                                    ask(true, currentPrice, lastTrade, xrpBalance, currentPrice+0.01)
-                                }
-                                marketTrend == Trend.DOWNWARD && simpleMovingAverage.isPriceOnLine(currentPrice) && lastTrade.type == Trade.ASK_TYPE -> {
-                                    bid(currentPrice, lastTrade, zarBalance, currentPrice-0.01)
-                                }
+                            marketTrend == Trend.DOWNWARD && simpleMovingAverage.isPriceOnLine(currentPrice) && lastTrade.type == Trade.ASK_TYPE -> {
+                                bid(currentPrice, lastTrade, zarBalance, currentPrice-0.01)
                             }
                         }
                     }
@@ -264,7 +249,7 @@ class FiboService : Service() {
         }
     }
 
-    private fun attachCandlesObserver(currentPrice: Double, lastTrade: Trade, zarBalance: Balance, xrpBalance: Balance, pair: String, since: String = getPreviousMidnightUnixDateTime().toString(), duration: Int = 3600) = CoroutineScope(Dispatchers.IO).launch {
+    private fun attachCandlesObserver(currentPrice: Double, lastTrade: Trade, zarBalance: Balance, xrpBalance: Balance, pair: String, since: String = getPreviousMidnightUnixDateTime().toString(), duration: Int = 60) = CoroutineScope(Dispatchers.IO).launch {
         val resource = candleRepository.fetchCandles(pair, since, duration)
         when (resource.status) {
             Status.SUCCESS -> {
@@ -275,50 +260,50 @@ class FiboService : Service() {
 
                 if (lowestCandle != null && highestCandle != null) {
                     marketTrend = if (isBeforeDateTime(DateTimeUtils.format(lowestCandle.timestamp.toLong()), DateTimeUtils.format(highestCandle.timestamp.toLong()))) {
-                       val candlesSorted = candles.sortedBy { candle -> candle.low }
+                       /*val candlesSorted = candles.sortedBy { candle -> candle.low }
 
                         //trend line
-                        var m = calculateGradient(candlesSorted.first().id.toDouble(), candlesSorted[1].id.toDouble(), candlesSorted.first().low.toDouble(), candlesSorted[1].low.toDouble())
+                        var m = calculateGradient(candlesSorted.last().low.toDouble(), candlesSorted.first().low.toDouble(), candlesSorted.last().id.toDouble(), candlesSorted.first().id.toDouble())
                         var c = calculateConstant(candlesSorted.first().id.toDouble(), candlesSorted.first().low.toDouble(), m)
                         Log.d(BOTCOIN_TAG, "UPTREND - Bottom Line: " +
                                 "lowestCandle: ${candlesSorted.first().low.toDouble()} " +
-                                "highestCandle: ${candlesSorted[1].high.toDouble()} " +
+                                "highestCandle: ${candlesSorted.last().low.toDouble()} " +
                                 "x2: ${candlesSorted.first().id.toDouble()} " +
-                                "x1: ${candlesSorted[1].id.toDouble()} " +
+                                "x1: ${candlesSorted.last().id.toDouble()} " +
                                 "m: $m " +
                                 "c: $c " +
-                                "Point: ($currentPrice, ${candlesSorted[1].id.toDouble() + 1}) " +
+                                "Point: ($currentPrice, ${candlesSorted.last().id.toDouble() + 1}) " +
                                 "calculateX: ${calculateX(currentPrice, m, c)} " +
-                                "calculateY: ${calculateY(candlesSorted[1].id.toDouble() + 1, m, c)} " +
+                                "calculateY: ${calculateY(candlesSorted.last().id.toDouble() + 1, m, c)} " +
                                 "Trend: Upward" +
                                 "lowest: ${lowestCandle.low} " +
                                 "highest: ${highestCandle.high}"
                         )
 
-                        m = calculateGradient(candlesSorted.first().id.toDouble(), candlesSorted[1].id.toDouble(), candlesSorted.first().close.toDouble(), candlesSorted[1].close.toDouble())
+                        m = calculateGradient(candlesSorted.last().close.toDouble(), candlesSorted.first().close.toDouble(), candlesSorted.last().id.toDouble(), candlesSorted.first().id.toDouble())
                         c = calculateConstant(candlesSorted.first().id.toDouble(), candlesSorted.first().close.toDouble(), m)
                         Log.d(BOTCOIN_TAG, "UPTREND - Top Line: " +
                                 "lowestCandle: ${candlesSorted.first().close.toDouble()} " +
-                                "highestCandle: ${candlesSorted[1].close.toDouble()} " +
+                                "highestCandle: ${candlesSorted.last().close.toDouble()} " +
                                 "x2: ${candlesSorted.first().id.toDouble()} " +
-                                "x1: ${candlesSorted[1].id.toDouble()} " +
+                                "x1: ${candlesSorted.last().id.toDouble()} " +
                                 "m: $m " +
                                 "c: $c " +
-                                "Point: ($currentPrice, ${candlesSorted[1].id.toDouble() + 2}) " +
+                                "Point: ($currentPrice, ${candlesSorted.last().id.toDouble() + 2}) " +
                                 "calculateX: ${calculateX(currentPrice, m, c)} " +
-                                "calculateY: ${calculateY(candlesSorted[1].id.toDouble() + 2, m, c)} " +
+                                "calculateY: ${calculateY(candlesSorted.last().id.toDouble() + 2, m, c)} " +
                                 "Trend: Upward " +
                                 "lowest: ${lowestCandle.low} " +
                                 "highest: ${highestCandle.high}"
                         )
-
+*/
                         Trend.UPWARD
                     } else {
-                        val candlesSorted = candles.sortedByDescending { candle -> candle.high }
+                        /*val candlesSorted = candles.sortedByDescending { candle -> candle.high }
 
                         //trend line
-                        var m = calculateGradient(candlesSorted[1].id.toDouble(), candlesSorted.first().id.toDouble(), candlesSorted[1].high.toDouble(), candlesSorted.first().high.toDouble())
-                        var c = calculateConstant(candlesSorted[1].id.toDouble(), candlesSorted[1].high.toDouble(), m)
+                        var m = calculateGradient(candlesSorted[1].high.toDouble(), candlesSorted.first().high.toDouble(), candlesSorted[1].id.toDouble(), candlesSorted.first().id.toDouble() - 1)
+                        var c = calculateConstant(candlesSorted.first().id.toDouble(), candlesSorted.first().high.toDouble(), m)
                         Log.d(BOTCOIN_TAG, "DOWNTREND - Top Line " +
                                 "lowestCandle: ${candlesSorted[1].high.toDouble()} " +
                                 "highestCandle: ${candlesSorted.first().high.toDouble()} " +
@@ -335,7 +320,7 @@ class FiboService : Service() {
                         )
 
                         m = calculateGradient(candlesSorted[1].id.toDouble(), candlesSorted.first().id.toDouble(), candlesSorted[1].open.toDouble(), candlesSorted.first().open.toDouble())
-                        c = calculateConstant(candlesSorted[1].id.toDouble(), candlesSorted[1].open.toDouble(), m)
+                        c = calculateConstant(candlesSorted.first().id.toDouble(), candlesSorted.first().open.toDouble(), m)
                         Log.d(BOTCOIN_TAG, "DOWNTREND - Bottom Line " +
                                 "lowestCandle: ${candlesSorted[1].open.toDouble()} " +
                                 "highestCandle: ${candlesSorted.first().open.toDouble()} " +
@@ -350,7 +335,7 @@ class FiboService : Service() {
                                 "lowest: ${lowestCandle.low} " +
                                 "highest: ${highestCandle.high}"
                         )
-
+*/
                         Trend.DOWNWARD
                     }
 
@@ -366,7 +351,7 @@ class FiboService : Service() {
 
                 }
 
-                //simpleMovingAverage.calculateSma(resource.data?.reversed() ?: listOf())
+                simpleMovingAverage.calculateSma(resource.data?.reversed() ?: listOf())
             }
             Status.ERROR -> {
             }

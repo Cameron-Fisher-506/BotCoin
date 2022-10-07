@@ -44,14 +44,4 @@ class SimpleMovingAverage(var period: Int) {
         }
         return false
     }
-
-    fun isPriceAboveLine(currentPrice: Double): Boolean {
-        var toReturn: Boolean = false
-        if (averages.size >= 20) {
-            for (i in averages.indices) {
-                toReturn = currentPrice > averages.elementAt(i)
-            }
-        }
-        return toReturn
-    }
 }
