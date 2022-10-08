@@ -21,71 +21,79 @@ class WalletMenuReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) 
         super.onViewCreated(view, savedInstanceState)
         this.binding = ReceiveFragmentBinding.bind(view)
 
-        this.walletMenuReceiveViewModel = ViewModelProviders.of(this).get(WalletMenuReceiveViewModel::class.java)
+        this.walletMenuReceiveViewModel =
+            ViewModelProviders.of(this).get(WalletMenuReceiveViewModel::class.java)
 
         if (isApiKeySet(context)) {
             receiveAndObserveReceive()
         } else {
             walletViewModel.displayLunoApiCredentialsAlertDialog()
-
             val action = WalletMenuReceiveFragmentDirections.actionReceiveFragmentToLunoApiFragment()
             Navigation.findNavController(view).navigate(action)
         }
     }
 
     private fun receiveAndObserveReceive() {
-        this.walletMenuReceiveViewModel.receive(arguments?.getString("asset") ?: "", ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)
+        this.walletMenuReceiveViewModel.receive(
+            arguments?.getString("asset") ?: "",
+            ConstantUtils.USER_KEY_ID,
+            ConstantUtils.USER_SECRET_KEY
+        )
         this.walletMenuReceiveViewModel.receiveResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     walletActivity.dismissProgressBar()
-                    displayReceiveOptions()
+                    displayWalletMenuReceiveOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
                         this.binding.addressEditText.setText(data.first().address)
-                        this.binding.qrAddressImageView.setImageBitmap(createQRCode(data.first().qrCodeUri, this.binding.qrAddressImageView.width, this.binding.qrAddressImageView.height))
+                        this.binding.qrAddressImageView.setImageBitmap(
+                            createQRCode(
+                                data.first().qrCodeUri,
+                                this.binding.qrAddressImageView.width,
+                                this.binding.qrAddressImageView.height
+                            )
+                        )
 
-                        addBtnCopyListener()
+                        setUpOnClickListeners()
                     } else {
-                        displayErrorTextView()
+                        displayErrorMessage()
                     }
                 }
                 Status.ERROR -> {
                     walletActivity.dismissProgressBar()
-                    displayErrorTextView()
+                    displayErrorMessage()
                 }
                 Status.LOADING -> {
                     walletActivity.displayProgressBar()
-                    displayProgressBar()
+                    hideWalletMenuReceiveOptions()
+                    hideErrorMessage()
                 }
             }
         }
     }
 
-    private fun addBtnCopyListener() {
-        this.binding.copyImageButton.setOnClickListener { context?.let { context -> copyToClipBoard(context, this.binding.addressEditText.text.toString()) } }
+    private fun setUpOnClickListeners() {
+        this.binding.copyImageButton.setOnClickListener {
+            context?.let { context -> copyToClipBoard(context, this.binding.addressEditText.text.toString()) }
+        }
     }
 
-    private fun hideAllViews() {
-        this.binding.copyImageButton.visibility = View.GONE
-        this.binding.addressEditText.visibility = View.GONE
-        this.binding.donateTextView.visibility = View.GONE
-        this.binding.errorTextView.visibility = View.GONE
+    private fun hideWalletMenuReceiveOptions() {
+        this.binding.walletMenuReceiveGroup.visibility = View.GONE
     }
 
-    private fun displayReceiveOptions() {
-        hideAllViews()
-        this.binding.copyImageButton.visibility = View.VISIBLE
-        this.binding.addressEditText.visibility = View.VISIBLE
-        this.binding.donateTextView.visibility = View.VISIBLE
+    private fun displayWalletMenuReceiveOptions() {
+        hideErrorMessage()
+        this.binding.walletMenuReceiveGroup.visibility = View.VISIBLE
     }
 
-    private fun displayErrorTextView() {
-        hideAllViews()
+    private fun displayErrorMessage() {
+        hideWalletMenuReceiveOptions()
         this.binding.errorTextView.visibility = View.VISIBLE
     }
 
-    private fun displayProgressBar() {
-        hideAllViews()
+    private fun hideErrorMessage() {
+        this.binding.errorTextView.visibility = View.GONE
     }
 }
