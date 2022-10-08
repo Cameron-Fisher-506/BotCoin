@@ -2,6 +2,7 @@ package za.co.botcoin.view.wallet.menu
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import za.co.botcoin.R
 import za.co.botcoin.databinding.SendFragmentBinding
@@ -12,13 +13,11 @@ import za.co.botcoin.view.wallet.WalletBaseFragment
 
 class WalletMenuSendFragment : WalletBaseFragment(R.layout.send_fragment) {
     private lateinit var binding: SendFragmentBinding
-    private lateinit var walletMenuSendViewModel: WalletMenuSendViewModel
+    private val walletMenuSendViewModel by viewModels<WalletMenuSendViewModel>(factoryProducer = { walletActivity.getViewModelFactory })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = SendFragmentBinding.bind(view)
-
-        this.walletMenuSendViewModel = ViewModelProviders.of(this).get(WalletMenuSendViewModel::class.java)
 
         arguments?.let {
             addBtnSend(it.getString("asset") ?: "")

@@ -2,6 +2,7 @@ package za.co.botcoin.view.wallet.menu
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import za.co.botcoin.R
@@ -15,14 +16,11 @@ import za.co.botcoin.view.wallet.WalletBaseFragment
 
 class WalletMenuReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) {
     private lateinit var binding: ReceiveFragmentBinding
-    private lateinit var walletMenuReceiveViewModel: WalletMenuReceiveViewModel
+    private val walletMenuReceiveViewModel by viewModels<WalletMenuReceiveViewModel>(factoryProducer = { walletActivity.getViewModelFactory })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = ReceiveFragmentBinding.bind(view)
-
-        this.walletMenuReceiveViewModel =
-            ViewModelProviders.of(this).get(WalletMenuReceiveViewModel::class.java)
 
         if (isApiKeySet(context)) {
             receiveAndObserveReceive()
@@ -34,11 +32,7 @@ class WalletMenuReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) 
     }
 
     private fun receiveAndObserveReceive() {
-        this.walletMenuReceiveViewModel.receive(
-            arguments?.getString("asset") ?: "",
-            ConstantUtils.USER_KEY_ID,
-            ConstantUtils.USER_SECRET_KEY
-        )
+        this.walletMenuReceiveViewModel.receive(arguments?.getString("asset") ?: "", ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)
         this.walletMenuReceiveViewModel.receiveResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
