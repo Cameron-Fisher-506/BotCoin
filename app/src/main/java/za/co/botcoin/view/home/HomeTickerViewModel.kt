@@ -9,7 +9,12 @@ import za.co.botcoin.model.repository.account.AccountRepository
 import za.co.botcoin.model.repository.tickers.TickersRepository
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.Resource
-import za.co.botcoin.utils.services.sharedPreferencesService.BaseSharedPreferencesService
+import za.co.botcoin.utils.services.sharedPreferencesService.BaseSharedPreferencesService.PRIVACY_POLICY_ACCEPTANCE
+import za.co.botcoin.utils.services.sharedPreferencesService.BaseSharedPreferencesService.RESISTANCE_PRICE_COUNTER
+import za.co.botcoin.utils.services.sharedPreferencesService.BaseSharedPreferencesService.SMART_TREND_DETECTOR
+import za.co.botcoin.utils.services.sharedPreferencesService.BaseSharedPreferencesService.SUPPORT_PRICE_COUNTER
+import za.co.botcoin.utils.services.sharedPreferencesService.BaseSharedPreferencesService.TRAILING_START
+import za.co.botcoin.utils.services.sharedPreferencesService.BaseSharedPreferencesService.TRAILING_STOP
 import za.co.botcoin.utils.services.sharedPreferencesService.ISharedPreferencesService
 
 class HomeTickerViewModel(
@@ -27,39 +32,39 @@ class HomeTickerViewModel(
     }
 
     fun setUserTrailingStartPrice() {
-        val trailingStart = sharedPreferencesService[BaseSharedPreferencesService.TRAILING_START]
+        val trailingStart = sharedPreferencesService[TRAILING_START]
         if (!trailingStart.isNullOrBlank()) {
             ConstantUtils.trailingStart = trailingStart.toInt()
         }
     }
 
     fun setUserTrailingStopPrice() {
-        val trailingStop = sharedPreferencesService[BaseSharedPreferencesService.TRAILING_STOP]
+        val trailingStop = sharedPreferencesService[TRAILING_STOP]
         if (!trailingStop.isNullOrBlank()) {
             ConstantUtils.trailingStop = trailingStop.toInt()
         }
     }
 
     fun setSupportPriceCounter() {
-        val supportPriceCounter = sharedPreferencesService[BaseSharedPreferencesService.SUPPORT_PRICE_COUNTER]
+        val supportPriceCounter = sharedPreferencesService[SUPPORT_PRICE_COUNTER]
         if (!supportPriceCounter.isNullOrBlank()) {
             ConstantUtils.supportPriceCounter = supportPriceCounter.toInt()
         }
     }
 
     fun setResistancePriceCounter() {
-        val resistancePriceCounter = sharedPreferencesService[BaseSharedPreferencesService.RESISTANCE_PRICE_COUNTER]
+        val resistancePriceCounter = sharedPreferencesService[RESISTANCE_PRICE_COUNTER]
         if (!resistancePriceCounter.isNullOrBlank()) {
             ConstantUtils.resistancePriceCounter = resistancePriceCounter.toInt()
         }
     }
 
     fun setSmartTrendDetectorMargin() {
-        val smartTrendDetectorMargin = sharedPreferencesService[BaseSharedPreferencesService.SMART_TREND_DETECTOR]
+        val smartTrendDetectorMargin = sharedPreferencesService[SMART_TREND_DETECTOR]
         if (!smartTrendDetectorMargin.isNullOrBlank()) {
             ConstantUtils.smartTrendDetectorMargin = smartTrendDetectorMargin.toInt()
         }
     }
 
-    fun getPrivacyPolicyAcceptance(): String? = sharedPreferencesService[BaseSharedPreferencesService.PRIVACY_POLICY_ACCEPTANCE]
+    fun getPrivacyPolicyAcceptance(): String? = sharedPreferencesService[PRIVACY_POLICY_ACCEPTANCE]
 }

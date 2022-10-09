@@ -31,10 +31,10 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
         this.donateViewModel.receiveResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
-                    menuActivity.displayProgressBar()
-                    displayDonateOptions()
+                    menuActivity.dismissProgressBar()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
+                        displayDonateOptions()
                         this.binding.addressEditText.setText(data.first().address)
                         /*if (tagValue != null) {
                             this.binding.edTxtTag.setText(data.first().)
@@ -48,12 +48,13 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
                     }
                 }
                 Status.ERROR -> {
-                    menuActivity.displayProgressBar()
+                    menuActivity.dismissProgressBar()
                     displayErrorMessage()
                 }
                 Status.LOADING -> {
                     menuActivity.displayProgressBar()
                     hideDonateOptions()
+                    hideErrorMessage()
                 }
             }
         }
@@ -65,9 +66,9 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
             when (it.status) {
                 Status.SUCCESS -> {
                     menuActivity.dismissProgressBar()
-                    displayDonateOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
+                        displayDonateOptions()
                         data.map { response ->
                             if (response.success) {
                                 donateViewModel.displaySentAmountOfAssetToAddressNotification(amount, asset, address)
@@ -76,17 +77,19 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
                             }
                         }
                     } else {
+                        displayErrorMessage()
                         donateViewModel.displaySendFailedNotification()
                     }
                 }
                 Status.ERROR -> {
                     menuActivity.dismissProgressBar()
-                    displayDonateOptions()
+                    displayErrorMessage()
                     donateViewModel.displaySendFailedNotification()
                 }
                 Status.LOADING -> {
                     menuActivity.displayProgressBar()
                     hideDonateOptions()
+                    hideErrorMessage()
                 }
             }
         }
