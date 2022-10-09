@@ -20,6 +20,11 @@ class WalletViewModel(
 ) : BaseViewModel(application) {
     lateinit var balancesResponse: LiveData<Resource<List<Balance>>>
 
+    companion object {
+        const val XRP = "XRP"
+        const val ZAR = "ZAR"
+    }
+
     fun fetchBalances() {
         balancesResponse = liveData(ioDispatcher) {
             emit(Resource.loading())

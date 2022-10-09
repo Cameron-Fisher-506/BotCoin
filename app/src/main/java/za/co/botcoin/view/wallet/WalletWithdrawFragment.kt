@@ -7,6 +7,7 @@ import za.co.botcoin.R
 import za.co.botcoin.databinding.WithdrawFragmentBinding
 import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.GeneralUtils.isApiKeySet
+import za.co.botcoin.view.wallet.WalletWithdrawViewModel.Companion.ZAR_EFT
 
 class WalletWithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
     private lateinit var binding: WithdrawFragmentBinding
@@ -16,17 +17,17 @@ class WalletWithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = WithdrawFragmentBinding.bind(view)
 
-        addWithdrawListener()
+        setUpOnClickListeners()
     }
 
-    private fun addWithdrawListener() {
+    private fun setUpOnClickListeners() {
         this.binding.withdrawButton.setOnClickListener {
             val amount: String = this.binding.amountEditText.text.toString()
             val beneficiaryId: String = this.binding.amountEditText.text.toString()
 
             if (withdrawViewModel.isAmountNotEmptyAndNotZero(amount) && beneficiaryId.isNotBlank()) {
                 if (isApiKeySet(context)) {
-                    withdrawViewModel.withdrawal("ZAR_EFT", amount, beneficiaryId)
+                    withdrawViewModel.withdrawal(ZAR_EFT, amount, beneficiaryId)
                     attachWithdrawalObserver()
                 } else {
                     walletViewModel.displayLunoApiCredentialsAlertDialog()
@@ -42,50 +43,44 @@ class WalletWithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
             when (it.status) {
                 Status.SUCCESS -> {
                     walletActivity.dismissProgressBar()
-                    displayWithdrawOptions()
+                    displayWalletWithdrawOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
                         data.map { withdrawal -> withdrawViewModel.displayAmountWithdrewNotification(withdrawal.amount) }
                     } else {
+                        displayErrorMessage()
                         withdrawViewModel.displayWithdrawalFailedNotification()
                     }
-
                 }
                 Status.ERROR -> {
                     walletActivity.dismissProgressBar()
-                    displayWithdrawOptions()
+                    displayErrorMessage()
                     withdrawViewModel.displayWithdrawalFailedNotification()
                 }
                 Status.LOADING -> {
                     walletActivity.displayProgressBar()
-                    displayProgressBar()
+                    hideWalletWithdrawOptions()
+                    hideErrorMessage()
                 }
             }
         }
     }
 
-    private fun hideAllViews() {
-        this.binding.withdrawButton.visibility = View.GONE
-        this.binding.amountEditText.visibility = View.GONE
-        this.binding.beneficiaryIdEditText.visibility = View.GONE
-        this.binding.withdrawTextView.visibility = View.GONE
-        this.binding.errorTextView.visibility = View.GONE
+    private fun hideWalletWithdrawOptions() {
+        this.binding.walletWithdrawGroup.visibility = View.GONE
     }
 
-    private fun displayWithdrawOptions() {
-        hideAllViews()
-        this.binding.withdrawButton.visibility = View.VISIBLE
-        this.binding.amountEditText.visibility = View.VISIBLE
-        this.binding.beneficiaryIdEditText.visibility = View.VISIBLE
-        this.binding.withdrawTextView.visibility = View.VISIBLE
+    private fun displayWalletWithdrawOptions() {
+        hideErrorMessage()
+        this.binding.walletWithdrawGroup.visibility = View.VISIBLE
     }
 
-    private fun displayErrorTextView() {
-        hideAllViews()
+    private fun displayErrorMessage() {
+        hideWalletWithdrawOptions()
         this.binding.errorTextView.visibility = View.VISIBLE
     }
 
-    private fun displayProgressBar() {
-        hideAllViews()
+    private fun hideErrorMessage() {
+        this.binding.errorTextView.visibility = View.GONE
     }
 }

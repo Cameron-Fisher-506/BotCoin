@@ -83,7 +83,7 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
                 Status.SUCCESS -> {
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
-                        displayLinearLayout()
+                        displayCoins()
 
                         data.map { ticker ->
                             if (ticker.pair.equals(PAIR_XRPZAR, true)) {
@@ -92,11 +92,11 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
                             }
                         }
                     } else {
-                        displayErrorTextView()
+                        displayErrorMessage()
                     }
                 }
                 Status.ERROR -> {
-                    displayErrorTextView()
+                    displayErrorMessage()
                 }
                 Status.LOADING -> {
                 }
@@ -104,12 +104,12 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
         }
     }
 
-    private fun displayLinearLayout() {
+    private fun displayCoins() {
         this.binding.xrpZarLinearLayoutCompat.visibility = View.VISIBLE
         this.binding.errorTextView.visibility = View.GONE
     }
 
-    private fun displayErrorTextView() {
+    private fun displayErrorMessage() {
         this.binding.xrpZarLinearLayoutCompat.visibility = View.GONE
         this.binding.errorTextView.visibility = View.VISIBLE
     }

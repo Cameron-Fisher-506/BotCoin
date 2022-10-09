@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/walletGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="zarLinearLayoutCompat, xrpLinearLayoutCompat" />
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/zarLinearLayoutCompat"
         android:layout_width="match_parent"
@@ -20,8 +27,7 @@
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginHorizontal="10dp"
             android:background="@drawable/sa"
             android:contentDescription="@string/DummyText" />
 
@@ -46,8 +52,7 @@
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginHorizontal="10dp"
             android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
             android:contentDescription="@string/DummyText" />
 
@@ -74,8 +79,7 @@
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginHorizontal="10dp"
             android:background="@drawable/xrp"
             android:contentDescription="@string/DummyText" />
 
@@ -100,8 +104,7 @@
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginHorizontal="10dp"
             android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
             android:contentDescription="@string/DummyText" />
 
