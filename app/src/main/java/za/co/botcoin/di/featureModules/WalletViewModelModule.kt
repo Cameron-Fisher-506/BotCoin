@@ -9,6 +9,7 @@ import za.co.botcoin.di.ViewModelKey
 import za.co.botcoin.di.managers.IResourceManager
 import za.co.botcoin.model.repository.balance.BalanceRepository
 import za.co.botcoin.model.repository.order.OrderRepository
+import za.co.botcoin.model.repository.receive.ReceiveRepository
 import za.co.botcoin.model.repository.send.SendRepository
 import za.co.botcoin.model.repository.stopOrder.StopOrderRepository
 import za.co.botcoin.model.repository.withdrawal.WithdrawalRepository
@@ -17,6 +18,7 @@ import za.co.botcoin.utils.services.notificationService.INotificationService
 import za.co.botcoin.view.wallet.WalletViewModel
 import za.co.botcoin.view.wallet.WalletWithdrawViewModel
 import za.co.botcoin.view.wallet.menu.WalletMenuOrdersViewModel
+import za.co.botcoin.view.wallet.menu.WalletMenuReceiveViewModel
 import za.co.botcoin.view.wallet.menu.WalletMenuSendViewModel
 
 @Module
@@ -34,7 +36,7 @@ class WalletViewModelModule {
     @Provides
     @IntoMap
     @ViewModelKey(WalletMenuOrdersViewModel::class)
-    fun ordersViewModel(
+    fun walletMenuOrdersViewModel(
         application: Application,
         resourceManager: IResourceManager,
         notificationService: INotificationService,
@@ -45,7 +47,7 @@ class WalletViewModelModule {
     @Provides
     @IntoMap
     @ViewModelKey(WalletWithdrawViewModel::class)
-    fun withdrawViewModel(
+    fun walletWithdrawViewModel(
         application: Application,
         alertDialogService: IAlertDialogService,
         resourceManager: IResourceManager,
@@ -56,10 +58,20 @@ class WalletViewModelModule {
     @Provides
     @IntoMap
     @ViewModelKey(WalletMenuSendViewModel::class)
-    fun sendViewModel(
+    fun walletMenuSendViewModel(
         application: Application,
         resourceManager: IResourceManager,
         notificationService: INotificationService,
         sendRepository: SendRepository
     ): ViewModel = WalletMenuSendViewModel(application, resourceManager, notificationService, sendRepository)
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(WalletMenuReceiveViewModel::class)
+    fun walletMenuReceiveViewModel(
+        application: Application,
+        alertDialogService: IAlertDialogService,
+        resourceManager: IResourceManager,
+        receiveRepository: ReceiveRepository
+    ): ViewModel = WalletMenuReceiveViewModel(application, alertDialogService, resourceManager, receiveRepository)
 }
