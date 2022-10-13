@@ -25,6 +25,11 @@ class HomeTickerViewModel(
 ) : BaseViewModel(application) {
     lateinit var tickersResponse: LiveData<Resource<List<Ticker>>>
 
+    companion object {
+        const val PAIR_XRPZAR = "XRPZAR"
+        const val DELAY = 5000L
+    }
+
     fun fetchTickers() {
         tickersResponse = liveData(ioDispatcher) {
             emit(tickersRepository.fetchTickers())

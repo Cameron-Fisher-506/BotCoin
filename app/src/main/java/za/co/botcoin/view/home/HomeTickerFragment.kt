@@ -15,19 +15,17 @@ import za.co.botcoin.R
 import za.co.botcoin.databinding.HomeFragmentBinding
 import za.co.botcoin.enum.Status
 import za.co.botcoin.services.BotService
-import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.services.KioskService
+import za.co.botcoin.view.delayOnLifecycle
+import za.co.botcoin.view.home.HomeTickerViewModel.Companion.DELAY
+import za.co.botcoin.view.home.HomeTickerViewModel.Companion.PAIR_XRPZAR
 import za.co.botcoin.view.settings.AutoTradeActivity
 
 class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
     private lateinit var binding: HomeFragmentBinding
     private val homeTickerViewModel by viewModels<HomeTickerViewModel>(factoryProducer = { homeActivity.getViewModelFactory })
     private val handler = Handler()
-
-    companion object {
-        private const val PAIR_XRPZAR = "XRPZAR"
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,6 +45,13 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
                 handler.postDelayed(this, delay)
             }
         }, delay)
+
+        /*binding.xrpZarLinearLayoutCompat.delayOnLifecycle(DELAY) {
+            fetchAndObserveTickers()
+            if(!KioskService.isMyServiceRunning(requireContext(), BotService::class.java.simpleName)) {
+                GeneralUtils.runAutoTrade(requireContext())
+            }
+        }*/
     }
 
     private fun setUpMenu() {
