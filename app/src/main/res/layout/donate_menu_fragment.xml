@@ -1,218 +1,222 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/donateBtcOptionLinearLayoutCompat"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/btcImageView"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:contentDescription="@string/DummyText"
-            android:src="@drawable/btc" />
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1">
+            android:id="@+id/donateBtcOptionLinearLayoutCompat"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/donateBtcTextView"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/btcImageView"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="@string/DummyText"
+                android:src="@drawable/btc" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/btc"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/donateBtcTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btc"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
+                android:contentDescription="@string/DummyText" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
-            android:contentDescription="@string/DummyText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:id="@+id/donateBtcDividerView"
-        style="@style/CommonHorizontalDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/donateBtcOptionLinearLayoutCompat" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/donateXrpOptionLinearLayoutCompat"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintTop_toBottomOf="@+id/donateBtcOptionLinearLayoutCompat">
-
-        <ImageView
-            android:id="@+id/xrpImageView"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:contentDescription="@string/DummyText"
-            android:src="@drawable/xrp" />
+        <View
+            android:id="@+id/donateBtcDividerView"
+            style="@style/CommonHorizontalDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/donateBtcOptionLinearLayoutCompat" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1">
+            android:id="@+id/donateXrpOptionLinearLayoutCompat"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintTop_toBottomOf="@+id/donateBtcOptionLinearLayoutCompat">
 
-            <TextView
-                android:id="@+id/donateXrpTextView"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/xrpImageView"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="@string/DummyText"
+                android:src="@drawable/xrp" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/xrp"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/donateXrpTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/xrp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
+                android:contentDescription="@string/DummyText" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
-            android:contentDescription="@string/DummyText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:id="@+id/donateXrpDividerView"
-        style="@style/CommonHorizontalDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/donateXrpOptionLinearLayoutCompat" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/donateEthOptionLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintTop_toBottomOf="@+id/donateXrpOptionLinearLayoutCompat">
-
-        <ImageView
-            android:id="@+id/donateEthImageView"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:contentDescription="@string/DummyText"
-            android:src="@drawable/etc" />
+        <View
+            android:id="@+id/donateXrpDividerView"
+            style="@style/CommonHorizontalDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/donateXrpOptionLinearLayoutCompat" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1">
+            android:id="@+id/donateEthOptionLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintTop_toBottomOf="@+id/donateXrpOptionLinearLayoutCompat">
 
-            <TextView
-                android:id="@+id/donateEthTextView"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/donateEthImageView"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="@string/DummyText"
+                android:src="@drawable/etc" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/eth"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/donateEthTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/eth"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
+                android:contentDescription="@string/DummyText" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
-            android:contentDescription="@string/DummyText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:id="@+id/donateEthDividerView"
-        style="@style/CommonHorizontalDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/donateEthOptionLinearLayout" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/donateLtcOptionLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintTop_toBottomOf="@+id/donateEthOptionLinearLayout">
-
-        <ImageView
-            android:id="@+id/donateLtcImageView"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:contentDescription="@string/DummyText"
-            android:src="@drawable/ltc" />
+        <View
+            android:id="@+id/donateEthDividerView"
+            style="@style/CommonHorizontalDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/donateEthOptionLinearLayout" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1">
+            android:id="@+id/donateLtcOptionLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintTop_toBottomOf="@+id/donateEthOptionLinearLayout">
 
-            <TextView
-                android:id="@+id/donateLtcTextView"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/donateLtcImageView"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="@string/DummyText"
+                android:src="@drawable/ltc" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/ltc"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/donateLtcTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ltc"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
+                android:contentDescription="@string/DummyText" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
-            android:contentDescription="@string/DummyText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:id="@+id/donateLtcDividerView"
-        style="@style/CommonHorizontalDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/donateLtcOptionLinearLayout" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <View
+            android:id="@+id/donateLtcDividerView"
+            style="@style/CommonHorizontalDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/donateLtcOptionLinearLayout" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
