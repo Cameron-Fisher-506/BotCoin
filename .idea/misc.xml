@@ -12,6 +12,7 @@
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/layout/luno_api_fragment.xml" value="0.11503623188405797" />
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/layout/menu_fragment.xml" value="0.11503623188405797" />
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/layout/notifications_fragment.xml" value="0.11503623188405797" />
+        <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/layout/order_list_item.xml" value="0.13994565217391305" />
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/layout/orders_fragment.xml" value="0.1" />
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/layout/privacy_policy_fragment.xml" value="0.12907608695652173" />
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/layout/progress_bar.xml" value="0.1" />
@@ -20,9 +21,11 @@
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/layout/send_fragment.xml" value="0.1" />
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/layout/smart_trend_detector_fragment.xml" value="0.11503623188405797" />
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/layout/support_price_counter_fragment.xml" value="0.11503623188405797" />
+        <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/layout/trade_option_fragment.xml" value="0.10099637681159421" />
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/layout/trailing_start_fragment.xml" value="0.11503623188405797" />
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/layout/trailing_stop_fragment.xml" value="0.11503623188405797" />
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/layout/wallet_fragment.xml" value="0.1" />
+        <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/layout/wallet_menu_fragment.xml" value="0.10099637681159421" />
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/layout/withdraw_fragment.xml" value="0.1" />
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/menu/bottom_nav.xml" value="0.15989583333333332" />
       </map>
