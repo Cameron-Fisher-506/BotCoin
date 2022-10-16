@@ -31,10 +31,10 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
         this.donateViewModel.receiveResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
-                    menuActivity.displayProgressBar()
-                    displayDonateOptions()
+                    menuActivity.dismissProgressBar()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
+                        displayDonateOptions()
                         this.binding.addressEditText.setText(data.first().address)
                         /*if (tagValue != null) {
                             this.binding.edTxtTag.setText(data.first().)
@@ -44,16 +44,17 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
                         }*/
                         this.binding.qrAddressImageView.setImageBitmap(GeneralUtils.createQRCode(data.first().qrCodeUri, this.binding.qrAddressImageView.width, this.binding.qrAddressImageView.height))
                     } else {
-                        displayErrorTextView()
+                        displayErrorMessage()
                     }
                 }
                 Status.ERROR -> {
-                    menuActivity.displayProgressBar()
-                    displayErrorTextView()
+                    menuActivity.dismissProgressBar()
+                    displayErrorMessage()
                 }
                 Status.LOADING -> {
                     menuActivity.displayProgressBar()
-                    displayProgressBar()
+                    hideDonateOptions()
+                    hideErrorMessage()
                 }
             }
         }
@@ -65,9 +66,9 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
             when (it.status) {
                 Status.SUCCESS -> {
                     menuActivity.dismissProgressBar()
-                    displayDonateOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
+                        displayDonateOptions()
                         data.map { response ->
                             if (response.success) {
                                 donateViewModel.displaySentAmountOfAssetToAddressNotification(amount, asset, address)
@@ -76,17 +77,19 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
                             }
                         }
                     } else {
+                        displayErrorMessage()
                         donateViewModel.displaySendFailedNotification()
                     }
                 }
                 Status.ERROR -> {
                     menuActivity.dismissProgressBar()
-                    displayDonateOptions()
+                    displayErrorMessage()
                     donateViewModel.displaySendFailedNotification()
                 }
                 Status.LOADING -> {
                     menuActivity.displayProgressBar()
-                    displayProgressBar()
+                    hideDonateOptions()
+                    hideErrorMessage()
                 }
             }
         }
@@ -115,34 +118,21 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
         }
     }
 
-    private fun hideAllViews() {
-        this.binding.copyImageButton.visibility = View.GONE
-        this.binding.copyTagImageButton.visibility = View.GONE
-        this.binding.donateButton.visibility = View.GONE
-        this.binding.addressEditText.visibility = View.GONE
-        this.binding.amountEditText.visibility = View.GONE
-        this.binding.tagEditText.visibility = View.GONE
-        this.binding.donateTextView.visibility = View.GONE
-        this.binding.errorTextView.visibility = View.GONE
+    private fun hideDonateOptions() {
+        this.binding.donateGroup.visibility = View.GONE
     }
 
     private fun displayDonateOptions() {
-        hideAllViews()
-        this.binding.copyImageButton.visibility = View.VISIBLE
-        this.binding.copyTagImageButton.visibility = View.VISIBLE
-        this.binding.donateButton.visibility = View.VISIBLE
-        this.binding.addressEditText.visibility = View.VISIBLE
-        this.binding.amountEditText.visibility = View.VISIBLE
-        this.binding.tagEditText.visibility = View.VISIBLE
-        this.binding.donateTextView.visibility = View.VISIBLE
+        hideErrorMessage()
+        this.binding.donateGroup.visibility = View.VISIBLE
     }
 
-    private fun displayErrorTextView() {
-        hideAllViews()
+    private fun displayErrorMessage() {
+        hideDonateOptions()
         this.binding.errorTextView.visibility = View.VISIBLE
     }
 
-    private fun displayProgressBar() {
-        hideAllViews()
+    private fun hideErrorMessage() {
+        this.binding.errorTextView.visibility = View.GONE
     }
 }

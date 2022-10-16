@@ -1,128 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/zarLinearLayoutCompat"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/zarImageView"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/sa"
-            android:contentDescription="@string/DummyText" />
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/walletGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="zarLinearLayoutCompat, xrpLinearLayoutCompat" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1">
+            android:id="@+id/zarLinearLayoutCompat"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/zarTextView"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/zarImageView"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/sa"
+                android:contentDescription="@string/DummyText" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/ZAR"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/zarTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ZAR"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
+                android:contentDescription="@string/DummyText" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
-            android:contentDescription="@string/DummyText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:id="@+id/zarDividerView"
-        style="@style/CommonHorizontalDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/zarLinearLayoutCompat" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/xrpLinearLayoutCompat"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/zarLinearLayoutCompat">
-
-        <ImageView
-            android:id="@+id/xrpImageView"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/xrp"
-            android:contentDescription="@string/DummyText" />
+        <View
+            android:id="@+id/zarDividerView"
+            style="@style/CommonHorizontalDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/zarLinearLayoutCompat" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1">
+            android:id="@+id/xrpLinearLayoutCompat"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/zarLinearLayoutCompat">
 
-            <TextView
-                android:id="@+id/xrpTextView"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/xrpImageView"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/xrp"
+                android:contentDescription="@string/DummyText" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/XRP"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/xrpTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/XRP"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
+                android:contentDescription="@string/DummyText" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/ic_keyboard_arrow_right_black_24dp"
-            android:contentDescription="@string/DummyText" />
+        <View
+            android:id="@+id/xrpDividerView"
+            style="@style/CommonHorizontalDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/xrpLinearLayoutCompat" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:id="@+id/xrpDividerView"
-        style="@style/CommonHorizontalDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/xrpLinearLayoutCompat" />
-
-    <TextView
-        android:id="@+id/errorTextView"
-        style="@style/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/error_no_data_found"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/errorTextView"
+            style="@style/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/error_no_data_found"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
