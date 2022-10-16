@@ -34,24 +34,14 @@ class SimpleMovingAverage(var period: Int) {
 
     fun isPriceOnLine(currentPrice: Double): Boolean {
         if (averages.isNotEmpty()) {
-            for (i in averages.indices) {
-                val m = calculateGradient((i+1).toDouble(), i.toDouble(), averages.elementAt(i+1), averages.elementAt(i))
-                val c = calculateConstant((i+1).toDouble(), averages.elementAt(i+1), m)
-                if (isPointOnLine(i.toDouble() + 1, currentPrice, m, c)) {
+            for (i in 1 until averages.size) {
+                val m = calculateGradient(averages.elementAt(i), averages.elementAt(i-1), (i).toDouble(), (i-1).toDouble())
+                val c = calculateConstant((i-1).toDouble(), averages.elementAt(i-1), m)
+                if (isPointOnLine(i.toDouble() - 1, currentPrice, m, c)) {
                     return true
                 }
             }
         }
         return false
-    }
-
-    fun isPriceAboveLine(currentPrice: Double): Boolean {
-        var toReturn: Boolean = false
-        if (averages.size >= 20) {
-            for (i in averages.indices) {
-                toReturn = currentPrice > averages.elementAt(i)
-            }
-        }
-        return toReturn
     }
 }

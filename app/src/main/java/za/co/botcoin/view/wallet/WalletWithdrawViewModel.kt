@@ -22,6 +22,10 @@ class WalletWithdrawViewModel(
 ) : BaseViewModel(application) {
     lateinit var withdrawalResponse: LiveData<Resource<List<Withdrawal>>>
 
+    companion object {
+        const val ZAR_EFT = "ZAR_EFT"
+    }
+
     fun withdrawal(type: String, amount: String, beneficiaryId: String) {
         withdrawalResponse = liveData(ioDispatcher) {
             emit(Resource.loading())

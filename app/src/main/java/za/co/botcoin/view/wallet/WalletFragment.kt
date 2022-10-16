@@ -9,21 +9,17 @@ import za.co.botcoin.R
 import za.co.botcoin.databinding.WalletFragmentBinding
 import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.*
+import za.co.botcoin.view.wallet.WalletViewModel.Companion.XRP
+import za.co.botcoin.view.wallet.WalletViewModel.Companion.ZAR
 
 class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
     private lateinit var binding: WalletFragmentBinding
-
-    companion object {
-        private const val XRP = "XRP"
-        private const val ZAR = "ZAR"
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = WalletFragmentBinding.bind(view)
 
-        addZarOptionListener()
-        addXrpOptionListener()
+        setUpOnClickListeners()
         if (GeneralUtils.isApiKeySet(context)) {
             attachBalanceObserver()
         } else {
@@ -39,7 +35,7 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
                     walletActivity.dismissProgressBar()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
-                        displayLinearLayouts()
+                        displayWalletOptions()
                         data.map { balance ->
                             when {
                                 balance.asset.equals(XRP, true) -> this.binding.xrpTextView.append(balance.balance)
@@ -47,50 +43,46 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
                             }
                         }
                     } else {
-                        displayErrorTextView()
+                        displayErrorMessage()
                     }
                 }
                 Status.ERROR -> {
                     walletActivity.dismissProgressBar()
-                    displayErrorTextView()
+                    displayErrorMessage()
                 }
                 Status.LOADING -> {
                     walletActivity.displayProgressBar()
-                    displayProgressBar()
+                    hideErrorMessage()
+                    hideWalletOptions()
                 }
             }
         }
     }
 
-    private fun displayLinearLayouts() {
-        hideAllView()
-        this.binding.zarLinearLayoutCompat.visibility = View.VISIBLE
-        this.binding.xrpLinearLayoutCompat.visibility = View.VISIBLE
+    private fun displayWalletOptions() {
+        hideErrorMessage()
+        this.binding.walletGroup.visibility = View.VISIBLE
     }
 
-    private fun displayErrorTextView() {
-        hideAllView()
+    private fun hideWalletOptions() {
+        this.binding.walletGroup.visibility = View.GONE
+    }
+
+    private fun displayErrorMessage() {
+        hideWalletOptions()
         this.binding.errorTextView.visibility = View.VISIBLE
     }
 
-    private fun displayProgressBar() {
-        hideAllView()
-    }
-
-    private fun hideAllView() {
-        this.binding.zarLinearLayoutCompat.visibility = View.GONE
-        this.binding.xrpLinearLayoutCompat.visibility = View.GONE
+    private fun hideErrorMessage() {
         this.binding.errorTextView.visibility = View.GONE
     }
 
-    private fun addZarOptionListener() {
+    private fun setUpOnClickListeners() {
         this.binding.zarLinearLayoutCompat.setOnClickListener {
             val action = WalletFragmentDirections.actionWalletFragmentToWithdrawFragment()
             Navigation.findNavController(it).navigate(action)
         }
-    }
 
-    private fun addXrpOptionListener() {
         this.binding.xrpLinearLayoutCompat.setOnClickListener {
             val action = WalletFragmentDirections.actionWalletFragmentToWalletMenuFragment(XRP)
             Navigation.findNavController(it).navigate(action)

@@ -2,6 +2,7 @@ package za.co.botcoin.view.wallet.menu
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import za.co.botcoin.R
 import za.co.botcoin.databinding.SendFragmentBinding
@@ -12,13 +13,11 @@ import za.co.botcoin.view.wallet.WalletBaseFragment
 
 class WalletMenuSendFragment : WalletBaseFragment(R.layout.send_fragment) {
     private lateinit var binding: SendFragmentBinding
-    private lateinit var walletMenuSendViewModel: WalletMenuSendViewModel
+    private val walletMenuSendViewModel by viewModels<WalletMenuSendViewModel>(factoryProducer = { walletActivity.getViewModelFactory })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = SendFragmentBinding.bind(view)
-
-        this.walletMenuSendViewModel = ViewModelProviders.of(this).get(WalletMenuSendViewModel::class.java)
 
         arguments?.let {
             addBtnSend(it.getString("asset") ?: "")
@@ -48,7 +47,7 @@ class WalletMenuSendFragment : WalletBaseFragment(R.layout.send_fragment) {
             when (it.status) {
                 Status.SUCCESS -> {
                     walletActivity.dismissProgressBar()
-                    displaySendOptions()
+                    displayWalletMenuSendOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
                         data.map { response ->
@@ -64,35 +63,22 @@ class WalletMenuSendFragment : WalletBaseFragment(R.layout.send_fragment) {
                 }
                 Status.ERROR -> {
                     walletActivity.dismissProgressBar()
-                    displaySendOptions()
+                    displayWalletMenuSendOptions()
                     walletMenuSendViewModel.displaySendFailedNotification()
                 }
                 Status.LOADING -> {
                     walletActivity.displayProgressBar()
-                    displayProgressBar()
+                    hideWalletMenuSendOptions()
                 }
             }
         }
     }
 
-    private fun hideAllViews() {
-        this.binding.sendTextView.visibility = View.GONE
-        this.binding.sendButton.visibility = View.GONE
-        this.binding.addressEditText.visibility = View.GONE
-        this.binding.amountEditText.visibility = View.GONE
-        this.binding.tagEditText.visibility = View.GONE
+    private fun hideWalletMenuSendOptions() {
+        this.binding.walletMenuSendGroup.visibility = View.GONE
     }
 
-    private fun displayProgressBar() {
-        hideAllViews()
-    }
-
-    private fun displaySendOptions() {
-        hideAllViews()
-        this.binding.sendTextView.visibility = View.VISIBLE
-        this.binding.sendButton.visibility = View.VISIBLE
-        this.binding.addressEditText.visibility = View.VISIBLE
-        this.binding.amountEditText.visibility = View.VISIBLE
-        this.binding.tagEditText.visibility = View.VISIBLE
+    private fun displayWalletMenuSendOptions() {
+        this.binding.walletMenuSendGroup.visibility = View.VISIBLE
     }
 }

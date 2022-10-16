@@ -22,9 +22,9 @@ class StraightLineFormulaUtilsTest {
     @DisplayName("Should Calculate Gradient Success")
     fun shouldCalculateGradientSuccess() {
         //given
-        val pointA = Pair(3.0, 2.0)
-        val pointB = Pair(1.0, 1.0)
-        val expected = 0.5
+        val pointA = Pair(1.0, 1.0)
+        val pointB = Pair(2.0, 3.0)
+        val expected = 2.0
 
         //when
         val actual = calculateGradient(pointA.second, pointB.second, pointA.first, pointB.first)
@@ -37,12 +37,12 @@ class StraightLineFormulaUtilsTest {
     @DisplayName("Should Calculate Gradient Zero Success")
     fun shouldCalculateGradientZeroSuccess() {
         //given
-        val pointA = Pair(3.0, 2.0)
-        val pointB = Pair(1.0, 2.0)
+        val pointA = Pair(1.0, 2.0)
+        val pointB = Pair(2.0, 2.0)
         val expected = 0.0
 
         //when
-        val actual = calculateGradient(pointA.second, pointB.second, pointA.first, pointB.first)
+        val actual = calculateGradient(pointB.second, pointA.second, pointB.first, pointA.first)
 
         //then
         assertEquals(expected, actual)
@@ -57,7 +57,7 @@ class StraightLineFormulaUtilsTest {
         val expected = 0.0
 
         //when
-        val actual = calculateGradient(pointA.second, pointB.second, pointA.first, pointB.first)
+        val actual = calculateGradient(pointB.second, pointA.second, pointB.first, pointA.first)
 
         //then
         assertEquals(expected, actual)
