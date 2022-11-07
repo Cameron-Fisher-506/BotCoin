@@ -249,7 +249,7 @@ class FiboService : Service() {
         }
     }
 
-    private fun attachCandlesObserver(currentPrice: Double, lastTrade: Trade, zarBalance: Balance, xrpBalance: Balance, pair: String, since: String = getPreviousMidnightUnixDateTime().toString(), duration: Int = 60) = CoroutineScope(Dispatchers.IO).launch {
+    private fun attachCandlesObserver(currentPrice: Double, lastTrade: Trade, zarBalance: Balance, xrpBalance: Balance, pair: String, since: String = getPreviousMidnightUnixDateTime().toString(), duration: Int = 300) = CoroutineScope(Dispatchers.IO).launch {
         val resource = candleRepository.fetchCandles(pair, since, duration)
         when (resource.status) {
             Status.SUCCESS -> {
@@ -260,7 +260,7 @@ class FiboService : Service() {
 
                 if (lowestCandle != null && highestCandle != null) {
                     marketTrend = if (isBeforeDateTime(DateTimeUtils.format(lowestCandle.timestamp.toLong()), DateTimeUtils.format(highestCandle.timestamp.toLong()))) {
-                       /*val candlesSorted = candles.sortedBy { candle -> candle.low }
+                       val candlesSorted = candles.sortedBy { candle -> candle.low }
 
                         //trend line
                         var m = calculateGradient(candlesSorted.last().low.toDouble(), candlesSorted.first().low.toDouble(), candlesSorted.last().id.toDouble(), candlesSorted.first().id.toDouble())
@@ -296,10 +296,10 @@ class FiboService : Service() {
                                 "lowest: ${lowestCandle.low} " +
                                 "highest: ${highestCandle.high}"
                         )
-*/
+
                         Trend.UPWARD
                     } else {
-                        /*val candlesSorted = candles.sortedByDescending { candle -> candle.high }
+                        val candlesSorted = candles.sortedByDescending { candle -> candle.high }
 
                         //trend line
                         var m = calculateGradient(candlesSorted[1].high.toDouble(), candlesSorted.first().high.toDouble(), candlesSorted[1].id.toDouble(), candlesSorted.first().id.toDouble() - 1)
@@ -335,7 +335,7 @@ class FiboService : Service() {
                                 "lowest: ${lowestCandle.low} " +
                                 "highest: ${highestCandle.high}"
                         )
-*/
+
                         Trend.DOWNWARD
                     }
 

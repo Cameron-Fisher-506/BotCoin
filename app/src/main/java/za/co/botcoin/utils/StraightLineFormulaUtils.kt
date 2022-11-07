@@ -10,7 +10,7 @@ object StraightLineFormulaUtils {
 
     fun calculateConstant(x: Double, y: Double, m: Double): Double = y - (m * x)
 
-    fun calculateX(y: Double, m: Double, c: Double): Double = MathUtils.precision((y - c) / m)
+    fun calculateX(y: Double, m: Double, c: Double): Double = if (m != 0.0) MathUtils.precision((y - c) / m) else 0.0
 
     fun calculateY(x: Double, m: Double, c: Double): Double = MathUtils.precision((m * x) + c)
 

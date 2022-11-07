@@ -5,18 +5,14 @@ import java.text.DecimalFormatSymbols
 
 object MathUtils {
     fun precision(value: Double): Double {
-        val decimalFormatSymbols = DecimalFormatSymbols()
-        decimalFormatSymbols.decimalSeparator = '.'
         val decimalFormat = DecimalFormat("#.##")
-        decimalFormat.decimalFormatSymbols = decimalFormatSymbols
+        decimalFormat.decimalFormatSymbols = DecimalFormatSymbols().apply { decimalSeparator = '.' }
         return decimalFormat.format(value).toDouble()
     }
 
     fun precisionOneDecimal(value: Double): Double {
-        val decimalFormatSymbols = DecimalFormatSymbols()
-        decimalFormatSymbols.decimalSeparator = '.'
         val decimalFormat = DecimalFormat("#.#")
-        decimalFormat.decimalFormatSymbols = decimalFormatSymbols
+        decimalFormat.decimalFormatSymbols = DecimalFormatSymbols().apply { decimalSeparator = '.' }
         return decimalFormat.format(value).toDouble()
     }
 
