@@ -3,7 +3,6 @@ package za.co.botcoin.view.wallet.menu
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
 import za.co.botcoin.R
 import za.co.botcoin.databinding.OrdersFragmentBinding
 import za.co.botcoin.enum.Status
@@ -25,7 +24,6 @@ class WalletMenuOrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
 
     private fun setUpViews() {
         this.walletMenuOrderListAdapter = WalletMenuOrderListAdapter(arrayListOf())
-        this.binding.ordersRecyclerView.layoutManager = GridLayoutManager(context, 1) //TODO: Do this in xml
         this.binding.ordersRecyclerView.adapter = walletMenuOrderListAdapter
     }
 
@@ -42,8 +40,7 @@ class WalletMenuOrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
                             order.completedTime = DateTimeUtils.format(order.completedTime.toLong())
                             order.createdTime = DateTimeUtils.format(order.createdTime.toLong())
                         }
-                        val sortedOrders = data.sortedByDescending { order -> order.createdTime }
-                        walletMenuOrderListAdapter.updateOrderList(sortedOrders)
+                        walletMenuOrderListAdapter.updateOrderList(data.sortedByDescending { order -> order.createdTime })
                     } else {
                         displayErrorTextView()
                     }
