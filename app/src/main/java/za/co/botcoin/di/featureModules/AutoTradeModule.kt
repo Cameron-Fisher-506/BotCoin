@@ -12,7 +12,7 @@ import za.co.botcoin.view.settings.AutoTradeSwitchViewModel
 import za.co.botcoin.view.settings.AutoTradeViewModel
 
 @Module
-class AutoTradeViewModelModule {
+class AutoTradeModule {
     @Provides
     @IntoMap
     @ViewModelKey(AutoTradeViewModel::class)

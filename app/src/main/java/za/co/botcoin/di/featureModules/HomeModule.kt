@@ -14,7 +14,7 @@ import za.co.botcoin.view.home.HomePrivacyPolicyViewModel
 import za.co.botcoin.view.home.HomeTickerViewModel
 
 @Module
-class HomeViewModelModule {
+class HomeModule {
     @Provides
     @IntoMap
     @ViewModelKey(HomeTickerViewModel::class)
