@@ -149,8 +149,6 @@
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:textStyle="bold" />
-
-
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <ImageView
