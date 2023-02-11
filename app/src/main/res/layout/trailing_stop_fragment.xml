@@ -42,7 +42,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/trailingStopImageButton" />
@@ -53,7 +52,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="30dp"
-            android:layout_marginBottom="15dp"
             android:background="@color/darkblue"
             android:text="@string/Save"
             android:textColor="@color/white"
@@ -69,7 +67,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="15dp"
             android:background="@color/darkblue"
             android:text="@string/use_default"
             android:textColor="@color/white"

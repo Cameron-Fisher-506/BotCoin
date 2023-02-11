@@ -22,7 +22,7 @@ import za.co.botcoin.view.wallet.menu.WalletMenuReceiveViewModel
 import za.co.botcoin.view.wallet.menu.WalletMenuSendViewModel
 
 @Module
-class WalletViewModelModule {
+class WalletModule {
     @Provides
     @IntoMap
     @ViewModelKey(WalletViewModel::class)

@@ -15,7 +15,7 @@ import za.co.botcoin.utils.services.notificationService.INotificationService
 import za.co.botcoin.view.menu.donate.DonateMenuDonateViewModel
 
 @Module
-class DonateViewModelModule {
+class DonateModule {
     @Provides
     @IntoMap
     @ViewModelKey(DonateMenuDonateViewModel::class)

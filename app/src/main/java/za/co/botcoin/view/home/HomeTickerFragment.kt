@@ -39,8 +39,8 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
         handler.postDelayed(object : Runnable {
             override fun run() {
                 fetchAndObserveTickers()
-                if(!KioskService.isMyServiceRunning(requireContext(), BotService::class.java.simpleName)) {
-                    GeneralUtils.runAutoTrade(requireContext())
+                if(!KioskService.isMyServiceRunning(homeActivity, BotService::class.java.simpleName)) {
+                    GeneralUtils.runAutoTrade(homeActivity)
                 }
                 handler.postDelayed(this, delay)
             }
@@ -48,8 +48,8 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
 
         /*binding.xrpZarLinearLayoutCompat.delayOnLifecycle(DELAY) {
             fetchAndObserveTickers()
-            if(!KioskService.isMyServiceRunning(requireContext(), BotService::class.java.simpleName)) {
-                GeneralUtils.runAutoTrade(requireContext())
+            if(!KioskService.isMyServiceRunning(homeActivity, BotService::class.java.simpleName)) {
+                GeneralUtils.runAutoTrade(homeActivity)
             }
         }*/
     }

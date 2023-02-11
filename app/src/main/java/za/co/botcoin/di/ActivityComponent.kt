@@ -10,7 +10,7 @@ import za.co.botcoin.utils.services.clipBoardService.IClipBoardService
 import za.co.botcoin.utils.services.notificationService.INotificationService
 import za.co.botcoin.utils.services.sharedPreferencesService.ISharedPreferencesService
 
-@Subcomponent(modules = [ViewModelsModule::class, PresentationModule::class, HomeViewModelModule::class, WalletViewModelModule::class, DonateViewModelModule::class, AutoTradeViewModelModule::class, MenuViewModelModule::class])
+@Subcomponent(modules = [ViewModelsModule::class, PresentationModule::class, HomeModule::class, WalletModule::class, DonateModule::class, AutoTradeModule::class, MenuModule::class])
 interface ActivityComponent {
     fun getViewModelFactory(): ViewModelProvider.Factory
     fun getProgressDialogService(): ProgressDialogService
