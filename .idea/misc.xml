@@ -32,6 +32,8 @@
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/layout/wallet_menu_fragment.xml" value="0.10099637681159421" />
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/layout/withdraw_fragment.xml" value="0.1" />
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/menu/bottom_nav.xml" value="0.15989583333333332" />
+        <entry key="..\:/Users/27712/StudioProjects/BotCoin/corelib/src/main/res/drawable/ic_info_black_24dp.xml" value="0.1425" />
+        <entry key="..\:/Users/27712/StudioProjects/BotCoin/corelib/src/main/res/layout/information_view.xml" value="0.1539855072463768" />
       </map>
     </option>
   </component>

@@ -3,7 +3,6 @@ package com.example.corelib.informational
 import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.corelib.R
 import com.example.corelib.databinding.InformationViewBinding
@@ -22,9 +21,5 @@ class InformationView(context: Context, attrs: AttributeSet?, defStyleAttr: Int 
 
     fun setInformationTextView(text: String) {
         binding.informationTextView.text = text
-    }
-
-    fun setOnInformationImageButtonClickListener(onClick: () -> Unit) {
-        onClick.invoke()
     }
 }
