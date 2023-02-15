@@ -37,7 +37,7 @@ class MenuSupportPriceCounterFragment : MenuBaseFragment(R.layout.support_price_
             menuSupportPriceCounterViewModel.saveSupportPriceCounter((this.binding.spinner.selectedItemPosition).toString())
             menuSupportPriceCounterViewModel.displaySavedToast()
         }
-        binding.supportPriceCounterImageButton.setOnClickListener {
+        binding.supportPriceCounterInformationView.setOnClickListener {
             menuSupportPriceCounterViewModel.displaySupportPriceCounterDescriptionAlertDialog()
         }
     }

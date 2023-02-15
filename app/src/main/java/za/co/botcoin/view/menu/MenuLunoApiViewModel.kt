@@ -25,6 +25,13 @@ class MenuLunoApiViewModel(
         })
     }
 
+    fun displayLunoApiCredentialsInformationAlertDialog() {
+        alertDialogService.showAlertDialog(AlertDialogProperties().apply {
+            title = resourceManager.getString(R.string.menu_luno_api_credentials_luno_api)
+            message = resourceManager.getString(R.string.luno_api_description)
+        })
+    }
+
     fun saveLunoApiKeyId(keyId: String) = sharedPreferencesService.save(LUNO_API_KEY_ID, keyId)
 
     fun saveLunoApiSecretKey(secretKey: String) = sharedPreferencesService.save(LUNO_API_SECRET_KEY, secretKey)

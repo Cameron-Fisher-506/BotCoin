@@ -13,7 +13,7 @@
             android:id="@+id/resistancePriceCounterInformationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:informationText="Resistance Price"
+            app:informationText="@string/resistance_price_counter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

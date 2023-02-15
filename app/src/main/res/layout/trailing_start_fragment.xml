@@ -9,32 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/trailingStartTextView"
-            android:layout_width="wrap_content"
+        <com.example.corelib.informational.InformationView
+            android:id="@+id/trailingStartInformationView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="15dp"
-            android:text="@string/trailing_start"
-            android:textStyle="bold"
+            app:informationText="@string/trailing_start"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/trailingStartImageButton"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="3dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="20dp"
-            android:contentDescription="@string/trailing_start"
-            android:src="@drawable/ic_info_black_24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.021"
-            app:layout_constraintStart_toEndOf="@+id/trailingStartTextView"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <Spinner
             android:id="@+id/spinner"
@@ -45,7 +28,7 @@
             android:layout_marginBottom="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/trailingStartImageButton" />
+            app:layout_constraintTop_toBottomOf="@+id/trailingStartInformationView" />
 
         <Button
             android:id="@+id/saveButton"

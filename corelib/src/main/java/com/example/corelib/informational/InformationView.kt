@@ -8,11 +8,10 @@ import com.example.corelib.R
 import com.example.corelib.databinding.InformationViewBinding
 
 class InformationView @JvmOverloads constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int = 0): ConstraintLayout(context, attrs, defStyleAttr) {
-    private lateinit var binding: InformationViewBinding
+    private val binding: InformationViewBinding = InformationViewBinding.bind(this)
 
     init {
         inflate(context, R.layout.information_view, this)
-        binding = InformationViewBinding.bind(this)
 
         val typedArray: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.InformationView, defStyleAttr, 0)
         binding.informationTextView.text = typedArray.getText(R.styleable.InformationView_informationText)

@@ -42,7 +42,7 @@ class MenuSmartTrendDetectorFragment : MenuBaseFragment(R.layout.smart_trend_det
             this.binding.spinner.setSelection(0)
             menuSmartTrendDetectorViewModel.displayDefaultValueSet()
         }
-        binding.smartTrendDetectorImageButton.setOnClickListener {
+        binding.smartTrendDetectorInformationView.setOnClickListener {
             menuSmartTrendDetectorViewModel.displaySmartTrendDetectorAlertDialog()
         }
     }
