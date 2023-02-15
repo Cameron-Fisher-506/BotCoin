@@ -13,7 +13,7 @@
             android:id="@+id/trailingStopInformationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:informationText="@string/trailing_stop"
+            app:text="@string/trailing_stop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
