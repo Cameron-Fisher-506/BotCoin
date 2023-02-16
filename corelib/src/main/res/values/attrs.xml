@@ -3,4 +3,9 @@
     <declare-styleable name="InformationView">
         <attr name="text" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="OptionActionView">
+        <attr name="optionActionViewIcon" format="reference"/>
+        <attr name="optionActionViewText" format="string"/>
+    </declare-styleable>
 </resources>

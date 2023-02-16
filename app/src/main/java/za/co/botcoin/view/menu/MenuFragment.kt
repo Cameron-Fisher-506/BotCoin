@@ -18,32 +18,25 @@ class MenuFragment : MenuBaseFragment(R.layout.menu_fragment) {
 
     private fun setUpOnClickListeners() {
         binding.setResistancePriceCounterLinearLayoutCompat.setOnClickListener {
-            val action = MenuFragmentDirections.actionMenuFragmentToResistancePriceCounterFragment()
-            Navigation.findNavController(it).navigate(action)
+            Navigation.findNavController(it).navigate(MenuFragmentDirections.actionMenuFragmentToResistancePriceCounterFragment())
         }
         binding.setSupportPriceCounterLinearLayoutCompat.setOnClickListener {
-            val action = MenuFragmentDirections.actionMenuFragmentToSupportPriceCounterFragment()
-            Navigation.findNavController(it).navigate(action)
+            Navigation.findNavController(it).navigate(MenuFragmentDirections.actionMenuFragmentToSupportPriceCounterFragment())
         }
-        binding.trailingStartLinearLayoutCompat.setOnClickListener {
-            val action = MenuFragmentDirections.actionMenuFragmentToTrailingStartFragment()
-            Navigation.findNavController(it).navigate(action)
+        binding.trailingStartOptionActionView.setOnClickListener {
+            Navigation.findNavController(it).navigate(MenuFragmentDirections.actionMenuFragmentToTrailingStartFragment())
         }
-        binding.trailingStopLinearLayoutCompat.setOnClickListener {
-            val action = MenuFragmentDirections.actionMenuFragmentToTrailingStopFragment()
-            Navigation.findNavController(it).navigate(action)
+        binding.trailingStopOptionActionView.setOnClickListener {
+            Navigation.findNavController(it).navigate(MenuFragmentDirections.actionMenuFragmentToTrailingStopFragment())
         }
-        binding.lunoApiOptionLinearLayoutCompat.setOnClickListener {
-            val action = MenuFragmentDirections.actionMenuFragmentToLunoApiFragment()
-            Navigation.findNavController(it).navigate(action)
+        binding.lunoApiOptionActionView.setOnClickListener {
+            Navigation.findNavController(it).navigate(MenuFragmentDirections.actionMenuFragmentToLunoApiFragment())
         }
-        binding.donateOptionLinearLayoutCompat.setOnClickListener {
-            val action = MenuFragmentDirections.actionMenuFragmentToDonateMenuFragment()
-            Navigation.findNavController(it).navigate(action)
+        binding.donateOptionActionView.setOnClickListener {
+            Navigation.findNavController(it).navigate(MenuFragmentDirections.actionMenuFragmentToDonateMenuFragment())
         }
         binding.setSmartTrendDetectorMarginLinearLayoutCompat.setOnClickListener {
-            val action = MenuFragmentDirections.actionMenuFragmentToSmartTrendDetectorFragment()
-            Navigation.findNavController(it).navigate(action)
+            Navigation.findNavController(it).navigate(MenuFragmentDirections.actionMenuFragmentToSmartTrendDetectorFragment())
         }
     }
 }
