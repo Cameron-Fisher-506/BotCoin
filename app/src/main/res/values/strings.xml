@@ -36,8 +36,8 @@
         </string>
 
     //WALLET
-    <string name="ZAR">ZAR\u0020</string>
-    <string name="XRP">XRP\u0020</string>
+    <string name="ZAR">ZAR\u0020 %1$s</string>
+    <string name="XRP">XRP\u0020 %1$s</string>
     <string name="withdraw">Withdraw</string>
     <string name="withdraw_description">
         Please enter the amount You would like to withdraw from your ZAR account.\nPlease provide the Beneficiary ID of the bank account the withdrawal will be paid out to.\nThe Beneficiary ID must be provided if You have multiple beneficiaries setup.

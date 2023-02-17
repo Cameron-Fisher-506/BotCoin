@@ -38,8 +38,8 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
                         displayWalletOptions()
                         data.map { balance ->
                             when {
-                                balance.asset.equals(XRP, true) -> this.binding.xrpTextView.append(balance.balance)
-                                balance.asset.equals(ZAR, true) -> this.binding.zarTextView.append(balance.balance)
+                                balance.asset.equals(XRP, true) -> this.binding.xrpOptionActionView.setText(getString(R.string.XRP, balance.balance))
+                                balance.asset.equals(ZAR, true) -> this.binding.zarOptionActionView.setText(getString(R.string.ZAR, balance.balance))
                             }
                         }
                     } else {
@@ -78,14 +78,12 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
     }
 
     private fun setUpOnClickListeners() {
-        this.binding.zarLinearLayoutCompat.setOnClickListener {
-            val action = WalletFragmentDirections.actionWalletFragmentToWithdrawFragment()
-            Navigation.findNavController(it).navigate(action)
+        this.binding.zarOptionActionView.setOnClickListener {
+            Navigation.findNavController(it).navigate(WalletFragmentDirections.actionWalletFragmentToWithdrawFragment())
         }
 
-        this.binding.xrpLinearLayoutCompat.setOnClickListener {
-            val action = WalletFragmentDirections.actionWalletFragmentToWalletMenuFragment(XRP)
-            Navigation.findNavController(it).navigate(action)
+        this.binding.xrpOptionActionView.setOnClickListener {
+            Navigation.findNavController(it).navigate(WalletFragmentDirections.actionWalletFragmentToWalletMenuFragment(XRP))
         }
     }
 }
