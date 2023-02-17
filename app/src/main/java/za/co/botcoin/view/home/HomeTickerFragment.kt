@@ -110,6 +110,8 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
 
     private fun displayCoins() {
         this.binding.xrpZarOptionActionView.visibility = View.VISIBLE
+        this.binding.xrpZarOptionActionView.hideOptionActionDividerView()
+        this.binding.xrpZarOptionActionView.hideOptionActionImageView()
         this.binding.errorTextView.visibility = View.GONE
     }
 

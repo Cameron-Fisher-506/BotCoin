@@ -3,6 +3,7 @@ package com.example.corelib.informational
 import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.corelib.R
 import com.example.corelib.databinding.OptionActionViewBinding
@@ -22,5 +23,13 @@ class OptionActionView @JvmOverloads constructor(context: Context, attrs: Attrib
 
     fun setText(text: String) {
         binding.optionActionTextView.text = text
+    }
+
+    fun hideOptionActionImageView() {
+        binding.optionActionImageView.visibility = View.GONE
+    }
+
+    fun hideOptionActionDividerView() {
+        binding.optionActionDividerView.visibility = View.GONE
     }
 }
