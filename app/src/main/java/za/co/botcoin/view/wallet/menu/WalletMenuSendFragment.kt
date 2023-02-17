@@ -19,8 +19,16 @@ class WalletMenuSendFragment : WalletBaseFragment(R.layout.send_fragment) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = SendFragmentBinding.bind(view)
 
+        setUpOnClickListeners()
         arguments?.let {
             addBtnSend(it.getString("asset") ?: "")
+        }
+
+    }
+
+    private fun setUpOnClickListeners() {
+        binding.sendInformationView.setOnClickListener {
+            walletMenuSendViewModel.displaySendDescriptionAlertDialog()
         }
     }
 

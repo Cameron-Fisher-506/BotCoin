@@ -60,10 +60,11 @@ class WalletModule {
     @ViewModelKey(WalletMenuSendViewModel::class)
     fun walletMenuSendViewModel(
         application: Application,
+        alertDialogService: IAlertDialogService,
         resourceManager: IResourceManager,
         notificationService: INotificationService,
         sendRepository: SendRepository
-    ): ViewModel = WalletMenuSendViewModel(application, resourceManager, notificationService, sendRepository)
+    ): ViewModel = WalletMenuSendViewModel(application, alertDialogService, resourceManager, notificationService, sendRepository)
 
     @Provides
     @IntoMap
