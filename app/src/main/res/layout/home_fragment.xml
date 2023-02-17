@@ -9,41 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/xrpZarLinearLayoutCompat"
+        <com.example.corelib.informational.OptionActionView
+            android:id="@+id/xrpZarOptionActionView"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
+            app:optionActionViewText="@string/XRPZAR"
+            app:optionActionViewIcon="@drawable/xrp"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/xrpZarImageView"
-                android:layout_width="40dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/xrp"
-                android:contentDescription="@string/DummyText" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/xrpZarTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/XRPZAR"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/errorTextView"

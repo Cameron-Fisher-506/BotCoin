@@ -19,4 +19,8 @@ class OptionActionView @JvmOverloads constructor(context: Context, attrs: Attrib
         binding.optionActionIconImageView.setImageResource(typedArray.getResourceId(R.styleable.OptionActionView_optionActionViewIcon, R.drawable.ic_launcher_foreground))
         typedArray.recycle()
     }
+
+    fun setText(text: String) {
+        binding.optionActionTextView.text = text
+    }
 }
