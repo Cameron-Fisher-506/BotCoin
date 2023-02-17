@@ -17,10 +17,10 @@ class MenuFragment : MenuBaseFragment(R.layout.menu_fragment) {
     }
 
     private fun setUpOnClickListeners() {
-        binding.setResistancePriceCounterLinearLayoutCompat.setOnClickListener {
+        binding.resistancePriceCounterOptionActionView.setOnClickListener {
             Navigation.findNavController(it).navigate(MenuFragmentDirections.actionMenuFragmentToResistancePriceCounterFragment())
         }
-        binding.setSupportPriceCounterLinearLayoutCompat.setOnClickListener {
+        binding.supportPriceCounterOptionActionView.setOnClickListener {
             Navigation.findNavController(it).navigate(MenuFragmentDirections.actionMenuFragmentToSupportPriceCounterFragment())
         }
         binding.trailingStartOptionActionView.setOnClickListener {
@@ -35,7 +35,7 @@ class MenuFragment : MenuBaseFragment(R.layout.menu_fragment) {
         binding.donateOptionActionView.setOnClickListener {
             Navigation.findNavController(it).navigate(MenuFragmentDirections.actionMenuFragmentToDonateMenuFragment())
         }
-        binding.setSmartTrendDetectorMarginLinearLayoutCompat.setOnClickListener {
+        binding.smartTrendDetectorMarginOptionActionView.setOnClickListener {
             Navigation.findNavController(it).navigate(MenuFragmentDirections.actionMenuFragmentToSmartTrendDetectorFragment())
         }
     }

@@ -16,7 +16,7 @@ class OptionActionView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         val typedArray: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.OptionActionView, defStyleAttr, 0)
         binding.optionActionTextView.text = typedArray.getText(R.styleable.OptionActionView_optionActionViewText)
-        binding.optionActionImageView.setImageResource(typedArray.getResourceId(R.styleable.OptionActionView_optionActionViewIcon, R.drawable.ic_launcher_foreground))
+        binding.optionActionIconImageView.setImageResource(typedArray.getResourceId(R.styleable.OptionActionView_optionActionViewIcon, R.drawable.ic_launcher_foreground))
         typedArray.recycle()
     }
 }
