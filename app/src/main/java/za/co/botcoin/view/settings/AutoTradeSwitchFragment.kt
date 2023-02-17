@@ -19,7 +19,7 @@ class AutoTradeSwitchFragment : AutoTradeBaseFragment(R.layout.auto_trade_fragme
         super.onViewCreated(view, savedInstanceState)
         this.binding = AutoTradeFragmentBinding.bind(view)
 
-        autoTradeSwitchViewModel.displayAutoTradeAlertDialog()
+        autoTradeSwitchViewModel.displayAutoTradeDisclaimerAlertDialog()
 
         if (GeneralUtils.isApiKeySet(context)) {
             setSwitchAutoTrade()
@@ -42,6 +42,9 @@ class AutoTradeSwitchFragment : AutoTradeBaseFragment(R.layout.auto_trade_fragme
             } else {
                 stopBotService()
             }
+        }
+        binding.autoTradeInformationView.setOnClickListener {
+            autoTradeSwitchViewModel.displayAutoTradeInstructionsAlertDialog()
         }
     }
 

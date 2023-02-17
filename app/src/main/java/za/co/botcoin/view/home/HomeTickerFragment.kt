@@ -31,6 +31,7 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = HomeFragmentBinding.bind(view)
 
+        setUpViews()
         setUpMenu()
         fetchAndObserveTickers()
         navigateToPrivacyPolicyScreen(view)
@@ -52,6 +53,11 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
                 GeneralUtils.runAutoTrade(homeActivity)
             }
         }*/
+    }
+
+    private fun setUpViews() {
+        this.binding.xrpZarOptionActionView.hideOptionActionDividerView()
+        this.binding.xrpZarOptionActionView.hideOptionActionImageView()
     }
 
     private fun setUpMenu() {
@@ -110,8 +116,6 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
 
     private fun displayCoins() {
         this.binding.xrpZarOptionActionView.visibility = View.VISIBLE
-        this.binding.xrpZarOptionActionView.hideOptionActionDividerView()
-        this.binding.xrpZarOptionActionView.hideOptionActionImageView()
         this.binding.errorTextView.visibility = View.GONE
     }
 
