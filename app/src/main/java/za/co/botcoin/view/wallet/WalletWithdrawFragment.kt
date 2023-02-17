@@ -36,6 +36,9 @@ class WalletWithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
                 withdrawViewModel.displayWithdrawalAlertDialog()
             }
         }
+        binding.withdrawInformationView.setOnClickListener {
+            withdrawViewModel.displayWithdrawalDescriptionAlertDialog()
+        }
     }
 
     private fun attachWithdrawalObserver() {
