@@ -15,21 +15,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            app:constraint_referenced_ids="copyImageButton, copyTagImageButton, donateButton, addressEditText, amountEditText, tagEditText, donateTextView, errorTextView" />
+            app:constraint_referenced_ids="copyImageButton, copyTagImageButton, donateButton, addressEditText, amountEditText, tagEditText, donateInformationView, errorTextView" />
 
-        <TextView
-            android:id="@+id/donateTextView"
+        <com.example.corelib.informational.InformationView
+            android:id="@+id/donateInformationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="50dp"
-            android:text="@string/donate_description"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            app:text="@string/donate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <ImageView
             android:id="@+id/qrAddressImageView"
@@ -39,7 +35,7 @@
             android:layout_marginTop="50dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/donateTextView"
+            app:layout_constraintTop_toBottomOf="@+id/donateInformationView"
             tools:srcCompat="@tools:sample/avatars[0]" />
 
         <EditText

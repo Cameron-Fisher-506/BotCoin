@@ -92,8 +92,7 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
 
                         data.map { ticker ->
                             if (ticker.pair.equals(PAIR_XRPZAR, true)) {
-                                this.binding.xrpZarTextView.setText(R.string.XRPZAR)
-                                this.binding.xrpZarTextView.append(ticker.lastTrade)
+                                this.binding.xrpZarOptionActionView.setText(getString(R.string.XRPZAR, ticker.lastTrade))
                             }
                         }
                     } else {
@@ -110,12 +109,14 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
     }
 
     private fun displayCoins() {
-        this.binding.xrpZarLinearLayoutCompat.visibility = View.VISIBLE
+        this.binding.xrpZarOptionActionView.visibility = View.VISIBLE
+        this.binding.xrpZarOptionActionView.hideOptionActionDividerView()
+        this.binding.xrpZarOptionActionView.hideOptionActionImageView()
         this.binding.errorTextView.visibility = View.GONE
     }
 
     private fun displayErrorMessage() {
-        this.binding.xrpZarLinearLayoutCompat.visibility = View.GONE
+        this.binding.xrpZarOptionActionView.visibility = View.GONE
         this.binding.errorTextView.visibility = View.VISIBLE
     }
 

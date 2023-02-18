@@ -40,5 +40,9 @@ class MenuLunoApiFragment : MenuBaseFragment(R.layout.luno_api_fragment) {
                 menuLunoApiViewModel.displayLunoApiCredentialsAlertDialog()
             }
         }
+
+        binding.lunoApiCredentialsInformationView.setOnClickListener {
+            menuLunoApiViewModel.displayLunoApiCredentialsInformationAlertDialog()
+        }
     }
 }

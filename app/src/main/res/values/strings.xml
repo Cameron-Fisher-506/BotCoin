@@ -151,7 +151,7 @@
     <string name="Sell">Sell</string>
 
     //TRADES
-    <string name="XRPZAR">XRP/ZAR\u0020</string>
+    <string name="XRPZAR">XRP/ZAR\u0020 %1$s</string>
     <string name="BTCZAR">BTC/ZAR\u0020</string>
     <string name="ETHZAR">ETH/ZAR\u0020</string>
 

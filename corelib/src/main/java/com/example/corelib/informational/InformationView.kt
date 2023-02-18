@@ -15,7 +15,7 @@ class InformationView @JvmOverloads constructor(context: Context, attrs: Attribu
         binding = InformationViewBinding.bind(this)
 
         val typedArray: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.InformationView, defStyleAttr, 0)
-        binding.informationTextView.text = typedArray.getText(R.styleable.InformationView_informationText)
+        binding.informationTextView.text = typedArray.getText(R.styleable.InformationView_text)
         typedArray.recycle()
     }
 

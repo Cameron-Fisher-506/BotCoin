@@ -26,21 +26,17 @@ class DonateMenuFragment : MenuBaseFragment(R.layout.donate_menu_fragment) {
     }
 
     private fun setUpOnClickListeners() {
-        binding.donateBtcOptionLinearLayoutCompat.setOnClickListener {
-            val action = DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment(BTC)
-            Navigation.findNavController(it).navigate(action)
+        binding.donateBtcOptionOptionActionView.setOnClickListener {
+            Navigation.findNavController(it).navigate(DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment(BTC))
         }
-        binding.donateXrpOptionLinearLayoutCompat.setOnClickListener {
-            val action = DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment(XRP)
-            Navigation.findNavController(it).navigate(action)
+        binding.donateXrpOptionOptionActionView.setOnClickListener {
+            Navigation.findNavController(it).navigate( DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment(XRP))
         }
-        binding.donateEthOptionLinearLayout.setOnClickListener {
-            val action = DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment(ETH)
-            Navigation.findNavController(it).navigate(action)
+        binding.donateEthOptionOptionActionView.setOnClickListener {
+            Navigation.findNavController(it).navigate(DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment(ETH))
         }
-        binding.donateLtcOptionLinearLayout.setOnClickListener {
-            val action = DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment(LTC)
-            Navigation.findNavController(it).navigate(action)
+        binding.donateLtcOptionOptionActionView.setOnClickListener {
+            Navigation.findNavController(it).navigate(DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment(LTC))
         }
     }
 }
