@@ -16,7 +16,9 @@ class CustomInputView @JvmOverloads constructor(context: Context, attrs: Attribu
         binding = CustomInputViewBinding.bind(this)
 
         val typedArray: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.CustomInputView, defStyleAttr, 0)
+        binding.titleTextView.text = typedArray.getText(R.styleable.CustomInputView_title)
         binding.descriptionTextView.text = typedArray.getText(R.styleable.CustomInputView_description)
+        //TODO: Set Input type
         typedArray.recycle()
     }
 
@@ -24,4 +26,10 @@ class CustomInputView @JvmOverloads constructor(context: Context, attrs: Attribu
         binding.descriptionTextView.text = description
         binding.descriptionTextView.visibility = View.VISIBLE
     }
+
+    fun setText(text: String) {
+        binding.informationEditText.setText(text)
+    }
+
+    fun getText(): String = binding.informationEditText.text.toString()
 }

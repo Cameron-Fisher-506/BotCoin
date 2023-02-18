@@ -20,14 +20,14 @@ class MenuLunoApiFragment : MenuBaseFragment(R.layout.luno_api_fragment) {
     }
 
     private fun setUpViews() {
-        binding.keyIdEditText.setText(ConstantUtils.USER_KEY_ID)
-        binding.secretKeyEditText.setText(ConstantUtils.USER_SECRET_KEY)
+        binding.keyIdCustomInputView.setText(ConstantUtils.USER_KEY_ID)
+        binding.secretKeyCustomInputView.setText(ConstantUtils.USER_SECRET_KEY)
     }
 
     private fun setUpOnClickListeners() {
         this.binding.saveButton.setOnClickListener {
-            val keyId = this.binding.keyIdEditText.text.toString()
-            val secretKey = this.binding.secretKeyEditText.text.toString()
+            val keyId = this.binding.keyIdCustomInputView.getText()
+            val secretKey = this.binding.secretKeyCustomInputView.getText()
 
             if (keyId.isNotBlank() && secretKey.isNotBlank()) {
                 ConstantUtils.USER_KEY_ID = keyId

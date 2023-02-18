@@ -35,7 +35,7 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
                         displayDonateOptions()
-                        this.binding.addressEditText.setText(data.first().address)
+                        this.binding.addressCustomInputView.setText(data.first().address)
                         /*if (tagValue != null) {
                             this.binding.edTxtTag.setText(data.first().)
                         } else {
@@ -97,16 +97,16 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
 
     private fun setUpOnClickListeners() {
         this.binding.copyImageButton.setOnClickListener {
-            donateMenuDonateViewModel.copyToClipBoard(this.binding.addressEditText.text.toString())
+            donateMenuDonateViewModel.copyToClipBoard(this.binding.addressCustomInputView.getText())
         }
         this.binding.copyTagImageButton.setOnClickListener {
-            donateMenuDonateViewModel.copyToClipBoard(this.binding.tagEditText.text.toString())
+            donateMenuDonateViewModel.copyToClipBoard(this.binding.tagCustomInputView.getText())
         }
         this.binding.donateButton.setOnClickListener {
             if (GeneralUtils.isApiKeySet(context)) {
-                val amount: String = this.binding.amountEditText.text.toString()
-                val address: String = this.binding.addressEditText.text.toString()
-                val destinationTag: String = this.binding.tagEditText.text.toString()
+                val amount: String = this.binding.amountCustomInputView.getText()
+                val address: String = this.binding.addressCustomInputView.getText()
+                val destinationTag: String = this.binding.tagCustomInputView.getText()
                 if (amount.isNotBlank() && amount != "0") {
                     sendAndObserveSend(amount, asset, address, destinationTag)
                 } else {

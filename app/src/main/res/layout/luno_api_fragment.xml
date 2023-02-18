@@ -19,57 +19,25 @@
             app:layout_constraintTop_toTopOf="parent"
             />
 
-        <TextView
-            android:id="@+id/keyIdTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:text="@string/luno_api_key_id"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lunoApiCredentialsInformationView" />
-
-        <EditText
-            android:id="@+id/keyIdEditText"
+        <com.example.corelib.buttons.CustomInputView
+            android:id="@+id/keyIdCustomInputView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="3dp"
-            android:autofillHints="luno_api_key_id"
-            android:hint="@string/luno_api_key_id"
-            android:inputType="textPersonName"
+            app:title="@string/luno_api_key_id"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/keyIdTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/lunoApiCredentialsInformationView"
+            />
 
-        <TextView
-            android:id="@+id/secretKeyTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginHorizontal="20dp"
-            android:text="@string/luno_api_secret_key"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/keyIdEditText" />
-
-        <EditText
-            android:id="@+id/secretKeyEditText"
+        <com.example.corelib.buttons.CustomInputView
+            android:id="@+id/secretKeyCustomInputView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="3dp"
-            android:autofillHints="@string/luno_api_secret_key"
-            android:hint="@string/luno_api_secret_key"
-            android:inputType="textPersonName"
+            app:title="@string/luno_api_secret_key"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/secretKeyTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/keyIdCustomInputView"
+            />
 
         <Button
             android:id="@+id/saveButton"
@@ -82,6 +50,6 @@
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/secretKeyEditText" />
+            app:layout_constraintTop_toBottomOf="@+id/secretKeyCustomInputView" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
