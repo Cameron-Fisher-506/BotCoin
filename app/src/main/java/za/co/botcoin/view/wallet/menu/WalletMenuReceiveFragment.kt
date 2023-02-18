@@ -22,12 +22,15 @@ class WalletMenuReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) 
         super.onViewCreated(view, savedInstanceState)
         this.binding = ReceiveFragmentBinding.bind(view)
 
+        binding.receiveInformationView.setOnClickListener {
+            walletMenuReceiveViewModel.displayReceiveDescriptionAlertDialog()
+        }
+
         if (isApiKeySet(context)) {
             receiveAndObserveReceive()
         } else {
             walletViewModel.displayLunoApiCredentialsAlertDialog()
-            val action = WalletMenuReceiveFragmentDirections.actionReceiveFragmentToLunoApiFragment()
-            Navigation.findNavController(view).navigate(action)
+            Navigation.findNavController(view).navigate(WalletMenuReceiveFragmentDirections.actionReceiveFragmentToLunoApiFragment())
         }
     }
 
