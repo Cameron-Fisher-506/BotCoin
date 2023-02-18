@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.example.corelib.informational.OptionActionView
+        <com.example.corelib.buttons.OptionActionView
             android:id="@+id/sendOptionActionView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
             app:optionActionViewIcon="@drawable/ic_send_black_24dp"
             app:optionActionViewText="@string/send" />
 
-        <com.example.corelib.informational.OptionActionView
+        <com.example.corelib.buttons.OptionActionView
             android:id="@+id/receiveOptionActionView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
             app:optionActionViewIcon="@drawable/ic_call_received_black_24dp"
             app:optionActionViewText="@string/receive" />
 
-        <com.example.corelib.informational.OptionActionView
+        <com.example.corelib.buttons.OptionActionView
             android:id="@+id/ordersOptionActionView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

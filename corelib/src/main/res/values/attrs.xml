@@ -8,4 +8,8 @@
         <attr name="optionActionViewIcon" format="reference"/>
         <attr name="optionActionViewText" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="CustomInputView">
+        <attr name="description" format="string"/>
+    </declare-styleable>
 </resources>

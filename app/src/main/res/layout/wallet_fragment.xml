@@ -16,7 +16,7 @@
             android:visibility="visible"
             app:constraint_referenced_ids="zarOptionActionView, xrpOptionActionView" />
 
-        <com.example.corelib.informational.OptionActionView
+        <com.example.corelib.buttons.OptionActionView
             android:id="@+id/zarOptionActionView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <com.example.corelib.informational.OptionActionView
+        <com.example.corelib.buttons.OptionActionView
             android:id="@+id/xrpOptionActionView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
