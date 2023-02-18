@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            app:constraint_referenced_ids="copyImageButton, addressEditText, receiveInformationView" />
+            app:constraint_referenced_ids="copyImageButton, addressCustomInputView, receiveInformationView" />
 
         <com.example.corelib.informational.InformationView
             android:id="@+id/receiveInformationView"
@@ -38,19 +38,15 @@
             app:layout_constraintTop_toBottomOf="@+id/receiveInformationView"
             tools:srcCompat="@tools:sample/avatars[0]" />
 
-
-        <EditText
-            android:id="@+id/addressEditText"
-            android:layout_width="0dp"
+        <com.example.corelib.buttons.CustomInputView
+            android:id="@+id/addressCustomInputView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:autofillHints="@string/address"
-            android:enabled="false"
-            android:hint="@string/address"
             android:inputType="textPersonName"
-            app:layout_constraintEnd_toStartOf="@+id/copyImageButton"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/qrAddressImageView" />
+            app:layout_constraintTop_toBottomOf="@+id/qrAddressImageView"
+            app:title="@string/address" />
 
         <ImageButton
             android:id="@+id/copyImageButton"
@@ -61,8 +57,7 @@
             android:background="@drawable/ic_baseline_content_copy_24"
             android:contentDescription="@string/copy"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/addressEditText"
-            app:layout_constraintTop_toBottomOf="@+id/qrAddressImageView" />
+            app:layout_constraintTop_toTopOf="@+id/addressCustomInputView" />
 
         <TextView
             android:id="@+id/errorTextView"
