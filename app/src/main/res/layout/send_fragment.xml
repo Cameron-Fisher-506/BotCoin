@@ -14,39 +14,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            app:constraint_referenced_ids="sendTextView, sendButton, addressEditText, amountEditText, tagEditText" />
+            app:constraint_referenced_ids="sendInformationView, sendButton, addressEditText, amountEditText, tagEditText" />
 
-        <TextView
-            android:id="@+id/sendTextView"
+        <com.example.corelib.informational.InformationView
+            android:id="@+id/sendInformationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="50dp"
-            android:text="@string/send_description"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:text="@string/send" />
 
         <EditText
             android:id="@+id/amountEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
             android:autofillHints="@string/Amount"
             android:hint="@string/Amount"
             android:inputType="numberDecimal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sendTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/sendInformationView" />
 
         <EditText
             android:id="@+id/addressEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
             android:autofillHints="@string/recipient_account_address"
             android:hint="@string/recipient_account_address"
             android:inputType="textPersonName"
@@ -58,7 +55,8 @@
             android:id="@+id/tagEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
             android:autofillHints="@string/recipient_account_tag"
             android:hint="@string/recipient_account_tag"
             android:inputType="number"

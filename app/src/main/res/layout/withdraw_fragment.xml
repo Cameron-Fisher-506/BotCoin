@@ -14,39 +14,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            app:constraint_referenced_ids="withdrawButton, amountEditText, beneficiaryIdEditText, withdrawTextView" />
+            app:constraint_referenced_ids="withdrawButton, amountEditText, beneficiaryIdEditText, withdrawInformationView" />
 
-        <TextView
-            android:id="@+id/withdrawTextView"
+        <com.example.corelib.informational.InformationView
+            android:id="@+id/withdrawInformationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="50dp"
-            android:text="@string/withdraw_description"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            app:text="@string/withdraw"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <EditText
             android:id="@+id/amountEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:autofillHints="@string/Amount"
             android:hint="@string/Amount"
             android:inputType="numberDecimal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/withdrawTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/withdrawInformationView" />
 
         <EditText
             android:id="@+id/beneficiaryIdEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:autofillHints="@string/beneficiary_id"
             android:hint="@string/beneficiary_id"
             android:inputType="numberDecimal"

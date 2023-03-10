@@ -20,19 +20,16 @@ class WalletMenuFragment : Fragment(R.layout.wallet_menu_fragment) {
     }
 
     private fun setUpOnClickListeners(asset: String) {
-        this.binding.sendOptionLinearLayoutCompat.setOnClickListener {
-            val action = WalletMenuFragmentDirections.actionWalletMenuFragmentToSendFragment(asset)
-            Navigation.findNavController(it).navigate(action)
+        this.binding.sendOptionActionView.setOnClickListener {
+            Navigation.findNavController(it).navigate(WalletMenuFragmentDirections.actionWalletMenuFragmentToSendFragment(asset))
         }
 
-        this.binding.receiveOptionLinearLayoutCompat.setOnClickListener {
-            val action = WalletMenuFragmentDirections.actionWalletMenuFragmentToReceiveFragment(asset)
-            Navigation.findNavController(it).navigate(action)
+        this.binding.receiveOptionActionView.setOnClickListener {
+            Navigation.findNavController(it).navigate(WalletMenuFragmentDirections.actionWalletMenuFragmentToReceiveFragment(asset))
         }
 
-        this.binding.ordersOptionLinearLayoutCompat.setOnClickListener {
-            val action = WalletMenuFragmentDirections.actionWalletMenuFragmentToOrdersFragment(asset)
-            Navigation.findNavController(it).navigate(action)
+        this.binding.ordersOptionActionView.setOnClickListener {
+            Navigation.findNavController(it).navigate( WalletMenuFragmentDirections.actionWalletMenuFragmentToOrdersFragment(asset))
         }
     }
 }
