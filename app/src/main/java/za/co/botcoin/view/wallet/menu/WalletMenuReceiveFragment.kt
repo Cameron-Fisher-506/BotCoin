@@ -3,15 +3,14 @@ package za.co.botcoin.view.wallet.menu
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.ReceiveFragmentBinding
 import za.co.botcoin.enum.Status
-import za.co.botcoin.utils.services.clipBoardService.BaseClipBoardService.copyToClipBoard
 import za.co.botcoin.utils.ConstantUtils
 import za.co.botcoin.utils.GeneralUtils.createQRCode
 import za.co.botcoin.utils.GeneralUtils.isApiKeySet
+import za.co.botcoin.utils.services.clipBoardService.BaseClipBoardService.copyToClipBoard
 import za.co.botcoin.view.wallet.WalletBaseFragment
 
 class WalletMenuReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) {
@@ -30,12 +29,17 @@ class WalletMenuReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) 
             receiveAndObserveReceive()
         } else {
             walletViewModel.displayLunoApiCredentialsAlertDialog()
-            Navigation.findNavController(view).navigate(WalletMenuReceiveFragmentDirections.actionReceiveFragmentToLunoApiFragment())
+            Navigation.findNavController(view)
+                .navigate(WalletMenuReceiveFragmentDirections.actionReceiveFragmentToLunoApiFragment())
         }
     }
 
     private fun receiveAndObserveReceive() {
-        this.walletMenuReceiveViewModel.receive(arguments?.getString("asset") ?: "", ConstantUtils.USER_KEY_ID, ConstantUtils.USER_SECRET_KEY)
+        this.walletMenuReceiveViewModel.receive(
+            arguments?.getString("asset") ?: "",
+            ConstantUtils.USER_KEY_ID,
+            ConstantUtils.USER_SECRET_KEY
+        )
         this.walletMenuReceiveViewModel.receiveResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
@@ -43,7 +47,7 @@ class WalletMenuReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) 
                     displayWalletMenuReceiveOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
-                        this.binding.addressEditText.setText(data.first().address)
+                        this.binding.addressCustomInputView.setText(data.first().address)
                         this.binding.qrAddressImageView.setImageBitmap(
                             createQRCode(
                                 data.first().qrCodeUri,
@@ -72,7 +76,7 @@ class WalletMenuReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) 
 
     private fun setUpOnClickListeners() {
         this.binding.copyImageButton.setOnClickListener {
-            context?.let { context -> copyToClipBoard(context, this.binding.addressEditText.text.toString()) }
+            context?.let { context -> copyToClipBoard(context, this.binding.addressCustomInputView.getText()) }
         }
     }
 

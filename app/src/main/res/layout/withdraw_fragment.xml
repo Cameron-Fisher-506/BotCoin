@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            app:constraint_referenced_ids="withdrawButton, amountEditText, beneficiaryIdEditText, withdrawInformationView" />
+            app:constraint_referenced_ids="withdrawButton, amountCustomInputView, beneficiaryIdCustomInputView, withdrawInformationView" />
 
         <com.example.corelib.informational.InformationView
             android:id="@+id/withdrawInformationView"
@@ -26,29 +26,25 @@
             app:layout_constraintTop_toTopOf="parent"
             />
 
-        <EditText
-            android:id="@+id/amountEditText"
+        <com.example.corelib.buttons.CustomInputView
+            android:id="@+id/amountCustomInputView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:autofillHints="@string/Amount"
-            android:hint="@string/Amount"
-            android:inputType="numberDecimal"
+            android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/withdrawInformationView" />
+            app:layout_constraintTop_toBottomOf="@+id/withdrawInformationView"
+            app:title="@string/Amount" />
 
-        <EditText
-            android:id="@+id/beneficiaryIdEditText"
+        <com.example.corelib.buttons.CustomInputView
+            android:id="@+id/beneficiaryIdCustomInputView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:autofillHints="@string/beneficiary_id"
-            android:hint="@string/beneficiary_id"
-            android:inputType="numberDecimal"
+            android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/amountEditText" />
+            app:layout_constraintTop_toBottomOf="@+id/amountCustomInputView"
+            app:title="@string/beneficiary_id" />
 
         <Button
             android:id="@+id/withdrawButton"
@@ -60,10 +56,8 @@
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/beneficiaryIdEditText"
-            app:layout_constraintVertical_bias="0.004" />
+            app:layout_constraintTop_toBottomOf="@+id/beneficiaryIdCustomInputView" />
 
         <TextView
             android:id="@+id/errorTextView"

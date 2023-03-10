@@ -23,7 +23,6 @@ class WalletMenuSendFragment : WalletBaseFragment(R.layout.send_fragment) {
         arguments?.let {
             addBtnSend(it.getString("asset") ?: "")
         }
-
     }
 
     private fun setUpOnClickListeners() {
@@ -34,9 +33,9 @@ class WalletMenuSendFragment : WalletBaseFragment(R.layout.send_fragment) {
 
     private fun addBtnSend(asset: String) {
         this.binding.sendButton.setOnClickListener {
-            val amount = this.binding.amountEditText.text.toString()
-            val address = this.binding.addressEditText.text.toString()
-            val destinationTag = this.binding.tagEditText.text.toString()
+            val amount = this.binding.amountCustomInputView.getText()
+            val address = this.binding.addressCustomInputView.getText()
+            val destinationTag = this.binding.tagCustomInputView.getText()
             if (amount.isNotBlank() && address.isNotBlank()) {
                 if (amount != "0") {
                     sendAndObserveSend(amount, asset, address, destinationTag)

@@ -22,8 +22,8 @@ class WalletWithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
 
     private fun setUpOnClickListeners() {
         this.binding.withdrawButton.setOnClickListener {
-            val amount: String = this.binding.amountEditText.text.toString()
-            val beneficiaryId: String = this.binding.amountEditText.text.toString()
+            val amount: String = this.binding.amountCustomInputView.getText()
+            val beneficiaryId: String = this.binding.beneficiaryIdCustomInputView.getText()
 
             if (withdrawViewModel.isAmountNotEmptyAndNotZero(amount) && beneficiaryId.isNotBlank()) {
                 if (isApiKeySet(context)) {
@@ -47,9 +47,8 @@ class WalletWithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
                 Status.SUCCESS -> {
                     walletActivity.dismissProgressBar()
                     displayWalletWithdrawOptions()
-                    val data = it.data
-                    if (!data.isNullOrEmpty()) {
-                        data.map { withdrawal -> withdrawViewModel.displayAmountWithdrewNotification(withdrawal.amount) }
+                    if (!it.data.isNullOrEmpty()) {
+                        it.data.map { withdrawal -> withdrawViewModel.displayAmountWithdrewNotification(withdrawal.amount) }
                     } else {
                         displayErrorMessage()
                         withdrawViewModel.displayWithdrawalFailedNotification()
