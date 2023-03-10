@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.example.corelib.informational.OptionActionView
+        <com.example.corelib.buttons.OptionActionView
             android:id="@+id/donateBtcOptionOptionActionView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <com.example.corelib.informational.OptionActionView
+        <com.example.corelib.buttons.OptionActionView
             android:id="@+id/donateXrpOptionOptionActionView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <com.example.corelib.informational.OptionActionView
+        <com.example.corelib.buttons.OptionActionView
             android:id="@+id/donateEthOptionOptionActionView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <com.example.corelib.informational.OptionActionView
+        <com.example.corelib.buttons.OptionActionView
             android:id="@+id/donateLtcOptionOptionActionView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.example.corelib.informational
+package com.example.corelib.buttons
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -9,7 +9,7 @@ import com.example.corelib.R
 import com.example.corelib.databinding.OptionActionViewBinding
 
 class OptionActionView @JvmOverloads constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int = 0): ConstraintLayout(context, attrs, defStyleAttr) {
-    private lateinit var binding: OptionActionViewBinding
+    private lateinit var binding: com.example.corelib.databinding.OptionActionViewBinding
 
     init {
         inflate(context, R.layout.option_action_view, this)

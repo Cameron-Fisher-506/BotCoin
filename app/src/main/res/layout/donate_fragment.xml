@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            app:constraint_referenced_ids="copyImageButton, copyTagImageButton, donateButton, addressEditText, amountEditText, tagEditText, donateInformationView, errorTextView" />
+            app:constraint_referenced_ids="copyImageButton, copyTagImageButton, donateButton, addressCustomInputView, amountCustomInputView, tagCustomInputView, donateInformationView, errorTextView" />
 
         <com.example.corelib.informational.InformationView
             android:id="@+id/donateInformationView"
@@ -32,34 +32,33 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="25dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/donateInformationView"
             tools:srcCompat="@tools:sample/avatars[0]" />
 
-        <EditText
-            android:id="@+id/amountEditText"
+        <com.example.corelib.buttons.CustomInputView
+            android:id="@+id/amountCustomInputView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:hint="@string/Amount"
+            app:title="@string/Amount"
             android:inputType="numberDecimal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/qrAddressImageView" />
+            app:layout_constraintTop_toBottomOf="@+id/qrAddressImageView"
+            />
 
-        <EditText
-            android:id="@+id/addressEditText"
-            android:layout_width="0dp"
+        <com.example.corelib.buttons.CustomInputView
+            android:id="@+id/addressCustomInputView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:enabled="false"
-            android:hint="@string/address"
+            app:title="@string/address"
             android:inputType="textPersonName"
-            app:layout_constraintEnd_toStartOf="@+id/copyImageButton"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/amountEditText" />
+            app:layout_constraintTop_toBottomOf="@+id/amountCustomInputView"
+            />
 
         <ImageButton
             android:id="@+id/copyImageButton"
@@ -68,19 +67,18 @@
             android:layout_marginHorizontal="20dp"
             android:background="@drawable/ic_baseline_content_copy_24"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/addressEditText" />
+            app:layout_constraintTop_toTopOf="@+id/addressCustomInputView" />
 
-        <EditText
-            android:id="@+id/tagEditText"
-            android:layout_width="0dp"
+        <com.example.corelib.buttons.CustomInputView
+            android:id="@+id/tagCustomInputView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:enabled="false"
-            android:hint="@string/tag"
+            app:title="@string/tag"
             android:inputType="textPersonName"
-            app:layout_constraintEnd_toStartOf="@+id/copyTagImageButton"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addressEditText" />
+            app:layout_constraintTop_toBottomOf="@+id/addressCustomInputView"
+            />
 
         <ImageButton
             android:id="@+id/copyTagImageButton"
@@ -90,7 +88,7 @@
             android:background="@drawable/ic_baseline_content_copy_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintTop_toTopOf="@+id/tagEditText" />
+            app:layout_constraintTop_toTopOf="@+id/tagCustomInputView" />
 
         <TextView
             android:id="@+id/errorTextView"
@@ -114,9 +112,8 @@
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tagEditText"
+            app:layout_constraintTop_toBottomOf="@+id/tagCustomInputView"
             app:layout_constraintVertical_bias="1" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

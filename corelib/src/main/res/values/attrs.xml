@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="InformationView">
-        <attr name="text" format="string"/>
+        <attr name="text" format="string" />
     </declare-styleable>
 
     <declare-styleable name="OptionActionView">
-        <attr name="optionActionViewIcon" format="reference"/>
-        <attr name="optionActionViewText" format="string"/>
+        <attr name="optionActionViewIcon" format="reference" />
+        <attr name="optionActionViewText" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="CustomInputView">
+        <attr name="title" format="string" />
+        <attr name="description" format="string" />
     </declare-styleable>
 </resources>

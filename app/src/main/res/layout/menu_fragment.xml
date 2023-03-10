@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.example.corelib.informational.OptionActionView
+        <com.example.corelib.buttons.OptionActionView
             android:id="@+id/lunoApiOptionActionView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <com.example.corelib.informational.OptionActionView
+        <com.example.corelib.buttons.OptionActionView
             android:id="@+id/donateOptionActionView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <com.example.corelib.informational.OptionActionView
+        <com.example.corelib.buttons.OptionActionView
             android:id="@+id/notificationsOptionActionView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <com.example.corelib.informational.OptionActionView
+        <com.example.corelib.buttons.OptionActionView
             android:id="@+id/trailingStartOptionActionView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <com.example.corelib.informational.OptionActionView
+        <com.example.corelib.buttons.OptionActionView
             android:id="@+id/trailingStopOptionActionView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <com.example.corelib.informational.OptionActionView
+        <com.example.corelib.buttons.OptionActionView
             android:id="@+id/supportPriceCounterOptionActionView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <com.example.corelib.informational.OptionActionView
+        <com.example.corelib.buttons.OptionActionView
             android:id="@+id/resistancePriceCounterOptionActionView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <com.example.corelib.informational.OptionActionView
+        <com.example.corelib.buttons.OptionActionView
             android:id="@+id/smartTrendDetectorMarginOptionActionView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
