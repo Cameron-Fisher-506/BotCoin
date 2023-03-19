@@ -22,8 +22,6 @@ class WalletMenuOrderListAdapter(private val ordersList: ArrayList<Order>) : Rec
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.typeTextView.text = ordersList[position].type
         holder.binding.pairTextView.text = ordersList[position].pair
-        holder.binding.completedTimeTextView.text = ordersList[position].completedTime
-        holder.binding.createdTimeTextView.text = ordersList[position].createdTime
         holder.binding.limitPriceTextView.text = ordersList[position].limitPrice
         holder.binding.stateTextView.text = ordersList[position].state
         holder.binding.limitVolumeTextView.text = ordersList[position].limitVolume
