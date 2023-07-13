@@ -12,10 +12,12 @@ import za.co.botcoin.model.repository.order.OrderRepository
 import za.co.botcoin.model.repository.stopOrder.StopOrderRepository
 import za.co.botcoin.utils.Resource
 import za.co.botcoin.utils.services.notificationService.INotificationService
+import za.co.botcoin.view.wallet.WalletFlowManager
 import javax.inject.Inject
 
 class WalletMenuOrdersViewModel @Inject constructor(
     application: Application,
+    private val walletFlowManager: WalletFlowManager,
     private val resourceManager: IResourceManager,
     private val notificationService: INotificationService,
     private val orderRepository: OrderRepository,
@@ -45,4 +47,6 @@ class WalletMenuOrdersViewModel @Inject constructor(
     fun displayOrderCancellationFailureNotification() {
         notificationService.notify(resourceManager.getString(R.string.wallet_order_cancellation), resourceManager.getString(R.string.wallet_order_cancellation_failed))
     }
+
+    fun isOrderStateNotComplete(orderPosition: Int): Boolean = !walletFlowManager.ordersResponse[orderPosition].state.equals("COMPLETE", true)
 }

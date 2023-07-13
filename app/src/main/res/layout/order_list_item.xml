@@ -8,6 +8,7 @@
     app:cardElevation="@dimen/small_space">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/formContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -57,7 +58,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/limitPriceTextView" />
 
-
         <TextView
             android:id="@+id/pairTextView"
             android:layout_width="wrap_content"
@@ -67,19 +67,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/stateTextView" />
-
-        <Button
-            android:id="@+id/cancelButton"
-            android:layout_width="100dp"
-            android:layout_height="80dp"
-            android:layout_margin="10dp"
-            android:background="@color/red"
-            android:text="@string/cancel"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1"
-            app:layout_constraintStart_toEndOf="@+id/pairTextView"
-            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
