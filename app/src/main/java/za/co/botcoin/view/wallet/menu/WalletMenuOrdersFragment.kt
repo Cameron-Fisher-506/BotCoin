@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import za.co.botcoin.R
 import za.co.botcoin.databinding.OrdersFragmentBinding
 import za.co.botcoin.enum.Status
-import za.co.botcoin.utils.DateTimeUtils
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.view.wallet.WalletBaseFragment
 
@@ -56,12 +55,9 @@ class WalletMenuOrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
                     displayOrdersRecyclerView()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
-                        data.map { order ->
-                            order.completedTime = DateTimeUtils.format(order.completedTime.toLong())
-                            order.createdTime = DateTimeUtils.format(order.createdTime.toLong())
-                        }
-                        walletViewModel.ordersResponse = data.sortedByDescending { order -> order.createdTime }
-                        walletMenuOrderListAdapter.updateOrderList(data.sortedByDescending { order -> order.createdTime })
+                        walletViewModel.ordersResponse = walletMenuOrdersViewModel.getSortedOrdersByCreatedTimeDescending(data)
+                        walletMenuOrdersViewModel.updateOrdersCreatedAndCreatedTime()
+                        walletMenuOrderListAdapter.updateOrderList(walletViewModel.ordersResponse)
                     } else {
                         displayErrorTextView()
                     }

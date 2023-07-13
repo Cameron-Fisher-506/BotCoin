@@ -10,6 +10,7 @@ import za.co.botcoin.model.models.StopOrder
 import za.co.botcoin.model.repository.BaseViewModel
 import za.co.botcoin.model.repository.order.OrderRepository
 import za.co.botcoin.model.repository.stopOrder.StopOrderRepository
+import za.co.botcoin.utils.DateTimeUtils
 import za.co.botcoin.utils.Resource
 import za.co.botcoin.utils.services.notificationService.INotificationService
 import za.co.botcoin.view.wallet.WalletFlowManager
@@ -49,4 +50,11 @@ class WalletMenuOrdersViewModel @Inject constructor(
     }
 
     fun isOrderStateNotComplete(orderPosition: Int): Boolean = !walletFlowManager.ordersResponse[orderPosition].state.equals("COMPLETE", true)
+
+    fun updateOrdersCreatedAndCreatedTime() = walletFlowManager.ordersResponse.map { order ->
+        order.completedTime = DateTimeUtils.format(order.completedTime.toLong())
+        order.createdTime = DateTimeUtils.format(order.createdTime.toLong())
+    }
+
+    fun getSortedOrdersByCreatedTimeDescending(orders: List<Order>): List<Order> = orders.sortedByDescending { order -> order.createdTime }
 }
