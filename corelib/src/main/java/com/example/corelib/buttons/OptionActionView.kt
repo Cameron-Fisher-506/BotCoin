@@ -9,7 +9,7 @@ import com.example.corelib.R
 import com.example.corelib.databinding.OptionActionViewBinding
 
 class OptionActionView @JvmOverloads constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int = 0): ConstraintLayout(context, attrs, defStyleAttr) {
-    private lateinit var binding: com.example.corelib.databinding.OptionActionViewBinding
+    private lateinit var binding: OptionActionViewBinding
 
     init {
         inflate(context, R.layout.option_action_view, this)
