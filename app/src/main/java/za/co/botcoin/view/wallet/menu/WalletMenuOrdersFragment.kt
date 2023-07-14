@@ -18,8 +18,7 @@ class WalletMenuOrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.binding = OrdersFragmentBinding.bind(view)
-
+        binding = OrdersFragmentBinding.bind(view)
         setUpViews()
         fetchAndObserveOrders()
     }

@@ -20,6 +20,7 @@ class WalletViewModel(
     private val resourceManager: IResourceManager,
     private val balanceRepository: BalanceRepository
 ) : BaseViewModel(application) {
+    lateinit var selectedAsset: String
     lateinit var balancesResponse: LiveData<Resource<List<Balance>>>
 
     var ordersResponse: List<Order>

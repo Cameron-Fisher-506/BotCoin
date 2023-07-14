@@ -12,24 +12,21 @@ class WalletMenuFragment : Fragment(R.layout.wallet_menu_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.binding = WalletMenuFragmentBinding.bind(view)
-
-        arguments?.let {
-            setUpOnClickListeners(it.getString("asset") ?: "")
-        }
+        binding = WalletMenuFragmentBinding.bind(view)
+        setUpOnClickListeners()
     }
 
-    private fun setUpOnClickListeners(asset: String) {
-        this.binding.sendOptionActionView.setOnClickListener {
-            Navigation.findNavController(it).navigate(WalletMenuFragmentDirections.actionWalletMenuFragmentToSendFragment(asset))
+    private fun setUpOnClickListeners() {
+        binding.sendOptionActionView.setOnClickListener {
+            Navigation.findNavController(it).navigate(WalletMenuFragmentDirections.actionWalletMenuFragmentToSendFragment())
         }
 
-        this.binding.receiveOptionActionView.setOnClickListener {
-            Navigation.findNavController(it).navigate(WalletMenuFragmentDirections.actionWalletMenuFragmentToReceiveFragment(asset))
+        binding.receiveOptionActionView.setOnClickListener {
+            Navigation.findNavController(it).navigate(WalletMenuFragmentDirections.actionWalletMenuFragmentToReceiveFragment())
         }
 
-        this.binding.ordersOptionActionView.setOnClickListener {
-            Navigation.findNavController(it).navigate( WalletMenuFragmentDirections.actionWalletMenuFragmentToOrdersFragment(asset))
+        binding.ordersOptionActionView.setOnClickListener {
+            Navigation.findNavController(it).navigate( WalletMenuFragmentDirections.actionWalletMenuFragmentToOrdersFragment())
         }
     }
 }
