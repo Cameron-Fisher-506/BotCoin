@@ -29,8 +29,7 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.binding = HomeFragmentBinding.bind(view)
-
+        binding = HomeFragmentBinding.bind(view)
         setUpViews()
         setUpMenu()
         fetchAndObserveTickers()
@@ -56,8 +55,8 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
     }
 
     private fun setUpViews() {
-        this.binding.xrpZarOptionActionView.hideOptionActionDividerView()
-        this.binding.xrpZarOptionActionView.hideOptionActionImageView()
+        binding.xrpZarOptionActionView.hideOptionActionDividerView()
+        binding.xrpZarOptionActionView.hideOptionActionImageView()
     }
 
     private fun setUpMenu() {
@@ -96,7 +95,7 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
                     if (!data.isNullOrEmpty()) {
                         displayCoins()
 
-                        data.map { ticker ->
+                        data.forEach { ticker ->
                             if (ticker.pair.equals(PAIR_XRPZAR, true)) {
                                 this.binding.xrpZarOptionActionView.setText(getString(R.string.XRPZAR, ticker.lastTrade))
                             }
@@ -115,13 +114,13 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
     }
 
     private fun displayCoins() {
-        this.binding.xrpZarOptionActionView.visibility = View.VISIBLE
-        this.binding.errorTextView.visibility = View.GONE
+        binding.xrpZarOptionActionView.visibility = View.VISIBLE
+        binding.errorTextView.visibility = View.GONE
     }
 
     private fun displayErrorMessage() {
-        this.binding.xrpZarOptionActionView.visibility = View.GONE
-        this.binding.errorTextView.visibility = View.VISIBLE
+        binding.xrpZarOptionActionView.visibility = View.GONE
+        binding.errorTextView.visibility = View.VISIBLE
     }
 
     private fun navigateToPrivacyPolicyScreen(view: View) {

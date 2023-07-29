@@ -15,24 +15,24 @@ class HomeDisclaimerPolicyFragment : HomeBaseFragment(R.layout.disclaimer_policy
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.binding = DisclaimerPolicyFragmentBinding.bind(view)
+        binding = DisclaimerPolicyFragmentBinding.bind(view)
 
         setUpViews()
         setUpOnClickListeners(view)
     }
 
     private fun setUpViews() {
-        this.binding.disclaimerPolicyTextView.movementMethod = ScrollingMovementMethod()
-        this.binding.disclaimerPolicyTextView.text = getString(R.string.home_disclaimer_policy)
+        binding.disclaimerPolicyTextView.movementMethod = ScrollingMovementMethod()
+        binding.disclaimerPolicyTextView.text = getString(R.string.home_disclaimer_policy)
     }
 
     private fun setUpOnClickListeners(view: View) {
-        this.binding.exitButton.setOnClickListener {
+        binding.exitButton.setOnClickListener {
             requireActivity().finishAffinity()
             exitProcess(0)
         }
 
-        this.binding.acceptButton.setOnClickListener {
+        binding.acceptButton.setOnClickListener {
             disclaimerViewModel.saveDisclaimerAcceptance()
             val action = HomeDisclaimerPolicyFragmentDirections.actionDisclaimerPolicyFragmentToHomeTickerFragment()
             Navigation.findNavController(view).navigate(action)
