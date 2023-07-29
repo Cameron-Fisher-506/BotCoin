@@ -69,9 +69,6 @@
         android:id="@+id/donateMenuDonateFragment"
         android:name="za.co.botcoin.view.menu.donate.DonateMenuDonateFragment"
         android:label="Donate">
-        <argument
-            android:name="asset"
-            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/menuSmartTrendDetectorFragment"

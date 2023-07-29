@@ -8,6 +8,8 @@ import za.co.botcoin.R
 import za.co.botcoin.databinding.ReceiveFragmentBinding
 import za.co.botcoin.enum.Status
 import za.co.botcoin.utils.ConstantUtils
+import za.co.botcoin.utils.ConstantUtils.USER_KEY_ID
+import za.co.botcoin.utils.ConstantUtils.USER_SECRET_KEY
 import za.co.botcoin.utils.GeneralUtils.createQRCode
 import za.co.botcoin.utils.GeneralUtils.isApiKeySet
 import za.co.botcoin.utils.services.clipBoardService.BaseClipBoardService.copyToClipBoard
@@ -20,11 +22,7 @@ class WalletMenuReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = ReceiveFragmentBinding.bind(view)
-
-        binding.receiveInformationView.setOnClickListener {
-            walletMenuReceiveViewModel.displayReceiveDescriptionAlertDialog()
-        }
-
+        setUpOnClickListeners()
         if (isApiKeySet(context)) {
             receiveAndObserveReceive()
         } else {
@@ -35,11 +33,7 @@ class WalletMenuReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) 
     }
 
     private fun receiveAndObserveReceive() {
-        this.walletMenuReceiveViewModel.receive(
-            arguments?.getString("asset") ?: "",
-            ConstantUtils.USER_KEY_ID,
-            ConstantUtils.USER_SECRET_KEY
-        )
+        this.walletMenuReceiveViewModel.receive(walletViewModel.selectedAsset, USER_KEY_ID, USER_SECRET_KEY)
         this.walletMenuReceiveViewModel.receiveResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
@@ -47,14 +41,8 @@ class WalletMenuReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) 
                     displayWalletMenuReceiveOptions()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
-                        this.binding.addressCustomInputView.setText(data.first().address)
-                        this.binding.qrAddressImageView.setImageBitmap(
-                            createQRCode(
-                                data.first().qrCodeUri,
-                                this.binding.qrAddressImageView.width,
-                                this.binding.qrAddressImageView.height
-                            )
-                        )
+                        binding.addressCustomInputView.setText(data.first().address)
+                        binding.qrAddressImageView.setImageBitmap(createQRCode(data.first().qrCodeUri, binding.qrAddressImageView.width, binding.qrAddressImageView.height))
 
                         setUpOnClickListeners()
                     } else {
@@ -74,9 +62,12 @@ class WalletMenuReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) 
         }
     }
 
-    private fun setUpOnClickListeners() {
-        this.binding.copyImageButton.setOnClickListener {
-            context?.let { context -> copyToClipBoard(context, this.binding.addressCustomInputView.getText()) }
+    private fun setUpOnClickListeners() = with(binding) {
+        receiveInformationView.setOnClickListener {
+            walletMenuReceiveViewModel.displayReceiveDescriptionAlertDialog()
+        }
+        copyImageButton.setOnClickListener {
+            context?.let { context -> copyToClipBoard(context, addressCustomInputView.getText()) }
         }
     }
 

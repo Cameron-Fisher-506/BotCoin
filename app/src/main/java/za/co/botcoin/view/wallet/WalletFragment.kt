@@ -83,7 +83,8 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
         }
 
         this.binding.xrpOptionActionView.setOnClickListener {
-            Navigation.findNavController(it).navigate(WalletFragmentDirections.actionWalletFragmentToWalletMenuFragment(XRP))
+            walletViewModel.selectedAsset = XRP
+            Navigation.findNavController(it).navigate(WalletFragmentDirections.actionWalletFragmentToWalletMenuFragment())
         }
     }
 }

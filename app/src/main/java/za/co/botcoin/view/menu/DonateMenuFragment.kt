@@ -27,16 +27,20 @@ class DonateMenuFragment : MenuBaseFragment(R.layout.donate_menu_fragment) {
 
     private fun setUpOnClickListeners() {
         binding.donateBtcOptionOptionActionView.setOnClickListener {
-            Navigation.findNavController(it).navigate(DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment(BTC))
+            menuViewModel.selectedDonateAsset = BTC
+            Navigation.findNavController(it).navigate(DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment())
         }
         binding.donateXrpOptionOptionActionView.setOnClickListener {
-            Navigation.findNavController(it).navigate( DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment(XRP))
+            menuViewModel.selectedDonateAsset = XRP
+            Navigation.findNavController(it).navigate( DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment())
         }
         binding.donateEthOptionOptionActionView.setOnClickListener {
-            Navigation.findNavController(it).navigate(DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment(ETH))
+            menuViewModel.selectedDonateAsset = ETH
+            Navigation.findNavController(it).navigate(DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment())
         }
         binding.donateLtcOptionOptionActionView.setOnClickListener {
-            Navigation.findNavController(it).navigate(DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment(LTC))
+            menuViewModel.selectedDonateAsset = LTC
+            Navigation.findNavController(it).navigate(DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment())
         }
     }
 }

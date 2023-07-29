@@ -22,7 +22,7 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(this.binding.root)
 
         setUpViews()
@@ -30,17 +30,17 @@ class MainActivity : BaseActivity() {
     }
 
     private fun attachNavController() {
-        this.navController = Navigation.findNavController(this, R.id.navHostFragment)
-        NavigationUI.setupActionBarWithNavController(this, this.navController)
+        navController = Navigation.findNavController(this, R.id.navHostFragment)
+        NavigationUI.setupActionBarWithNavController(this, navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(this.navController, null)
+        return NavigationUI.navigateUp(navController, null)
     }
 
     private fun setUpViews() {
-        this.binding.bottomNavigationView.selectedItemId = R.id.home
-        this.binding.bottomNavigationView.setOnItemSelectedListener {
+        binding.bottomNavigationView.selectedItemId = R.id.home
+        binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.trade -> startActivity(Intent(this, TradeActivity::class.java))
                 R.id.wallet -> startActivity(Intent(this, WalletActivity::class.java))

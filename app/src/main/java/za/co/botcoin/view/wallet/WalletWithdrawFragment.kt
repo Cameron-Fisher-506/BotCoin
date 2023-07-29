@@ -15,20 +15,15 @@ class WalletWithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.binding = WithdrawFragmentBinding.bind(view)
-
+        binding = WithdrawFragmentBinding.bind(view)
         setUpOnClickListeners()
     }
 
     private fun setUpOnClickListeners() {
-        this.binding.withdrawButton.setOnClickListener {
-            val amount: String = this.binding.amountCustomInputView.getText()
-            val beneficiaryId: String = this.binding.beneficiaryIdCustomInputView.getText()
-
-            if (withdrawViewModel.isAmountNotEmptyAndNotZero(amount) && beneficiaryId.isNotBlank()) {
+        binding.withdrawButton.setOnClickListener {
+            if (withdrawViewModel.isAmountNotEmptyAndNotZero(binding.amountCustomInputView.getText()) && binding.beneficiaryIdCustomInputView.getText().isNotBlank()) {
                 if (isApiKeySet(context)) {
-                    withdrawViewModel.withdrawal(ZAR_EFT, amount, beneficiaryId)
-                    attachWithdrawalObserver()
+                    submitWithdrawalAndObserve()
                 } else {
                     walletViewModel.displayLunoApiCredentialsAlertDialog()
                 }
@@ -41,8 +36,9 @@ class WalletWithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
         }
     }
 
-    private fun attachWithdrawalObserver() {
-        this.withdrawViewModel.withdrawalResponse.observe(viewLifecycleOwner) {
+    private fun submitWithdrawalAndObserve() {
+        withdrawViewModel.withdrawal(ZAR_EFT, binding.amountCustomInputView.getText(), binding.beneficiaryIdCustomInputView.getText())
+        withdrawViewModel.withdrawalResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     walletActivity.dismissProgressBar()

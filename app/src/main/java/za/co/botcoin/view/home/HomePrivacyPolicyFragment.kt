@@ -15,24 +15,24 @@ class HomePrivacyPolicyFragment : HomeBaseFragment(R.layout.privacy_policy_fragm
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.binding = PrivacyPolicyFragmentBinding.bind(view)
+        binding = PrivacyPolicyFragmentBinding.bind(view)
 
         setUpViews()
         setUpOnClickListeners(view)
     }
 
     private fun setUpViews() {
-        this.binding.privacyPolicyTextView.movementMethod = ScrollingMovementMethod()
-        this.binding.privacyPolicyTextView.text = getString(R.string.home_privacy_policy)
+        binding.privacyPolicyTextView.movementMethod = ScrollingMovementMethod()
+        binding.privacyPolicyTextView.text = getString(R.string.home_privacy_policy)
     }
 
     private fun setUpOnClickListeners(view: View) {
-        this.binding.exitButton.setOnClickListener {
+        binding.exitButton.setOnClickListener {
             requireActivity().finishAffinity()
             exitProcess(0)
         }
 
-        this.binding.acceptButton.setOnClickListener {
+        binding.acceptButton.setOnClickListener {
             privacyPolicyViewModel.savePrivacyPolicyAcceptance()
             val action = HomePrivacyPolicyFragmentDirections.actionPrivacyPolicyFragmentToDisclaimerPolicyFragment()
             Navigation.findNavController(view).navigate(action)

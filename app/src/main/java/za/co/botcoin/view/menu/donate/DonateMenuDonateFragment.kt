@@ -14,20 +14,15 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
     private lateinit var binding: DonateFragmentBinding
     private val donateMenuDonateViewModel by viewModels<DonateMenuDonateViewModel>(factoryProducer = { menuActivity.getViewModelFactory })
 
-    private var asset: String = ""
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = DonateFragmentBinding.bind(view)
-
-        asset = arguments?.getString("asset") ?: ""
-
         setUpOnClickListeners()
         receiveAndObserveReceive()
     }
 
     private fun receiveAndObserveReceive() {
-        this.donateMenuDonateViewModel.receive(asset, BuildConfig.KEY_ID, BuildConfig.SECRET_KEY)
+        this.donateMenuDonateViewModel.receive(menuViewModel.selectedDonateAsset, BuildConfig.KEY_ID, BuildConfig.SECRET_KEY)
         this.donateMenuDonateViewModel.receiveResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
@@ -108,9 +103,9 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
                 val address: String = this.binding.addressCustomInputView.getText()
                 val destinationTag: String = this.binding.tagCustomInputView.getText()
                 if (amount.isNotBlank() && amount != "0") {
-                    sendAndObserveSend(amount, asset, address, destinationTag)
+                    sendAndObserveSend(amount, menuViewModel.selectedDonateAsset, address, destinationTag)
                 } else {
-                    donateMenuDonateViewModel.displayInvalidAmountEnteredAlertDialog(asset)
+                    donateMenuDonateViewModel.displayInvalidAmountEnteredAlertDialog(menuViewModel.selectedDonateAsset)
                 }
             } else {
                 donateMenuDonateViewModel.displayLunoApiCredentialsAlertDialog()
