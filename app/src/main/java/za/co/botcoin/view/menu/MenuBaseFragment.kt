@@ -7,7 +7,7 @@ import androidx.fragment.app.viewModels
 
 abstract class MenuBaseFragment(layoutId: Int) : Fragment(layoutId) {
     protected lateinit var menuActivity: MenuActivity
-    protected val menuViewModel by activityViewModels<MenuViewModel>(factoryProducer = { menuActivity.getViewModelFactory })
+    protected val menuViewModel by activityViewModels<MenuViewModel>()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
