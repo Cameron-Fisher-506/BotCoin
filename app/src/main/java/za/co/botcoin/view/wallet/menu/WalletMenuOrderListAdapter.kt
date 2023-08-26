@@ -10,7 +10,10 @@ import com.example.corelib.databinding.OptionActionMultilineViewBinding
 import za.co.botcoin.R
 import za.co.botcoin.model.models.Order
 
-class WalletMenuOrderListAdapter(private var ordersList: List<Order>) : RecyclerView.Adapter<WalletMenuOrderListAdapter.ViewHolder>() {
+class WalletMenuOrderListAdapter(
+    private var ordersList: List<Order>,
+    private var openBottomSheetDialog: (order: Order) -> Unit
+) : RecyclerView.Adapter<WalletMenuOrderListAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = OptionActionMultilineViewBinding.inflate(inflater, parent, false)
@@ -38,6 +41,10 @@ class WalletMenuOrderListAdapter(private var ordersList: List<Order>) : Recycler
             Color.parseColor("#D81B60")
         }
         formContainer.setBackgroundColor(backgroundColor)
+
+        informationView.setOnClickListener {
+            openBottomSheetDialog.invoke(ordersList[position])
+        }
     }
 
     fun cancelOrder(orderId: String) {
@@ -46,11 +53,12 @@ class WalletMenuOrderListAdapter(private var ordersList: List<Order>) : Recycler
     }
 
     fun updateOrderList(newOrdersList: List<Order>) {
-        val diffUtilCallback = WalletMenOrderListDiffUtil(ordersList, newOrdersList)
+        val diffUtilCallback = WalletMenuOrderListDiffUtil(ordersList, newOrdersList)
         val diffResults = DiffUtil.calculateDiff(diffUtilCallback)
         ordersList = newOrdersList
         diffResults.dispatchUpdatesTo(this)
     }
 
-    class ViewHolder(val binding: OptionActionMultilineViewBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: OptionActionMultilineViewBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

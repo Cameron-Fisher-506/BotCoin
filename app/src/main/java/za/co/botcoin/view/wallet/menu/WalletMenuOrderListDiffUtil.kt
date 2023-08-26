@@ -3,7 +3,7 @@ package za.co.botcoin.view.wallet.menu
 import androidx.recyclerview.widget.DiffUtil
 import za.co.botcoin.model.models.Order
 
-class WalletMenOrderListDiffUtil(
+class WalletMenuOrderListDiffUtil(
     private val oldList: List<Order>,
     private val newList: List<Order>
 ) : DiffUtil.Callback() {

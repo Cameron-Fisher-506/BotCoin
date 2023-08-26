@@ -30,7 +30,10 @@ class WalletMenuOrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
     }
 
     private fun setUpViews() {
-        walletMenuOrderListAdapter = WalletMenuOrderListAdapter(arrayListOf())
+        walletMenuOrderListAdapter = WalletMenuOrderListAdapter(arrayListOf()) {
+            val bottomSheetFragment = WalletMenuOrderInformationBottomSheetDialogFragment(it)
+            bottomSheetFragment.show(parentFragmentManager, "BSDialogFragment")
+        }
         binding.ordersRecyclerView.adapter = walletMenuOrderListAdapter
 
         val simpleCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {

@@ -20,6 +20,7 @@ class OptionActionMultilineView @JvmOverloads constructor(context: Context, attr
         binding.optionActionInformationTwoTextView.text = typedArray.getText(R.styleable.OptionActionMultiLineView_optionActionMultilineViewInformationTwoText)
         binding.optionActionDescriptionOneTextView.text = typedArray.getText(R.styleable.OptionActionMultiLineView_optionActionMultilineViewDescriptionOneText)
         binding.optionActionDescriptionTwoTextView.text = typedArray.getText(R.styleable.OptionActionMultiLineView_optionActionMultilineViewDescriptionTwoText)
+        binding.informationView.setInformationTextView(typedArray.getText(R.styleable.OptionActionMultiLineView_optionActionMultilineViewInformationViewText))
         binding.optionActionIconImageView.setImageResource(typedArray.getResourceId(R.styleable.OptionActionMultiLineView_optionActionMultiLineViewIcon, R.drawable.ic_launcher_foreground))
         typedArray.recycle()
     }

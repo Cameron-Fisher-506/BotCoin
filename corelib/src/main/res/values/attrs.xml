@@ -4,6 +4,11 @@
         <attr name="text" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="InformationLineItemView">
+        <attr name="informationLineItemViewLabel" format="string" />
+        <attr name="informationLineItemViewValue" format="string" />
+    </declare-styleable>
+
     <declare-styleable name="OptionActionView">
         <attr name="optionActionViewIcon" format="reference" />
         <attr name="optionActionViewText" format="string" />
@@ -15,6 +20,7 @@
         <attr name="optionActionMultilineViewInformationTwoText" format="string" />
         <attr name="optionActionMultilineViewDescriptionOneText" format="string" />
         <attr name="optionActionMultilineViewDescriptionTwoText" format="string" />
+        <attr name="optionActionMultilineViewInformationViewText" format="string" />
     </declare-styleable>
 
     <declare-styleable name="CustomInputView">
