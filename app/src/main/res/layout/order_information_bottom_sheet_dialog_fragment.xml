@@ -4,6 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/arrowImageView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:contentDescription="@string/corelib_information"
+        android:src="@drawable/ic_keyboard_arrow_down"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.example.corelib.informational.InformationLineItemView
         android:id="@+id/orderCreatedTimeInformationLineItemView"
         android:layout_width="match_parent"
@@ -11,7 +21,7 @@
         app:informationLineItemViewLabel="@string/created_time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/arrowImageView" />
 
     <com.example.corelib.informational.InformationLineItemView
         android:id="@+id/orderCompletedTimeInformationLineItemView"
@@ -21,5 +31,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/orderCreatedTimeInformationLineItemView"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
