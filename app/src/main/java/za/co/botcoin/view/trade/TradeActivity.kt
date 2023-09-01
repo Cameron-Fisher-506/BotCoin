@@ -35,7 +35,7 @@ class TradeActivity : AppCompatActivity() {
     }
 
     private fun wireUI() {
-        this.binding.bottomNavigationView.selectedItemId = R.id.trade
+        //this.binding.bottomNavigationView.selectedItemId = R.id.trade
         this.binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> startActivity(Intent(this, MainActivity::class.java))
