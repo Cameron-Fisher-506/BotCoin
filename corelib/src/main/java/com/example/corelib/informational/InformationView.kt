@@ -22,4 +22,8 @@ class InformationView @JvmOverloads constructor(context: Context, attrs: Attribu
     fun setInformationTextView(text: String) {
         binding.informationTextView.text = text
     }
+
+    fun setInformationTextView(text: CharSequence) {
+        binding.informationTextView.text = text
+    }
 }
