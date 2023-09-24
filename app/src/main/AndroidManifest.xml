@@ -32,6 +32,7 @@
 
         <service android:name="za.co.botcoin.services.BotService"/>
         <service android:name="za.co.botcoin.services.FiboService"/>
+        <service android:name="za.co.botcoin.services.OrderBookService"/>
     </application>
 
 </manifest>

@@ -1,18 +1,15 @@
 package za.co.botcoin.utils.services.cacheService
 
 import za.co.botcoin.model.websocket.dto.OrderBookResponse
+import za.co.botcoin.utils.services.cacheService.BaseCacheService.ORDER_BOOK
 
 class CacheService : ICacheService {
-    private val cache: HashMap<String, Any> = hashMapOf()
+    override fun getOrderBookResponse(): OrderBookResponse =
+        BaseCacheService.getValue(ORDER_BOOK) as OrderBookResponse
 
-    companion object {
-        const val ORDER_BOOK = "ORDER_BOOK"
-    }
-
-    override fun getOrderBookResponse(): OrderBookResponse = cache[ORDER_BOOK] as OrderBookResponse
     override fun setOrderBookResponse(orderBookResponse: OrderBookResponse) {
-        cache[ORDER_BOOK] = orderBookResponse
+        BaseCacheService.setValue(ORDER_BOOK, orderBookResponse)
     }
 
-    fun clearCache() = cache.clear()
+    override fun clearCache() = BaseCacheService.clear()
 }

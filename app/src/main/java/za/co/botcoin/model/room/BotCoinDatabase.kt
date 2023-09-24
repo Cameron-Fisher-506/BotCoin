@@ -7,10 +7,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import kotlinx.coroutines.Dispatchers
 import za.co.botcoin.model.models.*
+import za.co.botcoin.model.websocket.dto.Create
 import za.co.botcoin.utils.Resource
 import java.lang.Exception
 
-@Database(entities = [Account::class, Ticker::class, Balance::class, Withdrawal::class, Send::class, Receive::class, Order::class, StopOrder::class, Trade::class, PostOrder::class, Candle::class], version = 1, exportSchema = false)
+
+@Database(entities = [Account::class, Ticker::class, Balance::class, Withdrawal::class, Send::class, Receive::class, Order::class, StopOrder::class, Trade::class, PostOrder::class, Candle::class, Create::class], version = 1, exportSchema = false)
 abstract class BotCoinDatabase : RoomDatabase() {
 
     abstract fun tickerDao(): ITickerDao
@@ -24,6 +26,7 @@ abstract class BotCoinDatabase : RoomDatabase() {
     abstract fun tradeDao(): ITradeDao
     abstract fun postOrderDao(): IPostOrderDao
     abstract fun candleDao(): ICandleDao
+    abstract fun orderBookDao(): IOrderBookDao
 
     companion object {
         @Volatile

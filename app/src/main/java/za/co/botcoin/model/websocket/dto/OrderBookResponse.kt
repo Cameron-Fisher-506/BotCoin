@@ -6,5 +6,7 @@ class OrderBookResponse : BaseResponse() {
     var createUpdate: Create = Create()
     var deleteUpdate: Delete = Delete()
     var statusUpdate: Status = Status()
+    var asks: ArrayList<Create> = arrayListOf()
+    var bids: ArrayList<Create> = arrayListOf()
     var timestamp: Long = 0L
 }

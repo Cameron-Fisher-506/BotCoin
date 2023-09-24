@@ -1,6 +1,7 @@
 package za.co.botcoin.view.home
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
@@ -20,6 +21,8 @@ import za.co.botcoin.model.websocket.dto.Delete
 import za.co.botcoin.model.websocket.dto.OrderBookResponse
 import za.co.botcoin.model.websocket.dto.Status
 import za.co.botcoin.model.websocket.dto.Trade
+import za.co.botcoin.services.FiboService
+import za.co.botcoin.services.OrderBookService
 import za.co.botcoin.view.BaseActivity
 import za.co.botcoin.view.menu.MenuActivity
 import za.co.botcoin.view.orderBook.OrderBookActivity
@@ -37,84 +40,15 @@ class MainActivity : BaseActivity() {
 
         setUpViews()
         attachNavController()
+        startOrderBookService()
+    }
 
-        val client: OkHttpClient = OkHttpClient()
-
-        val request: Request = Request
-            .Builder()
-            .url("wss://ws.luno.com/api/1/stream/XRPZAR")
-            .build()
-
-        val webSocketLister: WebSocketListener = object: WebSocketListener() {
-            private val NORMAL_CLOSURE_STATUS = 1000
-
-            override fun onOpen(webSocket: WebSocket, response: Response) {
-                super.onOpen(webSocket, response)
-                val jsonString = """{
-                "api_key_id": "eccmj8bsdu7b6",
-                "api_key_secret": "GXjzrcjO7Q1XP4zipUogGh8AfzA9WKDO-logkXpE7Ak"
-            }"""
-                val jsonObject = JSONObject(jsonString)
-                webSocket.send(jsonObject.toString())
-            }
-
-            override fun onMessage(webSocket: WebSocket, text: String) {
-                val jsonObject = JSONObject(text)
-                val orderBookResponse = OrderBookResponse()
-                orderBookResponse.sequence = jsonObject.getString("sequence")
-                if (!jsonObject.isNull("trade_updates")) {
-                    val tradeUpdatesLength = jsonObject.getJSONArray("trade_updates").length()
-                    for (i in 0 until tradeUpdatesLength) {
-                        val tradeJSONObject = jsonObject.getJSONArray("trade_updates").getJSONObject(i)
-                        val trade: Trade = Trade().apply {
-                            sequence = tradeJSONObject.getString("sequence")
-                            base = tradeJSONObject.getString("base")
-                            counter = tradeJSONObject.getString("counter")
-                            makerOrderId = tradeJSONObject.getString("maker_order_id")
-                            takerOrderId = tradeJSONObject.getString("taker_order_id")
-                        }
-                        orderBookResponse.tradeUpdates.add(trade)
-                    }
-                }
-
-                if (!jsonObject.isNull("create_update")) {
-                    val createJSONObject = jsonObject.getJSONObject("create_update")
-                    orderBookResponse.createUpdate = Create().apply {
-                        orderId = createJSONObject.getString("order_id")
-                        type = createJSONObject.getString("type")
-                        price = createJSONObject.getString("price")
-                        volume = createJSONObject.getString("volume")
-                    }
-                }
-
-                if (!jsonObject.isNull("delete_update")) {
-                    val deleteJSONObject = jsonObject.getJSONObject("delete_update")
-                    orderBookResponse.deleteUpdate = Delete().apply {
-                        orderId = deleteJSONObject.getString("order_id")
-                    }
-                }
-
-                if (!jsonObject.isNull("status_update")) {
-                    val statusJSONObject = jsonObject.getJSONObject("status_update")
-                    orderBookResponse.statusUpdate = Status().apply {
-                        status = statusJSONObject.getString("status")
-                    }
-                }
-
-                orderBookResponse.timestamp = jsonObject.getLong("timestamp")
-                homeViewModel.cacheOrderBookResponse(orderBookResponse)
-            }
-
-            override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-                webSocket.close(NORMAL_CLOSURE_STATUS, null)
-                Log.d("WebSocket", "Closing : $code $reason")
-            }
-
-            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                Log.d("WebSocket", "Error: ${t.message}")
-            }
+    private fun startOrderBookService() {
+        if (Build.VERSION.SDK_INT >= 26) {
+            startForegroundService(Intent(this, OrderBookService::class.java))
+        } else {
+            startService(Intent(this, OrderBookService::class.java))
         }
-        val webSocket: WebSocket = client.newWebSocket(request, webSocketLister)
     }
 
     private fun attachNavController() {

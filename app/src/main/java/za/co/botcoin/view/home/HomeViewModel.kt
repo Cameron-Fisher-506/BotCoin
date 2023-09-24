@@ -7,5 +7,5 @@ import za.co.botcoin.utils.services.cacheService.ICacheService
 class HomeViewModel(
     private val cacheService: ICacheService
 ): ViewModel() {
-    fun cacheOrderBookResponse(orderBookResponse: OrderBookResponse) = cacheService.setOrderBookResponse(orderBookResponse)
+    //fun cacheOrderBookResponse(orderBookResponse: OrderBookResponse) = cacheService.setOrderBookResponse(orderBookResponse)
 }
