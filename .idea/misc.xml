@@ -2,6 +2,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/drawable/ic_baseline_cancel_24.xml" value="0.131" />
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/layout/activity_main.xml" value="0.1358695652173913" />
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/layout/auto_trade_activity.xml" value="0.1431159420289855" />
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/app/src/main/res/layout/auto_trade_fragment.xml" value="0.1" />
@@ -35,6 +36,7 @@
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/corelib/src/main/res/drawable/ic_keyboard_arrow_right_black_24dp.xml" value="0.1225" />
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/corelib/src/main/res/layout/custom_input_view.xml" value="0.22" />
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/corelib/src/main/res/layout/information_view.xml" value="0.1539855072463768" />
+        <entry key="..\:/Users/27712/StudioProjects/BotCoin/corelib/src/main/res/layout/option_action_multiline_view.xml" value="0.22" />
         <entry key="..\:/Users/27712/StudioProjects/BotCoin/corelib/src/main/res/layout/option_action_view.xml" value="0.15896739130434784" />
       </map>
     </option>
