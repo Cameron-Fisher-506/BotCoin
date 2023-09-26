@@ -9,6 +9,6 @@ interface IOrderBookDao : IBaseDao<Create> {
     @Query("SELECT * FROM 'create'")
     suspend fun getAll(): List<Create>
 
-    @Query("SELECT * FROM 'create' WHERE 'orderId'=:id")
+    @Query("SELECT * FROM 'create' WHERE orderId=:id")
     suspend fun getById(id: String): Create
 }

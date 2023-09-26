@@ -181,7 +181,9 @@ class OrderBookService : Service() {
 
     fun updateCreate(trade: Trade) = CoroutineScope(Dispatchers.IO).launch {
         val create = orderBookDao.getById(trade.makerOrderId)
+        Log.d("WebSocket", "Create: ${create.orderId}-${create.price}-${create.volume}")
         val newVolume = create.volume.toDouble() - trade.base.toDouble()
+        Log.d("WebSocket", "New Volume: $newVolume")
         create.volume = newVolume.toString()
         orderBookDao.update(create)
     }
