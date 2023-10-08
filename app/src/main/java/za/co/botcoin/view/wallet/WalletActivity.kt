@@ -29,7 +29,7 @@ class WalletActivity : BaseActivity() {
 
     private fun attacheNavController() {
         this.navController = Navigation.findNavController(this, R.id.navHostFragment)
-        NavigationUI.setupActionBarWithNavController(this, this.navController)
+        //NavigationUI.setupWithNavController(this, this.navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {
