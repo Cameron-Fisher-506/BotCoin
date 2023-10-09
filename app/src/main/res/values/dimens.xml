@@ -3,6 +3,7 @@
     <!--Spaces-->
     <dimen name="tiny_space">4dp</dimen>
     <dimen name="small_space">8dp</dimen>
+    <dimen name="normal_space">12dp</dimen>
     <dimen name="medium_space">16dp</dimen>
     <dimen name="large_space">18dp</dimen>
     <dimen name="huge_space">20dp</dimen>

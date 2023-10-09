@@ -53,7 +53,7 @@ class MainActivity : BaseActivity() {
 
     private fun attachNavController() {
         navController = Navigation.findNavController(this, R.id.navHostFragment)
-        NavigationUI.setupActionBarWithNavController(this, navController)
+        //NavigationUI.setupWithNavController(binding.toolbar, navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {

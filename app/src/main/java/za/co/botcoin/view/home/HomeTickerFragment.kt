@@ -32,13 +32,13 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
         binding = HomeFragmentBinding.bind(view)
         setUpViews()
         setUpMenu()
-        //fetchAndObserveTickers()
+        fetchAndObserveTickers()
         navigateToPrivacyPolicyScreen(view)
 
         val delay: Long = 100000L
         handler.postDelayed(object : Runnable {
             override fun run() {
-                //fetchAndObserveTickers()
+                fetchAndObserveTickers()
                 if(!KioskService.isMyServiceRunning(homeActivity, BotService::class.java.simpleName)) {
                     GeneralUtils.runAutoTrade(homeActivity)
                 }

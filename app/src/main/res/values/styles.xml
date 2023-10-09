@@ -3,7 +3,7 @@
     <style name="Theme.BotCoin" parent="SuperMaterialTheme"/>
 
     <!-- Base application theme. Theme.BotCoin-->
-    <style name="SuperMaterialTheme" parent="Theme.MaterialComponents.DayNight">
+    <style name="SuperMaterialTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="android:textColorPrimary">@color/white</item>

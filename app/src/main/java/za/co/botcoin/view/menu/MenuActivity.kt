@@ -29,7 +29,7 @@ class MenuActivity : BaseActivity() {
 
     private fun attachNavController() {
         this.navController = Navigation.findNavController(this, R.id.navHostFragment)
-        NavigationUI.setupActionBarWithNavController(this, this.navController)
+        //NavigationUI.setupActionBarWithNavController(this, this.navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {
