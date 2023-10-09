@@ -26,11 +26,13 @@
         </activity>
         <activity android:name="za.co.botcoin.view.settings.AutoTradeActivity"/>
         <activity android:name="za.co.botcoin.view.trade.TradeActivity"/>
+        <activity android:name="za.co.botcoin.view.orderBook.OrderBookActivity"/>
         <activity android:name="za.co.botcoin.view.wallet.WalletActivity"/>
         <activity android:name="za.co.botcoin.view.menu.MenuActivity"/>
 
         <service android:name="za.co.botcoin.services.BotService"/>
         <service android:name="za.co.botcoin.services.FiboService"/>
+        <service android:name="za.co.botcoin.services.OrderBookService"/>
     </application>
 
 </manifest>

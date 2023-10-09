@@ -10,6 +10,7 @@ import za.co.botcoin.R
 import za.co.botcoin.databinding.MenuActivityBinding
 import za.co.botcoin.view.BaseActivity
 import za.co.botcoin.view.home.MainActivity
+import za.co.botcoin.view.orderBook.OrderBookActivity
 import za.co.botcoin.view.trade.TradeActivity
 import za.co.botcoin.view.wallet.WalletActivity
 
@@ -40,7 +41,7 @@ class MenuActivity : BaseActivity() {
         this.binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> startActivity(Intent(this, MainActivity::class.java))
-                R.id.trade -> startActivity(Intent(this, TradeActivity::class.java))
+                R.id.orderBook -> startActivity(Intent(this, OrderBookActivity::class.java))
                 R.id.wallet -> startActivity(Intent(this, WalletActivity::class.java))
             }
             true

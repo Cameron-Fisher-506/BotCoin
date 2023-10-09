@@ -5,7 +5,7 @@
         android:icon="@drawable/home"
         android:title="@string/home"/>
     <item
-        android:id="@+id/trade"
+        android:id="@+id/orderBook"
         android:icon="@drawable/bot"
         android:title="@string/trade"/>
     <item
