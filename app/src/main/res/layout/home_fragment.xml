@@ -1,49 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/appBarCoordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/collapsing_toolbar_background">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+    <com.example.corelib.toolbar.CollapsingToolbarView
+        android:id="@+id/collapsingToolbarView"
         android:layout_width="match_parent"
         android:layout_height="256dp"
-        android:fitsSystemWindows="true"
-        android:theme="@style/Theme.BotCoin">
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/collapsing_toolbar_background"
-            android:fitsSystemWindows="true"
-            app:collapsedTitleTextColor="@color/white"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginStart="40dp"
-            app:expandedTitleTextColor="@color/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:title="BotCoin">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/app_name"
-                android:scaleType="fitXY"
-                android:src="@drawable/space_rocket"
-                app:layout_collapseMode="parallax"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:elevation="7dp"
-                app:layout_collapseMode="pin" />
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
+        app:CollapsingToolbarViewIcon="@drawable/space_rocket"
+        app:CollapsingToolbarViewTitle="BotCoin"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addFloatingActionButton"
@@ -56,7 +23,7 @@
         android:src="@drawable/baseline_add_24"
         app:elevation="10dp"
         app:fabSize="normal"
-        app:layout_anchor="@id/appBarLayout"
+        app:layout_anchor="@id/collapsingToolbarView"
         app:layout_anchorGravity="bottom|right" />
 
     <androidx.core.widget.NestedScrollView
