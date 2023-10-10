@@ -29,8 +29,8 @@
     </declare-styleable>
 
     <declare-styleable name="CollapsingToolbarView">
-        <attr name="CollapsingToolbarViewTitle" format="string" />
-        <attr name="CollapsingToolbarViewSubTitle" format="string" />
-        <attr name="CollapsingToolbarViewIcon" format="reference" />
+        <attr name="collapsingToolbarViewTitle" format="string" />
+        <attr name="collapsingToolbarViewSubTitle" format="string" />
+        <attr name="collapsingToolbarViewIcon" format="reference" />
     </declare-styleable>
 </resources>

@@ -15,8 +15,8 @@ class CollapsingToolbarView @JvmOverloads constructor(context: Context, attrs: A
         binding = CollapsingToolbarViewBinding.bind(this)
 
         val typedArray: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.CollapsingToolbarView, defStyleAttr, 0)
-        binding.collapsingToolbarLayout.title = typedArray.getText(R.styleable.CollapsingToolbarView_CollapsingToolbarViewTitle)
-        binding.backgroundImageView.setImageResource(typedArray.getResourceId(R.styleable.CollapsingToolbarView_CollapsingToolbarViewIcon, R.drawable.ic_launcher_foreground))
+        binding.collapsingToolbarLayout.title = typedArray.getText(R.styleable.collapsingToolbarView_CollapsingToolbarViewTitle)
+        binding.backgroundImageView.setImageResource(typedArray.getResourceId(R.styleable.collapsingToolbarView_CollapsingToolbarViewIcon, R.drawable.ic_launcher_foreground))
         typedArray.recycle()
     }
 

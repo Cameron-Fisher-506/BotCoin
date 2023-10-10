@@ -9,8 +9,8 @@
         android:id="@+id/collapsingToolbarView"
         android:layout_width="match_parent"
         android:layout_height="256dp"
-        app:CollapsingToolbarViewIcon="@drawable/space_rocket"
-        app:CollapsingToolbarViewTitle="BotCoin"/>
+        app:collapsingToolbarViewIcon="@drawable/space_rocket"
+        app:collapsingToolbarViewTitle="BotCoin"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addFloatingActionButton"
