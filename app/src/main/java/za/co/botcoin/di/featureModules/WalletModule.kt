@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
+import za.co.botcoin.di.ActivityScope
 import za.co.botcoin.di.ViewModelKey
 import za.co.botcoin.di.managers.IResourceManager
 import za.co.botcoin.model.repository.balance.BalanceRepository
@@ -15,6 +16,7 @@ import za.co.botcoin.model.repository.stopOrder.StopOrderRepository
 import za.co.botcoin.model.repository.withdrawal.WithdrawalRepository
 import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
 import za.co.botcoin.utils.services.notificationService.INotificationService
+import za.co.botcoin.view.wallet.WalletFlowManager
 import za.co.botcoin.view.wallet.WalletViewModel
 import za.co.botcoin.view.wallet.WalletWithdrawViewModel
 import za.co.botcoin.view.wallet.menu.WalletMenuOrdersViewModel
@@ -22,27 +24,33 @@ import za.co.botcoin.view.wallet.menu.WalletMenuReceiveViewModel
 import za.co.botcoin.view.wallet.menu.WalletMenuSendViewModel
 
 @Module
-class WalletViewModelModule {
+class WalletModule {
+    @Provides
+    @ActivityScope
+    fun walletFlowManager(): WalletFlowManager = WalletFlowManager()
+
     @Provides
     @IntoMap
     @ViewModelKey(WalletViewModel::class)
     fun walletViewModel(
         application: Application,
+        walletFlowManager: WalletFlowManager,
         alertDialogService: IAlertDialogService,
         resourceManager: IResourceManager,
         balanceRepository: BalanceRepository
-    ): ViewModel = WalletViewModel(application, alertDialogService, resourceManager, balanceRepository)
+    ): ViewModel = WalletViewModel(application, walletFlowManager, alertDialogService, resourceManager, balanceRepository)
 
     @Provides
     @IntoMap
     @ViewModelKey(WalletMenuOrdersViewModel::class)
     fun walletMenuOrdersViewModel(
         application: Application,
+        walletFlowManager: WalletFlowManager,
         resourceManager: IResourceManager,
         notificationService: INotificationService,
         orderRepository: OrderRepository,
         stopOrderRepository: StopOrderRepository
-    ): ViewModel = WalletMenuOrdersViewModel(application, resourceManager, notificationService, orderRepository, stopOrderRepository)
+    ): ViewModel = WalletMenuOrdersViewModel(application, walletFlowManager, resourceManager, notificationService, orderRepository, stopOrderRepository)
 
     @Provides
     @IntoMap
@@ -60,10 +68,11 @@ class WalletViewModelModule {
     @ViewModelKey(WalletMenuSendViewModel::class)
     fun walletMenuSendViewModel(
         application: Application,
+        alertDialogService: IAlertDialogService,
         resourceManager: IResourceManager,
         notificationService: INotificationService,
         sendRepository: SendRepository
-    ): ViewModel = WalletMenuSendViewModel(application, resourceManager, notificationService, sendRepository)
+    ): ViewModel = WalletMenuSendViewModel(application, alertDialogService, resourceManager, notificationService, sendRepository)
 
     @Provides
     @IntoMap

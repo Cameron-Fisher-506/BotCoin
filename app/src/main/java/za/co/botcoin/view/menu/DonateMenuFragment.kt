@@ -26,21 +26,21 @@ class DonateMenuFragment : MenuBaseFragment(R.layout.donate_menu_fragment) {
     }
 
     private fun setUpOnClickListeners() {
-        binding.donateBtcOptionLinearLayoutCompat.setOnClickListener {
-            val action = DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment(BTC)
-            Navigation.findNavController(it).navigate(action)
+        binding.donateBtcOptionOptionActionView.setOnClickListener {
+            menuViewModel.selectedDonateAsset = BTC
+            Navigation.findNavController(it).navigate(DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment())
         }
-        binding.donateXrpOptionLinearLayoutCompat.setOnClickListener {
-            val action = DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment(XRP)
-            Navigation.findNavController(it).navigate(action)
+        binding.donateXrpOptionOptionActionView.setOnClickListener {
+            menuViewModel.selectedDonateAsset = XRP
+            Navigation.findNavController(it).navigate( DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment())
         }
-        binding.donateEthOptionLinearLayout.setOnClickListener {
-            val action = DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment(ETH)
-            Navigation.findNavController(it).navigate(action)
+        binding.donateEthOptionOptionActionView.setOnClickListener {
+            menuViewModel.selectedDonateAsset = ETH
+            Navigation.findNavController(it).navigate(DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment())
         }
-        binding.donateLtcOptionLinearLayout.setOnClickListener {
-            val action = DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment(LTC)
-            Navigation.findNavController(it).navigate(action)
+        binding.donateLtcOptionOptionActionView.setOnClickListener {
+            menuViewModel.selectedDonateAsset = LTC
+            Navigation.findNavController(it).navigate(DonateMenuFragmentDirections.actionDonateMenuFragmentToDonateFragment())
         }
     }
 }

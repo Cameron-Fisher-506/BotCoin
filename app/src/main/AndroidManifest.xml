@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="za.co.botcoin">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,7 +14,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/botcoin"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BotCoin">
+        android:theme="@style/Theme.BotCoin"
+        tools:replace="android:allowBackup,icon,theme,label">
         <activity android:name=".view.home.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -24,11 +26,13 @@
         </activity>
         <activity android:name="za.co.botcoin.view.settings.AutoTradeActivity"/>
         <activity android:name="za.co.botcoin.view.trade.TradeActivity"/>
+        <activity android:name="za.co.botcoin.view.orderBook.OrderBookActivity"/>
         <activity android:name="za.co.botcoin.view.wallet.WalletActivity"/>
         <activity android:name="za.co.botcoin.view.menu.MenuActivity"/>
 
         <service android:name="za.co.botcoin.services.BotService"/>
         <service android:name="za.co.botcoin.services.FiboService"/>
+        <service android:name="za.co.botcoin.services.OrderBookService"/>
     </application>
 
 </manifest>

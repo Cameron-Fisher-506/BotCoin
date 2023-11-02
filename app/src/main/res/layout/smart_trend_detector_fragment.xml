@@ -9,32 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/smartTrendDetectorTextView"
-            android:layout_width="wrap_content"
+        <com.example.corelib.informational.InformationView
+            android:id="@+id/smartTrendDetectorInformationView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="15dp"
-            android:text="@string/smart_trend_detector"
-            android:textStyle="bold"
+            app:text="@string/smart_trend_detector"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/smartTrendDetectorImageButton"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="3dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="20dp"
-            android:contentDescription="@string/smart_trend_detector"
-            android:src="@drawable/ic_info_black_24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.021"
-            app:layout_constraintStart_toEndOf="@+id/smartTrendDetectorTextView"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <Spinner
             android:id="@+id/spinner"
@@ -42,10 +25,9 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/smartTrendDetectorImageButton" />
+            app:layout_constraintTop_toBottomOf="@+id/smartTrendDetectorInformationView" />
 
         <Button
             android:id="@+id/saveButton"
@@ -53,11 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="30dp"
-            android:layout_marginBottom="15dp"
-            android:background="@color/darkblue"
             android:text="@string/Save"
-            android:textColor="@color/white"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -69,11 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="15dp"
-            android:background="@color/darkblue"
             android:text="@string/use_default"
-            android:textColor="@color/white"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/saveButton" />

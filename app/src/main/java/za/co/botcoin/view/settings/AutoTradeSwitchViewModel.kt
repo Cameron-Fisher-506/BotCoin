@@ -14,10 +14,17 @@ class AutoTradeSwitchViewModel(
     private val sharedPreferencesService: ISharedPreferencesService
 ) : ViewModel() {
 
-    fun displayAutoTradeAlertDialog() {
+    fun displayAutoTradeDisclaimerAlertDialog() {
         alertDialogService.showAlertDialog(AlertDialogProperties().apply {
             title = resourceManager.getString(R.string.auto_trade)
             message = resourceManager.getString(R.string.auto_trade_disclaimer)
+        })
+    }
+
+    fun displayAutoTradeInstructionsAlertDialog() {
+        alertDialogService.showAlertDialog(AlertDialogProperties().apply {
+            title = resourceManager.getString(R.string.auto_trade)
+            message = resourceManager.getString(R.string.auto_trade_instructions)
         })
     }
 

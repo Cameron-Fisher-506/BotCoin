@@ -11,7 +11,7 @@ import za.co.botcoin.utils.services.sharedPreferencesService.ISharedPreferencesS
 import za.co.botcoin.view.menu.*
 
 @Module
-class MenuViewModelModule {
+class MenuModule {
     @Provides
     @IntoMap
     @ViewModelKey(MenuTrailingStopViewModel::class)
@@ -65,5 +65,4 @@ class MenuViewModelModule {
         resourceManager: IResourceManager,
         sharedPreferencesService: ISharedPreferencesService
     ) : ViewModel = MenuLunoApiViewModel(alertDialogService, resourceManager, sharedPreferencesService)
-
 }

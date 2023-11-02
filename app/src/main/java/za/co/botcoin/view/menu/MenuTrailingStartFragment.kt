@@ -45,7 +45,7 @@ class MenuTrailingStartFragment : MenuBaseFragment(R.layout.trailing_start_fragm
             menuTrailingStartViewModel.displayDefaultValueSet()
         }
 
-        this.binding.trailingStartImageButton.setOnClickListener {
+        this.binding.trailingStartInformationView.setOnClickListener {
             menuTrailingStartViewModel.displayTrailingStartDescriptionAlertDialog()
         }
     }

@@ -1,49 +1,98 @@
 package za.co.botcoin.view.wallet.menu
 
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import za.co.botcoin.R
 import za.co.botcoin.databinding.OrdersFragmentBinding
+import za.co.botcoin.di.ActivityComponent
 import za.co.botcoin.enum.Status
-import za.co.botcoin.utils.DateTimeUtils
+import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.view.wallet.WalletBaseFragment
+import kotlin.math.abs
 
 class WalletMenuOrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
     private lateinit var binding: OrdersFragmentBinding
-    private val ordersViewModel by viewModels<WalletMenuOrdersViewModel>(factoryProducer = { walletActivity.getViewModelFactory })
+    private val walletMenuOrdersViewModel by viewModels<WalletMenuOrdersViewModel>(factoryProducer = { walletActivity.getViewModelFactory })
     private lateinit var walletMenuOrderListAdapter: WalletMenuOrderListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.binding = OrdersFragmentBinding.bind(view)
-
+        binding = OrdersFragmentBinding.bind(view)
         setUpViews()
         fetchAndObserveOrders()
     }
 
     private fun setUpViews() {
-        this.walletMenuOrderListAdapter = WalletMenuOrderListAdapter(arrayListOf())
-        this.binding.ordersRecyclerView.layoutManager = GridLayoutManager(context, 1) //TODO: Do this in xml
-        this.binding.ordersRecyclerView.adapter = walletMenuOrderListAdapter
+        walletMenuOrderListAdapter = WalletMenuOrderListAdapter(arrayListOf()) {
+            val bottomSheetFragment = WalletMenuOrderInformationBottomSheetDialogFragment(it)
+            bottomSheetFragment.show(parentFragmentManager, "BSDialogFragment")
+        }
+        binding.ordersRecyclerView.adapter = walletMenuOrderListAdapter
+
+        val simpleCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                if (direction == ItemTouchHelper.LEFT && walletMenuOrdersViewModel.isOrderStateNotComplete(viewHolder.absoluteAdapterPosition)) {
+                    walletMenuOrderListAdapter.cancelOrder("")
+                    GeneralUtils.notify(viewHolder.itemView, "Order Cancelled")
+                } else {
+                    walletMenuOrderListAdapter.updateOrderList(walletViewModel.ordersResponse)
+                    GeneralUtils.notify(viewHolder.itemView, "Order Already Completed")
+                }
+            }
+
+            override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+
+                val directionRight = 1
+                val directionLeft = 0
+
+                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE && isCurrentlyActive) {
+                    val direction = if (dX > 0) directionRight else directionLeft
+                    val absoluteDisplacement = abs(dX)
+
+                    if (direction == directionLeft) {
+                        val itemView = viewHolder.itemView
+                        val backgroundColor = ColorDrawable()
+                        backgroundColor.color = Color.RED
+                        backgroundColor.setBounds(itemView.left, itemView.top, itemView.right, itemView.bottom)
+                        backgroundColor.draw(c)
+
+                        val icon = ActivityCompat.getDrawable(walletActivity, R.drawable.ic_baseline_cancel_24)
+                        if (icon != null) {
+                            val top = ((itemView.height / 2) - (icon.intrinsicHeight / 2)) + itemView.top
+                            icon.setBounds(((0 - icon.intrinsicWidth) + absoluteDisplacement).toInt(), top, (0 + absoluteDisplacement).toInt(), top + icon.intrinsicHeight)
+                            icon.draw(c)
+                        }
+                    }
+                }
+            }
+        }
+        ItemTouchHelper(simpleCallback).apply { attachToRecyclerView(binding.ordersRecyclerView) }
     }
 
     private fun fetchAndObserveOrders() {
-        this.ordersViewModel.fetchOrders()
-        this.ordersViewModel.ordersResponse.observe(viewLifecycleOwner) {
+        walletMenuOrdersViewModel.fetchOrders()
+        walletMenuOrdersViewModel.ordersResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     walletActivity.dismissProgressBar()
                     displayOrdersRecyclerView()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
-                        data.map { order ->
-                            order.completedTime = DateTimeUtils.format(order.completedTime.toLong())
-                            order.createdTime = DateTimeUtils.format(order.createdTime.toLong())
-                        }
-                        val sortedOrders = data.sortedByDescending { order -> order.createdTime }
-                        walletMenuOrderListAdapter.updateOrderList(sortedOrders)
+                        walletViewModel.ordersResponse = walletMenuOrdersViewModel.getSortedOrdersByCreatedTimeDescending(data)
+                        walletMenuOrdersViewModel.updateOrdersCreatedAndCreatedTime()
+                        walletMenuOrderListAdapter.updateOrderList(walletViewModel.ordersResponse)
                     } else {
                         displayErrorTextView()
                     }
@@ -61,22 +110,22 @@ class WalletMenuOrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
     }
 
     private fun attachStopOrderObserver() {
-        this.ordersViewModel.stopOrderResponse.observe(viewLifecycleOwner) {
+        walletMenuOrdersViewModel.stopOrderResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     walletActivity.dismissProgressBar()
                     displayOrdersRecyclerView()
                     val data = it.data
                     if (!data.isNullOrEmpty() && data.first().success) {
-                        ordersViewModel.displayOrderCancellationSuccessNotification()
+                        walletMenuOrdersViewModel.displayOrderCancellationSuccessNotification()
                     } else {
-                        ordersViewModel.displayOrderCancellationFailureNotification()
+                        walletMenuOrdersViewModel.displayOrderCancellationFailureNotification()
                     }
                 }
                 Status.ERROR -> {
                     walletActivity.dismissProgressBar()
                     displayOrdersRecyclerView()
-                    ordersViewModel.displayOrderCancellationFailureNotification()
+                    walletMenuOrdersViewModel.displayOrderCancellationFailureNotification()
                 }
                 Status.LOADING -> {
                     walletActivity.displayProgressBar()

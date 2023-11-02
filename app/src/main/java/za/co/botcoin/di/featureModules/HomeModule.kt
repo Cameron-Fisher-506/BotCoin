@@ -8,13 +8,20 @@ import dagger.multibindings.IntoMap
 import za.co.botcoin.di.ViewModelKey
 import za.co.botcoin.model.repository.account.AccountRepository
 import za.co.botcoin.model.repository.tickers.TickersRepository
+import za.co.botcoin.utils.services.cacheService.ICacheService
 import za.co.botcoin.utils.services.sharedPreferencesService.ISharedPreferencesService
 import za.co.botcoin.view.home.HomeDisclaimerPolicyViewModel
 import za.co.botcoin.view.home.HomePrivacyPolicyViewModel
 import za.co.botcoin.view.home.HomeTickerViewModel
+import za.co.botcoin.view.home.HomeViewModel
 
 @Module
-class HomeViewModelModule {
+class HomeModule {
+    @Provides
+    @IntoMap
+    @ViewModelKey(HomeViewModel::class)
+    fun homeViewModel(cacheService: ICacheService): ViewModel = HomeViewModel(cacheService)
+
     @Provides
     @IntoMap
     @ViewModelKey(HomeTickerViewModel::class)

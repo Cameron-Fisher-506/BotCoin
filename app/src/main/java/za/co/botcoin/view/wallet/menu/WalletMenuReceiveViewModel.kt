@@ -26,4 +26,11 @@ class WalletMenuReceiveViewModel(
             emit(receiveRepository.receive(asset, keyId, secretKey))
         }
     }
+
+    fun displayReceiveDescriptionAlertDialog() {
+        alertDialogService.showAlertDialog(AlertDialogProperties().apply {
+            title = resourceManager.getString(R.string.receive)
+            message = resourceManager.getString(R.string.receive_description)
+        })
+    }
 }

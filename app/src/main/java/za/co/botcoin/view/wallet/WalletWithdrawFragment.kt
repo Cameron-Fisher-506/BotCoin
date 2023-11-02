@@ -15,20 +15,15 @@ class WalletWithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.binding = WithdrawFragmentBinding.bind(view)
-
+        binding = WithdrawFragmentBinding.bind(view)
         setUpOnClickListeners()
     }
 
     private fun setUpOnClickListeners() {
-        this.binding.withdrawButton.setOnClickListener {
-            val amount: String = this.binding.amountEditText.text.toString()
-            val beneficiaryId: String = this.binding.amountEditText.text.toString()
-
-            if (withdrawViewModel.isAmountNotEmptyAndNotZero(amount) && beneficiaryId.isNotBlank()) {
+        binding.withdrawButton.setOnClickListener {
+            if (withdrawViewModel.isAmountNotEmptyAndNotZero(binding.amountCustomInputView.getText()) && binding.beneficiaryIdCustomInputView.getText().isNotBlank()) {
                 if (isApiKeySet(context)) {
-                    withdrawViewModel.withdrawal(ZAR_EFT, amount, beneficiaryId)
-                    attachWithdrawalObserver()
+                    submitWithdrawalAndObserve()
                 } else {
                     walletViewModel.displayLunoApiCredentialsAlertDialog()
                 }
@@ -36,17 +31,20 @@ class WalletWithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
                 withdrawViewModel.displayWithdrawalAlertDialog()
             }
         }
+        binding.withdrawInformationView.setOnClickListener {
+            withdrawViewModel.displayWithdrawalDescriptionAlertDialog()
+        }
     }
 
-    private fun attachWithdrawalObserver() {
-        this.withdrawViewModel.withdrawalResponse.observe(viewLifecycleOwner) {
+    private fun submitWithdrawalAndObserve() {
+        withdrawViewModel.withdrawal(ZAR_EFT, binding.amountCustomInputView.getText(), binding.beneficiaryIdCustomInputView.getText())
+        withdrawViewModel.withdrawalResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
                     walletActivity.dismissProgressBar()
                     displayWalletWithdrawOptions()
-                    val data = it.data
-                    if (!data.isNullOrEmpty()) {
-                        data.map { withdrawal -> withdrawViewModel.displayAmountWithdrewNotification(withdrawal.amount) }
+                    if (!it.data.isNullOrEmpty()) {
+                        it.data.map { withdrawal -> withdrawViewModel.displayAmountWithdrewNotification(withdrawal.amount) }
                     } else {
                         displayErrorMessage()
                         withdrawViewModel.displayWithdrawalFailedNotification()

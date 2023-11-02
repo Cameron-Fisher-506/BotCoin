@@ -1,47 +1,64 @@
 package za.co.botcoin.view.wallet.menu
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import za.co.botcoin.databinding.OrderListItemBinding
+import com.example.corelib.databinding.OptionActionMultilineViewBinding
+import za.co.botcoin.R
 import za.co.botcoin.model.models.Order
-import za.co.botcoin.utils.GeneralUtils
 
-class WalletMenuOrderListAdapter(private val ordersList: ArrayList<Order>) : RecyclerView.Adapter<WalletMenuOrderListAdapter.ViewHolder>() {
-    class ViewHolder(val binding: OrderListItemBinding) : RecyclerView.ViewHolder(binding.root)
-
+class WalletMenuOrderListAdapter(
+    private var ordersList: List<Order>,
+    private var openBottomSheetDialog: (order: Order) -> Unit
+) : RecyclerView.Adapter<WalletMenuOrderListAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = OrderListItemBinding.inflate(inflater, parent, false)
+        val binding = OptionActionMultilineViewBinding.inflate(inflater, parent, false)
         return ViewHolder(binding)
     }
 
     override fun getItemCount(): Int = ordersList.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.typeTextView.text = ordersList[position].type
-        holder.binding.pairTextView.text = ordersList[position].pair
-        holder.binding.completedTimeTextView.text = ordersList[position].completedTime
-        holder.binding.createdTimeTextView.text = ordersList[position].createdTime
-        holder.binding.limitPriceTextView.text = ordersList[position].limitPrice
-        holder.binding.stateTextView.text = ordersList[position].state
-        holder.binding.limitVolumeTextView.text = ordersList[position].limitVolume
-        if (holder.binding.stateTextView.text.toString() == "COMPLETE") {
-            holder.binding.cancelButton.visibility = View.INVISIBLE
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = with(holder.binding) {
+        optionActionInformationOneTextView.text = "ZAR"
+        if (ordersList[position].type == "BID") {
+            optionActionInformationTwoTextView.text = "Buy Coin"
+            optionActionIconImageView.setImageResource(R.drawable.xrp)
         } else {
-            holder.binding.cancelButton.visibility = View.VISIBLE
+            optionActionInformationTwoTextView.text = "Sell Coin"
+            optionActionIconImageView.setImageResource(R.drawable.sa)
         }
+        optionActionDescriptionOneTextView.text = ordersList[position].limitPrice
+        optionActionDescriptionTwoTextView.text = ordersList[position].limitVolume
+        optionActionImageView.visibility = View.GONE
 
-        holder.binding.cancelButton.setOnClickListener {
-            GeneralUtils.createAlertDialog(it.context, "Cancel Order", "Are you sure you would like to cancel your order?", true).show()
-            //this.withdrawalViewModel.stopOrder(true, orderId)
+        val backgroundColor = if (ordersList[position].state == "COMPLETE") {
+            Color.parseColor("#4bb543")
+        } else {
+            Color.parseColor("#D81B60")
+        }
+        formContainer.setBackgroundColor(backgroundColor)
+
+        informationView.setOnClickListener {
+            openBottomSheetDialog.invoke(ordersList[position])
         }
     }
 
-    fun updateOrderList(orders: List<Order>) {
-        this.ordersList.clear()
-        this.ordersList.addAll(orders)
-        notifyItemRangeChanged(0, orders.size)
+    fun cancelOrder(orderId: String) {
+        //this.withdrawalViewModel.stopOrder(true, orderId)
+        updateOrderList(ordersList)
     }
+
+    fun updateOrderList(newOrdersList: List<Order>) {
+        val diffUtilCallback = WalletMenuOrderListDiffUtil(ordersList, newOrdersList)
+        val diffResults = DiffUtil.calculateDiff(diffUtilCallback)
+        ordersList = newOrdersList
+        diffResults.dispatchUpdatesTo(this)
+    }
+
+    class ViewHolder(val binding: OptionActionMultilineViewBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

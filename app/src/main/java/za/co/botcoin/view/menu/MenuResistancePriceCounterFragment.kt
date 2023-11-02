@@ -37,7 +37,7 @@ class MenuResistancePriceCounterFragment : MenuBaseFragment(R.layout.resistance_
             menuResistancePriceCounterViewModel.saveResistancePriceCounter((this.binding.spinner.selectedItemPosition).toString())
             menuResistancePriceCounterViewModel.displaySavedToast()
         }
-        this.binding.resistancePriceCounterImageButon.setOnClickListener {
+        this.binding.resistancePriceCounterInformationView.setOnClickListener {
            menuResistancePriceCounterViewModel.displayResistancePriceCounterDescriptionAlertDialog()
         }
     }

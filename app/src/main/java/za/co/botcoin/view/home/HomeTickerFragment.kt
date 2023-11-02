@@ -29,8 +29,8 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.binding = HomeFragmentBinding.bind(view)
-
+        binding = HomeFragmentBinding.bind(view)
+        setUpViews()
         setUpMenu()
         fetchAndObserveTickers()
         navigateToPrivacyPolicyScreen(view)
@@ -39,8 +39,8 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
         handler.postDelayed(object : Runnable {
             override fun run() {
                 fetchAndObserveTickers()
-                if(!KioskService.isMyServiceRunning(requireContext(), BotService::class.java.simpleName)) {
-                    GeneralUtils.runAutoTrade(requireContext())
+                if(!KioskService.isMyServiceRunning(homeActivity, BotService::class.java.simpleName)) {
+                    GeneralUtils.runAutoTrade(homeActivity)
                 }
                 handler.postDelayed(this, delay)
             }
@@ -48,10 +48,15 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
 
         /*binding.xrpZarLinearLayoutCompat.delayOnLifecycle(DELAY) {
             fetchAndObserveTickers()
-            if(!KioskService.isMyServiceRunning(requireContext(), BotService::class.java.simpleName)) {
-                GeneralUtils.runAutoTrade(requireContext())
+            if(!KioskService.isMyServiceRunning(homeActivity, BotService::class.java.simpleName)) {
+                GeneralUtils.runAutoTrade(homeActivity)
             }
         }*/
+    }
+
+    private fun setUpViews() {
+        binding.xrpZarOptionActionView.hideOptionActionDividerView()
+        binding.xrpZarOptionActionView.hideOptionActionImageView()
     }
 
     private fun setUpMenu() {
@@ -90,10 +95,9 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
                     if (!data.isNullOrEmpty()) {
                         displayCoins()
 
-                        data.map { ticker ->
+                        data.forEach { ticker ->
                             if (ticker.pair.equals(PAIR_XRPZAR, true)) {
-                                this.binding.xrpZarTextView.setText(R.string.XRPZAR)
-                                this.binding.xrpZarTextView.append(ticker.lastTrade)
+                                this.binding.xrpZarOptionActionView.setText(getString(R.string.XRPZAR, ticker.lastTrade))
                             }
                         }
                     } else {
@@ -110,13 +114,13 @@ class HomeTickerFragment : HomeBaseFragment(R.layout.home_fragment) {
     }
 
     private fun displayCoins() {
-        this.binding.xrpZarLinearLayoutCompat.visibility = View.VISIBLE
-        this.binding.errorTextView.visibility = View.GONE
+        binding.xrpZarOptionActionView.visibility = View.VISIBLE
+        binding.errorTextView.visibility = View.GONE
     }
 
     private fun displayErrorMessage() {
-        this.binding.xrpZarLinearLayoutCompat.visibility = View.GONE
-        this.binding.errorTextView.visibility = View.VISIBLE
+        binding.xrpZarOptionActionView.visibility = View.GONE
+        binding.errorTextView.visibility = View.VISIBLE
     }
 
     private fun navigateToPrivacyPolicyScreen(view: View) {

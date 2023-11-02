@@ -18,26 +18,26 @@ class WalletMenuSendFragment : WalletBaseFragment(R.layout.send_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.binding = SendFragmentBinding.bind(view)
-
-        arguments?.let {
-            addBtnSend(it.getString("asset") ?: "")
-        }
+        setUpOnClickListeners()
     }
 
-    private fun addBtnSend(asset: String) {
-        this.binding.sendButton.setOnClickListener {
-            val amount = this.binding.amountEditText.text.toString()
-            val address = this.binding.addressEditText.text.toString()
-            val destinationTag = this.binding.tagEditText.text.toString()
+    private fun setUpOnClickListeners() {
+        binding.sendButton.setOnClickListener {
+            val amount = this.binding.amountCustomInputView.getText()
+            val address = this.binding.addressCustomInputView.getText()
+            val destinationTag = this.binding.tagCustomInputView.getText()
             if (amount.isNotBlank() && address.isNotBlank()) {
                 if (amount != "0") {
-                    sendAndObserveSend(amount, asset, address, destinationTag)
+                    sendAndObserveSend(amount, walletViewModel.selectedAsset, address, destinationTag)
                 } else {
-                    createAlertDialog(context, "Invalid amount entered!", "Please note that you cannot send 0 $asset.", false).show()
+                    createAlertDialog(context, "Invalid amount entered!", "Please note that you cannot send 0 ${ walletViewModel.selectedAsset }.", false).show()
                 }
             } else {
-                createAlertDialog(context, "Send", "Please enter the amount of $asset You would like to send. Please enter a valid recipient account address and tag.", false).show()
+                createAlertDialog(context, "Send", "Please enter the amount of ${ walletViewModel.selectedAsset } You would like to send. Please enter a valid recipient account address and tag.", false).show()
             }
+        }
+        binding.sendInformationView.setOnClickListener {
+            walletMenuSendViewModel.displaySendDescriptionAlertDialog()
         }
     }
 

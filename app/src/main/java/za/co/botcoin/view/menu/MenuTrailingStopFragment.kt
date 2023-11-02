@@ -45,7 +45,7 @@ class MenuTrailingStopFragment : MenuBaseFragment(R.layout.trailing_stop_fragmen
             menuTrailingStopViewModel.displayDefaultValueSet()
         }
 
-        this.binding.trailingStopImageButton.setOnClickListener {
+        this.binding.trailingStopInformationView.setOnClickListener {
             menuTrailingStopViewModel.displayTrailingStopDescriptionAlertDialog()
         }
     }

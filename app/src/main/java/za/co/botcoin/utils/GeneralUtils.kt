@@ -8,6 +8,8 @@ import android.graphics.Color
 import android.os.Build
 import android.util.Base64
 import android.util.Log
+import android.view.View
+import com.google.android.material.snackbar.Snackbar
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import za.co.botcoin.R
@@ -39,6 +41,10 @@ object GeneralUtils {
             return true
         }
         return true
+    }
+
+    fun notify(view: View, message: String) {
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
     }
 
     fun createAlertDialog(context: Context?, title: String, message: String, isPrompt: Boolean): AlertDialog {
