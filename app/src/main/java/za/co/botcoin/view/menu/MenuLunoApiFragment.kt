@@ -2,7 +2,10 @@ package za.co.botcoin.view.menu
 
 import android.os.Bundle
 import android.view.View
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.viewModels
+import com.example.corelib.buttons.CustomInputView
 import za.co.botcoin.R
 import za.co.botcoin.databinding.LunoApiFragmentBinding
 import za.co.botcoin.utils.ConstantUtils
@@ -45,4 +48,15 @@ class MenuLunoApiFragment : MenuBaseFragment(R.layout.luno_api_fragment) {
             menuLunoApiViewModel.displayLunoApiCredentialsInformationAlertDialog()
         }
     }
+}
+
+@Composable
+fun MenuLunoApiFragmentScreen() {
+    CustomInputView()
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ShowScreen() {
+    MenuLunoApiFragmentScreen()
 }
