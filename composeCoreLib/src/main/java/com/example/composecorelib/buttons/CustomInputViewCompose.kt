@@ -17,11 +17,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CustomInputView(
+fun CustomInputViewCompose(
     title: String = "Title",
     value: String = "Value",
-    description: String = "description",
-    errorMessage: String = "error"
+    description: String = "",
+    errorMessage: String = ""
 ) {
     Surface(modifier = Modifier.wrapContentSize()) {
         Column(modifier = Modifier.fillMaxWidth(1f)) {
@@ -74,5 +74,5 @@ fun TextFieldView(value: String, isError: Boolean = false) {
 @Preview(showBackground = true)
 @Composable
 fun Preview() {
-    CustomInputView()
+    CustomInputViewCompose()
 }
