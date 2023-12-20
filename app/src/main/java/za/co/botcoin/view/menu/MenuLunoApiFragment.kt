@@ -21,6 +21,7 @@ import androidx.fragment.app.viewModels
 import com.example.composecorelib.buttons.ButtonView
 import com.example.composecorelib.buttons.CustomInputViewCompose
 import com.example.composecorelib.informational.InformationViewCompose
+import za.co.botcoin.R
 import za.co.botcoin.utils.ConstantUtils
 
 class MenuLunoApiFragment : MenuBaseFragment() {
@@ -36,7 +37,7 @@ class MenuLunoApiFragment : MenuBaseFragment() {
             setContent {
                 Scaffold(topBar = {
                     TopAppBar(
-                        title = { Text(text = "Luno API") },
+                        title = { Text(text = getString(R.string.luno_api)) },
                         colors = topAppBarColors(
                             containerColor = Color(0xFF1976D2),
                             titleContentColor = Color(0xFFFFFFFF),
@@ -45,34 +46,32 @@ class MenuLunoApiFragment : MenuBaseFragment() {
                 }) {
                     Surface(Modifier.padding(it)) {
                         Column {
-                            InformationViewCompose("Information") {
+                            InformationViewCompose(getString(R.string.information)) {
                                 menuLunoApiViewModel.displayLunoApiCredentialsInformationAlertDialog()
                             }
-                            CustomInputViewCompose("Key ID", ConstantUtils.USER_KEY_ID)
-                            CustomInputViewCompose("Secret Key", ConstantUtils.USER_SECRET_KEY)
-                            ButtonView("Save") {
-                                saveData()
+                            CustomInputViewCompose(getString(R.string.luno_api_key_id), menuLunoApiViewModel.keyId) { keyId ->
+                                menuLunoApiViewModel.keyId = keyId
+                            }
+                            CustomInputViewCompose(getString(R.string.luno_api_secret_key), menuLunoApiViewModel.secretKey) { secretKey ->
+                                menuLunoApiViewModel.secretKey = secretKey
+                            }
+                            ButtonView(getString(R.string.save)) {
+                                if (menuLunoApiViewModel.keyId.isNotBlank() && menuLunoApiViewModel.secretKey.isNotBlank()) {
+                                    ConstantUtils.USER_KEY_ID = menuLunoApiViewModel.keyId
+                                    menuLunoApiViewModel.saveLunoApiKeyId(menuLunoApiViewModel.keyId)
+
+                                    ConstantUtils.USER_SECRET_KEY = menuLunoApiViewModel.secretKey
+                                    menuLunoApiViewModel.saveLunoApiSecretKey(menuLunoApiViewModel.secretKey)
+
+                                    menuLunoApiViewModel.displayApiKeySavedToast()
+                                } else {
+                                    menuLunoApiViewModel.displayLunoApiCredentialsAlertDialog()
+                                }
                             }
                         }
                     }
                 }
             }
-        }
-    }
-
-    private fun saveData() {
-        val keyId = ""
-        val secretKey = ""
-
-        if (keyId.isNotBlank() && secretKey.isNotBlank()) {
-            ConstantUtils.USER_KEY_ID = keyId
-            ConstantUtils.USER_SECRET_KEY = secretKey
-
-            menuLunoApiViewModel.saveLunoApiKeyId(keyId)
-            menuLunoApiViewModel.saveLunoApiSecretKey(secretKey)
-            menuLunoApiViewModel.displayApiKeySavedToast()
-        } else {
-            menuLunoApiViewModel.displayLunoApiCredentialsAlertDialog()
         }
     }
 }
@@ -95,10 +94,10 @@ fun MenuLunoApiScreen() {
                 InformationViewCompose("Information") {
 
                 }
-                CustomInputViewCompose("Key ID", ConstantUtils.USER_KEY_ID)
-                CustomInputViewCompose("Secret Key", ConstantUtils.USER_SECRET_KEY)
+                CustomInputViewCompose("Key ID", ConstantUtils.USER_KEY_ID) {}
+                CustomInputViewCompose("Secret Key", ConstantUtils.USER_SECRET_KEY) {}
                 ButtonView("Save") {
-                    
+
                 }
             }
         }

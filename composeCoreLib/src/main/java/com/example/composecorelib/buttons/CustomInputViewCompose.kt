@@ -21,7 +21,8 @@ fun CustomInputViewCompose(
     title: String = "Title",
     value: String = "Value",
     description: String = "",
-    errorMessage: String = ""
+    errorMessage: String = "",
+    onValueChange: (String) -> Unit
 ) {
     Surface(modifier = Modifier.wrapContentSize()) {
         Column(modifier = Modifier.fillMaxWidth(1f)) {
@@ -31,9 +32,9 @@ fun CustomInputViewCompose(
                 style = MaterialTheme.typography.titleSmall
             )
             if (errorMessage.isNotEmpty()) {
-                TextFieldView(value)
+                TextFieldView(value) { onValueChange(it) }
             } else {
-                TextFieldView(value, true)
+                TextFieldView(value, true) { onValueChange(it) }
             }
 
             Row(
@@ -60,19 +61,19 @@ fun CustomInputViewCompose(
 }
 
 @Composable
-fun TextFieldView(value: String, isError: Boolean = false) {
+fun TextFieldView(value: String, isError: Boolean = false, onValueChange: (String) -> Unit) {
     TextField(
         value = value,
         isError = isError,
         modifier = Modifier
             .padding(horizontal = 20.dp, vertical = 10.dp)
             .fillMaxWidth(1f),
-        onValueChange = {}
+        onValueChange = { onValueChange(it) }
     )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun Preview() {
-    CustomInputViewCompose()
+    CustomInputViewCompose {}
 }
