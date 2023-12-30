@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -35,26 +37,38 @@ class MenuLunoApiFragment : MenuBaseFragment() {
     ): View? {
         return ComposeView(requireContext()).apply {
             setContent {
-                Scaffold(topBar = {
-                    TopAppBar(
-                        title = { Text(text = getString(R.string.luno_api)) },
-                        colors = topAppBarColors(
-                            containerColor = Color(0xFF1976D2),
-                            titleContentColor = Color(0xFFFFFFFF),
+                Scaffold(
+                    topBar = {
+                        TopAppBar(
+                            title = { Text(text = getString(R.string.luno_api)) },
+                            colors = topAppBarColors(
+                                containerColor = Color(0xFF1976D2),
+                                titleContentColor = Color(0xFFFFFFFF),
+                            )
                         )
-                    )
-                }) {
+                    }, bottomBar = {
+
+                    }) {
                     Surface(Modifier.padding(it)) {
                         Column {
                             InformationViewCompose(getString(R.string.information)) {
                                 menuLunoApiViewModel.displayLunoApiCredentialsInformationAlertDialog()
                             }
-                            CustomInputViewCompose(getString(R.string.luno_api_key_id), menuLunoApiViewModel.keyId) { keyId ->
+                            CustomInputViewCompose(
+                                getString(R.string.luno_api_key_id),
+                                menuLunoApiViewModel.keyId
+                            ) { keyId ->
                                 menuLunoApiViewModel.keyId = keyId
                             }
-                            CustomInputViewCompose(getString(R.string.luno_api_secret_key), menuLunoApiViewModel.secretKey) { secretKey ->
+                            CustomInputViewCompose(
+                                getString(R.string.luno_api_secret_key),
+                                menuLunoApiViewModel.secretKey
+                            ) { secretKey ->
                                 menuLunoApiViewModel.secretKey = secretKey
                             }
+
+                            Spacer(Modifier.weight(1f))
+
                             ButtonView(getString(R.string.save)) {
                                 if (menuLunoApiViewModel.keyId.isNotBlank() && menuLunoApiViewModel.secretKey.isNotBlank()) {
                                     ConstantUtils.USER_KEY_ID = menuLunoApiViewModel.keyId
@@ -80,26 +94,34 @@ class MenuLunoApiFragment : MenuBaseFragment() {
 @Preview(showSystemUi = true)
 @Composable
 fun MenuLunoApiScreen() {
-    Scaffold(topBar = {
-        TopAppBar(
-            title = { Text(text = "Luno API") },
-            colors = topAppBarColors(
-                containerColor = Color(0xFF1976D2),
-                titleContentColor = Color(0xFFFFFFFF),
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "Luno API") },
+                colors = topAppBarColors(
+                    containerColor = Color(0xFF1976D2),
+                    titleContentColor = Color(0xFFFFFFFF),
+                )
             )
-        )
-    }) {
-        Surface(Modifier.padding(it)) {
-            Column {
-                InformationViewCompose("Information") {
+        }, bottomBar = {
 
-                }
-                CustomInputViewCompose("Key ID", ConstantUtils.USER_KEY_ID) {}
-                CustomInputViewCompose("Secret Key", ConstantUtils.USER_SECRET_KEY) {}
-                ButtonView("Save") {
+        }, content = {
+            Surface(Modifier.padding(it)) {
+                Column(
+                    Modifier.fillMaxHeight()
+                ) {
+                    InformationViewCompose("Information") {
 
+                    }
+                    CustomInputViewCompose("Key ID", ConstantUtils.USER_KEY_ID) {}
+                    CustomInputViewCompose("Secret Key", ConstantUtils.USER_SECRET_KEY) {}
+
+                    Spacer(Modifier.weight(1f))
+                    ButtonView("Save") {
+
+                    }
                 }
             }
         }
-    }
+    )
 }
