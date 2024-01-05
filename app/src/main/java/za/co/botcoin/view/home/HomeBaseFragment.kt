@@ -5,7 +5,7 @@ import androidx.core.view.MenuHost
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 
-abstract class HomeBaseFragment(layoutId: Int) : Fragment(layoutId) {
+abstract class HomeBaseFragment(layoutId: Int = -1) : Fragment(layoutId) {
     protected lateinit var homeActivity: MainActivity
     protected lateinit var menuHost: MenuHost
     protected val homeViewModel by activityViewModels<HomeViewModel>(factoryProducer = { homeActivity.getViewModelFactory })
