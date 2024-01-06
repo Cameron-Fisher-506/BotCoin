@@ -214,7 +214,8 @@ private fun LargeTopBar(modifier: Modifier = Modifier, onClickFab: () -> Unit) {
         modifier
             .background(colorResource(R.color.white))
             .fillMaxWidth()
-            .height(EXPANDED_TOP_BAR_HEIGHT),
+            .height(EXPANDED_TOP_BAR_HEIGHT)
+            .zIndex(1f),
         Alignment.BottomStart
     ) {
         Image(
@@ -278,9 +279,7 @@ fun LargeTopBarWithItemList() {
         LazyColumn(state = listState) {
             item { LargeTopBar { } }
             items(20) {
-                OptionActionView(R.drawable.xrp, "XRP/ZAR") {
-                    
-                }
+                OptionActionView(R.drawable.xrp, "XRP/ZAR", false) { }
             }
         }
     }

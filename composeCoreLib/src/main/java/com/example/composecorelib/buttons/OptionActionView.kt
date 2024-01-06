@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Divider
@@ -25,37 +26,38 @@ import androidx.compose.ui.unit.dp
 import com.example.composecorelib.R
 
 @Composable
-fun OptionActionView(@DrawableRes drawableResourceId: Int, title: String, clickable: () -> Unit) {
+fun OptionActionView(@DrawableRes drawableResourceId: Int, title: String, isClickable: Boolean = true, clickable: () -> Unit) {
     Surface(Modifier.wrapContentSize()) {
         Column {
             Row(
                 Modifier
                     .fillMaxWidth(1f)
-                    .clickable { clickable() },
+                    .clickable { clickable() }
+                    .padding(15.dp),
                 Arrangement.SpaceBetween,
                 Alignment.CenterVertically
             ) {
                 Image(
                     painterResource(drawableResourceId),
                     stringResource(R.string.information),
-                    Modifier.padding(20.dp)
+                    Modifier.size(35.dp)
                 )
                 Text(
                     title,
-                    Modifier.padding(20.dp),
                     style = MaterialTheme.typography.titleMedium
                 )
-                Image(
-                    painterResource(R.drawable.ic_keyboard_arrow_right_black_24dp),
-                    stringResource(R.string.information),
-                    Modifier.padding(20.dp)
-                )
+                if (isClickable) {
+                    Image(
+                        painterResource(R.drawable.ic_keyboard_arrow_right_black_24dp),
+                        stringResource(R.string.information)
+                    )
+                }
             }
             Divider(
                 Modifier
                     .fillMaxWidth()
                     .width(1.dp)
-                    .padding(start = 20.dp, end = 20.dp, bottom = 5.dp),
+                    .padding(start = 15.dp, end = 15.dp),
                 color = Color.LightGray)
         }
     }
