@@ -26,40 +26,36 @@ import androidx.compose.ui.unit.dp
 import com.example.composecorelib.R
 
 @Composable
-fun OptionActionView(@DrawableRes drawableResourceId: Int, title: String, isClickable: Boolean = true, clickable: () -> Unit) {
+fun OptionActionView(@DrawableRes drawableResourceId: Int, title: String, clickable: () -> Unit) {
     Surface(Modifier.wrapContentSize()) {
-        Column {
-            Row(
-                Modifier
-                    .fillMaxWidth(1f)
-                    .clickable { clickable() }
-                    .padding(15.dp),
-                Arrangement.SpaceBetween,
-                Alignment.CenterVertically
-            ) {
-                Image(
-                    painterResource(drawableResourceId),
-                    stringResource(R.string.information),
-                    Modifier.size(35.dp)
-                )
-                Text(
-                    title,
-                    style = MaterialTheme.typography.titleMedium
-                )
-                if (isClickable) {
-                    Image(
-                        painterResource(R.drawable.ic_keyboard_arrow_right_black_24dp),
-                        stringResource(R.string.information)
-                    )
-                }
-            }
-            Divider(
-                Modifier
-                    .fillMaxWidth()
-                    .width(1.dp)
-                    .padding(start = 15.dp, end = 15.dp),
-                color = Color.LightGray)
+        Row(
+            Modifier
+                .fillMaxWidth(1f)
+                .clickable { clickable() }
+                .padding(15.dp),
+            Arrangement.SpaceBetween,
+            Alignment.CenterVertically
+        ) {
+            Image(
+                painterResource(drawableResourceId),
+                stringResource(R.string.information),
+                Modifier.size(35.dp)
+            )
+            Text(
+                title,
+                style = MaterialTheme.typography.titleMedium
+            )
+            Image(
+                painterResource(R.drawable.ic_keyboard_arrow_right_black_24dp),
+                stringResource(R.string.information)
+            )
         }
+        Divider(
+            Modifier
+                .fillMaxWidth()
+                .width(1.dp)
+                .padding(start = 15.dp, end = 15.dp),
+            color = Color.LightGray)
     }
 }
 

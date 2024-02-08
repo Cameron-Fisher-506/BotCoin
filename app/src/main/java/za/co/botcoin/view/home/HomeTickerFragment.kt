@@ -231,7 +231,7 @@ private fun LargeTopBar(modifier: Modifier = Modifier, onClickFab: () -> Unit) {
             style = MaterialTheme.typography.titleLarge,
         )
         FloatingActionButton(
-            onClickFab,
+            { onClickFab() },
             Modifier.offset((screenWidth.minus(100.dp)), 30.dp),
             containerColor = colorResource(R.color.colorAccent),
         ) {
@@ -279,7 +279,7 @@ fun LargeTopBarWithItemList() {
         LazyColumn(state = listState) {
             item { LargeTopBar { } }
             items(20) {
-                OptionActionView(R.drawable.xrp, "XRP/ZAR", false) { }
+                OptionActionView(R.drawable.xrp, "XRP/ZAR") { }
             }
         }
     }

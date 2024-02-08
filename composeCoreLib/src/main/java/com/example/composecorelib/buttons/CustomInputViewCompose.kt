@@ -25,7 +25,7 @@ fun CustomInputViewCompose(
     onValueChange: (String) -> Unit
 ) {
     Surface(modifier = Modifier.wrapContentSize()) {
-        Column(modifier = Modifier.fillMaxWidth(1f)) {
+        Column(modifier = Modifier.fillMaxWidth(1f),) {
             Text(
                 text = title,
                 modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
