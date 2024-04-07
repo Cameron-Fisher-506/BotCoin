@@ -19,40 +19,41 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun CustomInputViewCompose(
     title: String = "Title",
-    value: String = "Value",
-    description: String = "",
-    errorMessage: String = "",
+    value: String = "",
+    placeholder: String = "Placeholder",
+    description: String = "Description",
+    errorMessage: String = "Error Message",
     onValueChange: (String) -> Unit
 ) {
-    Surface(modifier = Modifier.wrapContentSize()) {
-        Column(modifier = Modifier.fillMaxWidth(1f),) {
+    Surface(Modifier.wrapContentSize()) {
+        Column(Modifier.fillMaxWidth(1f),) {
             Text(
-                text = title,
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
+                title,
+                Modifier.padding(20.dp,10.dp),
                 style = MaterialTheme.typography.titleSmall
             )
             if (errorMessage.isNotEmpty()) {
-                TextFieldView(value) { onValueChange(it) }
+                TextFieldView(placeholder) { onValueChange(it) }
             } else {
-                TextFieldView(value, true) { onValueChange(it) }
+                TextFieldView(placeholder, true) { onValueChange(it) }
             }
 
             Row(
-                modifier = Modifier.fillMaxWidth(1f),
-                horizontalArrangement = Arrangement.SpaceBetween
+                Modifier.fillMaxWidth(1f),
+                Arrangement.SpaceBetween
             ) {
                 if (description.isNotEmpty()) {
                     Text(
-                        text = description,
-                        modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)
+                        description,
+                        Modifier.padding(20.dp, 10.dp)
                     )
                 }
 
                 if (errorMessage.isNotEmpty()) {
                     Text(
-                        text = errorMessage,
-                        modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
-                        color = Color.Red
+                        errorMessage,
+                        Modifier.padding(20.dp, 10.dp),
+                        Color.Red
                     )
                 }
             }
@@ -61,13 +62,14 @@ fun CustomInputViewCompose(
 }
 
 @Composable
-fun TextFieldView(value: String, isError: Boolean = false, onValueChange: (String) -> Unit) {
+fun TextFieldView(placeholder: String, isError: Boolean = false, onValueChange: (String) -> Unit) {
     TextField(
-        value = value,
+        value = "",
         isError = isError,
         modifier = Modifier
-            .padding(horizontal = 20.dp, vertical = 10.dp)
+            .padding(horizontal = 20.dp, vertical = 0.dp)
             .fillMaxWidth(1f),
+        placeholder = { Text(placeholder) },
         onValueChange = { onValueChange(it) }
     )
 }
