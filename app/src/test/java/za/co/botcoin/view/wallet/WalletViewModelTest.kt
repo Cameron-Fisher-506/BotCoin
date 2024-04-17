@@ -12,7 +12,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import za.co.botcoin.di.managers.IResourceManager
 import za.co.botcoin.disposeObserver
-import za.co.botcoin.enum.Status
+import za.co.botcoin.state.ServiceState
 import za.co.botcoin.getOrAwaitValue
 import za.co.botcoin.model.models.Balance
 import za.co.botcoin.model.repository.balance.BalanceRepository
@@ -62,12 +62,12 @@ class WalletViewModelTest : BaseViewModelTest() {
         walletViewModel.fetchBalances()
         with(walletViewModel.balancesResponse.getOrAwaitValue()) {
             assertNotNull(this)
-            assertEquals(Status.LOADING, this?.status)
+            assertEquals(ServiceState.Loading, this?.serviceState)
         }
 
         with(walletViewModel.balancesResponse.getOrAwaitValue()) {
             assertNotNull(this)
-            assertEquals(Status.SUCCESS, this?.status)
+            assertEquals(ServiceState.Success, this?.serviceState)
             assertTrue(!this?.data.isNullOrEmpty())
         }
     }

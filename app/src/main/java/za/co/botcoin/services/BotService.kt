@@ -9,8 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import za.co.botcoin.R
-import za.co.botcoin.enum.Status
-import za.co.botcoin.enum.Trend
+import za.co.botcoin.state.Trend
 import za.co.botcoin.model.models.Balance
 import za.co.botcoin.model.models.Order
 import za.co.botcoin.model.models.Trade
@@ -21,6 +20,7 @@ import za.co.botcoin.model.repository.postOrder.PostOrderRepository
 import za.co.botcoin.model.repository.stopOrder.StopOrderRepository
 import za.co.botcoin.model.repository.tickers.TickersRepository
 import za.co.botcoin.model.repository.trade.TradeRepository
+import za.co.botcoin.state.ServiceState
 import za.co.botcoin.utils.*
 import za.co.botcoin.utils.MathUtils.calculateMarginPercentage
 import za.co.botcoin.utils.MathUtils.percentage
@@ -108,8 +108,8 @@ class BotService : Service() {
 
     private fun attachTickersObserver() = CoroutineScope(Dispatchers.IO).launch {
         val resource = tickersRepository.fetchTickers()
-        when (resource.status) {
-            Status.SUCCESS -> {
+        when (resource.serviceState) {
+            ServiceState.Success -> {
                 val data = resource.data
                 if (!data.isNullOrEmpty()) {
                     data.map { ticker ->
@@ -120,17 +120,17 @@ class BotService : Service() {
                     }
                 }
             }
-            Status.ERROR -> {
+            ServiceState.Error -> {
             }
-            Status.LOADING -> {
+            ServiceState.Loading -> {
             }
         }
     }
 
     private fun attachTradesObserver(currentPrice: Double) = CoroutineScope(Dispatchers.IO).launch {
         val resource = tradeRepository.fetchTrades(PAIR_XRPZAR, true)
-        when (resource.status) {
-            Status.SUCCESS -> {
+        when (resource.serviceState) {
+            ServiceState.Success -> {
                 val data = resource.data
                 var lastTrade: Trade = Trade()
                 if (!data.isNullOrEmpty()) {
@@ -142,17 +142,17 @@ class BotService : Service() {
                 }
                 attachBalancesObserver(currentPrice, lastTrade)
             }
-            Status.ERROR -> {
+            ServiceState.Error -> {
             }
-            Status.LOADING -> {
+            ServiceState.Loading -> {
             }
         }
     }
 
     private fun attachBalancesObserver(currentPrice: Double, lastTrade: Trade) = CoroutineScope(Dispatchers.IO).launch {
         val resource = balanceRepository.fetchBalances()
-        when (resource.status) {
-            Status.SUCCESS -> {
+        when (resource.serviceState) {
+            ServiceState.Success -> {
                 val data = resource.data
                 var zarBalance: Balance = Balance()
                 var xrpBalance: Balance = Balance()
@@ -170,17 +170,17 @@ class BotService : Service() {
                     attachOrdersObserver(currentPrice, lastTrade, xrpBalance, zarBalance)
                 }
             }
-            Status.ERROR -> {
+            ServiceState.Error -> {
             }
-            Status.LOADING -> {
+            ServiceState.Loading -> {
             }
         }
     }
 
     private fun attachOrdersObserver(currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance) = CoroutineScope(Dispatchers.IO).launch {
         val response = orderRepository.fetchOrders()
-        when (response.status) {
-            Status.SUCCESS -> {
+        when (response.serviceState) {
+            ServiceState.Success -> {
                 val data = response.data
                 var lastAskOrder: Order = Order()
                 var lastBidOrder: Order = Order()
@@ -215,9 +215,9 @@ class BotService : Service() {
                 pullOutOfAsk(currentPrice, lastTrade, xrpBalance, zarBalance, lastAskOrder)
                 pullOutOfBid(currentPrice, lastTrade, xrpBalance, zarBalance, lastBidOrder)
             }
-            Status.ERROR -> {
+            ServiceState.Error -> {
             }
-            Status.LOADING -> {
+            ServiceState.Loading -> {
             }
         }
     }
@@ -225,8 +225,8 @@ class BotService : Service() {
 
     private fun attachStopOrderObserver(orderId: String, currentPrice: Double, lastTrade: Trade, xrpBalance: Balance, zarBalance: Balance) = CoroutineScope(Dispatchers.IO).launch {
         val resource = stopOrderRepository.stopOrder(orderId)
-        when (resource.status) {
-            Status.SUCCESS -> {
+        when (resource.serviceState) {
+            ServiceState.Success -> {
                 val data = resource.data
                 if (!data.isNullOrEmpty()) {
                     if (data.first().success) {
@@ -239,26 +239,26 @@ class BotService : Service() {
                     GeneralUtils.notify(this@BotService, "Order Cancellation", "Order cancellation failed.")
                 }
             }
-            Status.ERROR -> {
+            ServiceState.Error -> {
                 GeneralUtils.notify(this@BotService, "Order Cancellation", "Order cancellation failed.")
             }
-            Status.LOADING -> {
+            ServiceState.Loading -> {
             }
         }
     }
 
     private fun attachPostOrderObserver(pair: String, type: String, volume: String, price: String) = CoroutineScope(Dispatchers.IO).launch {
         val resource = postOrderRepository.postOrder(pair, type, volume, price)
-        when (resource.status) {
-            Status.SUCCESS -> {
+        when (resource.serviceState) {
+            ServiceState.Success -> {
                 val data = resource.data
                 if (!data.isNullOrEmpty()) {
                 } else {
                 }
             }
-            Status.ERROR -> {
+            ServiceState.Error -> {
             }
-            Status.LOADING -> {
+            ServiceState.Loading -> {
             }
         }
     }

@@ -4,7 +4,7 @@ import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.jupiter.api.DisplayName
-import za.co.botcoin.enum.Trend
+import za.co.botcoin.state.Trend
 import za.co.botcoin.model.models.Candle
 
 @DisplayName("Fibonacci Retracement Test")

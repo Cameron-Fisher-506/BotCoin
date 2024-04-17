@@ -1,7 +1,7 @@
 package za.co.botcoin.utils
 
 import android.content.Context
-import za.co.botcoin.enum.Status
+import za.co.botcoin.state.ServiceState
 import za.co.botcoin.utils.DateTimeUtils.ONE_MINUTE
 import za.co.botcoin.utils.DateTimeUtils.getCurrentDateTime
 import za.co.botcoin.utils.DateTimeUtils.getMinutesFrom
@@ -14,12 +14,12 @@ object DataAccessStrategyUtils {
             result
         } else {
             val response = wsCall.invoke()
-            when (response.status) {
-                Status.SUCCESS -> {
+            when (response.serviceState) {
+                ServiceState.Success -> {
                     response.data?.let { saveCall(it) }
                     dbQuery.invoke()
                 }
-                Status.ERROR -> Resource.error(response.message)
+                ServiceState.Error -> Resource.error(response.message)
                 else -> Resource.error("No data found.")
             }
         }
@@ -41,24 +41,24 @@ object DataAccessStrategyUtils {
             if (mustUpdate) {
                 val response = wsCall.invoke()
                 BaseSharedPreferencesService.save(context, BaseSharedPreferencesService.LAST_REQUEST_TIME, getCurrentDateTime())
-                toReturn = when (response.status) {
-                    Status.SUCCESS -> {
+                toReturn = when (response.serviceState) {
+                    ServiceState.Success -> {
                         response.data?.let { saveCall(it) }
                         dbQuery.invoke()
                     }
-                    Status.ERROR -> Resource.error(response.message)
+                    ServiceState.Error -> Resource.error(response.message)
                     else -> Resource.error("No data found.")
                 }
             }
         } else {
             val response = wsCall.invoke()
             BaseSharedPreferencesService.save(context, BaseSharedPreferencesService.LAST_REQUEST_TIME, getCurrentDateTime())
-            toReturn = when (response.status) {
-                Status.SUCCESS -> {
+            toReturn = when (response.serviceState) {
+                ServiceState.Success -> {
                     response.data?.let { saveCall(it) }
                     dbQuery.invoke()
                 }
-                Status.ERROR -> Resource.error(response.message)
+                ServiceState.Error -> Resource.error(response.message)
                 else -> Resource.error("No data found.")
             }
         }

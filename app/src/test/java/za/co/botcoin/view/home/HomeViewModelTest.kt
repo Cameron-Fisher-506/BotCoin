@@ -11,11 +11,11 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import za.co.botcoin.disposeObserver
-import za.co.botcoin.enum.Status
 import za.co.botcoin.getOrAwaitValue
 import za.co.botcoin.model.models.Ticker
 import za.co.botcoin.model.repository.account.AccountRepository
 import za.co.botcoin.model.repository.tickers.TickersRepository
+import za.co.botcoin.state.ServiceState
 import za.co.botcoin.utils.Resource
 import za.co.botcoin.utils.services.sharedPreferencesService.ISharedPreferencesService
 import za.co.botcoin.view.BaseViewModelTest
@@ -62,7 +62,7 @@ class HomeViewModelTest : BaseViewModelTest() {
         homeTickerViewModel.fetchTickers()
         with(homeTickerViewModel.tickersResponse.getOrAwaitValue()) {
             assertNotNull(this)
-            assertEquals(Status.SUCCESS, this?.status)
+            assertEquals(ServiceState.Success, this?.serviceState)
             assertTrue(!this?.data.isNullOrEmpty())
         }
     }

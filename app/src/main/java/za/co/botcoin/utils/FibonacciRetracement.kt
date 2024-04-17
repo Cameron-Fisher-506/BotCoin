@@ -1,6 +1,6 @@
 package za.co.botcoin.utils
 
-import za.co.botcoin.enum.Trend
+import za.co.botcoin.state.Trend
 import za.co.botcoin.model.models.Candle
 
 class FibonacciRetracement {

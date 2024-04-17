@@ -1,21 +1,14 @@
 package za.co.botcoin.view.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,60 +16,30 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonElevation
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.navigation.Navigation
 import com.example.composecorelib.buttons.OptionActionView
 import za.co.botcoin.R
-import za.co.botcoin.enum.Status
-import za.co.botcoin.services.BotService
-import za.co.botcoin.utils.GeneralUtils
-import za.co.botcoin.utils.services.KioskService
-import za.co.botcoin.view.delayOnLifecycle
-import za.co.botcoin.view.home.HomeTickerViewModel.Companion.DELAY
-import za.co.botcoin.view.home.HomeTickerViewModel.Companion.PAIR_XRPZAR
-import za.co.botcoin.view.settings.AutoTradeActivity
 
 val COLLAPSED_TOP_BAR_HEIGHT = 56.dp
 val EXPANDED_TOP_BAR_HEIGHT = 200.dp
@@ -85,11 +48,7 @@ class HomeTickerFragment : HomeBaseFragment() {
     private val homeTickerViewModel by viewModels<HomeTickerViewModel>(factoryProducer = { homeActivity.getViewModelFactory })
     private val handler = Handler()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return ComposeView(requireContext()).apply {
             setContent {
                 LargeTopBarWithItemList()
@@ -153,8 +112,8 @@ class HomeTickerFragment : HomeBaseFragment() {
     private fun fetchAndObserveTickers() {
         homeTickerViewModel.fetchTickers()
         homeTickerViewModel.tickersResponse.observe(viewLifecycleOwner) {
-            when (it.status) {
-                Status.SUCCESS -> {
+            when (it.serviceState
+                ServiceState.Success -> {
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
                         displayCoins()
@@ -168,10 +127,10 @@ class HomeTickerFragment : HomeBaseFragment() {
                         displayErrorMessage()
                     }
                 }
-                Status.ERROR -> {
+                ServiceState.Error -> {
                     displayErrorMessage()
                 }
-                Status.LOADING -> {
+                ServiceState.Loading -> {
                 }
             }
         }

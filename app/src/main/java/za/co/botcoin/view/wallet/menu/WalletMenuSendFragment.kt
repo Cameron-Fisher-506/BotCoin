@@ -3,10 +3,9 @@ package za.co.botcoin.view.wallet.menu
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProviders
 import za.co.botcoin.R
 import za.co.botcoin.databinding.SendFragmentBinding
-import za.co.botcoin.enum.Status
+import za.co.botcoin.state.ServiceState
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.utils.GeneralUtils.createAlertDialog
 import za.co.botcoin.view.wallet.WalletBaseFragment
@@ -44,8 +43,8 @@ class WalletMenuSendFragment : WalletBaseFragment(R.layout.send_fragment) {
     private fun sendAndObserveSend(amount: String, asset: String, address: String, destinationTag: String) {
         this.walletMenuSendViewModel.send(amount, asset, address, destinationTag)
         this.walletMenuSendViewModel.sendResponse.observe(viewLifecycleOwner) {
-            when (it.status) {
-                Status.SUCCESS -> {
+            when (it.serviceState) {
+                ServiceState.Success -> {
                     walletActivity.dismissProgressBar()
                     displayWalletMenuSendOptions()
                     val data = it.data
@@ -61,12 +60,12 @@ class WalletMenuSendFragment : WalletBaseFragment(R.layout.send_fragment) {
                         walletMenuSendViewModel.displaySendFailedNotification()
                     }
                 }
-                Status.ERROR -> {
+                ServiceState.Error -> {
                     walletActivity.dismissProgressBar()
                     displayWalletMenuSendOptions()
                     walletMenuSendViewModel.displaySendFailedNotification()
                 }
-                Status.LOADING -> {
+                ServiceState.Loading -> {
                     walletActivity.displayProgressBar()
                     hideWalletMenuSendOptions()
                 }

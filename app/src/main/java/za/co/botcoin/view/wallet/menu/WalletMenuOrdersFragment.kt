@@ -11,8 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import za.co.botcoin.R
 import za.co.botcoin.databinding.OrdersFragmentBinding
-import za.co.botcoin.di.ActivityComponent
-import za.co.botcoin.enum.Status
+import za.co.botcoin.state.ServiceState
 import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.view.wallet.WalletBaseFragment
 import kotlin.math.abs
@@ -84,8 +83,8 @@ class WalletMenuOrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
     private fun fetchAndObserveOrders() {
         walletMenuOrdersViewModel.fetchOrders()
         walletMenuOrdersViewModel.ordersResponse.observe(viewLifecycleOwner) {
-            when (it.status) {
-                Status.SUCCESS -> {
+            when (it.serviceState) {
+                ServiceState.Success -> {
                     walletActivity.dismissProgressBar()
                     displayOrdersRecyclerView()
                     val data = it.data
@@ -97,11 +96,11 @@ class WalletMenuOrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
                         displayErrorTextView()
                     }
                 }
-                Status.ERROR -> {
+                ServiceState.Error -> {
                     walletActivity.dismissProgressBar()
                     displayErrorTextView()
                 }
-                Status.LOADING -> {
+                ServiceState.Loading -> {
                     walletActivity.displayProgressBar()
                     displayProgressBar()
                 }
@@ -111,8 +110,8 @@ class WalletMenuOrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
 
     private fun attachStopOrderObserver() {
         walletMenuOrdersViewModel.stopOrderResponse.observe(viewLifecycleOwner) {
-            when (it.status) {
-                Status.SUCCESS -> {
+            when (it.serviceState) {
+                ServiceState.Success -> {
                     walletActivity.dismissProgressBar()
                     displayOrdersRecyclerView()
                     val data = it.data
@@ -122,12 +121,12 @@ class WalletMenuOrdersFragment : WalletBaseFragment(R.layout.orders_fragment) {
                         walletMenuOrdersViewModel.displayOrderCancellationFailureNotification()
                     }
                 }
-                Status.ERROR -> {
+                ServiceState.Error -> {
                     walletActivity.dismissProgressBar()
                     displayOrdersRecyclerView()
                     walletMenuOrdersViewModel.displayOrderCancellationFailureNotification()
                 }
-                Status.LOADING -> {
+                ServiceState.Loading -> {
                     walletActivity.displayProgressBar()
                     displayProgressBar()
                 }

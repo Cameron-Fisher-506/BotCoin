@@ -13,7 +13,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.*
 import za.co.botcoin.di.managers.IResourceManager
 import za.co.botcoin.disposeObserver
-import za.co.botcoin.enum.Status
+import za.co.botcoin.state.ServiceState
 import za.co.botcoin.getOrAwaitValue
 import za.co.botcoin.model.models.Send
 import za.co.botcoin.model.repository.send.SendRepository
@@ -63,12 +63,12 @@ class WalletMenuSendViewModelTest: BaseViewModelTest() {
         walletMenuSendViewModel.send("", "", "", "")
         with(walletMenuSendViewModel.sendResponse.getOrAwaitValue()) {
             assertNotNull(this)
-            assertEquals(Status.LOADING, this?.status)
+            assertEquals(ServiceState.Loading, this?.serviceState)
         }
 
         with(walletMenuSendViewModel.sendResponse.getOrAwaitValue()) {
             assertNotNull(this)
-            assertEquals(Status.SUCCESS, this?.status)
+            assertEquals(ServiceState.Success, this?.serviceState)
             assertTrue(!this?.data.isNullOrEmpty())
         }
     }

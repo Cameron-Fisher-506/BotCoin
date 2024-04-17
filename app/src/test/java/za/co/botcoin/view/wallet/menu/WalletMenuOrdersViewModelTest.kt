@@ -13,7 +13,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.*
 import za.co.botcoin.di.managers.IResourceManager
 import za.co.botcoin.disposeObserver
-import za.co.botcoin.enum.Status
+import za.co.botcoin.state.ServiceState
 import za.co.botcoin.getOrAwaitValue
 import za.co.botcoin.model.models.Order
 import za.co.botcoin.model.models.StopOrder
@@ -79,12 +79,12 @@ class WalletMenuOrdersViewModelTest: BaseViewModelTest() {
         walletMenuOrdersViewModel.stopOrder("")
         with(walletMenuOrdersViewModel.stopOrderResponse.getOrAwaitValue()) {
             assertNotNull(this)
-            assertEquals(Status.LOADING, this?.status)
+            assertEquals(ServiceState.Loading, this?.serviceState)
         }
 
         with(walletMenuOrdersViewModel.stopOrderResponse.getOrAwaitValue()) {
             assertNotNull(this)
-            assertEquals(Status.SUCCESS, this?.status)
+            assertEquals(ServiceState.Success, this?.serviceState)
             assertTrue(!this?.data.isNullOrEmpty())
         }
     }
@@ -101,12 +101,12 @@ class WalletMenuOrdersViewModelTest: BaseViewModelTest() {
         walletMenuOrdersViewModel.fetchOrders()
         with(walletMenuOrdersViewModel.ordersResponse.getOrAwaitValue()) {
             assertNotNull(this)
-            assertEquals(Status.LOADING, this?.status)
+            assertEquals(ServiceState.Loading, this?.serviceState)
         }
 
         with(walletMenuOrdersViewModel.ordersResponse.getOrAwaitValue()) {
             assertNotNull(this)
-            assertEquals(Status.SUCCESS, this?.status)
+            assertEquals(ServiceState.Success, this?.serviceState)
             assertTrue(!this?.data.isNullOrEmpty())
         }
     }

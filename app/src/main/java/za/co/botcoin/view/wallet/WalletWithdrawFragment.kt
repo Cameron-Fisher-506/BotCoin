@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import za.co.botcoin.R
 import za.co.botcoin.databinding.WithdrawFragmentBinding
-import za.co.botcoin.enum.Status
+import za.co.botcoin.state.ServiceState
 import za.co.botcoin.utils.GeneralUtils.isApiKeySet
 import za.co.botcoin.view.wallet.WalletWithdrawViewModel.Companion.ZAR_EFT
 
@@ -39,8 +39,8 @@ class WalletWithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
     private fun submitWithdrawalAndObserve() {
         withdrawViewModel.withdrawal(ZAR_EFT, binding.amountCustomInputView.getText(), binding.beneficiaryIdCustomInputView.getText())
         withdrawViewModel.withdrawalResponse.observe(viewLifecycleOwner) {
-            when (it.status) {
-                Status.SUCCESS -> {
+            when (it.serviceState) {
+                ServiceState.Success -> {
                     walletActivity.dismissProgressBar()
                     displayWalletWithdrawOptions()
                     if (!it.data.isNullOrEmpty()) {
@@ -50,12 +50,12 @@ class WalletWithdrawFragment : WalletBaseFragment(R.layout.withdraw_fragment) {
                         withdrawViewModel.displayWithdrawalFailedNotification()
                     }
                 }
-                Status.ERROR -> {
+                ServiceState.Error -> {
                     walletActivity.dismissProgressBar()
                     displayErrorMessage()
                     withdrawViewModel.displayWithdrawalFailedNotification()
                 }
-                Status.LOADING -> {
+                ServiceState.Loading -> {
                     walletActivity.displayProgressBar()
                     hideWalletWithdrawOptions()
                     hideErrorMessage()

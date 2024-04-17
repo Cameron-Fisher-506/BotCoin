@@ -15,7 +15,7 @@ import org.mockito.Mockito.verify
 import org.mockito.Mockito.verifyNoMoreInteractions
 import za.co.botcoin.di.managers.IResourceManager
 import za.co.botcoin.disposeObserver
-import za.co.botcoin.enum.Status
+import za.co.botcoin.state.ServiceState
 import za.co.botcoin.getOrAwaitValue
 import za.co.botcoin.model.models.Withdrawal
 import za.co.botcoin.model.repository.withdrawal.WithdrawalRepository
@@ -69,12 +69,12 @@ class WalletWithdrawViewModelTest : BaseViewModelTest() {
         walletWithdrawViewModel.withdrawal("", "", "")
         with(walletWithdrawViewModel.withdrawalResponse.getOrAwaitValue()) {
             assertNotNull(this)
-            assertEquals(Status.LOADING, this?.status)
+            assertEquals(ServiceState.Loading, this?.serviceState)
         }
 
         with(walletWithdrawViewModel.withdrawalResponse.getOrAwaitValue()) {
             assertNotNull(this)
-            assertEquals(Status.SUCCESS, this?.status)
+            assertEquals(ServiceState.Success, this?.serviceState)
             assertTrue(!this?.data.isNullOrEmpty())
         }
     }

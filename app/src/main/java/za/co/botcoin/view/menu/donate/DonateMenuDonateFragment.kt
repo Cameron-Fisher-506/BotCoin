@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import za.co.botcoin.BuildConfig
 import za.co.botcoin.R
 import za.co.botcoin.databinding.DonateFragmentBinding
-import za.co.botcoin.enum.Status
+import za.co.botcoin.state.ServiceState
 import za.co.botcoin.utils.*
 import za.co.botcoin.view.menu.MenuBaseFragment
 
@@ -24,8 +24,8 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
     private fun receiveAndObserveReceive() {
         this.donateMenuDonateViewModel.receive(menuViewModel.selectedDonateAsset, BuildConfig.KEY_ID, BuildConfig.SECRET_KEY)
         this.donateMenuDonateViewModel.receiveResponse.observe(viewLifecycleOwner) {
-            when (it.status) {
-                Status.SUCCESS -> {
+            when (it.serviceState) {
+                ServiceState.Success -> {
                     menuActivity.dismissProgressBar()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
@@ -42,11 +42,11 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
                         displayErrorMessage()
                     }
                 }
-                Status.ERROR -> {
+                ServiceState.Error -> {
                     menuActivity.dismissProgressBar()
                     displayErrorMessage()
                 }
-                Status.LOADING -> {
+                ServiceState.Loading -> {
                     menuActivity.displayProgressBar()
                     hideDonateOptions()
                     hideErrorMessage()
@@ -58,8 +58,8 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
     private fun sendAndObserveSend(amount: String, asset: String, address: String, destinationTag: String) {
         this.donateMenuDonateViewModel.send(amount, asset, address, destinationTag)
         this.donateMenuDonateViewModel.sendResponse.observe(viewLifecycleOwner) {
-            when (it.status) {
-                Status.SUCCESS -> {
+            when (it.serviceState) {
+                ServiceState.Success -> {
                     menuActivity.dismissProgressBar()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
@@ -76,12 +76,12 @@ class DonateMenuDonateFragment : MenuBaseFragment(R.layout.donate_fragment) {
                         donateMenuDonateViewModel.displaySendFailedNotification()
                     }
                 }
-                Status.ERROR -> {
+                ServiceState.Error -> {
                     menuActivity.dismissProgressBar()
                     displayErrorMessage()
                     donateMenuDonateViewModel.displaySendFailedNotification()
                 }
-                Status.LOADING -> {
+                ServiceState.Loading -> {
                     menuActivity.displayProgressBar()
                     hideDonateOptions()
                     hideErrorMessage()

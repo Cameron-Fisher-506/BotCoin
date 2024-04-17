@@ -2,13 +2,11 @@ package za.co.botcoin.view.wallet
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.WalletFragmentBinding
-import za.co.botcoin.enum.Status
-import za.co.botcoin.utils.*
+import za.co.botcoin.state.ServiceState
+import za.co.botcoin.utils.GeneralUtils
 import za.co.botcoin.view.wallet.WalletViewModel.Companion.XRP
 import za.co.botcoin.view.wallet.WalletViewModel.Companion.ZAR
 
@@ -30,8 +28,8 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
     private fun attachBalanceObserver() {
         this.walletViewModel.fetchBalances()
         this.walletViewModel.balancesResponse.observe(viewLifecycleOwner) {
-            when (it.status) {
-                Status.SUCCESS -> {
+            when (it.serviceState) {
+                ServiceState.Success -> {
                     walletActivity.dismissProgressBar()
                     val data = it.data
                     if (!data.isNullOrEmpty()) {
@@ -46,11 +44,11 @@ class WalletFragment : WalletBaseFragment(R.layout.wallet_fragment) {
                         displayErrorMessage()
                     }
                 }
-                Status.ERROR -> {
+                ServiceState.Error -> {
                     walletActivity.dismissProgressBar()
                     displayErrorMessage()
                 }
-                Status.LOADING -> {
+                ServiceState.Loading -> {
                     walletActivity.displayProgressBar()
                     hideErrorMessage()
                     hideWalletOptions()

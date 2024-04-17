@@ -6,8 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import za.co.botcoin.R
 import za.co.botcoin.databinding.ReceiveFragmentBinding
-import za.co.botcoin.enum.Status
-import za.co.botcoin.utils.ConstantUtils
+import za.co.botcoin.state.ServiceState
 import za.co.botcoin.utils.ConstantUtils.USER_KEY_ID
 import za.co.botcoin.utils.ConstantUtils.USER_SECRET_KEY
 import za.co.botcoin.utils.GeneralUtils.createQRCode
@@ -35,8 +34,8 @@ class WalletMenuReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) 
     private fun receiveAndObserveReceive() {
         this.walletMenuReceiveViewModel.receive(walletViewModel.selectedAsset, USER_KEY_ID, USER_SECRET_KEY)
         this.walletMenuReceiveViewModel.receiveResponse.observe(viewLifecycleOwner) {
-            when (it.status) {
-                Status.SUCCESS -> {
+            when (it.serviceState) {
+                ServiceState.Success -> {
                     walletActivity.dismissProgressBar()
                     displayWalletMenuReceiveOptions()
                     val data = it.data
@@ -49,11 +48,11 @@ class WalletMenuReceiveFragment : WalletBaseFragment(R.layout.receive_fragment) 
                         displayErrorMessage()
                     }
                 }
-                Status.ERROR -> {
+                ServiceState.Error -> {
                     walletActivity.dismissProgressBar()
                     displayErrorMessage()
                 }
-                Status.LOADING -> {
+                ServiceState.Loading -> {
                     walletActivity.displayProgressBar()
                     hideWalletMenuReceiveOptions()
                     hideErrorMessage()
