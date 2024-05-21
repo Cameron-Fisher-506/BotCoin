@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'com.google.devtools.ksp'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 apply plugin: 'androidx.navigation.safeargs'
 
@@ -114,4 +116,13 @@ dependencies {
     //Dagger 2
     implementation 'com.google.dagger:dagger:2.51.1'
     ksp 'com.google.dagger:dagger-compiler:2.51.1'
+
+    //Firebase crashlytics
+    // Import the BoM for the Firebase platform
+    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+
+    // Add the dependencies for the Crashlytics and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-analytics")
 }
