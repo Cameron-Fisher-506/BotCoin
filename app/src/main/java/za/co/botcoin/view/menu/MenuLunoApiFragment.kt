@@ -21,8 +21,8 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.viewModels
 import com.example.composecorelib.buttons.ButtonView
-import com.example.composecorelib.buttons.CustomInputViewCompose
-import com.example.composecorelib.informational.InformationViewCompose
+import com.example.composecorelib.buttons.CustomInputView
+import com.example.composecorelib.informational.InformationView
 import za.co.botcoin.R
 import za.co.botcoin.utils.ConstantUtils
 
@@ -51,16 +51,16 @@ class MenuLunoApiFragment : MenuBaseFragment() {
                     }) {
                     Surface(Modifier.padding(it)) {
                         Column {
-                            InformationViewCompose(getString(R.string.information)) {
+                            InformationView(getString(R.string.information)) {
                                 menuLunoApiViewModel.displayLunoApiCredentialsInformationAlertDialog()
                             }
-                            CustomInputViewCompose(
+                            CustomInputView(
                                 getString(R.string.luno_api_key_id),
                                 menuLunoApiViewModel.keyId
                             ) { keyId ->
                                 menuLunoApiViewModel.keyId = keyId
                             }
-                            CustomInputViewCompose(
+                            CustomInputView(
                                 getString(R.string.luno_api_secret_key),
                                 menuLunoApiViewModel.secretKey
                             ) { secretKey ->
@@ -110,11 +110,11 @@ fun MenuLunoApiScreen() {
                 Column(
                     Modifier.fillMaxHeight()
                 ) {
-                    InformationViewCompose("Information") {
+                    InformationView("Information") {
 
                     }
-                    CustomInputViewCompose("Key ID", ConstantUtils.USER_KEY_ID) {}
-                    CustomInputViewCompose("Secret Key", ConstantUtils.USER_SECRET_KEY) {}
+                    CustomInputView("Key ID", ConstantUtils.USER_KEY_ID) {}
+                    CustomInputView("Secret Key", ConstantUtils.USER_SECRET_KEY) {}
 
                     Spacer(Modifier.weight(1f))
                     ButtonView("Save") {

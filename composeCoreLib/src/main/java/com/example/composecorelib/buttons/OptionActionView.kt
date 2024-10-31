@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composecorelib.R
+import com.example.composecorelib.miscellaneous.DividerView
 
 @Composable
 fun OptionActionView(@DrawableRes drawableResourceId: Int, title: String, clickable: () -> Unit) {
@@ -50,12 +51,7 @@ fun OptionActionView(@DrawableRes drawableResourceId: Int, title: String, clicka
                 stringResource(R.string.information)
             )
         }
-        Divider(
-            Modifier
-                .fillMaxWidth()
-                .width(1.dp)
-                .padding(start = 15.dp, end = 15.dp),
-            color = Color.LightGray)
+        DividerView()
     }
 }
 
