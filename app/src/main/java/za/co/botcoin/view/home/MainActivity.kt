@@ -8,6 +8,9 @@ import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -31,12 +34,21 @@ import za.co.botcoin.view.wallet.WalletActivity
 class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     private val homeViewModel by viewModels<HomeViewModel>(factoryProducer = { this.getViewModelFactory })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(this.binding.root)
+
+        firebaseAnalytics = Firebase.analytics
+        val bundle = Bundle().apply {
+            putString(FirebaseAnalytics.Param.ITEM_ID, "1")
+            putString(FirebaseAnalytics.Param.ITEM_NAME, "Home")
+            putString(FirebaseAnalytics.Param.CONTENT_TYPE, "text")
+        }
+        firebaseAnalytics.logEvent("Home", bundle)
 
         setUpViews()
         attachNavController()
