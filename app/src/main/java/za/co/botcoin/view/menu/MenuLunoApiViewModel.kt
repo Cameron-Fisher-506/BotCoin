@@ -1,5 +1,8 @@
 package za.co.botcoin.view.menu
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import za.co.botcoin.R
 import za.co.botcoin.di.managers.IResourceManager
@@ -14,6 +17,9 @@ class MenuLunoApiViewModel(
     private val resourceManager: IResourceManager,
     private val sharedPreferencesService: ISharedPreferencesService
 ) : ViewModel() {
+    var keyId by mutableStateOf("")
+    var secretKey by mutableStateOf("")
+
     fun displayApiKeySavedToast() {
         alertDialogService.makeToast(resourceManager.getString(R.string.menu_api_key_saved))
     }

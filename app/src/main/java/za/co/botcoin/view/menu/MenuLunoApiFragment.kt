@@ -1,48 +1,127 @@
 package za.co.botcoin.view.menu
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.viewModels
+import com.example.composecorelib.buttons.ButtonView
+import com.example.composecorelib.buttons.CustomInputView
+import com.example.composecorelib.informational.InformationView
 import za.co.botcoin.R
-import za.co.botcoin.databinding.LunoApiFragmentBinding
 import za.co.botcoin.utils.ConstantUtils
 
-class MenuLunoApiFragment : MenuBaseFragment(R.layout.luno_api_fragment) {
-    private lateinit var binding: LunoApiFragmentBinding
+class MenuLunoApiFragment : MenuBaseFragment() {
     private val menuLunoApiViewModel by viewModels<MenuLunoApiViewModel>(factoryProducer = { menuActivity.getViewModelFactory })
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding = LunoApiFragmentBinding.bind(view)
+    @OptIn(ExperimentalMaterial3Api::class)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return ComposeView(requireContext()).apply {
+            setContent {
+                Scaffold(
+                    topBar = {
+                        TopAppBar(
+                            title = { Text(text = getString(R.string.luno_api)) },
+                            colors = topAppBarColors(
+                                containerColor = Color(0xFF1976D2),
+                                titleContentColor = Color(0xFFFFFFFF),
+                            )
+                        )
+                    }, bottomBar = {
 
-        setUpViews()
-        setUpOnClickListeners()
-    }
+                    }) {
+                    Surface(Modifier.padding(it)) {
+                        Column {
+                            InformationView(getString(R.string.information)) {
+                                menuLunoApiViewModel.displayLunoApiCredentialsInformationAlertDialog()
+                            }
+                            CustomInputView(
+                                getString(R.string.luno_api_key_id),
+                                menuLunoApiViewModel.keyId
+                            ) { keyId ->
+                                menuLunoApiViewModel.keyId = keyId
+                            }
+                            CustomInputView(
+                                getString(R.string.luno_api_secret_key),
+                                menuLunoApiViewModel.secretKey
+                            ) { secretKey ->
+                                menuLunoApiViewModel.secretKey = secretKey
+                            }
 
-    private fun setUpViews() {
-        binding.keyIdCustomInputView.setText(ConstantUtils.USER_KEY_ID)
-        binding.secretKeyCustomInputView.setText(ConstantUtils.USER_SECRET_KEY)
-    }
+                            Spacer(Modifier.weight(1f))
 
-    private fun setUpOnClickListeners() {
-        this.binding.saveButton.setOnClickListener {
-            val keyId = this.binding.keyIdCustomInputView.getText()
-            val secretKey = this.binding.secretKeyCustomInputView.getText()
+                            ButtonView(getString(R.string.save)) {
+                                if (menuLunoApiViewModel.keyId.isNotBlank() && menuLunoApiViewModel.secretKey.isNotBlank()) {
+                                    ConstantUtils.USER_KEY_ID = menuLunoApiViewModel.keyId
+                                    menuLunoApiViewModel.saveLunoApiKeyId(menuLunoApiViewModel.keyId)
 
-            if (keyId.isNotBlank() && secretKey.isNotBlank()) {
-                ConstantUtils.USER_KEY_ID = keyId
-                ConstantUtils.USER_SECRET_KEY = secretKey
+                                    ConstantUtils.USER_SECRET_KEY = menuLunoApiViewModel.secretKey
+                                    menuLunoApiViewModel.saveLunoApiSecretKey(menuLunoApiViewModel.secretKey)
 
-                menuLunoApiViewModel.saveLunoApiKeyId(keyId)
-                menuLunoApiViewModel.saveLunoApiSecretKey(secretKey)
-                menuLunoApiViewModel.displayApiKeySavedToast()
-            } else {
-                menuLunoApiViewModel.displayLunoApiCredentialsAlertDialog()
+                                    menuLunoApiViewModel.displayApiKeySavedToast()
+                                } else {
+                                    menuLunoApiViewModel.displayLunoApiCredentialsAlertDialog()
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
-
-        binding.lunoApiCredentialsInformationView.setOnClickListener {
-            menuLunoApiViewModel.displayLunoApiCredentialsInformationAlertDialog()
-        }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(showSystemUi = true)
+@Composable
+fun MenuLunoApiScreen() {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "Luno API") },
+                colors = topAppBarColors(
+                    containerColor = Color(0xFF1976D2),
+                    titleContentColor = Color(0xFFFFFFFF),
+                )
+            )
+        }, bottomBar = {
+
+        }, content = {
+            Surface(Modifier.padding(it)) {
+                Column(
+                    Modifier.fillMaxHeight()
+                ) {
+                    InformationView("Information") {
+
+                    }
+                    CustomInputView("Key ID", ConstantUtils.USER_KEY_ID) {}
+                    CustomInputView("Secret Key", ConstantUtils.USER_SECRET_KEY) {}
+
+                    Spacer(Modifier.weight(1f))
+                    ButtonView("Save") {
+
+                    }
+                }
+            }
+        }
+    )
 }
