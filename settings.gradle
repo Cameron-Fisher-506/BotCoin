@@ -1,3 +1,4 @@
 include ':app'
 rootProject.name='BotCoin'
 include ':corelib'
+include ':composeCoreLib'

@@ -45,9 +45,9 @@ class MainActivity : BaseActivity() {
 
     private fun startOrderBookService() {
         if (Build.VERSION.SDK_INT >= 26) {
-            startForegroundService(Intent(this, OrderBookService::class.java))
+            //startForegroundService(Intent(this, OrderBookService::class.java))
         } else {
-            startService(Intent(this, OrderBookService::class.java))
+            //startService(Intent(this, OrderBookService::class.java))
         }
     }
 
