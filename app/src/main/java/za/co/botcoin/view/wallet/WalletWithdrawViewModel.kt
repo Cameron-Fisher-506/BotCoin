@@ -40,6 +40,13 @@ class WalletWithdrawViewModel(
         })
     }
 
+    fun displayWithdrawalDescriptionAlertDialog() {
+        alertDialogService.showAlertDialog(AlertDialogProperties().apply {
+            title = resourceManager.getString(R.string.wallet_withdrawal)
+            message = resourceManager.getString(R.string.withdraw_description)
+        })
+    }
+
     fun isAmountNotEmptyAndNotZero(amount: String): Boolean = amount.isNotEmpty() && amount != "0"
 
     fun displayWithdrawalFailedNotification() = notificationService.notify(resourceManager.getString(R.string.wallet_withdrawal_failed), "")

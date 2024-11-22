@@ -36,8 +36,8 @@
         </string>
 
     //WALLET
-    <string name="ZAR">ZAR\u0020</string>
-    <string name="XRP">XRP\u0020</string>
+    <string name="ZAR">ZAR\u0020 %1$s</string>
+    <string name="XRP">XRP\u0020 %1$s</string>
     <string name="withdraw">Withdraw</string>
     <string name="withdraw_description">
         Please enter the amount You would like to withdraw from your ZAR account.\nPlease provide the Beneficiary ID of the bank account the withdrawal will be paid out to.\nThe Beneficiary ID must be provided if You have multiple beneficiaries setup.
@@ -139,7 +139,7 @@
     <string name="Amount">Amount</string>
     <string name="Price">Price</string>
     <string name="Apply">Apply</string>
-    <string name="Save">Save</string>
+    <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="DummyText">Dummy Text</string>
     <string name="accept">Accept</string>
@@ -151,7 +151,7 @@
     <string name="Sell">Sell</string>
 
     //TRADES
-    <string name="XRPZAR">XRP/ZAR\u0020</string>
+    <string name="XRPZAR">XRP/ZAR\u0020 %1$s</string>
     <string name="BTCZAR">BTC/ZAR\u0020</string>
     <string name="ETHZAR">ETH/ZAR\u0020</string>
 
@@ -199,6 +199,7 @@
     // Bottom navigation
     <string name="home">home</string>
     <string name="trade">Trade Bot</string>
+    <string name="order_book">Order Book</string>
     <string name="wallet">Wallet</string>
     <string name="menu">Menu</string>
 

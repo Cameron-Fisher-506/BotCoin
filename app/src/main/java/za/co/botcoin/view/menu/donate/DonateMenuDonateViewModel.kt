@@ -56,6 +56,13 @@ class DonateMenuDonateViewModel(
         })
     }
 
+    fun displayDonateDescriptionAlertDialog() {
+        alertDialogService.showAlertDialog(AlertDialogProperties().apply {
+            title = resourceManager.getString(R.string.donate)
+            message = resourceManager.getString(R.string.donate_description)
+        })
+    }
+
     fun copyToClipBoard(data: String) = clipBoardService.copyToClipBoard(data)
 
     fun displaySendFailedNotification() = notificationService.notify(resourceManager.getString(R.string.menu_send_failed), resourceManager.getString(R.string.menu_send_failed))

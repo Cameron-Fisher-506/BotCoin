@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">corelib</string>
+
+    <string name="corelib_information">Information</string>
+    <string name="corelib_label">Label</string>
+    <string name="corelib_value">Value</string>
+    <string name="DummyText">Dummy Text</string>
+</resources>

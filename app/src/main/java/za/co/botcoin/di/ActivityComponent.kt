@@ -6,11 +6,13 @@ import za.co.botcoin.di.featureModules.*
 import za.co.botcoin.di.managers.IResourceManager
 import za.co.botcoin.utils.services.ProgressDialogService
 import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
+import za.co.botcoin.utils.services.cacheService.ICacheService
 import za.co.botcoin.utils.services.clipBoardService.IClipBoardService
 import za.co.botcoin.utils.services.notificationService.INotificationService
 import za.co.botcoin.utils.services.sharedPreferencesService.ISharedPreferencesService
 
-@Subcomponent(modules = [ViewModelsModule::class, PresentationModule::class, HomeViewModelModule::class, WalletViewModelModule::class, DonateViewModelModule::class, AutoTradeViewModelModule::class, MenuViewModelModule::class])
+@ActivityScope
+@Subcomponent(modules = [ViewModelsModule::class, PresentationModule::class, HomeModule::class, WalletModule::class, DonateModule::class, AutoTradeModule::class, MenuModule::class])
 interface ActivityComponent {
     fun getViewModelFactory(): ViewModelProvider.Factory
     fun getProgressDialogService(): ProgressDialogService
@@ -19,4 +21,5 @@ interface ActivityComponent {
     fun getSharedPreferencesService(): ISharedPreferencesService
     fun getNotificationService(): INotificationService
     fun getClipBoardService(): IClipBoardService
+    fun getCacheService(): ICacheService
 }

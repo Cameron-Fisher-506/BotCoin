@@ -1,7 +1,6 @@
 package za.co.botcoin.di
 
 import dagger.Component
-import dagger.Provides
 import javax.inject.Singleton
 
 @Singleton

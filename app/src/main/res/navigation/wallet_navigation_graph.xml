@@ -28,9 +28,6 @@
         <action
             android:id="@+id/action_walletMenuFragment_to_sendFragment"
             app:destination="@id/walletMenuSendFragment" />
-        <argument
-            android:name="asset"
-            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/walletWithdrawFragment"
@@ -40,17 +37,11 @@
         android:id="@+id/walletMenuOrdersFragment"
         android:name="za.co.botcoin.view.wallet.menu.WalletMenuOrdersFragment"
         android:label="Orders">
-        <argument
-            android:name="asset"
-            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/walletMenuReceiveFragment"
         android:name="za.co.botcoin.view.wallet.menu.WalletMenuReceiveFragment"
         android:label="Receive">
-        <argument
-            android:name="asset"
-            app:argType="string" />
         <action
             android:id="@+id/action_receiveFragment_to_lunoApiFragment"
             app:destination="@id/lunoApiFragment" />
@@ -59,9 +50,6 @@
         android:id="@+id/walletMenuSendFragment"
         android:name="za.co.botcoin.view.wallet.menu.WalletMenuSendFragment"
         android:label="Send">
-        <argument
-            android:name="asset"
-            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/lunoApiFragment"

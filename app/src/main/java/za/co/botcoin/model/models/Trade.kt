@@ -41,10 +41,6 @@ class Trade() : BaseModel() {
         const val BID_TYPE = "BID"
     }
 
-    init {
-
-    }
-
     constructor(type: String, amount: String, price: String) : this() {
         this.type = type
         this.volume = amount

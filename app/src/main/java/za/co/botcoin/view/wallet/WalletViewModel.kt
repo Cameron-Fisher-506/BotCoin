@@ -6,6 +6,7 @@ import androidx.lifecycle.liveData
 import za.co.botcoin.R
 import za.co.botcoin.di.managers.IResourceManager
 import za.co.botcoin.model.models.Balance
+import za.co.botcoin.model.models.Order
 import za.co.botcoin.model.repository.BaseViewModel
 import za.co.botcoin.model.repository.balance.BalanceRepository
 import za.co.botcoin.utils.Resource
@@ -14,11 +15,19 @@ import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
 
 class WalletViewModel(
     application: Application,
+    private val walletFlowManager: WalletFlowManager,
     private val alertDialogService: IAlertDialogService,
     private val resourceManager: IResourceManager,
     private val balanceRepository: BalanceRepository
 ) : BaseViewModel(application) {
+    lateinit var selectedAsset: String
     lateinit var balancesResponse: LiveData<Resource<List<Balance>>>
+
+    var ordersResponse: List<Order>
+        get() = walletFlowManager.ordersResponse
+        set(value) {
+            walletFlowManager.ordersResponse = value
+        }
 
     companion object {
         const val XRP = "XRP"

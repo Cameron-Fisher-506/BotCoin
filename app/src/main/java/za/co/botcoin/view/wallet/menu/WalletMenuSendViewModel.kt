@@ -9,10 +9,14 @@ import za.co.botcoin.model.models.Send
 import za.co.botcoin.model.repository.BaseViewModel
 import za.co.botcoin.model.repository.send.SendRepository
 import za.co.botcoin.utils.Resource
+import za.co.botcoin.utils.services.alertDialogService.AlertDialogProperties
+import za.co.botcoin.utils.services.alertDialogService.AlertDialogService
+import za.co.botcoin.utils.services.alertDialogService.IAlertDialogService
 import za.co.botcoin.utils.services.notificationService.INotificationService
 
 class WalletMenuSendViewModel(
     application: Application,
+    private val alertDialogService: IAlertDialogService,
     private val resourceManager: IResourceManager,
     private val notificationService: INotificationService,
     private val sendRepository: SendRepository
@@ -24,6 +28,13 @@ class WalletMenuSendViewModel(
             emit(Resource.loading())
             emit(sendRepository.send(amount, currency, address, destinationTag))
         }
+    }
+
+    fun displaySendDescriptionAlertDialog() {
+        alertDialogService.showAlertDialog(AlertDialogProperties().apply {
+            title = resourceManager.getString(R.string.send)
+            message = resourceManager.getString(R.string.send_description)
+        })
     }
 
     fun displaySendFailedNotification() = notificationService.notify(resourceManager.getString(R.string.wallet_send_failed), "")
